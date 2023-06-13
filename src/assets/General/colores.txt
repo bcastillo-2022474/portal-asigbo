@@ -1,0 +1,8 @@
+e63695 - Rosado
+fdba12 - Dorado / naranja
+ffe70c - Amarillo
+69cdec - Verde
+b0d136 - Celeste
+26489e - Azul
+ffffff - Blanco
+16347d - Azul oscuro

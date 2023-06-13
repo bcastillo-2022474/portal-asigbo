@@ -1,9 +1,11 @@
 import React from 'react';
+import NavBar from '../NavBar/NavBar';
 
 function App() {
   return (
-    <div>App</div>
+    <NavBar />
   );
 }
 
 export default App;
+/* <div>App</div> */

@@ -13,12 +13,14 @@ function ProgressBar({ progress }) {
     }, 1000);
     return () => clearTimeout(delayer);
   }, [progress]);
+
   useEffect(() => {
     const delayer = setTimeout(() => {
       setFader(false);
     }, 1000);
     return () => clearTimeout(delayer);
   }, []);
+
   return (
     <div className="progressBar">
       <div className="progressBackground" style={{ '--progress': `${currentProgress}%` }}>
