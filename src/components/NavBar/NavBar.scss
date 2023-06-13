@@ -41,6 +41,9 @@ $textColor: white;
 }
 
 .NavBarMenu{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     color: $textColor;
     background-color: $NavBarMenuColor;
     max-width: 25vw;
@@ -53,6 +56,29 @@ $textColor: white;
     overflow: hidden;
     top: 0;
     box-shadow: 4px 4px 1px 2px black;
+
+    .MenuFooter{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .logOutButton{
+            border: transparent;
+            background-color: white;
+            color: $NavBarMenuColor;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 1rem;
+            margin-block: 1.5rem;
+            border-radius: 15px;
+            transition: transform 0.5s ease;
+            cursor: pointer;
+
+            &:hover{
+                transform: scale(1.1);
+            }
+        }
+    }
 
     .MenuHeader{
         display: flex;

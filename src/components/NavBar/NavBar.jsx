@@ -27,10 +27,9 @@ function NavBar() {
             <XIcon fill="#ffffff" stroke="#ffffff" />
           </button>
         </div>
-        <ul>
-          <li>Hola</li>
-          <li>Hola</li>
-        </ul>
+        <div className="MenuFooter">
+          <button className="logOutButton" type="button">Cerrar Sesión</button>
+        </div>
       </div>
     </>
   );
