@@ -1,0 +1,68 @@
+.loadingView{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000000;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  --loading-size:5px;
+}
+
+.loadingView div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingView .spinner1{
+  width: 150px;
+  height: 150px;
+  padding: 7px;
+  border-radius: 50%;
+  border: var(--loading-size) solid var(--background);
+  border-bottom: var(--loading-size) solid #0d7dda;
+  animation: rotate 1.6s infinite linear;
+}
+
+.loadingView .spinner2{
+  
+  width: 90%;
+  height: 90%;
+  padding: 7px;
+  border-radius: 50%;
+  border: var(--loading-size) solid var(--background);
+  border-bottom: var(--loading-size) solid #9e291e;
+  animation: rotate 5s infinite linear;
+}
+
+.loadingView .spinner3{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: var(--loading-size) solid var(--background);
+  border-bottom: var(--loading-size) solid #fabb00;
+  animation: rotate 20s infinite linear;
+}
+
+@keyframes rotate {
+
+  0% {
+      transform:rotate(0deg);
+    }
+    100% {
+      transform:rotate(360deg);
+    }
+  
+}
+
+@media only screen and (max-width: 450px){
+  .loadingView .spinner1{
+      width: 100px;
+      height: 100px;
+  }
+}

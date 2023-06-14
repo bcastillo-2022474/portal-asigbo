@@ -5,7 +5,7 @@ import logo from '@assets/asigboazul.png';
 import { button, blue } from '@styles/buttons.module.css';
 import styles from './LoginPage.module.css';
 
-const LoginPage = () => {
+function LoginPage() {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
 
@@ -79,6 +79,6 @@ const LoginPage = () => {
       </div>
     </div>
   );
-};
+}
 
 export default LoginPage;
