@@ -12,9 +12,98 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    min-width: 700px;
     position: relative;
     background-color: #ffffff;
+}
+
+@media (min-width: 1150px) {
+    .formContainer{
+        min-width: 700px;
+    }
+
+    .wavesWrapperMobile{
+        display: none;
+    }
+
+    .logoAsigboMobile{
+        display: none;
+    }
+
+    .backgroundWrapper{
+        position: absolute;
+        z-index: -5;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: url('@assets/bgLogin.jpg');
+        background-repeat: no-repeat;
+        background-position: right -30% center;
+        background-size: contain;
+    }
+    
+}
+
+@media (max-width: 1150px) {
+    .wavesWrapper{
+        display: none;
+    }
+
+    .formContainer{
+        height: fit-content;
+        width: 80%;
+        padding: 0 0 30px 0;
+        border-radius: 7px;
+        gap: 0;
+    }
+
+    .logoAsigbo{
+        display: none;
+    }
+
+    .logoContainer{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 130px;
+        overflow: hidden;
+        background-image: url('@assets/logoasigbofondoazul.jpg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: #16337F;
+    }
+
+    .logoAsigboMobile{
+        overflow-x: hidden;
+        background-color: #16337F;
+    }
+
+    .wavesWrapperMobile{
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        width: 100%;
+        max-height: 10vh;
+        overflow: hidden;
+        z-index: 2;
+    }
+
+    .wavesMobile{
+        overflow: hidden;
+        width: 100%;
+    }
+
+    .backgroundWrapper{
+       background-image: url('@assets/bgLoginMobile.jpg');
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       z-index: -5;
+       background-size: cover;
+    }
 }
 
 .wavesWrapper{
@@ -30,19 +119,7 @@
     align-items: center;
 }
 
-.backgroundWrapper{
-    position: absolute;
-    z-index: -5;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-image: url('@assets/bgLogin.jpg');
-    background-repeat: no-repeat;
-    background-position: right -30% center;
-    background-size: contain;
-}
+
 
 .backgroundFilter{
     background-color: #16337F;
@@ -59,6 +136,7 @@
     color: #565656;
     margin-top: 20px;
     cursor: pointer;
+    text-align: center;
 }
 
 .forgotPassword:hover{
