@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letras blancas).png';
 import MenuIcon from '../../assets/icons/MenuIcon';
 import XIcon from '../../assets/icons/XIcon';
+import ActivityIcon from '../../assets/icons/ActivityIcon';
 
 function NavBar() {
   const [isToggled, setToggle] = useState(false);
@@ -10,6 +11,24 @@ function NavBar() {
   const toggleMenu = () => {
     setToggle(!isToggled);
   };
+  // Opciones de prueba
+  const options = [
+    {
+      icon: ActivityIcon,
+      label: 'Actividades',
+      link: '#',
+    },
+    {
+      icon: ActivityIcon,
+      label: 'Horas',
+      link: '#',
+    },
+    {
+      icon: ActivityIcon,
+      label: 'Pagos',
+      link: '#',
+    },
+  ];
   return (
     <>
       <div className="NavBar">
@@ -26,6 +45,18 @@ function NavBar() {
           <button className="closeButton icon" onClick={toggleMenu} type="button">
             <XIcon fill="#ffffff" stroke="#ffffff" />
           </button>
+        </div>
+        <div className="MenuContent">
+          <ul>
+            {options.map((item) => (
+              <li className="menuItem" key={item.label}>
+                <div className="icon">
+                  <item.icon fill="white" stroke="none" />
+                </div>
+                <h3>{item.label}</h3>
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="MenuFooter">
           <button className="logOutButton" type="button">Cerrar Sesión</button>
