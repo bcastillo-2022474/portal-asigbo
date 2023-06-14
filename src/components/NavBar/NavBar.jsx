@@ -28,6 +28,26 @@ function NavBar() {
       label: 'Pagos',
       link: '#',
     },
+    {
+      icon: ActivityIcon,
+      label: 'Pagos',
+      link: '#',
+    },
+    {
+      icon: ActivityIcon,
+      label: 'Pagos',
+      link: '#',
+    },
+    {
+      icon: ActivityIcon,
+      label: 'Pagos',
+      link: '#',
+    },
+    {
+      icon: ActivityIcon,
+      label: 'Pagos',
+      link: '#',
+    },
   ];
   return (
     <>
