@@ -11,6 +11,12 @@ function NavBar() {
   const toggleMenu = () => {
     setToggle(!isToggled);
   };
+
+  const selectedOption = () => {
+    // TODO
+    // Hacer halgo con alguna opción seleccionada
+    console.log('Do Something');
+  };
   // Opciones de prueba
   const options = [
     {
@@ -21,6 +27,11 @@ function NavBar() {
     {
       icon: ActivityIcon,
       label: 'Horas',
+      link: '#',
+    },
+    {
+      icon: ActivityIcon,
+      label: 'Pagos',
       link: '#',
     },
     {
@@ -70,10 +81,12 @@ function NavBar() {
           <ul>
             {options.map((item) => (
               <li className="menuItem" key={item.label}>
-                <div className="icon">
-                  <item.icon fill="white" stroke="none" />
-                </div>
-                <h3>{item.label}</h3>
+                <button type="button" onClick={selectedOption}>
+                  <div className="icon">
+                    <item.icon fill="white" stroke="none" />
+                  </div>
+                  <h2>{item.label}</h2>
+                </button>
               </li>
             ))}
           </ul>
