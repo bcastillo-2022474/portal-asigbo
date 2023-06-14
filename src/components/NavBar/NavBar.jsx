@@ -17,6 +17,12 @@ function NavBar() {
     // Hacer halgo con alguna opción seleccionada
     console.log('Do Something');
   };
+
+  const logOut = () => {
+    // TODO
+    // Cerrar sesión de alguna forma
+    console.log('Log Out');
+  };
   // Opciones de prueba
   const options = [
     {
@@ -27,31 +33,6 @@ function NavBar() {
     {
       icon: ActivityIcon,
       label: 'Horas',
-      link: '#',
-    },
-    {
-      icon: ActivityIcon,
-      label: 'Pagos',
-      link: '#',
-    },
-    {
-      icon: ActivityIcon,
-      label: 'Pagos',
-      link: '#',
-    },
-    {
-      icon: ActivityIcon,
-      label: 'Pagos',
-      link: '#',
-    },
-    {
-      icon: ActivityIcon,
-      label: 'Pagos',
-      link: '#',
-    },
-    {
-      icon: ActivityIcon,
-      label: 'Pagos',
       link: '#',
     },
     {
@@ -92,7 +73,7 @@ function NavBar() {
           </ul>
         </div>
         <div className="MenuFooter">
-          <button className="logOutButton" type="button">Cerrar Sesión</button>
+          <button className="logOutButton" type="button" onClick={logOut}>Cerrar Sesión</button>
         </div>
       </div>
     </>
