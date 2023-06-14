@@ -1,9 +1,15 @@
 import React from 'react';
-import NavBar from '../NavBar/NavBar';
+import { BrowserRouter as Router } from 'react-router-dom';
+import IndexPage from '../../pages/IndexPage/IndexPage';
+import { SessionProvider } from '../../context/SessionContext';
 
 function App() {
   return (
-    <NavBar />
+    <SessionProvider>
+      <Router>
+        <IndexPage />
+      </Router>
+    </SessionProvider>
   );
 }
 
