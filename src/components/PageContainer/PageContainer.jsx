@@ -5,9 +5,19 @@ import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letra
 import NavMenu from './NavMenu/NavMenu';
 import TopBar from './TopBar/TopBar';
 
+/*
+
+PageContainer: Componente con TopBar y sidebar de Menú integrados, es en donde se cargará
+cualquier página autenticada, colocando el contenido como hijo directo de este componente
+
+@params: {JSXNode} children : Página o páginas que se mostrarán dentro
+
+*/
 function PageContainer({ children }) {
+  // Estado de sidebar mostrada o retraída, mostrada por defecto.
   const [isToggled, setToggle] = useState(true);
 
+  // Función de despliegue o retracción de sidebar
   const toggleMenu = () => {
     setToggle(!isToggled);
   };
