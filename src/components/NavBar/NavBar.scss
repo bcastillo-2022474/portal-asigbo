@@ -95,6 +95,8 @@ $toggleTimeAnimation: 0.3s;
   .content{
     position: absolute;
     height: 88.5vh;
+    max-height: 88.5vh;
+    overflow-y: auto;
     top: 0;
     transition: inherit;
   }
