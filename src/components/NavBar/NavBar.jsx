@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letras blancas).png';
 import MenuIcon from '../../assets/icons/MenuIcon';
 import NavMenuButton from './NavMenuButton/NavMenuButton';
-import XIcon from '../../assets/icons/XIcon';
 import LogOutIcon from '../../assets/icons/LogOutIcon';
+import SettingsIcon from '../../assets/icons/SettingsIcon';
+import HomeIcon from '../../assets/icons/HomeIcon';
 
 function NavBar({ children }) {
   const [isToggled, setToggle] = useState(true);
@@ -30,8 +31,8 @@ function NavBar({ children }) {
         <div className="NavMenu">
           <div className="buttons">
             <div className="buttonOverlay center">
-              <NavMenuButton label="Menú1" icon={<MenuIcon fill="none" stroke={strokes} />} />
-              <NavMenuButton label="Ajustes" icon={<XIcon fill={strokes} stroke={strokes} />} />
+              <NavMenuButton label="Inicio" icon={<HomeIcon fill={strokes} />} />
+              <NavMenuButton label="Ajustes" icon={<SettingsIcon fill={strokes} />} />
             </div>
             <div className="buttonOverlay bottom">
               <NavMenuButton label="Cerrar Sesión" icon={<LogOutIcon fill={strokes} stroke={strokes} width="70%" height="70%" />} />
