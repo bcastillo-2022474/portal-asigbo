@@ -6,7 +6,13 @@ import NavBar from '../NavBar/NavBar';
 
 function App() {
   return (
-    <NavBar />
+    <NavBar>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      {/* Alias aliquam eius voluptas molestiae! Quod, est. Iusto,
+      assumenda provident maxime mollitia nostrum ratione
+      voluptates doloremque doloribus
+      aperiam voluptatum suscipit inventore porro! */}
+    </NavBar>
   );
 }
 
