@@ -8,10 +8,35 @@ function App() {
   return (
     <NavBar>
       Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      {/* Alias aliquam eius voluptas molestiae! Quod, est. Iusto,
+      lias aliquam eius voluptas molestiae! Quod, est. Iusto,
       assumenda provident maxime mollitia nostrum ratione
       voluptates doloremque doloribus
-      aperiam voluptatum suscipit inventore porro! */}
+      aperiam voluptatum suscipit inventore porro!
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      lias aliquam eius voluptas molestiae! Quod, est. Iusto,
+      assumenda provident maxime mollitia nostrum ratione
+      voluptates doloremque doloribus
+      aperiam voluptatum suscipit inventore porro!
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      lias aliquam eius voluptas molestiae! Quod, est. Iusto,
+      assumenda provident maxime mollitia nostrum ratione
+      voluptates doloremque doloribus
+      aperiam voluptatum suscipit inventore porro!
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      lias aliquam eius voluptas molestiae! Quod, est. Iusto,
+      assumenda provident maxime mollitia nostrum ratione
+      voluptates doloremque doloribus
+      aperiam voluptatum suscipit inventore porro!
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      lias aliquam eius voluptas molestiae! Quod, est. Iusto,
+      assumenda provident maxime mollitia nostrum ratione
+      voluptates doloremque doloribus
+      aperiam voluptatum suscipit inventore porro!
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      lias aliquam eius voluptas molestiae! Quod, est. Iusto,
+      assumenda provident maxime mollitia nostrum ratione
+      voluptates doloremque doloribus
+      aperiam voluptatum suscipit inventore porro!
     </NavBar>
   );
 }

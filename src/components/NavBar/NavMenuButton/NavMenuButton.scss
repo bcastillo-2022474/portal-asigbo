@@ -1,0 +1,26 @@
+$backgroundButtonColor: #E3E3E3;
+
+.menuButton{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $backgroundButtonColor;
+        border: transparent;
+        width: 70%;
+        aspect-ratio: 1;
+        border-radius: 100%;
+    }
+
+    .icon{
+        width: 75%;
+    }
+
+    span{
+        margin-top: 5%;
+    }
+}

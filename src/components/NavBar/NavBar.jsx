@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letras blancas).png';
 import MenuIcon from '../../assets/icons/MenuIcon';
+import NavMenuButton from './NavMenuButton/NavMenuButton';
 
 function NavBar({ children }) {
   const [isToggled, setToggle] = useState(true);
@@ -22,7 +23,7 @@ function NavBar({ children }) {
       </div>
       <div className={`pageContent ${isToggled ? 'showBar' : 'hideBar'}`}>
         <div className="NavMenu">
-          {children}
+          <NavMenuButton label="Hola" icon={<MenuIcon fill="none" stroke="#000000" />} />
         </div>
         <div className="content">
           {children}
