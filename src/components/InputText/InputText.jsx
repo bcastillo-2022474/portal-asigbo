@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import randomId from '@helpers/randomString';
 import styles from './InputText.module.css';
 
-const InputText = ({
+function InputText({
   title, error, value, onChange, name, ...props
-}) => {
+}) {
   const id = randomId(15);
   return (
     <div className={`${styles.inputTextContainer} ${error ? styles.error : ''}`}>
@@ -16,7 +16,7 @@ const InputText = ({
       {error && <span className={styles.inputError}>{error}</span>}
     </div>
   );
-};
+}
 
 InputText.propTypes = {
   title: PropTypes.string,

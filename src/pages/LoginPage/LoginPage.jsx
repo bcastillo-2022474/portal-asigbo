@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import InputText from '@components/InputText/InputText';
+import Spinner from '@components/Spinner/Spinner';
 import waves from '@assets/wave-haikei.svg';
 import logo from '@assets/asigboazul.png';
 import { button, blue } from '@styles/buttons.module.css';
+import useLogin from '@hooks/useLogin';
 import styles from './LoginPage.module.css';
 
+/* Componente de la página de login.
+Maneja errores de inputs (usuario y contraseña) y utiliza el hook de useLogin para llamar a la API
+y obtener un access token y un refresh token */
 function LoginPage() {
   const [form, setForm] = useState({});
   const [errors, setErrors] = useState({});
+  const {
+    login, error, loading,
+  } = useLogin();
 
   const handleFormChange = (e) => {
     const field = e.target.name;
@@ -15,13 +23,17 @@ function LoginPage() {
     setForm((lastValue) => ({ ...lastValue, [field]: value }));
   };
 
+  const clearErrors = () => {
+    setErrors({});
+  };
+
   const clearError = (e) => {
     setErrors((lastVal) => ({ ...lastVal, [e.target.name]: null }));
   };
 
   const validateEmail = () => {
-    if (form?.username?.trim().length > 0) return true;
-    setErrors((lastVal) => ({ ...lastVal, username: 'El email es obligatorio.' }));
+    if (form?.user?.trim().length > 0) return true;
+    setErrors((lastVal) => ({ ...lastVal, user: 'El email es obligatorio.' }));
     return false;
   };
 
@@ -29,6 +41,12 @@ function LoginPage() {
     if (form?.password?.trim().length > 0) return true;
     setErrors((lastVal) => ({ ...lastVal, password: 'La contraseña es obligatoria.' }));
     return false;
+  };
+
+  const handleSubmit = () => {
+    clearErrors();
+    if (!(validateEmail() && validatePassword())) return;
+    login(form);
   };
 
   return (
@@ -48,10 +66,10 @@ function LoginPage() {
           </span>
           <InputText
             title="Correo electrónico"
-            name="username"
+            name="user"
             onChange={handleFormChange}
-            value={form?.username}
-            error={errors?.username}
+            value={form?.user}
+            error={errors?.user}
             onBlur={validateEmail}
             onFocus={clearError}
           />
@@ -65,8 +83,10 @@ function LoginPage() {
             onBlur={validatePassword}
             onFocus={clearError}
           />
+          {error && <div className={styles.errorMessage}>{error?.message ?? 'Ocurrió un error.'}</div>}
           <div className={styles.buttonWrapper}>
-            <button className={`${button} ${blue}`} type="submit">Iniciar sesión</button>
+            {!error && (<button className={`${button} ${blue}`} type="submit" onClick={handleSubmit}>Iniciar sesión</button>)}
+            {loading && <Spinner />}
           </div>
           <span className={styles.forgotPassword}>¿Olvidaste tu contraseña?</span>
         </div>

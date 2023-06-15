@@ -1,0 +1,23 @@
+.spinner{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner > div{
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    vertical-align: -.125em;
+    border: .25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    -webkit-animation: .75s linear infinite spinner;
+    animation: .75s linear infinite spinner;
+}
+
+@keyframes spinner {
+    100% {
+        transform: rotate(360deg);
+    }
+}
