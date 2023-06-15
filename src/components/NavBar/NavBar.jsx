@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letras blancas).png';
 import MenuIcon from '../../assets/icons/MenuIcon';
 import NavMenuButton from './NavMenuButton/NavMenuButton';
+import XIcon from '../../assets/icons/XIcon';
+import LogOutIcon from '../../assets/icons/LogOutIcon';
 
 function NavBar({ children }) {
   const [isToggled, setToggle] = useState(true);
@@ -11,6 +13,9 @@ function NavBar({ children }) {
   const toggleMenu = () => {
     setToggle(!isToggled);
   };
+
+  const strokes = '#16337F';
+
   return (
     <>
       <div className="NavBar">
@@ -23,7 +28,15 @@ function NavBar({ children }) {
       </div>
       <div className={`pageContent ${isToggled ? 'showBar' : 'hideBar'}`}>
         <div className="NavMenu">
-          <NavMenuButton label="Hola" icon={<MenuIcon fill="none" stroke="#000000" />} />
+          <div className="buttons">
+            <div className="buttonOverlay center">
+              <NavMenuButton label="Menú1" icon={<MenuIcon fill="none" stroke={strokes} />} />
+              <NavMenuButton label="Ajustes" icon={<XIcon fill={strokes} stroke={strokes} />} />
+            </div>
+            <div className="buttonOverlay bottom">
+              <NavMenuButton label="Cerrar Sesión" icon={<LogOutIcon fill={strokes} stroke={strokes} width="70%" height="70%" />} />
+            </div>
+          </div>
         </div>
         <div className="content">
           {children}
