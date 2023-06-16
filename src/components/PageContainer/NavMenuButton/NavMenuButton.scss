@@ -4,6 +4,7 @@ $backgroundButtonColor: #E3E3E3;
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
 
     button{
         display: flex;
@@ -15,6 +16,7 @@ $backgroundButtonColor: #E3E3E3;
         aspect-ratio: 1;
         border-radius: 100%;
         transition: box-shadow 0.3s ease, transform 0.3s ease;
+        cursor: pointer;
 
         &:hover{
             transform: scale(1.1);

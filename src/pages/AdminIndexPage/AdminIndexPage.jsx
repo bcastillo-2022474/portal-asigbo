@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import AdminProfilePage from '../AdminProfilePage/AdminProfilePage';
-import NewUserPage from '../NewUserPage/NewUserPage';
+import AdminProfilePage from '../AdminProfilePage';
+import NewUserPage from '../NewUserPage';
 
 function AdminIndexPage() {
   return (
