@@ -1,0 +1,34 @@
+.NavMenu{
+    position: absolute;
+    width: 8vw;
+    height: 84.5vh;
+    margin-inline: 1vw;
+    margin-block: 2vh;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    padding: 1%;
+    transition: inherit;
+
+    .buttons{
+      height: 100%;
+      .buttonOverlay{
+        .menuButton{
+          margin-block: 10%;
+        }
+      }
+
+      .center{
+        height: 69%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .bottom{
+        height: 29%;
+      }
+
+    }
+  }
