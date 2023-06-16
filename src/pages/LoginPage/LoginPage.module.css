@@ -129,6 +129,10 @@
 }
 
 .buttonWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     margin-top: 40px;
 }
 
@@ -145,4 +149,10 @@
 
 .logoAsigbo{
     width: 400px;
+}
+
+.errorMessage{
+    margin-top: 20px;
+    color:var(--error-color--);
+    text-align: center;
 }
