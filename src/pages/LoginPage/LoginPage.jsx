@@ -85,7 +85,7 @@ function LoginPage() {
           />
           {error && <div className={styles.errorMessage}>{error?.message ?? 'Ocurrió un error.'}</div>}
           <div className={styles.buttonWrapper}>
-            {!error && (<button className={`${button} ${blue}`} type="submit" onClick={handleSubmit}>Iniciar sesión</button>)}
+            {!loading && (<button className={`${button} ${blue}`} type="submit" onClick={handleSubmit}>Iniciar sesión</button>)}
             {loading && <Spinner />}
           </div>
           <span className={styles.forgotPassword}>¿Olvidaste tu contraseña?</span>
