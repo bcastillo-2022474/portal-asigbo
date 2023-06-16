@@ -3,165 +3,161 @@ $NavBarMenuColor: #2b468b;
 $NavScrollBarColor: #3b5db4;
 $textColor: white;
 $toggleTimeAnimation: 0.3s;
+$bigScreenSideBarWidth: 10vw;
+$bigScreenSideBarMarginInline: 1vw;
+$midScreenSideBarWidth: 12vw;
+$midScreenSideBarMarginInline: 1vw;
+$smallScreenSideBarWidth: 14vw;
+$smallScreenSideBarMarginInline: 1vw;
 
-.NavBar {
-  position: sticky;
-  top: 0;
-  height: 11.5vh;
-  background-color: $NavBarColor;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
+//Breakpoints
+$bigBreakpoint: 1440px;
+$midBreakpoint: 1120px;
+$smallBreakpoint: 963px;
+$mobileBreakpoint: 768px;
+$mobileVerticalBreakpoint: 636px;
 
-  .nameInfo{
-    color: $textColor;
-    font-weight: 500;
+
+//Estilos Desktop
+@media (min-width: $mobileBreakpoint) and (min-height: $mobileVerticalBreakpoint){
+  .pageContent{
+    position: relative;
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 15rem;
-    margin-right: 2rem;
-    span{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 80%;
-    }
-
-    .initialCircle{
-      width: 20%;
-      background-color: orange;
-      font-size: 150%;
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-    }
-  }
-
-  .mainBar{
-    display: flex;
-    height: 100%;
-    width: 30vw;
-    max-height: 100%;
-    max-width: 30vw;
-    min-width: 370px;
-    flex-direction: row;
-    align-items: center;
-
-    .icon {
-      max-height: 100%;
-      height: 50%;
-      margin-left: 2.5rem;
-      border-radius: 10px;
-      cursor: pointer;
-      background-color: transparent;
-      border: transparent;
-      transition: background-color 0.3s ease;
-  
-      &:hover {
-        background-color: $NavBarMenuColor;
-      }
-    }
-  
-    .logoButton {
-      background-color: transparent;
-      border: transparent;
-      max-height: 100%;
-      display: flex;
-      height: 100%;
-      cursor: pointer;
-      transition: transform 0.5s ease;
-  
-      img {
-        height: 100%;
-      }
-  
-      &:hover {
-        transform: scale(1.075);
-      }
-    }
-  }
-}
-
-.pageContent{
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: 88.5vh;
-  max-height: 88.5vh;
-  transition: width $toggleTimeAnimation ease, left $toggleTimeAnimation ease;
-
-  .NavMenu{
-    position: absolute;
-    width: 8vw;
-    height: 84.5vh;
-    margin-inline: 1vw;
-    margin-block: 2vh;
-    border-radius: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-    padding: 1%;
-    transition: inherit;
-
-    .buttons{
-      height: 100%;
-      .buttonOverlay{
-        .menuButton{
-          margin-block: 10%;
-        }
-      }
-
-      .center{
-        height: 69%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .bottom{
-        height: 29%;
-      }
-
-    }
-  }
-
-  .content{
-    position: absolute;
+    width: 100%;
     height: 88.5vh;
     max-height: 88.5vh;
-    overflow-y: auto;
-    top: 0;
-    transition: inherit;
+    transition: width $toggleTimeAnimation ease, left $toggleTimeAnimation ease;
+  
+    .NavMenu{
+      position: absolute;
+      text-align: center;
+      width: calc($bigScreenSideBarWidth - 2* $bigScreenSideBarMarginInline);
+      height: 84.5vh;
+      margin-inline: $bigScreenSideBarMarginInline;
+      margin-block: 2vh;
+      border-radius: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      padding: 1%;
+      transition: inherit;
+  
+      .buttons{
+        height: 100%;
+        .buttonOverlay{
+          .menuButton{
+            margin-block: 10%;
+          }
+        }
+  
+        .center{
+          height: 69%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+  
+        .bottom{
+          height: 29%;
+        }
+  
+      }
+    }
+  
+    .content{
+      position: absolute;
+      height: 88.5vh;
+      max-height: 88.5vh;
+      overflow-y: auto;
+      top: 0;
+      transition: inherit;
+    }
+  
   }
-
-}
-
-.pageContent.showBar{
-  .NavMenu{
-    bottom: 0;
-    left: 0;
+  
+  .pageContent.showBar{
+    .NavMenu{
+      bottom: 0;
+      left: 0;
+    }
+    .content{
+      left: $bigScreenSideBarWidth;
+      width: calc(100vw - $bigScreenSideBarWidth);
+    }
+  
   }
-  .content{
-    left: 10vw;
-    width: 90vw;
+  
+  .pageContent.hideBar{
+    .NavMenu{
+      bottom: 0;
+      left: calc(-1*$bigScreenSideBarWidth);
+    }
+    .content{
+      left: 0;
+      width: 100vw;
+    }
   }
-
-}
-
-.pageContent.hideBar{
-  .NavMenu{
-    bottom: 0;
-    left: -10vw;
+  
+  @media (max-width: $bigBreakpoint) and (min-width: $midBreakpoint){
+    .pageContent{
+      .NavMenu{
+        width: calc($midScreenSideBarWidth - 2* $midScreenSideBarMarginInline);
+      }
+    }
+  
+    .pageContent.showBar{
+      .NavMenu{
+        bottom: 0;
+        left: 0;
+      }
+      .content{
+        left: $midScreenSideBarWidth;
+        width: calc(100vw - $midScreenSideBarWidth);
+      }
+    
+    }
+    
+    .pageContent.hideBar{
+      .NavMenu{
+        bottom: 0;
+        left: calc(-1*$midScreenSideBarWidth);
+      }
+      .content{
+        left: 0;
+        width: 100vw;
+      }
+    }
   }
-  .content{
-    left: 0;
-    width: 100vw;
+  
+  @media (max-width: $midBreakpoint){
+    .pageContent{
+      .NavMenu{
+        width: calc($smallScreenSideBarWidth - 2* $smallScreenSideBarMarginInline);
+      }
+    }
+  
+    .pageContent.showBar{
+      .NavMenu{
+        bottom: 0;
+        left: 0;
+      }
+      .content{
+        left: $smallScreenSideBarWidth;
+        width: calc(100vw - $smallScreenSideBarWidth);
+      }
+    
+    }
+    
+    .pageContent.hideBar{
+      .NavMenu{
+        bottom: 0;
+        left: calc(-1*$smallScreenSideBarWidth);
+      }
+      .content{
+        left: 0;
+        width: 100vw;
+      }
+    }
   }
 }

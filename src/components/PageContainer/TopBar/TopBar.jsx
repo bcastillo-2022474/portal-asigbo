@@ -39,6 +39,7 @@ function TopBar({ toggler, logo, name }) {
 }
 
 TopBar.defaultProps = {
+  // eslint-disable-next-line no-console
   toggler: () => console.log('No se ha establecido un callback para despliegue'),
   logo: '',
   name: '',

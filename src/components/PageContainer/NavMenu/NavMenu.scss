@@ -1,4 +1,21 @@
-.NavMenu{
+//Medidas
+$toggleTimeAnimation: 0.3s;
+$bigScreenSideBarWidth: 10vw;
+$bigScreenSideBarMarginInline: 1vw;
+$midScreenSideBarWidth: 12vw;
+$midScreenSideBarMarginInline: 1vw;
+$smallScreenSideBarWidth: 14vw;
+$smallScreenSideBarMarginInline: 1vw;
+
+//Breakpoints
+$bigBreakpoint: 1440px;
+$midBreakpoint: 1120px;
+$smallBreakpoint: 963px;
+$mobileBreakpoint: 768px;
+$mobileVerticalBreakpoint: 636px;
+
+@media (min-width: $mobileBreakpoint) and (min-height: $mobileVerticalBreakpoint){
+  .NavMenu{
     position: absolute;
     width: 8vw;
     height: 84.5vh;
@@ -32,3 +49,4 @@
 
     }
   }
+}
