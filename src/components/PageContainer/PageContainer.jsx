@@ -15,15 +15,17 @@ cualquier página autenticada, colocando el contenido como hijo directo de este 
 */
 function PageContainer({ children }) {
   // Estado de sidebar mostrada o retraída, mostrada por defecto.
-  const [isToggled, setToggle] = useState(true);
+  const [isToggled, setToggle] = useState(false);
   const [isMobile, setMobileLayout] = useState(false);
 
   useEffect(() => {
     function handleWindow() {
       console.log(isMobile);
       if (window.innerWidth <= 768) {
+        setToggle(false);
         setMobileLayout(true);
       } else {
+        setToggle(true);
         setMobileLayout(false);
       }
     }
