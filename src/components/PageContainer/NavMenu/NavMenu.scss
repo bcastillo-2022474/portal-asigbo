@@ -1,3 +1,9 @@
+$backgroundButtonColor: #E3E3E3;
+$NavBarColor: #16337f;
+$NavBarMenuColor: #2b468b;
+$NavScrollBarColor: #3b5db4;
+$textColor: white;
+
 //Medidas
 $toggleTimeAnimation: 0.3s;
 $bigScreenSideBarWidth: 10vw;
@@ -14,7 +20,19 @@ $smallBreakpoint: 963px;
 $mobileBreakpoint: 768px;
 $mobileVerticalBreakpoint: 636px;
 
-@media (min-width: $mobileBreakpoint) and (min-height: $mobileVerticalBreakpoint){
+@media (max-width: calc($mobileBreakpoint - 1px)){
+  .NavMenu{
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 60vw;
+    background-color: $NavBarColor;
+    height: 100vh;
+    transition: inherit;
+  }
+}
+
+@media (min-width: $mobileBreakpoint){
   .NavMenu{
     position: absolute;
     width: 8vw;
@@ -44,6 +62,8 @@ $mobileVerticalBreakpoint: 636px;
       }
 
       .bottom{
+        display: flex;
+        align-items: center;
         height: 29%;
       }
 

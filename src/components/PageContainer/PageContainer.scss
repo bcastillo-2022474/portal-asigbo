@@ -2,6 +2,8 @@ $NavBarColor: #16337f;
 $NavBarMenuColor: #2b468b;
 $NavScrollBarColor: #3b5db4;
 $textColor: white;
+
+//Medidas Desktop
 $toggleTimeAnimation: 0.3s;
 $bigScreenSideBarWidth: 10vw;
 $bigScreenSideBarMarginInline: 1vw;
@@ -18,8 +20,39 @@ $mobileBreakpoint: 768px;
 $mobileVerticalBreakpoint: 636px;
 
 
+//Medidas Mobile
+$normalMobileSideBarWidth: 60vw;
+
+
+@media (max-width: calc($mobileBreakpoint - 1px)){
+  .pageContent{
+    transition: width $toggleTimeAnimation ease, right $toggleTimeAnimation ease;
+    width: 100%;
+    min-height: 88vh;
+    height: 150vh;
+    border-radius: 35px 35px 0 0;
+    background-color: white;
+    overflow: hidden;
+  }
+
+  .pageContent.showBar{
+    .NavMenu{
+      bottom: 0;
+      right: 0vw;
+    }
+  }
+
+  .pageContent.hideBar{
+    .NavMenu{
+      bottom: 0;
+      right: -$normalMobileSideBarWidth;
+    }
+  }
+
+}
+
 //Estilos Desktop
-@media (min-width: $mobileBreakpoint) and (min-height: $mobileVerticalBreakpoint){
+@media (min-width: $mobileBreakpoint){
   .pageContent{
     position: relative;
     display: flex;
@@ -28,42 +61,6 @@ $mobileVerticalBreakpoint: 636px;
     height: 88.5vh;
     max-height: 88.5vh;
     transition: width $toggleTimeAnimation ease, left $toggleTimeAnimation ease;
-  
-    .NavMenu{
-      position: absolute;
-      text-align: center;
-      width: calc($bigScreenSideBarWidth - 2* $bigScreenSideBarMarginInline);
-      height: 84.5vh;
-      margin-inline: $bigScreenSideBarMarginInline;
-      margin-block: 2vh;
-      border-radius: 20px;
-      border: 1px solid rgba(0, 0, 0, 0.25);
-      overflow: hidden;
-      padding: 1%;
-      transition: inherit;
-  
-      .buttons{
-        height: 100%;
-        .buttonOverlay{
-          .menuButton{
-            margin-block: 10%;
-          }
-        }
-  
-        .center{
-          height: 69%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-        }
-  
-        .bottom{
-          height: 29%;
-        }
-  
-      }
-    }
   
     .content{
       position: absolute;

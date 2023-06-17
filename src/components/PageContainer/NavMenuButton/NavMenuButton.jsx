@@ -15,14 +15,16 @@ NavMenu cuyos íconos, labels y callbacks de click son personalizables desde cua
 function NavMenuButton({ icon, label, clickCallback }) {
   return (
     <div className="menuButton">
-      <button type="button" onClick={clickCallback}>
-        <div className="icon">
-          {icon}
+      <button className="option" type="button" onClick={clickCallback}>
+        <div className="button">
+          <div className="icon">
+            {icon}
+          </div>
         </div>
+        <span>
+          {label}
+        </span>
       </button>
-      <span>
-        {label}
-      </span>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import NavMenuButton from '../NavMenuButton/NavMenuButton';
 import HomeIcon from '../../../assets/icons/HomeIcon';
 import SettingsIcon from '../../../assets/icons/SettingsIcon';
@@ -14,7 +14,25 @@ que tenga disponibles
 */
 function NavMenu() {
   // Strokes refiere al color de relleno de los íconos
-  const strokes = '#16337F';
+  const [strokes, setStrokes] = useState('');
+
+  useEffect(() => {
+    function handleWindow() {
+      if (window.innerWidth < 768) {
+        setStrokes('#FFFFFF');
+      } else {
+        setStrokes('#16337F');
+      }
+    }
+
+    handleWindow();
+
+    window.addEventListener('resize', handleWindow);
+
+    return () => {
+      window.removeEventListener('resize', handleWindow);
+    };
+  }, []);
 
   return (
     <div className="NavMenu">
