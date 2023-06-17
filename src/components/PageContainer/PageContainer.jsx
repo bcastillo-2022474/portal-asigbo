@@ -46,7 +46,7 @@ function PageContainer({ children }) {
     <>
       <TopBar toggler={toggleMenu} logo={LogoLetrasBlancas} name="Herber Sebastián Silva Muñoz" />
       <div className={`pageContent ${isToggled ? 'showBar' : 'hideBar'}`}>
-        <NavMenu />
+        <NavMenu toggler={toggleMenu} />
         <div className="content">
           {children}
         </div>

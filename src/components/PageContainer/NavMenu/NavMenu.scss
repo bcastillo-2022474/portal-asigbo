@@ -29,6 +29,20 @@ $mobileVerticalBreakpoint: 636px;
     background-color: $NavBarColor;
     height: 100vh;
     transition: inherit;
+
+    .closeIcon{
+      height: 5%;
+      position: absolute;
+      background-color: transparent;
+      border: transparent;
+      top: 0;
+      right: 0;
+    }
+
+    .LogoSideBar{
+      max-width: 100%;
+      max-height: 20%;
+    }
   }
 }
 
