@@ -4,6 +4,7 @@ import styles from './UserProfilePage.module.scss';
 import useLoggedInfo from '../../hooks/useLoggedInfo';
 import LoadingView from '../../components/LoadingView';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
+import Table from '../../components/Table/Table';
 
 function UserProfilePage() {
   const { info, error, loading } = useLoggedInfo();
@@ -53,46 +54,7 @@ function UserProfilePage() {
                 <ProgressBar progress={65} />
               </div>
             </div>
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
-            Hola
-            <br />
+            <Table />
           </div>
         </div>
       )}

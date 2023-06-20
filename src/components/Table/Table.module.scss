@@ -1,0 +1,71 @@
+$borderColorBoxes: #0000004a;
+$headersColor: #7F7F7F;
+$marginBlock: 2vh;
+$paddingBetweenColumns: 1vw;
+
+.Table{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 3px 0px $borderColorBoxes;
+    border-radius: 10px;
+    padding-inline: 10px;
+    padding-block: 5px;
+    margin-block: $marginBlock;
+
+
+
+    .tableHeaders{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding-inline: 31px;
+        padding-block: 10px;
+        border-radius: 15px;
+        th{
+            padding-inline: $paddingBetweenColumns;
+            font-size: 20px;
+            font-weight: 600;
+            color: $headersColor;
+            width: calc(100%/ var(--headers));
+        }
+    }
+
+    .tableContent{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding-inline: 31px;
+        padding-block: 10px;
+        border-radius: 15px;
+        font-size: 18px;
+
+        td{
+            width: calc(100%/ var(--headers));
+            padding-inline: $paddingBetweenColumns;
+            text-align: center;
+            height: 100%;
+            font-weight: 00;
+            span{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+            }
+
+            .node{
+                height: 6vh;
+            }
+        }
+    }
+    .tableContent.evenRow{
+        background-color: #F4F6FA;
+    }
+
+    .tableContent.oddRow{
+        background-color: white;
+    }
+}
