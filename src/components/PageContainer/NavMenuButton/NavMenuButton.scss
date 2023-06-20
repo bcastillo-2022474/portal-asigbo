@@ -1,32 +1,105 @@
 $backgroundButtonColor: #E3E3E3;
+$NavBarColor: #16337f;
+$NavBarMenuColor: #2b468b;
+$NavButtonHoverColor: #3b5db4;
+$textColor: white;
 
-.menuButton{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+//Medidas
+$toggleTimeAnimation: 0.3s;
+$bigScreenSideBarWidth: 10vw;
+$bigScreenSideBarMarginInline: 1vw;
+$midScreenSideBarWidth: 12vw;
+$midScreenSideBarMarginInline: 1vw;
+$smallScreenSideBarWidth: 14vw;
+$smallScreenSideBarMarginInline: 1vw;
 
-    button{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: $backgroundButtonColor;
-        border: transparent;
-        width: 70%;
-        aspect-ratio: 1;
-        border-radius: 100%;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
+//Breakpoints
+$bigBreakpoint: 1440px;
+$midBreakpoint: 1120px;
+$smallBreakpoint: 963px;
+$mobileBreakpoint: 768px;
+$mobileVerticalBreakpoint: 636px;
 
-        &:hover{
-            transform: scale(1.1);
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+@media (max-width: calc($mobileBreakpoint - 1px)){
+    .menuButton{
+        color: $textColor;
+        width: 100%;
+
+        .option{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: $NavBarMenuColor;
+            border: inherit;
+            color: inherit;
+            font-size: 1rem;
+            width: 90%;
+            border-radius: 20px;
+            padding: 5%;
+            margin-inline: 5%;
+            margin-block: 4%;
+
+            .button{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: transparent;
+                cursor: pointer;
+                width: 20%;
+            }
+
+            span{
+                width: 80%;
+            }
+
+            &:hover{
+                background-color: $NavButtonHoverColor;
+            }
         }
     }
+}
 
-    .icon{
-        width: 75%;
-    }
+@media (min-width: $mobileBreakpoint){
+    .menuButton{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .option{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            background-color: transparent;
+            border: transparent;
 
-    span{
-        margin-top: 5%;
+            .button{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: $backgroundButtonColor;
+                border: transparent;
+                cursor: pointer;
+                width: 70%;
+                aspect-ratio: 1;
+                border-radius: 100%;
+                transition: box-shadow 0.3s ease, transform 0.3s ease;
+        
+                &:hover{
+                    transform: scale(1.1);
+                    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+                }
+            }
+        
+            .icon{
+                width: 75%;
+            }
+        
+            span{
+                margin-top: 5%;
+                font-size: 1rem;
+            }
+        }
     }
 }

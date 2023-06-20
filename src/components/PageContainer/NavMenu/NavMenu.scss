@@ -1,4 +1,72 @@
-.NavMenu{
+$backgroundButtonColor: #E3E3E3;
+$NavBarColor: #16337f;
+$NavBarMenuColor: #2b468b;
+$NavScrollBarColor: #3b5db4;
+$textColor: white;
+
+//Medidas
+$toggleTimeAnimation: 0.3s;
+$bigScreenSideBarWidth: 10vw;
+$bigScreenSideBarMarginInline: 1vw;
+$midScreenSideBarWidth: 12vw;
+$midScreenSideBarMarginInline: 1vw;
+$smallScreenSideBarWidth: 14vw;
+$smallScreenSideBarMarginInline: 1vw;
+
+//Breakpoints
+$bigBreakpoint: 1440px;
+$midBreakpoint: 1120px;
+$smallBreakpoint: 963px;
+$mobileBreakpoint: 768px;
+$mobileVerticalBreakpoint: 636px;
+
+@media (max-width: calc($mobileBreakpoint - 1px)){
+  .NavMenu{
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    width: 60vw;
+    background-color: $NavBarColor;
+    height: 100vh;
+    transition: inherit;
+
+    .closeIcon{
+      height: 5%;
+      position: absolute;
+      background-color: transparent;
+      border: transparent;
+      top: 0;
+      right: 0;
+    }
+
+    .LogoSideBar{
+      height: 15%;
+      width: 100%;
+      object-fit: cover;
+    }
+
+    .buttons{
+      flex: 1;
+
+      .center{
+        height: 80%;
+      }
+
+      .bottom{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 20%;
+      }
+    }
+
+  }
+}
+
+@media (min-width: $mobileBreakpoint){
+  .NavMenu{
     position: absolute;
     width: 8vw;
     height: 84.5vh;
@@ -27,8 +95,11 @@
       }
 
       .bottom{
+        display: flex;
+        align-items: center;
         height: 29%;
       }
 
     }
   }
+}

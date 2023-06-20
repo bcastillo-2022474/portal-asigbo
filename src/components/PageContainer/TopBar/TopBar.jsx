@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MenuIcon from '../../../assets/icons/MenuIcon';
 import './TopBar.scss';
-
+import mobileImg from '../../../assets/bgLoginMobile.jpg';
 /*
 
 TopBar: Es un componente que establece la barra superior de cualquier página autenticada,
@@ -15,8 +15,33 @@ se deberá proveer de un logo y el nombre del becado
 
 */
 function TopBar({ toggler, logo, name }) {
+  const [isMobile, setMobile] = useState(false);
+
+  useEffect(() => {
+    function handleWindow() {
+      if (window.innerWidth < 768) {
+        setMobile(mobileImg);
+      } else {
+        setMobile(false);
+      }
+    }
+
+    handleWindow();
+
+    window.addEventListener('resize', handleWindow);
+
+    return () => {
+      window.removeEventListener('resize', handleWindow);
+    };
+  }, []);
+
   return (
     <div className="TopBar">
+      {isMobile && (
+      <div className="bgContainer">
+        <div className="colorLayer" />
+      </div>
+      )}
       <div className="mainBar">
         {/* Botón toggle */}
         <button className="icon" onClick={toggler} type="button">
@@ -39,6 +64,7 @@ function TopBar({ toggler, logo, name }) {
 }
 
 TopBar.defaultProps = {
+  // eslint-disable-next-line no-console
   toggler: () => console.log('No se ha establecido un callback para despliegue'),
   logo: '',
   name: '',

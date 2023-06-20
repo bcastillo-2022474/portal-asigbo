@@ -4,7 +4,156 @@ $NavScrollBarColor: #3b5db4;
 $textColor: white;
 $toggleTimeAnimation: 0.3s;
 
-.TopBar {
+//Medidas
+$toggleTimeAnimation: 0.3s;
+$bigScreenSideBarWidth: 10vw;
+$bigScreenSideBarMarginInline: 1vw;
+$midScreenSideBarWidth: 12vw;
+$midScreenSideBarMarginInline: 1vw;
+$smallScreenSideBarWidth: 14vw;
+$smallScreenSideBarMarginInline: 1vw;
+
+//Breakpoints
+$bigBreakpoint: 1440px;
+$midBreakpoint: 1120px;
+$smallBreakpoint: 963px;
+$mobileBreakpoint: 768px;
+$mobileVerticalBreakpoint: 636px;
+
+@media (max-width: calc($mobileBreakpoint - 1px)){
+  .TopBar{
+    height: 12vh;
+    max-height: 12vh;
+    display: flex;
+    flex-direction: row-reverse;
+    color: $textColor;
+
+    .nameInfo{
+      width: 40vw;
+      background-color: transparent;
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: center;
+      justify-content: start;
+
+      .initialCircle{
+        font-weight: bold;
+        height: 50%;
+        display: flex;
+        margin-inline: 10%;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1;
+        background-color: orange;
+        border-radius: 50%;
+        font-size: 150%;
+      }
+      span{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 80%;
+        
+      }
+    }
+
+    .logoButton{
+      display: none;
+    }
+
+    .bgContainer{
+      background: url('../../../assets/bgLoginMobile.jpg');
+      width: 100vw;
+      height: 100vh;
+      background-size: cover;
+      z-index: -1;
+      position: absolute;
+
+      .colorLayer {
+        background-color: rgba(43, 59, 105, 0.7);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    }
+
+
+    .mobileBg{
+      width: 100vw;
+      background-size: cover;
+      position: absolute;
+      z-index: -1;
+      box-shadow: inset 0 0 0 1000px rgba(0,0,0,.6);
+    }
+  
+    .mainBar{
+      width: 60vw;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: end;
+  
+      .icon{
+        height: 45%;
+        background-color: transparent;
+        border: transparent;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+        margin-right: 2rem;
+
+        &:hover{
+          transform: scale(1.1);
+        }
+      }
+    }
+
+    @media (max-width: 601px) {
+      .nameInfo{
+        width: 60vw;
+      }
+    }
+
+    @media (max-width: 465px) {
+      .nameInfo{
+        width: 70vw;
+      }
+    }
+
+    @media (max-width: 465px) {
+      .nameInfo{
+        width: 75vw;
+        span{
+          font-size: 75%;
+        }
+      }
+    }
+
+    @media (max-width: 417px) {
+      .nameInfo{
+        width: 80vw;
+        span{
+          font-size: 70%;
+        }
+      }
+    }
+
+    @media (max-width: 384px) {
+      .nameInfo{
+        width: 80vw;
+        span{
+          font-size: 67%;
+        }
+      }
+    }
+
+  }
+}
+
+@media (min-width: $mobileBreakpoint){
+  .TopBar {
     position: sticky;
     top: 0;
     height: 11.5vh;
@@ -13,6 +162,10 @@ $toggleTimeAnimation: 0.3s;
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
+
+    .mobileBg{
+      display: none;
+    }
   
     .nameInfo{
       color: $textColor;
@@ -29,10 +182,11 @@ $toggleTimeAnimation: 0.3s;
         align-items: center;
         justify-content: center;
         width: 80%;
+        margin-left: 1rem;
       }
   
       .initialCircle{
-        width: 20%;
+        width: 25%;
         background-color: orange;
         font-size: 150%;
         aspect-ratio: 1;
@@ -87,3 +241,4 @@ $toggleTimeAnimation: 0.3s;
       }
     }
   }
+}
