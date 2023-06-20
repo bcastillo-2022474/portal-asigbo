@@ -49,6 +49,46 @@ function UserProfilePage() {
                 <ProgressBar progress={65} />
               </div>
             </div>
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
+            Hola
+            <br />
           </div>
         </div>
       )}

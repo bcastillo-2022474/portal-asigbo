@@ -77,6 +77,20 @@ $normalMobileSideBarWidth: 60vw;
       overflow-y: auto;
       top: 0;
       transition: inherit;
+
+      &::-webkit-scrollbar{
+        width: 20px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 15px;
+        border: 3px solid white;
+        background: #888;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
     }
   
   }
