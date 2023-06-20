@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HolderIcon from '../../assets/icons/HolderIcon';
 import styles from './UserProfilePage.module.scss';
 import useLoggedInfo from '../../hooks/useLoggedInfo';
@@ -7,6 +7,10 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 function UserProfilePage() {
   const { info, error, loading } = useLoggedInfo();
+
+  useEffect(() => {
+    console.log(info);
+  }, []);
 
   return (
     <div className={styles.main}>

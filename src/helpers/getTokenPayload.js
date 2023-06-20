@@ -1,3 +1,15 @@
+const aToUTF8 = (encoded) => {
+  const decodedToB = window.atob(encoded);
+
+  const uArray = new Uint8Array(decodedToB.length);
+  for (let i = 0; i < decodedToB.length; i += 1) {
+    uArray[i] = decodedToB.charCodeAt(i);
+  }
+
+  const unicodeDecoder = new TextDecoder('utf-8');
+  return unicodeDecoder.decode(uArray);
+};
+
 export default (token) => {
   if (typeof token !== 'string') throw new Error('Token Invalido.');
 
@@ -5,5 +17,5 @@ export default (token) => {
 
   if (!encodedPayload) throw new Error('Token Invalido.');
 
-  return JSON.parse(window.atob(encodedPayload));
+  return JSON.parse(aToUTF8(encodedPayload));
 };

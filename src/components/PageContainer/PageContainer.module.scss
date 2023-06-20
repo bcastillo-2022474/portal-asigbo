@@ -2,6 +2,8 @@ $NavBarColor: #16337f;
 $NavBarMenuColor: #2b468b;
 $NavScrollBarColor: #3b5db4;
 $textColor: white;
+$ScrollBarColor: #888;
+$ScrollBarHoverColor: #555;
 
 //Medidas Desktop
 $toggleTimeAnimation: 0.3s;
@@ -85,11 +87,11 @@ $normalMobileSideBarWidth: 60vw;
       &::-webkit-scrollbar-thumb {
         border-radius: 15px;
         border: 3px solid white;
-        background: #888;
+        background: $ScrollBarColor;
       }
 
       &::-webkit-scrollbar-thumb:hover {
-        background: #555;
+        background: $ScrollBarHoverColor;
       }
     }
   
