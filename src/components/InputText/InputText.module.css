@@ -8,10 +8,11 @@
     font-size: 16px;
 }
 
-input {
+.inputField {
     padding: 10px;
     border: 2px solid;
     border-radius: 5px;
+    background-color: #ffffff !important;
 }
 
 .inputLabel {
@@ -74,4 +75,16 @@ input:focus + .inputLabel .labelText, :not(input[value=""]) + .inputLabel .label
     color: var(--error-color--);
     font-size: 15px;
     font-weight: normal;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+}
+
+input:-webkit-autofill + .inputLabel .labelText {
+    font-size: 12px;
+    transform: translate(0, -120%);
+    background-color: white;
+    padding-left: 4px;
+    padding-right: 4px;
 }
