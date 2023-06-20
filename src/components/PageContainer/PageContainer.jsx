@@ -1,4 +1,3 @@
-import './PageContainer.scss';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import useToken from '@hooks/useToken';
@@ -6,6 +5,7 @@ import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letra
 import NavMenu from './NavMenu/NavMenu';
 import TopBar from './TopBar/TopBar';
 import getTokenPayload from '../../helpers/getTokenPayload';
+import styles from './PageContainer.module.scss';
 
 /*
 
@@ -56,9 +56,9 @@ function PageContainer({ children }) {
   return (
     <>
       {isShown ? <TopBar toggler={toggleMenu} logo={LogoLetrasBlancas} name={`${payload.name} ${payload.lastname}`} /> : false}
-      <div className={`pageContent ${isToggled ? 'showBar' : 'hideBar'} ${isShown ? 'shrink' : 'expand'}`}>
-        {isShown ? <NavMenu toggler={toggleMenu} /> : false}
-        <div className="content">
+      <div className={`${styles.pageContent} ${isToggled ? styles.showBar : styles.hideBar} ${isShown ? styles.shrink : styles.expand}`}>
+        {isShown ? <NavMenu toggler={toggleMenu} className={styles.NavMenu} /> : false}
+        <div className={styles.content}>
           {children}
         </div>
       </div>

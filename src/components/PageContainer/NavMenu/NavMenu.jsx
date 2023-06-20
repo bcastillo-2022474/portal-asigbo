@@ -6,8 +6,8 @@ import HomeIcon from '../../../assets/icons/HomeIcon';
 import SettingsIcon from '../../../assets/icons/SettingsIcon';
 import LogOutIcon from '../../../assets/icons/LogOutIcon';
 import XIcon from '../../../assets/icons/XIcon';
-import './NavMenu.scss';
 import LogoLetrasBlancas from '../../../assets/General/Copia de Transparente (letras blancas).png';
+import styles from './NavMenu.module.scss';
 
 /*
 NavMenu: Es un sidebar desplegable que corre el contenido adyacente
@@ -16,7 +16,7 @@ que tenga disponibles
 
 @param: ninguno
 */
-function NavMenu({ toggler }) {
+function NavMenu({ toggler, className }) {
   // Strokes refiere al color de relleno de los íconos
   const [strokes, setStrokes] = useState('');
   const [isMobile, setMobile] = useState(false);
@@ -43,25 +43,25 @@ function NavMenu({ toggler }) {
   }, []);
 
   return (
-    <div className="NavMenu">
+    <div className={`${styles.NavMenu} ${className}`}>
       {/* Contenedor de botones */}
       {isMobile && (
       <>
-        <button className="closeIcon" type="button" onClick={toggler}>
+        <button className={styles.closeIcon} type="button" onClick={toggler}>
           <XIcon fill={strokes} stroke={strokes} />
         </button>
-        <img src={LogoLetrasBlancas} alt="Logo de Asigbo" className="LogoSideBar" />
+        <img src={LogoLetrasBlancas} alt="Logo de Asigbo" className={styles.LogoSideBar} />
       </>
       )}
-      <div className="buttons">
+      <div className={styles.buttons}>
         {/* Overlay de botones del centro de la barra */}
-        <div className="buttonOverlay center">
-          <NavMenuButton label="Inicio" icon={<HomeIcon fill={strokes} />} />
-          <NavMenuButton label="Ajustes" icon={<SettingsIcon fill={strokes} />} />
+        <div className={`${styles.buttonOverlay} ${styles.center}`}>
+          <NavMenuButton label="Inicio" icon={<HomeIcon fill={strokes} />} className={styles.menuButton} />
+          <NavMenuButton label="Ajustes" icon={<SettingsIcon fill={strokes} />} className={styles.menuButton} />
         </div>
         {/* Overlay de botones en el fondo de la barra */}
-        <div className="buttonOverlay bottom">
-          <NavMenuButton label="Cerrar Sesión" icon={<LogOutIcon fill={strokes} stroke={strokes} width="70%" height="70%" />} clickCallback={logOut} />
+        <div className={`${styles.buttonOverlay} ${styles.bottom}`}>
+          <NavMenuButton label="Cerrar Sesión" icon={<LogOutIcon fill={strokes} stroke={strokes} width="70%" height="70%" />} clickCallback={logOut} className={styles.menuButton} />
         </div>
       </div>
     </div>
@@ -71,10 +71,12 @@ function NavMenu({ toggler }) {
 NavMenu.defaultProps = {
   // eslint-disable-next-line no-console
   toggler: () => console.log('Porfavor, establece un toggler para cerrar este menú'),
+  className: '',
 };
 
 NavMenu.propTypes = {
   toggler: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default NavMenu;

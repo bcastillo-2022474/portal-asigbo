@@ -1,7 +1,7 @@
-import './ProgressBar.scss';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
+import styles from './ProgressBar.module.scss';
 
 function ProgressBar({ progress }) {
   const [currentProgress, setProgress] = useState(0);
@@ -22,11 +22,11 @@ function ProgressBar({ progress }) {
   }, []);
 
   return (
-    <div className="progressBar">
-      <div className="progressBackground" style={{ '--progress': `${currentProgress}%` }}>
-        <div className="progressIndicator" />
+    <div className={styles.progressBar}>
+      <div className={styles.progressBackground} style={{ '--progress': `${currentProgress}%` }}>
+        <div className={styles.progressIndicator} />
       </div>
-      <div className={`progressLabel ${fader ? 'hidden' : 'visible'}`}>{`${progress}%`}</div>
+      <div className={`${styles.progressLabel} ${fader ? styles.hidden : styles.visible}`}>{`${progress}%`}</div>
     </div>
   );
 }

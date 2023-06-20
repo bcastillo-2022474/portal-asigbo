@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './NavMenuButton.scss';
+import styles from './NavMenuButton.module.scss';
 
 /*
 
@@ -12,12 +12,14 @@ NavMenu cuyos íconos, labels y callbacks de click son personalizables desde cua
 @params: {function} clickCallback: Cualquier función que corresponda al click del botón
 
 */
-function NavMenuButton({ icon, label, clickCallback }) {
+function NavMenuButton({
+  icon, label, clickCallback, className,
+}) {
   return (
-    <div className="menuButton">
-      <button className="option" type="button" onClick={clickCallback}>
-        <div className="button">
-          <div className="icon">
+    <div className={`${styles.menuButton} ${className}`}>
+      <button className={styles.option} type="button" onClick={clickCallback}>
+        <div className={styles.button}>
+          <div className={styles.icon}>
             {icon}
           </div>
         </div>
@@ -36,12 +38,14 @@ NavMenuButton.defaultProps = {
     // eslint-disable-next-line no-console
     console.log('No se ha establecido un callback para click en este componente');
   },
+  className: '',
 };
 
 NavMenuButton.propTypes = {
   icon: PropTypes.node,
   label: PropTypes.string,
   clickCallback: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default NavMenuButton;

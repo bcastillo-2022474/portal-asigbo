@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MenuIcon from '../../../assets/icons/MenuIcon';
-import './TopBar.scss';
 import mobileImg from '../../../assets/bgLoginMobile.jpg';
+import styles from './TopBar.module.scss';
 /*
 
 TopBar: Es un componente que establece la barra superior de cualquier página autenticada,
@@ -36,26 +36,26 @@ function TopBar({ toggler, logo, name }) {
   }, []);
 
   return (
-    <div className="TopBar">
+    <div className={styles.TopBar}>
       {isMobile && (
-      <div className="bgContainer">
-        <div className="colorLayer" />
+      <div className={styles.bgContainer}>
+        <div className={styles.colorLayer} />
       </div>
       )}
-      <div className="mainBar">
+      <div className={styles.mainBar}>
         {/* Botón toggle */}
-        <button className="icon" onClick={toggler} type="button">
+        <button className={styles.icon} onClick={toggler} type="button">
           <MenuIcon fill="none" stroke="#ffffff" />
         </button>
         {/* Botón de logotipo */}
-        <button type="button" className="logoButton">
+        <button type="button" className={styles.logoButton}>
           <img src={logo} alt="Logo de ASIGBO" />
         </button>
       </div>
       {/* Nombre e ícono del becado */}
-      <div className="nameInfo">
+      <div className={styles.nameInfo}>
         <span>{name}</span>
-        <div className="initialCircle">
+        <div className={styles.initialCircle}>
           { name ? name.charAt(0) : 'X'}
         </div>
       </div>
