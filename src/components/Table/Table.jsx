@@ -31,7 +31,7 @@ Table.propTypes = {
 
 Table.defaultProps = {
   headers: ['Columna1', 'Columna2', 'Columna3', 'Columna4', 'Columna5'],
-  content: [['Row 1 Col 1', 'Row 1 Col 2', 'Row 2 Col 3', 'Row 3 Col4', <XIcon />], ['Row 2 Col 1', 'Row 2 Col 2', 'Row 2 Col 3', 'Row 2 Col 4', 'Row 2 Col 5'], ['Row 3 Col 1', 'Row 3 Col 2', 'Row 3 Col 3', 'Row 3 Col 4', 'Row 3 Col 5']],
+  content: [['Row 1 Col 1', 'Row 1 Col 2', 'Row 2 Col 3', 'Row 3 Col4', <XIcon />], ['Row 2 Col 1', 'Row 2 Col 2', 'Row 2 Col 3', <XIcon />, 'Row 2 Col 5'], ['Row 3 Col 1', 'Row 3 Col 2', <XIcon />, 'Row 3 Col 4', 'Row 3 Col 5']],
   className: '',
 };
 
