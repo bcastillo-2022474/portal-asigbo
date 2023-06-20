@@ -63,7 +63,7 @@ $mobileVerticalBreakpoint: 636px;
     }
 
     .bgContainer{
-      background: url('../../../assets/bgLoginMobile.jpg');
+      background-color: #16337f;
       width: 100vw;
       height: 100vh;
       background-size: cover;
@@ -71,7 +71,6 @@ $mobileVerticalBreakpoint: 636px;
       position: absolute;
 
       .colorLayer {
-        background-color: rgba(43, 59, 105, 0.7);
         position: absolute;
         top: 0;
         left: 0;

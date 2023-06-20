@@ -5,6 +5,7 @@ import useToken from '@hooks/useToken';
 import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letras blancas).png';
 import NavMenu from './NavMenu/NavMenu';
 import TopBar from './TopBar/TopBar';
+import getTokenPayload from '../../helpers/getTokenPayload';
 
 /*
 
@@ -18,6 +19,7 @@ function PageContainer({ children }) {
   // Estado de sidebar mostrada o retraída, mostrada por defecto.
   const [isToggled, setToggle] = useState(false);
   const [isShown, setShown] = useState(false);
+  const [payload, setPayload] = useState({});
   const token = useToken();
 
   useEffect(() => {
@@ -40,7 +42,10 @@ function PageContainer({ children }) {
 
   useEffect(() => {
     if (token === undefined || token === null) setShown(false);
-    else setShown(true);
+    else {
+      setShown(true);
+      setPayload(getTokenPayload(token));
+    }
   }, [token]);
 
   // Función de despliegue o retracción de sidebar
@@ -50,7 +55,7 @@ function PageContainer({ children }) {
 
   return (
     <>
-      {isShown ? <TopBar toggler={toggleMenu} logo={LogoLetrasBlancas} name="Herber Sebastián Silva Muñoz" /> : false}
+      {isShown ? <TopBar toggler={toggleMenu} logo={LogoLetrasBlancas} name={`${payload.name} ${payload.lastname}`} /> : false}
       <div className={`pageContent ${isToggled ? 'showBar' : 'hideBar'} ${isShown ? 'shrink' : 'expand'}`}>
         {isShown ? <NavMenu toggler={toggleMenu} /> : false}
         <div className="content">

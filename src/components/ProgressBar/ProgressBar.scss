@@ -3,10 +3,10 @@ $progressColor: #73e57e;
 
 .progressBackground {
   background-color: $backgroundColor;
-  height: 2.75rem;
-  width: 92.5%;
+  height: 1.5rem;
   border-radius: 25px;
   overflow: hidden;
+  flex-grow: 1;
   .progressIndicator {
     width: var(--progress);
     height: 100%;
@@ -23,9 +23,10 @@ $progressColor: #73e57e;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 7.5%;
+    margin-inline: 2%;
+    width: auto;
     font-weight: bold;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     transition: opacity 1s ease-in-out;
   }
   .progressLabel.visible {

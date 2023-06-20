@@ -1,13 +1,57 @@
 import React from 'react';
-import useLogout from '@hooks/useLogout';
-import styles from './UserProfilePage.module.css';
+import HolderIcon from '../../assets/icons/HolderIcon';
+import styles from './UserProfilePage.module.scss';
+import useLoggedInfo from '../../hooks/useLoggedInfo';
+import LoadingView from '../../components/LoadingView';
+import ProgressBar from '../../components/ProgressBar/ProgressBar';
 
 function UserProfilePage() {
-  const logout = useLogout();
+  const { info, error, loading } = useLoggedInfo();
+
   return (
-    <div className={styles.userProfilePage}>
-      En desarrollo: Página de usuario
-      <button onClick={logout} type="submit">Cerrar sesión</button>
+    <div className={styles.main}>
+      {loading || error ? <LoadingView /> : (
+        <div className={styles.infoBlock}>
+          <h1>Información del Becado</h1>
+          <div className={styles.holderDetails}>
+            <HolderIcon fill="#000000" className={styles.holderIcon} />
+            <div className={styles.holderInfo}>
+              <h2>{`${info ? info.name : ''} ${info ? info.lastname : ''}`}</h2>
+              <span>
+                <b>Código: </b>
+                <b>{info ? info.code : ''}</b>
+              </span>
+              <span>
+                <b>Promoción: </b>
+                {info ? info.promotion : ''}
+              </span>
+              <span>
+                <b>Carrera: </b>
+                {info ? info.career : ''}
+              </span>
+            </div>
+          </div>
+          <div className={styles.serviceBlock}>
+            <h1>Horas de servicio</h1>
+            <div className={styles.serviceDetails}>
+              <div className={styles.totalHours}>
+                <span>Total de horas de servicio</span>
+                <h2>
+                  {`${info ? info.serviceHours.total : '0'} horas`}
+                </h2>
+              </div>
+              <div className={styles.totalHours}>
+                <span>Actividades participadas</span>
+                <h2>{`${info ? info.serviceHours.areas.length : '0'} actividades`}</h2>
+              </div>
+              <div className={styles.progressContainer}>
+                <span>Porcentaje de horas beca requisito completadas</span>
+                <ProgressBar progress={65} />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

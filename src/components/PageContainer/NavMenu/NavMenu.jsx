@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import useLogout from '../../../hooks/useLogout';
 import NavMenuButton from '../NavMenuButton/NavMenuButton';
 import HomeIcon from '../../../assets/icons/HomeIcon';
 import SettingsIcon from '../../../assets/icons/SettingsIcon';
@@ -19,6 +20,7 @@ function NavMenu({ toggler }) {
   // Strokes refiere al color de relleno de los íconos
   const [strokes, setStrokes] = useState('');
   const [isMobile, setMobile] = useState(false);
+  const logOut = useLogout();
 
   useEffect(() => {
     function handleWindow() {
@@ -59,7 +61,7 @@ function NavMenu({ toggler }) {
         </div>
         {/* Overlay de botones en el fondo de la barra */}
         <div className="buttonOverlay bottom">
-          <NavMenuButton label="Cerrar Sesión" icon={<LogOutIcon fill={strokes} stroke={strokes} width="70%" height="70%" />} />
+          <NavMenuButton label="Cerrar Sesión" icon={<LogOutIcon fill={strokes} stroke={strokes} width="70%" height="70%" />} clickCallback={logOut} />
         </div>
       </div>
     </div>
@@ -67,6 +69,7 @@ function NavMenu({ toggler }) {
 }
 
 NavMenu.defaultProps = {
+  // eslint-disable-next-line no-console
   toggler: () => console.log('Porfavor, establece un toggler para cerrar este menú'),
 };
 

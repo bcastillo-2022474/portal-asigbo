@@ -10,14 +10,14 @@ function ProgressBar({ progress }) {
   useEffect(() => {
     const delayer = setTimeout(() => {
       setProgress(progress);
-    }, 1000);
+    }, 200);
     return () => clearTimeout(delayer);
   }, [progress]);
 
   useEffect(() => {
     const delayer = setTimeout(() => {
       setFader(false);
-    }, 1000);
+    }, 200);
     return () => clearTimeout(delayer);
   }, []);
 
