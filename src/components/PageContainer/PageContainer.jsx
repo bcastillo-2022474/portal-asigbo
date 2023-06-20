@@ -1,6 +1,7 @@
 import './PageContainer.scss';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import useToken from '@hooks/useToken';
 import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letras blancas).png';
 import NavMenu from './NavMenu/NavMenu';
 import TopBar from './TopBar/TopBar';
@@ -16,17 +17,15 @@ cualquier página autenticada, colocando el contenido como hijo directo de este 
 function PageContainer({ children }) {
   // Estado de sidebar mostrada o retraída, mostrada por defecto.
   const [isToggled, setToggle] = useState(false);
-  const [isMobile, setMobileLayout] = useState(false);
+  const [isShown, setShown] = useState(false);
+  const token = useToken();
 
   useEffect(() => {
     function handleWindow() {
-      console.log(isMobile);
       if (window.innerWidth <= 768) {
         setToggle(false);
-        setMobileLayout(true);
       } else {
         setToggle(true);
-        setMobileLayout(false);
       }
     }
 
@@ -39,6 +38,11 @@ function PageContainer({ children }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (token === undefined || token === null) setShown(false);
+    else setShown(true);
+  }, [token]);
+
   // Función de despliegue o retracción de sidebar
   const toggleMenu = () => {
     setToggle(!isToggled);
@@ -46,9 +50,9 @@ function PageContainer({ children }) {
 
   return (
     <>
-      <TopBar toggler={toggleMenu} logo={LogoLetrasBlancas} name="Herber Sebastián Silva Muñoz" />
-      <div className={`pageContent ${isToggled ? 'showBar' : 'hideBar'}`}>
-        <NavMenu toggler={toggleMenu} />
+      {isShown ? <TopBar toggler={toggleMenu} logo={LogoLetrasBlancas} name="Herber Sebastián Silva Muñoz" /> : false}
+      <div className={`pageContent ${isToggled ? 'showBar' : 'hideBar'} ${isShown ? 'shrink' : 'expand'}`}>
+        {isShown ? <NavMenu toggler={toggleMenu} /> : false}
         <div className="content">
           {children}
         </div>
