@@ -36,7 +36,7 @@ function TopBar({ toggler, logo, name }) {
   }, []);
 
   return (
-    <div className={styles.TopBar}>
+    <nav className={styles.TopBar}>
       {isMobile && (
       <div className={styles.bgContainer}>
         <div className={styles.colorLayer} />
@@ -59,7 +59,7 @@ function TopBar({ toggler, logo, name }) {
           { name ? name.charAt(0) : 'X'}
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
 

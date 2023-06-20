@@ -43,7 +43,7 @@ function NavMenu({ toggler, className }) {
   }, []);
 
   return (
-    <div className={`${styles.NavMenu} ${className}`}>
+    <nav className={`${styles.NavMenu} ${className}`}>
       {/* Contenedor de botones */}
       {isMobile && (
       <>
@@ -64,7 +64,7 @@ function NavMenu({ toggler, className }) {
           <NavMenuButton label="Cerrar Sesión" icon={<LogOutIcon fill={strokes} stroke={strokes} width="70%" height="70%" />} clickCallback={logOut} className={styles.menuButton} />
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
 
