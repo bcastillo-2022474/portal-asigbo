@@ -1,0 +1,70 @@
+@media (max-width: 767px) {
+  .NavMenu {
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    width: 60vw;
+    background-color: #16337f;
+    height: 100vh;
+    transition: inherit;
+  }
+  .NavMenu .closeIcon {
+    height: 5%;
+    position: absolute;
+    background-color: transparent;
+    border: transparent;
+    top: 0;
+    right: 0;
+  }
+  .NavMenu .LogoSideBar {
+    height: 15%;
+    width: 100%;
+    object-fit: cover;
+  }
+  .NavMenu .buttons {
+    flex: 1;
+  }
+  .NavMenu .buttons .center {
+    height: 80%;
+  }
+  .NavMenu .buttons .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 20%;
+  }
+}
+@media (min-width: 768px) {
+  .NavMenu {
+    position: absolute;
+    width: 8vw;
+    height: 84.5vh;
+    margin-inline: 1vw;
+    margin-block: 2vh;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    padding: 1%;
+    transition: inherit;
+  }
+  .NavMenu .buttons {
+    height: 100%;
+  }
+  .NavMenu .buttons .buttonOverlay .menuButton {
+    margin-block: 10%;
+  }
+  .NavMenu .buttons .center {
+    height: 69%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .NavMenu .buttons .bottom {
+    display: flex;
+    align-items: center;
+    height: 29%;
+  }
+}

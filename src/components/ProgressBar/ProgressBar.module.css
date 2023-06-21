@@ -1,0 +1,36 @@
+.progressBackground {
+  background-color: #dddddd;
+  height: 1.5rem;
+  border-radius: 25px;
+  overflow: hidden;
+  flex-grow: 1;
+}
+.progressBackground .progressIndicator {
+  width: var(--progress);
+  height: 100%;
+  background-color: #73e57e;
+  border-radius: inherit;
+  transition: width 1s ease-in-out;
+}
+
+.progressBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.progressBar .progressLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-inline: 2%;
+  width: auto;
+  font-weight: bold;
+  font-size: 1.5rem;
+  transition: opacity 1s ease-in-out;
+}
+.progressBar .progressLabel.visible {
+  opacity: 1;
+}
+.progressBar .progressLabel.hidden {
+  opacity: 0;
+}

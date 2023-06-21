@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import HolderIcon from '../../assets/icons/HolderIcon';
-import styles from './UserProfilePage.module.scss';
+import styles from './UserProfilePage.module.css';
 import useLoggedInfo from '../../hooks/useLoggedInfo';
 import LoadingView from '../../components/LoadingView';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';

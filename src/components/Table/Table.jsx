@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './Table.module.scss';
+import styles from './Table.module.css';
 import XIcon from '../../assets/icons/XIcon';
 
 function Table({ headers, content, className }) {
