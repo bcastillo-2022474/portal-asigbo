@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+.headerContainer{
+    width: 100%;
+}
+
 .formContainer{
     display: flex;
     flex-direction: column;
@@ -39,8 +43,8 @@
         justify-content: center;
         background-image: url('@assets/bgLogin.jpg');
         background-repeat: no-repeat;
-        background-position: right -30% center;
-        background-size: contain;
+        background-position: right center;
+        background-size: cover;
     }
     
 }
@@ -71,18 +75,15 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        height: 130px;
+        max-height: 50%;
         overflow: hidden;
-        background-image: url('@assets/logoasigbofondoazul.jpg');
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
         background-color: #16337F;
     }
 
     .logoAsigboMobile{
-        overflow-x: hidden;
         background-color: #16337F;
+        width: 55vh;
+        height: 20vh;
     }
 
     .wavesWrapperMobile{
@@ -90,7 +91,7 @@
         align-items: flex-start;
         justify-content: center;
         width: 100%;
-        max-height: 10vh;
+        max-height: 16vh;
         overflow: hidden;
         z-index: 2;
     }
@@ -98,6 +99,7 @@
     .wavesMobile{
         overflow: hidden;
         width: 100%;
+        max-height: 100%;
     }
 
     .backgroundWrapper{
@@ -110,10 +112,35 @@
     }
 }
 
+@media (max-width: 450px) {
+    .formContainer{
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+        position: relative;
+        justify-content: end;
+    }
+
+    .backgroundWrapper{
+        display: none;
+    }
+
+    .headerContainer{
+        top: 0;
+        position: absolute;
+    }
+
+}
+
 .wavesWrapper{
-    max-height: 100vh;
+    height: 100%;
+    max-width: 20%;
     z-index: 4;
     overflow: hidden;
+}
+
+.waves{
+    height: 100%;
 }
 
 .form{
