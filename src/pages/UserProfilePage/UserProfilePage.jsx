@@ -10,6 +10,7 @@ function UserProfilePage() {
   const { info, error, loading } = useLoggedInfo();
 
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log(info);
   }, []);
 

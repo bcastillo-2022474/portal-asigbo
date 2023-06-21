@@ -17,7 +17,7 @@ const compileScssToCss = (scssFilePath) => {
   const relativeSrcPath = relative(srcFolderPath, scssFilePath);
   const relativeOutputPath = relative(srcFolderPath, cssFilePath);
   // eslint-disable-next-line no-console
-  console.log(`${chalk.blue.bold('Compiled SCSS to CSS: ')}${relativeSrcPath}${chalk.green.bold(' -> ')}${relativeOutputPath}`);
+  console.log(`${chalk.blue.bold('Compiled SCSS to CSS: ')}${chalk.gray(relativeSrcPath)}${chalk.green.bold(' -> ')}${chalk.black(relativeOutputPath)}`);
 };
 
 const scssWatcher = watch('src/**/*.scss');
