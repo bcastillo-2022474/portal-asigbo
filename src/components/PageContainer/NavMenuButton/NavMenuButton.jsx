@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './NavMenuButton.module.scss';
+import styles from './NavMenuButton.module.css';
 
 /*
 

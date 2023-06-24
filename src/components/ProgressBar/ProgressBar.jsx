@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
-import styles from './ProgressBar.module.scss';
+import styles from './ProgressBar.module.css';
 
 function ProgressBar({ progress }) {
   const [currentProgress, setProgress] = useState(0);

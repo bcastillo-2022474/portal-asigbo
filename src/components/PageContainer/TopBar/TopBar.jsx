@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MenuIcon from '../../../assets/icons/MenuIcon';
 import mobileImg from '../../../assets/bgLoginMobile.jpg';
-import styles from './TopBar.module.scss';
+import styles from './TopBar.module.css';
 /*
 
 TopBar: Es un componente que establece la barra superior de cualquier página autenticada,

@@ -7,7 +7,7 @@ import SettingsIcon from '../../../assets/icons/SettingsIcon';
 import LogOutIcon from '../../../assets/icons/LogOutIcon';
 import XIcon from '../../../assets/icons/XIcon';
 import LogoLetrasBlancas from '../../../assets/General/Copia de Transparente (letras blancas).png';
-import styles from './NavMenu.module.scss';
+import styles from './NavMenu.module.css';
 
 /*
 NavMenu: Es un sidebar desplegable que corre el contenido adyacente
