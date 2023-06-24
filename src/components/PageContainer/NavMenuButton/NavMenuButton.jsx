@@ -36,7 +36,7 @@ NavMenuButton.defaultProps = {
   label: '',
   clickCallback: () => {
     // eslint-disable-next-line no-console
-    console.log('No se ha establecido un callback para click en este componente');
+    throw new Error('No se ha establecido un callback para este botón');
   },
   className: '',
 };
