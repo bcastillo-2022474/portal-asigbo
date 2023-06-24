@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useLogout from '../../../hooks/useLogout';
 import NavMenuButton from '../NavMenuButton/NavMenuButton';
@@ -21,6 +22,7 @@ function NavMenu({ toggler, className }) {
   const [strokes, setStrokes] = useState('');
   const [isMobile, setMobile] = useState(false);
   const logOut = useLogout();
+  const navigate = useNavigate();
 
   useEffect(() => {
     function handleWindow() {
@@ -42,6 +44,10 @@ function NavMenu({ toggler, className }) {
     };
   }, []);
 
+  const redir = (route, replace) => {
+    navigate(route, { replace });
+  };
+
   return (
     <nav className={`${styles.NavMenu} ${className}`}>
       {/* Contenedor de botones */}
@@ -56,7 +62,7 @@ function NavMenu({ toggler, className }) {
       <div className={styles.buttons}>
         {/* Overlay de botones del centro de la barra */}
         <div className={`${styles.buttonOverlay} ${styles.center}`}>
-          <NavMenuButton label="Inicio" icon={<HomeIcon fill={strokes} />} className={styles.menuButton} />
+          <NavMenuButton label="Inicio" icon={<HomeIcon fill={strokes} />} className={styles.menuButton} clickCallback={() => { redir('/', true); }} />
           <NavMenuButton label="Ajustes" icon={<SettingsIcon fill={strokes} />} className={styles.menuButton} />
         </div>
         {/* Overlay de botones en el fondo de la barra */}
