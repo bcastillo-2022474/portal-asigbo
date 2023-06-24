@@ -7,11 +7,11 @@ import PageContainer from '../PageContainer/PageContainer';
 function App() {
   return (
     <SessionProvider>
-      <PageContainer>
-        <Router>
+      <Router>
+        <PageContainer>
           <IndexPage />
-        </Router>
-      </PageContainer>
+        </PageContainer>
+      </Router>
     </SessionProvider>
   );
 }
