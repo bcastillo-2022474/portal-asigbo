@@ -1,0 +1,74 @@
+.inputPhoto{
+  width: 100%;
+  max-width: 150px;
+  aspect-ratio: 1/1;
+  background-color: #CACACA;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+  box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.1);
+  
+}
+
+.inputFile{
+ opacity: 0;
+ position:absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ border-radius: inherit;
+ cursor: pointer;
+ z-index: 1;
+
+}
+
+.userIcon{
+  font-size: 80px;
+  color:#3C3D3E;
+}
+
+
+
+.iconCircle{
+  width: 40px;
+  background-color: var(--blue-theme-color--);
+  aspect-ratio: 1/1;
+  border-radius: 20px;
+  display: block;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.iconPosition{
+  position: absolute;
+  bottom: 5px;
+  left: 75%;
+  z-index: 1;
+}
+
+.icon{
+  font-size: 27px;
+  color: white;
+}
+
+.image{
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: inherit;
+  
+}
+
+.inputPhoto.imageSelected .userIcon{
+  display: none;
+}
+
+.inputPhoto.imageSelected .image{
+  display: block;  
+}

@@ -1,0 +1,28 @@
+.unloggedPageContainer{
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageContent{
+flex: 1;
+}
+
+.waveBody{
+  height: 5vh;
+  background-color: var(--blue-theme-color--);
+  margin-top: -5px;
+}
+
+@media only screen and (max-width: 700px){
+  .waveBody{
+    height: 10vh;
+  }
+}
+
+@media only screen and (max-width: 500px){
+  .waveBody{
+    height: 20vh;
+  }
+}

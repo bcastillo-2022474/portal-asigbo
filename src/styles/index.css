@@ -4,7 +4,9 @@
   font-family: 'Montserrat','Inter', sans-serif;
   line-height: 1.5;
   font-weight: 400;
+
   --error-color--:#df0303;
+  --blue-theme-color--:#16337f; 
 
 
   font-synthesis: none;
