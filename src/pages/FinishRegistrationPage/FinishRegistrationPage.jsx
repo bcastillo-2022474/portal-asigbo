@@ -15,6 +15,9 @@ import LoadingView from '../../components/LoadingView/LoadingView';
 import getTokenPayload from '../../helpers/getTokenPayload';
 import Spinner from '../../components/Spinner/Spinner';
 import useLogin from '../../hooks/useLogin';
+import usePopUp from '../../hooks/usePopUp';
+import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
+import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp';
 
 function FinishRegistrationPage() {
   const {
@@ -37,6 +40,9 @@ function FinishRegistrationPage() {
   const [access, setAccess] = useState();
 
   const { login, success: loginSuccess, error: loginError } = useLogin();
+
+  const [isErrorOpen, openError, closeError] = usePopUp();
+  const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
 
   const navigate = useNavigate();
 
@@ -73,11 +79,14 @@ function FinishRegistrationPage() {
     });
   };
 
+  const navigateToHome = () => navigate('/');
+
+  const forceLogin = () => login({ user: userData.email, password: form.password });
+
   useEffect(() => {
     if (!validateAccessError) return;
     // El token no es valido
-    alert('El token de autenticación no es válido.');
-    navigate('/');
+    openError();
   }, [validateAccessError]);
 
   useEffect(() => {
@@ -95,6 +104,7 @@ function FinishRegistrationPage() {
     fetchValidateAccess({
       uri,
       headers: { authorization: accessParam },
+      parse: false,
       autoRefreshAccessToken: false,
     });
     // guardar token y datos del token
@@ -105,14 +115,13 @@ function FinishRegistrationPage() {
   useEffect(() => {
     if (!result) return;
     // Envio de formulario exitoso
-    alert('Perfil completado exitosamente!');
-    login({ user: userData.email, password: form.password });
+    openSuccess();
   }, [result]);
 
   useEffect(() => {
     if (!loginSuccess && !loginError) return;
     // si se completó o falló el login, redirigir a /
-    navigate('/');
+    navigateToHome();
   }, [loginSuccess, loginError]);
 
   return (
@@ -152,16 +161,30 @@ function FinishRegistrationPage() {
               onBlur={handleValidateField}
             />
             {fetchError && !loading && <p className={styles.globalError}>{fetchError.message}</p>}
-            {!loading ? (
-              <Button type="submit" text="Continuar" className={styles.buttonItem} />
-            ) : (
-              <Spinner className={styles.buttonItem} />
-            )}
-          </form>
+            {!loading && !result
+              && <Button type="submit" text="Continuar" className={styles.buttonItem} />}
 
+            {loading && <Spinner className={styles.buttonItem} />}
+          </form>
         </div>
       )}
       {validateAccessLoading && <LoadingView />}
+
+      {isErrorOpen && (
+        <ErrorNotificationPopUp
+          close={closeError}
+          text="No estás autorizado para realizar esta acción."
+          callback={navigateToHome}
+        />
+      )}
+
+      {isSuccessOpen && (
+        <SuccessNotificationPopUp
+          close={closeSuccess}
+          text="Haz completado tu perfil exitosamente."
+          callback={forceLogin}
+        />
+      )}
     </UnloggedPageContainer>
   );
 }
