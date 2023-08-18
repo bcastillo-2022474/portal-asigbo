@@ -4,5 +4,6 @@ export default {
     scolarshipHolder: 'scolarshipHolder',
     promotionResponsible: 'promotionResponsible',
     asigboAreaResponsible: 'asigboAreaResponsible',
+    mobileBreakpoint: '760px',
   },
 };

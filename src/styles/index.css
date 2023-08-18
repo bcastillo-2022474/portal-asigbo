@@ -8,6 +8,10 @@
   --error-color--:#df0303;
   --blue-theme-color--:#16337f; 
 
+  --text-font-size--:16px;
+
+  --navbar-height--: 70px;
+
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
