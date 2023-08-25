@@ -1,0 +1,59 @@
+.Table {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.2901960784);
+  border-radius: 10px;
+  padding-inline: 10px;
+  padding-block: 5px;
+  margin-block: 2vh;
+}
+.Table .tableHeaders {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 31px;
+  padding-block: 10px;
+  border-radius: 15px;
+}
+.Table .tableHeaders th {
+  padding-inline: 1vw;
+  font-size: 20px;
+  font-weight: 600;
+  color: #7F7F7F;
+  width: calc(100% / var(--headers));
+}
+.Table .tableContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 31px;
+  padding-block: 10px;
+  border-radius: 15px;
+  font-size: 18px;
+}
+.Table .tableContent td {
+  width: calc(100% / var(--headers));
+  padding-inline: 1vw;
+  text-align: center;
+  height: 100%;
+  font-weight: 0;
+}
+.Table .tableContent td span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.Table .tableContent td .node {
+  height: 6vh;
+}
+.Table .tableContent.evenRow {
+  background-color: #F4F6FA;
+}
+.Table .tableContent.oddRow {
+  background-color: white;
+}
