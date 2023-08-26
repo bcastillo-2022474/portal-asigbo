@@ -14,7 +14,7 @@
 .inputTextContainer select{
     font-family: var(--app-plain-text-font--);
     font-size: 17px;
-    padding: 12px;
+    padding: 0 12px;
     border: 1px solid #b8bfc3;
     border-radius: 7px;
     background-color: #F0F0F0;

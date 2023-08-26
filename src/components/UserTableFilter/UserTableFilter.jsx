@@ -14,8 +14,8 @@ function UserTableFilter({
   onChange,
   onAddAllClick,
   onDeleteAllClick,
-  addAll,
-  deleteAll,
+  showAddAllOption,
+  showDeleteAllOption,
 }) {
   const [filter, setFilter] = useState({});
   const token = useToken();
@@ -42,12 +42,21 @@ function UserTableFilter({
   return (
     <div className={`${styles.userTableFilter} ${className}`}>
       <div className={styles.buttonContainer}>
-        {!deleteAll && <Button text="Añadir todos" disabled={!addAll} onClick={onAddAllClick} />}
-        {deleteAll && <Button text="Eliminar todos" red onClick={onDeleteAllClick} />}
+        {!showDeleteAllOption && <Button text="Añadir todos" disabled={!showAddAllOption} onClick={onAddAllClick} />}
+        {showDeleteAllOption && <Button text="Eliminar todos" red onClick={onDeleteAllClick} />}
       </div>
       <div className={styles.inputContainer}>
         <InputSearchSelect
-          className={styles.searchInput}
+          className={styles.selectInput}
+          placeholder="Estado"
+          value={filter.status}
+          onChange={(e) => handleChange('status', e.target.value)}
+          options={
+            [{ title: 'Agregado', value: '1' }]
+          }
+        />
+        <InputSearchSelect
+          className={styles.selectInput}
           placeholder="Promoción"
           value={filter.promotion}
           onChange={(e) => handleChange('promotion', e.target.value)}
@@ -80,8 +89,8 @@ export default UserTableFilter;
 
 UserTableFilter.propTypes = {
   className: PropTypes.string,
-  addAll: PropTypes.bool,
-  deleteAll: PropTypes.bool,
+  showAddAllOption: PropTypes.bool,
+  showDeleteAllOption: PropTypes.bool,
   onChange: PropTypes.func,
   onAddAllClick: PropTypes.func,
   onDeleteAllClick: PropTypes.func,
@@ -89,8 +98,8 @@ UserTableFilter.propTypes = {
 
 UserTableFilter.defaultProps = {
   className: '',
-  addAll: false,
-  deleteAll: false,
+  showAddAllOption: false,
+  showDeleteAllOption: false,
   onChange: null,
   onAddAllClick: null,
   onDeleteAllClick: null,

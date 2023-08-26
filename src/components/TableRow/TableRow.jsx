@@ -43,7 +43,7 @@ TableRow.propTypes = {
   id: PropTypes.string.isRequired,
   children: PropTypes.node,
   onClick: PropTypes.func,
-  onSelect: PropTypes.func.isRequired,
+  onSelect: PropTypes.func,
   checked: PropTypes.bool,
   header: PropTypes.arrayOf(PropTypes.string),
   useVerticalStyle: PropTypes.bool,
@@ -59,4 +59,5 @@ TableRow.defaultProps = {
   useVerticalStyle: false,
   maxCellWidth: null,
   showCheckbox: true,
+  onSelect: null,
 };

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { scrollbarGray } from '@styles/scrollbar.module.css';
 import styles from './Table.module.css';
 import Spinner from '../Spinner/Spinner';
+import randomString from '../../helpers/randomString';
 /**
  * Componente para crear las tablas del proyecto.
  *
@@ -31,6 +32,7 @@ function Table({
   onSelectedRowsChange,
   className,
   loading,
+  resetRowSelection,
 }) {
   const [selectedRowsId, setSelectedRowsId] = useState([]);
   const [useVerticalStyle, setUseVerticalStyle] = useState(false);
@@ -70,6 +72,17 @@ function Table({
     if (onSelectedRowsChange) onSelectedRowsChange(selectedRowsId);
   }, [selectedRowsId]);
 
+  useEffect(() => {
+    // cada vez que se muestre el loading, resetear filas seleccionadas
+    setSelectedRowsId([]);
+  }, [loading]);
+
+  useEffect(() => {
+    // resetear seleccion de filas
+    if (resetRowSelection === null) return;
+    setSelectedRowsId([]);
+  }, [resetRowSelection]);
+
   return (
     <div
       className={`${styles.tableContainer} ${scrollbarGray} ${
@@ -85,12 +98,16 @@ function Table({
                 <input
                   type="checkbox"
                   onChange={handleSelectAll}
-                  checked={selectedRowsId.length === (children?.length ?? 1)}
+                  checked={
+                    selectedRowsId.length === (children?.length ?? 1) && selectedRowsId.length !== 0
+                  }
                 />
               </td>
             )}
             {header?.map((val) => (
-              <td style={{ maxWidth: maxCellWidth }}>{val}</td>
+              <td style={{ maxWidth: maxCellWidth }} key={randomString(10)}>
+                {val}
+              </td>
             ))}
           </tr>
         </thead>
@@ -103,9 +120,12 @@ function Table({
             </tr>
           )}
 
-          {!loading && !children && (
+          {!loading && !(children?.length > 0) && (
             <tr>
-              <td className={`${styles.completeRow} ${styles.noResults}`} colSpan={(header?.length ?? 0) + 1}>
+              <td
+                className={`${styles.completeRow} ${styles.noResults}`}
+                colSpan={(header?.length ?? 0) + 1}
+              >
                 No hay resultados.
               </td>
             </tr>
@@ -142,6 +162,7 @@ Table.propTypes = {
   onSelectedRowsChange: PropTypes.func,
   className: PropTypes.string,
   loading: PropTypes.bool,
+  resetRowSelection: PropTypes.number,
 };
 
 Table.defaultProps = {
@@ -152,4 +173,5 @@ Table.defaultProps = {
   onSelectedRowsChange: null,
   className: '',
   loading: false,
+  resetRowSelection: null,
 };

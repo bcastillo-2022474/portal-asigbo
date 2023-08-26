@@ -1,4 +1,4 @@
-.userTableFilter{
+.userTableFilter {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap-reverse;
@@ -6,29 +6,42 @@
   row-gap: 10px;
 }
 
-.buttonContainer{
+.buttonContainer {
   flex-shrink: 0;
   display: flex;
   justify-content: center;
 }
 
-.inputContainer{
+.inputContainer {
   display: flex;
   column-gap: 15px;
   row-gap: 10px;
-  flex-wrap: wrap-reverse;
+  flex-wrap: wrap;
   justify-content: flex-end;
-  flex:1;
+  flex: 1;
 }
 
-.searchInput{
+.searchInput {
   flex: 1;
   min-width: 200px !important;
 }
 
+.selectInput {
+  flex: unset;
+  min-width: 160px !important;
+  width: 160px !important;
+}
 
-@media only screen and (min-width: 600px){
-  .searchInput{
+
+@media only screen and (min-width: 600px) {
+  .searchInput {
     max-width: 300px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .selectInput {
+    flex: 1;
+    width: 100% !important;
   }
 }
