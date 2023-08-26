@@ -6,4 +6,9 @@ export default {
     asigboAreaResponsible: 'asigboAreaResponsible',
     mobileBreakpoint: '760px',
   },
+  promotionsGroups: {
+    chick: 'Pollito',
+    student: 'Estudiante',
+    graduate: 'Graduado',
+  },
 };

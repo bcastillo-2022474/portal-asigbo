@@ -7,11 +7,11 @@ function Button({
   text,
   onClick,
   type,
+  className,
   disabled = false,
   red,
   emptyRed,
   green,
-  className,
 }) {
   return (
     <button
@@ -24,14 +24,14 @@ function Button({
       onClick={onClick}
       disabled={disabled}
     >
-      <span>{text}</span>
+      {text}
     </button>
   );
 }
 
 Button.propTypes = {
   text: PropTypes.string.isRequired,
-  onClick: PropTypes.isRequired,
+  onClick: PropTypes.func,
   type: PropTypes.string,
   disabled: PropTypes.bool.isRequired,
   className: PropTypes.string,
@@ -42,6 +42,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   className: '',
+  onClick: null,
   red: false,
   emptyRed: false,
   green: false,

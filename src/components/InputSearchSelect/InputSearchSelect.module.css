@@ -1,0 +1,44 @@
+.inputTextContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.inputTextContainer label{
+    text-transform: capitalize;
+    font-size: 14px;
+    color:#828484;
+    text-align: left;
+}
+
+.inputTextContainer select{
+    font-family: var(--app-plain-text-font--);
+    font-size: 17px;
+    padding: 12px;
+    border: 1px solid #b8bfc3;
+    border-radius: 7px;
+    background-color: #F0F0F0;
+    outline: none;
+    height: 45px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+
+.inputTextContainer select.placeHolderStyle{
+    color: #757575;
+}
+.inputTextContainer.error select{
+    border-color: var(--error-color--);
+}
+
+.inputTextContainer.error label{
+    color:var(--error-color--)
+}
+
+.inputTextContainer .inputError{
+    text-align: left;
+    color: var(--error-color--);
+    font-size: 15px;
+    font-weight: normal;
+}

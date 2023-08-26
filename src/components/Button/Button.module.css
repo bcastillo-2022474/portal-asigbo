@@ -3,17 +3,22 @@
   padding: 10px 15px;
   outline: none;
   border: none;
-  font-family: helvetica;
   font-size: 16px;
   cursor: pointer;
   height: fit-content;
-} 
+}
 
-.button:focus{
+.button:disabled, .button:disabled:hover{
+  background-color: #e5e5e5;
+  color: gray;
+  cursor: not-allowed;
+}
+
+.button:not(:disabled):focus{
     outline: none;
 }
 
-.button:hover{
+.button:not(:disabled):hover{
     opacity: 0.7;
 }
 
@@ -22,7 +27,6 @@
 .button{
   background-color: #16337F;
   color: white;
-  font-weight: bold;
 }
 
 .button:active{
