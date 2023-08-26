@@ -55,7 +55,7 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
     if (userFilters.search?.trim() !== '') {
       // filtrar por nombre
       const searchRegex = new RegExp(userFilters.search, 'gi');
-      if (!user.name.match(searchRegex) && !user.lastname.match(searchRegex)) {
+      if (!`${user.name} ${user.lastname}`.match(searchRegex)) {
         return false;
       }
     }
