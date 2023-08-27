@@ -22,7 +22,7 @@
   line-height: 2;
 }
 
-form{
+.finishRegistrationPage form{
   display: grid;
   grid-template-columns: 150px 1fr;
   grid-template-rows: min-content  min-content 1fr;

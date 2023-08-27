@@ -42,7 +42,7 @@ function UserTableFilter({
   return (
     <div className={`${styles.userTableFilter} ${className}`}>
       <div className={styles.buttonContainer}>
-        {!showDeleteAllOption && <Button text="Añadir todos" disabled={!showAddAllOption} onClick={onAddAllClick} />}
+        {!showDeleteAllOption && <Button text="Añadir todos" green disabled={!showAddAllOption} onClick={onAddAllClick} />}
         {showDeleteAllOption && <Button text="Eliminar todos" red onClick={onDeleteAllClick} />}
       </div>
       <div className={styles.inputContainer}>

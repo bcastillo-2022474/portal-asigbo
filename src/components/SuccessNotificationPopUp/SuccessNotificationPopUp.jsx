@@ -4,9 +4,10 @@ import PopUp from '@components/PopUp';
 import styles from './SuccessNotificationPopUp.module.css';
 
 function SuccessNotificationPopUp({
-  close, title, text, callback,
+  close, isOpen, title, text, callback,
 }) {
   return (
+    isOpen && (
     <PopUp close={close} maxWidth={370} callback={callback}>
       <div className={styles.notification}>
         <div className={styles.iconContainer}>
@@ -19,6 +20,7 @@ function SuccessNotificationPopUp({
         {text ? <p>{text}</p> : null}
       </div>
     </PopUp>
+    )
   );
 }
 
@@ -29,10 +31,12 @@ SuccessNotificationPopUp.propTypes = {
   callback: PropTypes.func,
   title: PropTypes.string,
   text: PropTypes.string,
+  isOpen: PropTypes.bool,
 };
 
 SuccessNotificationPopUp.defaultProps = {
   callback: null,
   text: 'Operación realizada exitosamente',
   title: 'La operación se realizó correctamente.',
+  isOpen: false,
 };

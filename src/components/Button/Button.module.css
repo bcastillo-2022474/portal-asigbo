@@ -9,8 +9,8 @@
 }
 
 .button:disabled, .button:disabled:hover{
-  background-color: #e5e5e5;
-  color: gray;
+  background-color: #e5e5e5 !important;
+  color: gray !important;
   cursor: not-allowed;
 }
 
@@ -55,4 +55,10 @@
 }
 .button.red:active{
   background-color: #c01b1b;
+}
+
+
+.button.green{
+  background-color: #068b06;
+  color: white;
 }

@@ -9,9 +9,15 @@
   --blue-theme-color--:#16337f; 
 
   --text-font-size--:16px;
+  --h1-title-size--:35px;
+  --h2-title-size--: 25px;
+  --h3-title-size--: 20px;
+  --h4-title-size--: 17px;
 
   --navbar-height--: 70px;
 
+  --page-horizontal-padding--: 50px;
+  --page-vertical-padding--: 50px;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -34,4 +40,11 @@ html, body, #root{
 #root {
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+@media only screen and (max-width: 400px){
+  :root{
+    --page-horizontal-padding--: 25px;
+  --page-vertical-padding--: 25px;
+  }
 }

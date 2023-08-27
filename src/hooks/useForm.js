@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import parseErrorObject from '../helpers/parseErrorObject';
 
-function useForm({ schema }) {
+function useForm(schema) {
   const [form, setForm] = useState({});
   const [error, setError] = useState();
 

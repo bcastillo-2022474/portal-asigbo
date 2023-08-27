@@ -4,9 +4,10 @@ import PopUp from '@components/PopUp';
 import styles from './ErrorNotificationPopUp.module.css';
 
 function ErrorNotificationPopUp({
-  close, title, text, callback,
+  close, isOpen, title, text, callback,
 }) {
   return (
+    isOpen && (
     <PopUp close={close} maxWidth={370} callback={callback}>
       <div className={styles.notification}>
         <div className={styles.iconContainer}>
@@ -20,6 +21,7 @@ function ErrorNotificationPopUp({
         {text ? <p>{text}</p> : null}
       </div>
     </PopUp>
+    )
   );
 }
 
@@ -30,10 +32,12 @@ ErrorNotificationPopUp.propTypes = {
   callback: PropTypes.func,
   title: PropTypes.string,
   text: PropTypes.string,
+  isOpen: PropTypes.bool,
 };
 
 ErrorNotificationPopUp.defaultProps = {
   callback: null,
   text: 'Ocurrió un error.',
   title: 'Ocurrió un error',
+  isOpen: false,
 };

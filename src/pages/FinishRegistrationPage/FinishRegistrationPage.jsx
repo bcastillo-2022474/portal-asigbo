@@ -22,9 +22,7 @@ import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp'
 function FinishRegistrationPage() {
   const {
     form, error, setData, validateField, clearFieldError, validateForm,
-  } = useForm({
-    schema: registrationSchema,
-  });
+  } = useForm(registrationSchema);
 
   const {
     callFetch, loading, error: fetchError, result,
@@ -161,8 +159,9 @@ function FinishRegistrationPage() {
               onBlur={handleValidateField}
             />
             {fetchError && !loading && <p className={styles.globalError}>{fetchError.message}</p>}
-            {!loading && !result
-              && <Button type="submit" text="Continuar" className={styles.buttonItem} />}
+            {!loading && !result && (
+              <Button type="submit" text="Continuar" className={styles.buttonItem} />
+            )}
 
             {loading && <Spinner className={styles.buttonItem} />}
           </form>
@@ -170,21 +169,19 @@ function FinishRegistrationPage() {
       )}
       {validateAccessLoading && <LoadingView />}
 
-      {isErrorOpen && (
-        <ErrorNotificationPopUp
-          close={closeError}
-          text="No estás autorizado para realizar esta acción."
-          callback={navigateToHome}
-        />
-      )}
+      <ErrorNotificationPopUp
+        close={closeError}
+        text="No estás autorizado para realizar esta acción."
+        callback={navigateToHome}
+        isOpen={isErrorOpen}
+      />
 
-      {isSuccessOpen && (
-        <SuccessNotificationPopUp
-          close={closeSuccess}
-          text="Haz completado tu perfil exitosamente."
-          callback={forceLogin}
-        />
-      )}
+      <SuccessNotificationPopUp
+        close={closeSuccess}
+        text="Haz completado tu perfil exitosamente."
+        callback={forceLogin}
+        isOpen={isSuccessOpen}
+      />
     </UnloggedPageContainer>
   );
 }

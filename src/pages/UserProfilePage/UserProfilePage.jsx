@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import HolderIcon from '../../assets/icons/HolderIcon';
@@ -6,7 +7,7 @@ import useLoggedInfo from '../../hooks/useLoggedInfo';
 import useEnrolledActivities from '../../hooks/useEnrolledActivities';
 import LoadingView from '../../components/LoadingView';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
-import Table from '../../components/Table/Table';
+import Table2 from '../../components/Table2/Table';
 
 function UserProfilePage() {
   const [loading, setLoading] = useState(true);
@@ -86,7 +87,7 @@ function UserProfilePage() {
             </div>
             {errorActivities
               ? <span>{errorActivities.message}</span>
-              : <Table headers={headers} content={content} />}
+              : <Table2 headers={headers} content={content} />}
           </div>
         </div>
       )}
