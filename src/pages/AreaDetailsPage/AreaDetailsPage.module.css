@@ -1,0 +1,52 @@
+.areaDetailsPage {
+  padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.nameContainer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 20px;
+}
+
+.areaIcon {
+  width: 32px;
+  height: 32px;
+}
+
+.pageTitle {
+  font-size: var(--h1-title-size--);
+  text-align: center;
+}
+
+.sectionTitle {
+  font-size: var(--h3-title-size--);
+  margin-top: 50px;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .pageHeader {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .buttonsContainer {
+
+    margin-bottom: 25px;
+  }
+
+}

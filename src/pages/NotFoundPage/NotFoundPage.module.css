@@ -1,0 +1,17 @@
+.notFoundPage{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 25px;
+}
+
+.banner{
+  width: 30vw;
+  max-height: 50vh;
+}
+
+.title{
+  font-size: 40px;
+}
