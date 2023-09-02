@@ -1,0 +1,61 @@
+.areaIcon{
+  width: 32px;
+  height: 32px;
+}
+
+.cellContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+.rightButton{
+  width: fit-content;
+  height: min-content;
+  border: 0; 
+  border-radius: 5px;
+  padding: 3px;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.rightButton:hover{
+  background-color: #e5e5e5;
+}
+
+.rightArrowIcon{
+  display: flex;
+  font-size: 25px;
+  margin: auto;
+  color: var(--blue-theme-color--);
+  font-weight: bold;
+  stroke-width: 30;
+}
+
+.defaultIcon{
+  width: 32px;
+  height: 32px;
+  color: #4b4b4b;
+} 
+
+/*El breakpoint debe coincidir con el proporcionado a la tabla*/
+@media only screen and (min-width: 450px){
+  .responsiveButton{
+    display: none !important;
+  }
+}
+
+/*El breakpoint debe coincidir con el proporcionado a la tabla*/
+@media only screen and (max-width: 450px){
+  .arrowColumn{
+    display: none !important;
+  }
+
+  .cellContainer{
+    justify-content: space-between;
+  }
+
+  .nameColumn{
+    text-align: left !important;
+  }
+}

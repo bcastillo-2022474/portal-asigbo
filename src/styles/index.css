@@ -42,6 +42,10 @@ html, body, #root{
   overflow-x: hidden;
 }
 
+a{
+  color: black;
+}
+
 @media only screen and (max-width: 400px){
   :root{
     --page-horizontal-padding--: 25px;

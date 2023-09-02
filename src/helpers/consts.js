@@ -11,4 +11,8 @@ export default {
     student: 'Estudiante',
     graduate: 'Graduado',
   },
+  imageRoute: {
+    user: 'image/user',
+    area: 'image/area',
+  },
 };
