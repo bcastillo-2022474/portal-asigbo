@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Icon.scss';
+import styles from './Icon.module.css';
 
 function HolderIcon({
   fill, width, height, className,
@@ -16,7 +16,7 @@ HolderIcon.defaultProps = {
   fill: 'none',
   width: '100%',
   height: '100%',
-  className: 'HolderIcon Icon',
+  className: `HolderIcon ${styles.Icon}`,
 };
 
 HolderIcon.propTypes = {

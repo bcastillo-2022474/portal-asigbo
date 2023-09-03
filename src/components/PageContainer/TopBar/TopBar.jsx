@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import MenuIcon from '../../../assets/icons/MenuIcon';
-import mobileImg from '../../../assets/bgLoginMobile.jpg';
-import styles from './TopBar.module.scss';
+import styles from './TopBar.module.css';
+import UserInfo from '../UserInfo/UserInfo';
 /*
 
 TopBar: Es un componente que establece la barra superior de cualquier página autenticada,
@@ -15,33 +15,8 @@ se deberá proveer de un logo y el nombre del becado
 
 */
 function TopBar({ toggler, logo, name }) {
-  const [isMobile, setMobile] = useState(false);
-
-  useEffect(() => {
-    function handleWindow() {
-      if (window.innerWidth < 768) {
-        setMobile(mobileImg);
-      } else {
-        setMobile(false);
-      }
-    }
-
-    handleWindow();
-
-    window.addEventListener('resize', handleWindow);
-
-    return () => {
-      window.removeEventListener('resize', handleWindow);
-    };
-  }, []);
-
   return (
     <nav className={styles.TopBar}>
-      {isMobile && (
-      <div className={styles.bgContainer}>
-        <div className={styles.colorLayer} />
-      </div>
-      )}
       <div className={styles.mainBar}>
         {/* Botón toggle */}
         <button className={styles.icon} onClick={toggler} type="button">
@@ -53,12 +28,7 @@ function TopBar({ toggler, logo, name }) {
         </button>
       </div>
       {/* Nombre e ícono del becado */}
-      <div className={styles.nameInfo}>
-        <span>{name}</span>
-        <div className={styles.initialCircle}>
-          { name ? name.charAt(0) : 'X'}
-        </div>
-      </div>
+      <UserInfo className={styles.userInfo} name={name} />
     </nav>
   );
 }

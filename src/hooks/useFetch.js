@@ -8,7 +8,15 @@ function useFetch() {
   const { apiFetch } = useApiFetch();
 
   const callFetch = async ({
-    uri, method = 'GET', body, headers, signal, toJson = true, parse = true, removeContentType = false,
+    uri,
+    method = 'GET',
+    body,
+    headers,
+    signal,
+    toJson = true,
+    parse = true,
+    removeContentType = false,
+    autoRefreshAccessToken,
   }) => {
     setResult(null);
     setError(null);
@@ -21,7 +29,12 @@ function useFetch() {
       if (removeContentType) delete heads['Content-Type'];
 
       const reply = await apiFetch({
-        uri, method, body, headers: heads, signal,
+        uri,
+        method,
+        body,
+        headers: heads,
+        signal,
+        autoRefreshAccessToken,
       });
 
       let res;
@@ -31,14 +44,20 @@ function useFetch() {
 
       setResult(res ?? true);
     } catch (ex) {
-      setError({ status: ex?.status, message: ex?.statusMessage ?? ex?.statusText ?? 'Ocurrió un error.' });
+      setError({
+        status: ex?.status,
+        message: ex?.statusMessage ?? ex?.statusText ?? 'Ocurrió un error.',
+      });
     } finally {
       setLoading(false);
     }
   };
 
   return {
-    callFetch, result, error, loading,
+    callFetch,
+    result,
+    error,
+    loading,
   };
 }
 

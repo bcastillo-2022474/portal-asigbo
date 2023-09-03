@@ -5,7 +5,7 @@ import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letra
 import NavMenu from './NavMenu/NavMenu';
 import TopBar from './TopBar/TopBar';
 import getTokenPayload from '../../helpers/getTokenPayload';
-import styles from './PageContainer.module.scss';
+import styles from './PageContainer.module.css';
 
 /*
 

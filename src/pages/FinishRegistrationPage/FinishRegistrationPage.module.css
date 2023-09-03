@@ -1,0 +1,66 @@
+.finishRegistrationPage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 25px;
+}
+
+.logo{
+  width: 400px;
+}
+
+.title{
+  font-size: 35px;
+  font-weight: 600;
+  margin-top: -10px;
+  text-align: center;
+}
+
+.instructions{
+  font-size: 20px;
+  text-align: center;
+  line-height: 2;
+}
+
+form{
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  grid-template-rows: min-content  min-content 1fr;
+  column-gap: 40px;
+  width: 90%;
+  max-width: 600px;
+  place-items: center;
+  margin-top: 50px;
+}
+
+.inputPhoto{
+  grid-row: span 2;
+}
+
+.buttonItem, .globalError{
+  grid-column: 2;
+  width: fit-content;
+  margin-top: 30px;
+}
+
+.globalError{
+  color: var(--error-color--)
+}
+
+@media only screen and (max-width: 530px){
+  form{
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+.inputPhoto{
+  grid-row: 1;
+  width: fit-content;
+}
+
+.buttonItem, .globalError{
+  grid-column: 1;
+  margin: 0;
+}
+
+}

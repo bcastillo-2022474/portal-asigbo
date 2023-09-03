@@ -1,0 +1,34 @@
+.userTableFilter{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap-reverse;
+  column-gap: 30px;
+  row-gap: 10px;
+}
+
+.buttonContainer{
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.inputContainer{
+  display: flex;
+  column-gap: 15px;
+  row-gap: 10px;
+  flex-wrap: wrap-reverse;
+  justify-content: flex-end;
+  flex:1;
+}
+
+.searchInput{
+  flex: 1;
+  min-width: 200px !important;
+}
+
+
+@media only screen and (min-width: 600px){
+  .searchInput{
+    max-width: 300px;
+  }
+}

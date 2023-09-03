@@ -1,12 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import UserProfilePage from '../UserProfilePage/UserProfilePage';
+import PageContainer from '../../components/PageContainer/PageContainer';
 
 function UserIndexPage() {
   return (
-    <Routes>
-      <Route path="/" element={<UserProfilePage />} />
-    </Routes>
+    <PageContainer>
+      <Routes>
+        <Route path="/" element={<UserProfilePage />} />
+      </Routes>
+    </PageContainer>
   );
 }
 

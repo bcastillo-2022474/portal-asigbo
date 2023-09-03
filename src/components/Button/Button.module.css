@@ -1,0 +1,58 @@
+.button{
+  border-radius: 8px;
+  padding: 10px 15px;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  height: fit-content;
+}
+
+.button:disabled, .button:disabled:hover{
+  background-color: #e5e5e5;
+  color: gray;
+  cursor: not-allowed;
+}
+
+.button:not(:disabled):focus{
+    outline: none;
+}
+
+.button:not(:disabled):hover{
+    opacity: 0.7;
+}
+
+/* Azul del tema de asigbo (default) */
+
+.button{
+  background-color: #16337F;
+  color: white;
+}
+
+.button:active{
+  background-color: #425775;
+}
+
+
+/* Boton rojo sin fondo */
+
+.button.emptyRed{
+  color: rgb(144, 10, 0);    
+  background-color: #e5e5e5;
+}
+
+.button.emptyRed:hover{
+  color: rgb(255, 46, 31);
+  
+}
+
+/* Botón rojo con fondo */
+.button.red{
+  background-color: #da1212;
+}
+.button.red:hover{
+  background-color: #eb3939;
+}
+.button.red:active{
+  background-color: #c01b1b;
+}

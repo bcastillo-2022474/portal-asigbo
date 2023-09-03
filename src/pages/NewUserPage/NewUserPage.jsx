@@ -46,7 +46,7 @@ function NewUserPage() {
         <div className={styles.iconWrapper}>
           <NavMenuButton
             icon={<ExcelIcon height="80%" width="80%" />}
-            label={handleIconClick}
+            clickCallback={handleIconClick}
           />
         </div>
       </div>

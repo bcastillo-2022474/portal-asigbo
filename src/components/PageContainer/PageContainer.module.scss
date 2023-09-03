@@ -70,7 +70,7 @@ $normalMobileSideBarWidth: 60vw;
     display: flex;
     flex-direction: row;
     width: 100%;
-    transition: width $toggleTimeAnimation ease, left $toggleTimeAnimation ease;
+    transition: left $toggleTimeAnimation ease;
   
     .content{
       position: absolute;
@@ -78,7 +78,7 @@ $normalMobileSideBarWidth: 60vw;
       max-height: 100%;
       overflow-y: auto;
       top: 0;
-      transition: inherit;
+      transition: width $toggleTimeAnimation ease, left $toggleTimeAnimation ease;
 
       &::-webkit-scrollbar{
         width: 20px;

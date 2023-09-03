@@ -1,0 +1,46 @@
+.searchInput {
+  background-color: #F0F0F0;
+  display: flex;
+  height: 45px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  overflow: hidden;
+  border:1px solid #b8bfc3;
+  min-width: 150px;
+}
+
+.searchInput input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: var(--app-text-size--);
+  padding: 0 0 0 15px;
+  font-family: inherit;
+  box-sizing: border-box;
+  flex: 1;
+  width: 100%;
+  color: black;
+}
+
+.searchButton {
+  height: 100%;
+  padding: 0 17px 0 15px;
+  border: none;
+  outline: none;
+  background-color: #1C2532;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: .3s ease background-color;
+  box-sizing: border-box;
+  width: fit-content;
+}
+
+.searchButton:active {
+  background-color: #2f3b4c;
+  opacity: 1;
+}
+
+.searchButton:hover {
+  opacity: 0.9;
+}

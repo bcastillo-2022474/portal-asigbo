@@ -1,0 +1,65 @@
+.tableContainer{
+  width: 100%;
+  height: fit-content;
+  overflow-x: auto;
+  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  line-height: 30px;
+}
+
+.table {
+  min-width: 100%;
+  text-align: center;
+  border: none;
+  border-spacing: 0;
+  border-collapse: collapse;
+  padding: 10px;
+  box-shadow: 0 0 2px 0.5px rgba(0, 0, 0, .2);
+}
+
+.table thead tr {
+  color: #7f7f7f;
+  font-size: 20px;
+  font-weight: 600;
+
+}
+
+.checkboxCell{
+  width: fit-content;
+  padding-left: 15px !important;
+  padding-right: 0 !important;
+}
+
+.table thead td {
+  box-sizing: border-box;
+  padding: 7px 25px 7px 25px;
+}
+
+.verticalDesign{
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.verticalDesign thead{
+  display: none;
+}
+
+.verticalDesign table{
+  display: block;
+  width: 100%;
+  box-shadow: none;
+}
+
+.verticalDesign tbody{
+  width: 100%;
+  display: block;
+}
+
+.completeRow{
+  padding: 40px 0;
+}
+
+.noResults{
+  font-size: 18px;
+  color: gray;
+}

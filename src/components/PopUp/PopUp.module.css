@@ -1,0 +1,112 @@
+.popUp{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  animation: showBackground 0.3s ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  
+  --headerSize: 25px;
+  --iconSize: 15px;
+}
+
+@keyframes showBackground{
+
+  from{
+      opacity: 0;
+  }
+
+  to{
+      opacity: 1;
+  }
+}
+
+.popUpBody{
+  width: 85vw;   
+  background-color: white;
+  border-radius: 15px;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: auto;
+  animation: showPopUp .5s;
+  box-sizing: border-box;
+  max-height: 90vh;
+  
+}
+
+.popUpHeader{
+  width: 100%;
+  height: var(--headerSize);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding-right: calc(var(--headerSize) - var(--iconSize));
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+
+}
+
+.xIcon{
+  background-image: url(../../assets/icons/x-icon.svg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: var(--iconSize);
+  height: var(--iconSize);
+  cursor: pointer;
+}
+
+.popUpBodyContainer{
+  padding:var(--headerSize);
+  padding-top: 0;
+  overflow-y: auto;
+}
+
+@keyframes showPopUp{
+
+  from{
+      opacity: 0;
+      transform: translateY(-15px);
+  }
+
+  to{
+      opacity: 1;
+  }
+}
+
+@media only screen and (max-width:530px){
+  .popUpBody{
+      width: 95vw;
+  }
+}
+
+
+/*Scroll bar*/
+.scrollbarGray::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  transition: all .1s ease;
+
+}
+
+.scrollbarGray::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background: #345f75
+}
+
+.scrollbarGray::-webkit-scrollbar-thumb:hover {
+  background-color: #3b6978;
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.scrollbarGray::-webkit-scrollbar-thumb:active {
+  background: #46738b;
+}
