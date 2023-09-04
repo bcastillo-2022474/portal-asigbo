@@ -27,7 +27,7 @@
     min-width: 330px;
 }
 
-@media (min-width: 700px){
+@media (min-aspect-ratio: 1/1){
 
     .logoAsigboMobile{
         display: none;
@@ -60,7 +60,7 @@
     }
 }
 
-@media (max-width: 700px){
+@media (max-aspect-ratio: 1/1){
 
     .wavesWrapper{
         display: none;
@@ -161,7 +161,7 @@
     background-color: var(--blue-theme-color--);
 }
   
-@media only screen and (max-width: 700px) and (min-height: 750px){
+@media only screen and (min-height: 750px){
 
     .bottomWaveWrapper{
         display: block;

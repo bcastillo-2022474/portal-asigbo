@@ -44,7 +44,8 @@ function LoginPage() {
     return false;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     clearErrors();
     if (!(validateEmail() && validatePassword())) return;
     login(form);
@@ -54,7 +55,7 @@ function LoginPage() {
     <div className={styles.loginPageContainer}>
       <div className={styles.formContainer}>
         <img alt="ASIGBO logo" className={styles.logoAsigboMobile} src={logo} />
-        <div className={styles.form}>
+        <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
           <img alt="ASIGBO logo" className={styles.logoAsigbo} src={logo} />
           <h1>Iniciar sesión</h1>
           <span
@@ -85,11 +86,11 @@ function LoginPage() {
           />
           {error && <div className={styles.errorMessage}>{error?.message ?? 'Ocurrió un error.'}</div>}
           <div className={styles.buttonWrapper}>
-            {!loading && (<button className={`${button} ${blue}`} type="submit" onClick={handleSubmit}>Iniciar sesión</button>)}
+            {!loading && (<button className={`${button} ${blue}`} type="submit">Iniciar sesión</button>)}
             {loading && <Spinner />}
           </div>
           <span className={styles.forgotPassword}>¿Olvidaste tu contraseña?</span>
-        </div>
+        </form>
       </div>
       <div className={styles.bottomWaveWrapper}>
         <BottomWave className={styles.wave} />
