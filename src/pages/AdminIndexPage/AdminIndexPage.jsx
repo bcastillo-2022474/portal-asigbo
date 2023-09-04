@@ -14,7 +14,7 @@ function AdminIndexPage() {
       <Routes>
         <Route path="/" element={<AdminProfilePage />} />
         <Route path="/newUser" element={<NewUserPage />} />
-        <Route path="/area/:idArea" element={<AreaDetailsPage adminPrivileges />} />
+        <Route path="/area/:idArea/*" element={<AreaDetailsPage adminPrivileges />} />
         <Route path="/area/nuevo" element={<NewAreaPage />} />
         <Route path="/configuracion" element={<GlobalConfigPage />} />
         <Route path="*" element={<NotFoundPage />} />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import { BiSolidImage as ImageIcon } from 'react-icons/bi';
 import styles from './AreaDetailsPage.module.css';
 import { serverHost } from '../../config';
@@ -10,6 +10,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import consts from '../../helpers/consts';
 import UserTable from '../../components/UserTable/UserTable';
 import Button from '../../components/Button/Button';
+import TabMenu from '../../components/TabMenu/TabMenu';
 
 function AreaDetailsPage({ adminPrivileges }) {
   const {
@@ -29,33 +30,51 @@ function AreaDetailsPage({ adminPrivileges }) {
     <>
       {loading && <LoadingView />}
       {area && (
-      <div className={styles.areaDetailsPage}>
+        <div className={styles.areaDetailsPage}>
+          <header className={styles.pageHeader}>
+            <h1 className={styles.pageTitle}>Eje de ASIGBO</h1>
+            {adminPrivileges && (
+              <div className={styles.buttonsContainer}>
+                <Button text="Editar" />
+                <Button text="Eliminar" red />
+              </div>
+            )}
+          </header>
 
-        <header className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Eje de ASIGBO</h1>
-          {adminPrivileges && (
-          <div className={styles.buttonsContainer}>
-            <Button text="Editar" />
-            <Button text="Eliminar" red />
+          <div className={styles.nameContainer}>
+            {!iconError ? (
+              <img
+                className={styles.areaIcon}
+                src={`${serverHost}/${consts.imageRoute.area}/${area.id}`}
+                alt={area.name}
+                onError={() => setIconError(true)}
+              />
+            ) : (
+              <ImageIcon className={styles.defaultIcon} />
+            )}
+            <span>{area.name}</span>
           </div>
-          )}
-        </header>
 
-        <div className={styles.nameContainer}>
-          {!iconError ? (
-            <img
-              className={styles.areaIcon}
-              src={`${serverHost}/${consts.imageRoute.area}/${area.id}`}
-              alt={area.name}
-              onError={() => setIconError(true)}
+          <TabMenu
+            className={styles.tabMenu}
+            options={[
+              { text: 'Encargados', href: '' },
+              { text: 'Actividades', href: 'actividades' },
+            ]}
+          />
+          <Routes>
+            <Route
+              path="/"
+              element={(
+                <>
+                  <h3 className={styles.sectionTitle}>Encargados</h3>
+                  <UserTable users={area.responsible.sort((a, b) => a.promotion - b.promotion)} />
+                </>
+              )}
             />
-          ) : <ImageIcon className={styles.defaultIcon} />}
-          <span>{area.name}</span>
+            <Route path="/actividades" element={<span>hola</span>} />
+          </Routes>
         </div>
-
-        <h3 className={styles.sectionTitle}>Encargados</h3>
-        <UserTable users={area.responsible.sort((a, b) => a.promotion - b.promotion)} />
-      </div>
       )}
       {error && <NotFoundPage />}
     </>

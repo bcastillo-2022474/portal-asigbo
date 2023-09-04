@@ -17,6 +17,10 @@
   height: 32px;
 }
 
+.tabMenu{
+  margin-bottom: 30px;
+}
+
 .pageTitle {
   font-size: var(--h1-title-size--);
   text-align: center;
@@ -24,7 +28,6 @@
 
 .sectionTitle {
   font-size: var(--h3-title-size--);
-  margin-top: 50px;
 }
 
 .pageHeader {

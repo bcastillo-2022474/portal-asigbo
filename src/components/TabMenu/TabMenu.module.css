@@ -1,0 +1,41 @@
+.tabMenu{
+  width: 100%;
+  border-bottom: 1px solid #d2d2d2;
+}
+
+.optionsList{
+  list-style: none;
+  display: flex;
+}
+
+.optionItem{
+  height: 60px;  
+}
+
+.optionLink{
+  height: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  text-align: center;
+}
+
+.optionLink.active{
+  color: var(--blue-theme-color--);
+  font-weight: bold;
+  border-bottom: 3px solid var(--blue-theme-color--);
+}
+
+.tabMenu.tabMenu.verticalDesign{
+  border-bottom: 0;
+}
+
+.tabMenu.verticalDesign .optionsList{
+  flex-direction: column;
+}
+
+.tabMenu.tabMenu.verticalDesign .optionItem:not(:last-child){
+  border-bottom: 1px solid #d2d2d2;
+}
