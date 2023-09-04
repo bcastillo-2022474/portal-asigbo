@@ -8,8 +8,8 @@ function InputText({
 }) {
   const id = randomId(15);
   return (
-    <div className={`${styles.inputTextContainer} ${error ? styles.error : ''}`}>
-      <input className={styles.inputField} type="text" {...props} id={id} name={name} defaultValue={value} onChange={onChange} />
+    <div className={`${styles.inputTextContainer} ${error ? styles.error : ''}`} {...props}>
+      <input className={styles.inputField} type="text" id={id} name={name} defaultValue={value} onChange={onChange} />
       <label className={styles.inputLabel} htmlFor={id}>
         <div className={styles.labelText}>{title}</div>
       </label>
