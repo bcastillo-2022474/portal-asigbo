@@ -4,7 +4,14 @@
     justify-content: flex-start;
     width: 100%;
     height: 100%;
+    min-height: 600px;
+    position: relative;
 }
+
+.headerContainer{
+    width: 100vw;
+}
+
 
 .formContainer{
     display: flex;
@@ -14,16 +21,13 @@
     height: 100%;
     position: relative;
     background-color: #ffffff;
+    width: calc(40vw - 20vh);
+    max-width: 600px;
+    min-height: 600px;
+    min-width: 330px;
 }
 
-@media (min-width: 1150px) {
-    .formContainer{
-        min-width: 700px;
-    }
-
-    .wavesWrapperMobile{
-        display: none;
-    }
+@media (min-width: 700px){
 
     .logoAsigboMobile{
         display: none;
@@ -39,23 +43,30 @@
         justify-content: center;
         background-image: url('@assets/bgLogin.jpg');
         background-repeat: no-repeat;
-        background-position: right -30% center;
-        background-size: contain;
+        background-position: right center;
+        background-size: cover;
+    }
+
+    .bottomWave{
+        display: none;
     }
     
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 700px){
+
     .wavesWrapper{
         display: none;
     }
 
     .loginPageContainer{
+        align-items: center;
         justify-content: center;
+        flex-direction: column;
     }
 
     .formContainer{
-        height: fit-content;
+        height: 100%;
         width: 80%;
         padding: 0 0 30px 0;
         border-radius: 7px;
@@ -66,54 +77,30 @@
         display: none;
     }
 
-    .logoContainer{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 130px;
-        overflow: hidden;
-        background-image: url('@assets/logoasigbofondoazul.jpg');
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-color: #16337F;
-    }
-
     .logoAsigboMobile{
-        overflow-x: hidden;
-        background-color: #16337F;
-    }
-
-    .wavesWrapperMobile{
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        width: 100%;
-        max-height: 10vh;
-        overflow: hidden;
-        z-index: 2;
-    }
-
-    .wavesMobile{
-        overflow: hidden;
-        width: 100%;
+        width: 400px;
+        height: 164.58px;
     }
 
     .backgroundWrapper{
-       background-image: url('@assets/bgLoginMobile.jpg');
-       width: 100%;
-       height: 100%;
-       position: absolute;
-       z-index: -5;
-       background-size: cover;
+       display: none;
+    }
+
+    .bottomWave{
+        width: 100%;
     }
 }
 
 .wavesWrapper{
-    max-height: 100vh;
+    height: 100%;
+    max-width: 20%;
     z-index: 4;
     overflow: hidden;
+    min-height: 600px;
+}
+
+.waves{
+    height: 100%;
 }
 
 .form{
@@ -124,20 +111,18 @@
 }
 
 
-
-.backgroundFilter{
-    background-color: #16337F;
-    width: 100%;
-    height: 100%;
-    opacity: 0.2;
-}
-
 .buttonWrapper{
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     margin-top: 40px;
+}
+
+.infoSpan{
+    color: #565656;
+    margin-top: 20px;
+    text-align: center;
 }
 
 .forgotPassword{
@@ -153,6 +138,7 @@
 
 .logoAsigbo{
     width: 400px;
+    height: 164.58px;
 }
 
 .errorMessage{
