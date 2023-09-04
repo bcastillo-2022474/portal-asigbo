@@ -91,7 +91,10 @@ function LoginPage() {
           <span className={styles.forgotPassword}>¿Olvidaste tu contraseña?</span>
         </div>
       </div>
-      <BottomWave className={styles.bottomWave} />
+      <div className={styles.bottomWaveWrapper}>
+        <BottomWave className={styles.wave} />
+        <div className={styles.waveBody} />
+      </div>
       <div className={styles.wavesWrapper}>
         <img alt="waves" className={styles.waves} src={waves} />
       </div>

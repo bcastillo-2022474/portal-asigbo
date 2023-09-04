@@ -33,6 +33,10 @@
         display: none;
     }
 
+    .bottomWaveWrapper{
+        display: none;
+    }
+
     .backgroundWrapper{
         position: absolute;
         z-index: -5;
@@ -47,10 +51,13 @@
         background-size: cover;
     }
 
-    .bottomWave{
+    .wave{
         display: none;
     }
     
+    .waveBody{
+        display: none;
+    }
 }
 
 @media (max-width: 700px){
@@ -59,18 +66,23 @@
         display: none;
     }
 
+    .bottomWaveWrapper{
+        display: none;
+    }
+
     .loginPageContainer{
         align-items: center;
         justify-content: center;
+        align-content: center;
         flex-direction: column;
+        position: relative;
     }
 
     .formContainer{
-        height: 100%;
+        height: 80%;
         width: 80%;
         padding: 0 0 30px 0;
         border-radius: 7px;
-        gap: 0;
     }
 
     .logoAsigbo{
@@ -85,10 +97,6 @@
     .backgroundWrapper{
        display: none;
     }
-
-    .bottomWave{
-        width: 100%;
-    }
 }
 
 .wavesWrapper{
@@ -97,6 +105,7 @@
     z-index: 4;
     overflow: hidden;
     min-height: 600px;
+    margin-left: -5px;
 }
 
 .waves{
@@ -145,4 +154,34 @@
     margin-top: 20px;
     color:var(--error-color--);
     text-align: center;
+}
+
+.waveBody{
+    height: 2vh;
+    background-color: var(--blue-theme-color--);
+}
+  
+@media only screen and (max-width: 700px) and (min-height: 750px){
+
+    .bottomWaveWrapper{
+        display: block;
+    }
+
+    .waveBody{
+      height: 5vh;
+      width: 100%;
+      margin-top: -10px;
+    }
+}
+  
+
+.wave{
+    width: 100%;
+}
+
+.bottomWaveWrapper{
+    width: 100vw;
+    height: min-content;
+    position: absolute;
+    bottom: 0;
 }
