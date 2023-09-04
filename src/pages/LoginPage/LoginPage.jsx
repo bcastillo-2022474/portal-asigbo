@@ -5,6 +5,7 @@ import waves from '@assets/wave-haikei.svg';
 import logo from '@assets/asigboazul.png';
 import { button, blue } from '@styles/buttons.module.css';
 import useLogin from '@hooks/useLogin';
+import BottomWave from '../../components/BottomWave/BottomWave';
 import styles from './LoginPage.module.css';
 
 /* Componente de la página de login.
@@ -90,6 +91,7 @@ function LoginPage() {
           <span className={styles.forgotPassword}>¿Olvidaste tu contraseña?</span>
         </div>
       </div>
+      <BottomWave className={styles.bottomWave} />
       <div className={styles.wavesWrapper}>
         <img alt="waves" className={styles.waves} src={waves} />
       </div>
