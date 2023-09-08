@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
 }
 
 .headerContainer{
@@ -12,11 +12,13 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    margin-bottom: 40px;
 }
 
 .pageTitle{
-    text-align: center;
-    margin-left: 40%;
+    text-align: left;
+    width: 65%;
+    align-self: flex-start;
 }
 
 .iconWrapper{
@@ -25,8 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: auto;
-    margin-right: 5%;
+    display: none;
 }
 
 .form{
@@ -35,4 +36,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 15px;
 }
+
+.sendContainer{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
