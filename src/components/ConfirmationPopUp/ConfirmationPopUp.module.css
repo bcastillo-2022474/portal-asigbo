@@ -1,0 +1,24 @@
+.confirmationPopUp{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  padding: min(10px, 5vh);
+}
+
+.title{
+  font-size: var(--h2-title-size--);
+}
+
+.body{
+  font-size: var(--text-font-size--);
+  text-align: center;
+}
+
+.buttonsContainer{
+  display: flex;
+  column-gap: 15px;
+  row-gap: 7px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
