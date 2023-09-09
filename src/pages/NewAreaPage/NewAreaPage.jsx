@@ -1,25 +1,36 @@
-import React, { useEffect } from 'react';
-// import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import InputText from '@components/InputText';
+import useForm from '@hooks/useForm';
+import IconPicker from '@components/IconPicker';
+import UserSelectTable from '@components/UserSelectTable';
+import Button from '@components/Button';
+import useFetch from '@hooks/useFetch';
+import Spinner from '@components/Spinner/Spinner';
+import { serverHost } from '@/config';
+import useToken from '@hooks/useToken';
+import usePopUp from '@hooks/usePopUp';
+import SuccessNotificationPopUp from '@components/SuccessNotificationPopUp';
+import ErrorNotificationPopUp from '@components/ErrorNotificationPopUp';
+import LoadingView from '@components/LoadingView';
+import NotFoundPage from '@pages/NotFoundPage';
+import BackTitle from '@components/BackTitle';
 import styles from './NewAreaPage.module.css';
-import InputText from '../../components/InputText/InputText';
-import useForm from '../../hooks/useForm';
-import IconPicker from '../../components/IconPicker/IconPicker';
-import UserSelectTable from '../../components/UserSelectTable/UserSelectTable';
-import Button from '../../components/Button/Button';
 import createAsigboAreaSchema from './createAsigboAreaSchema';
-import useFetch from '../../hooks/useFetch';
-import Spinner from '../../components/Spinner/Spinner';
-import { serverHost } from '../../config';
-import useToken from '../../hooks/useToken';
-import usePopUp from '../../hooks/usePopUp';
-import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp/SuccessNotificationPopUp';
-import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
+import updateAsigboAreaSchema from './updateAsigboAreaSchema';
 
 function NewAreaPage() {
+  // Si el idArea no es null, el formulario es para editar
+  const { idArea } = useParams();
+
+  // al editar, el icono siempre debe de existir
+  const [ignoreIcon, setIgnoreIcon] = useState(idArea !== undefined);
+
   const {
     form, error, setData, validateField, clearFieldError, validateForm,
-  } = useForm(createAsigboAreaSchema);
+  } = useForm(
+    ignoreIcon ? updateAsigboAreaSchema : createAsigboAreaSchema,
+  );
 
   const {
     callFetch, result, loading, error: fetchError,
@@ -32,6 +43,13 @@ function NewAreaPage() {
 
   const navigate = useNavigate();
 
+  const {
+    callFetch: fetchAreaData,
+    result: areaData,
+    loading: loadingAreaData,
+    error: errorAreaData,
+  } = useFetch();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData(name, value);
@@ -41,6 +59,11 @@ function NewAreaPage() {
     if (e.key === 'Enter') {
       e.preventDefault();
     }
+  };
+
+  const handleIconChange = (value) => {
+    setData('icon', value);
+    setIgnoreIcon(false); // una vez manipulado el ícono default, no puede ser ignorado
   };
 
   const handleSubmit = async (e) => {
@@ -53,21 +76,27 @@ function NewAreaPage() {
     const data = new FormData();
     const { name, icon, responsible } = form;
     data.append('name', name);
-    data.append('icon', icon);
+    if (icon) data.append('icon', icon);
     responsible.forEach((val) => {
       data.append('responsible[]', val);
     });
 
+    const uri = idArea ? `${serverHost}/area/${idArea}` : `${serverHost}/area`;
+    const method = idArea ? 'PATCH' : 'POST';
+
     callFetch({
-      uri: `${serverHost}/area`,
+      uri,
       headers: { authorization: token },
-      method: 'POST',
+      method,
       body: data,
       removeContentType: true,
     });
   };
 
-  const redirectOnSuccess = () => navigate('/area');
+  const redirectOnSuccess = () => {
+    const uri = idArea ? `/area/${idArea}` : '/area';
+    navigate(uri);
+  };
 
   useEffect(() => {
     if (result) openSuccess();
@@ -77,52 +106,88 @@ function NewAreaPage() {
     if (fetchError) openError();
   }, [fetchError]);
 
+  useEffect(() => {
+    if (!idArea) return;
+    // Si es para editar, obtener datos del area
+    fetchAreaData({ uri: `${serverHost}/area/${idArea}`, authorization: { headers: token } });
+  }, [idArea]);
+
+  useEffect(() => {
+    if (!areaData) return;
+    setData('name', areaData.name);
+  }, [areaData]);
+
   return (
-    <div className={styles.newAreaPage}>
-      <h1 className={styles.pageTitle}>Nuevo eje de Asigbo</h1>
-      <form className={styles.formContainer} onSubmit={handleSubmit}>
-        <h3 className={styles.formSectionTitle}>Información general</h3>
-        <InputText
-          title="Nombre del eje"
-          className={styles.inputText}
-          name="name"
-          value={form?.name}
-          error={error?.name}
-          onChange={handleChange}
-          onBlur={() => validateField('name')}
-          onFocus={() => clearFieldError('name')}
-          onKeyDown={handleKeyDown}
-        />
+    <>
+      {(!idArea || areaData) && (
+        <div className={styles.newAreaPage}>
+          <BackTitle
+            title={idArea ? 'Editar eje de ASIGBO' : 'Nuevo eje de ASIGBO'}
+            href={idArea ? `/area/${idArea}` : '/area'}
+            className={styles.pageTitle}
+          />
 
-        <h3 className={styles.formSectionTitle}>ícono del eje</h3>
-        <p className={styles.formInstructions}>Se recomienda utilizar un formato svg.</p>
-        <IconPicker onChange={(value) => setData('icon', value)} />
-        {error?.icon && <p className={styles.errorMessage}>{error.icon}</p>}
+          <form className={styles.formContainer} onSubmit={handleSubmit}>
+            <h3 className={styles.formSectionTitle}>Información general</h3>
+            <InputText
+              title="Nombre del eje"
+              className={styles.inputText}
+              name="name"
+              value={form?.name}
+              error={error?.name}
+              onChange={handleChange}
+              onBlur={() => validateField('name')}
+              onFocus={() => clearFieldError('name')}
+              onKeyDown={handleKeyDown}
+            />
 
-        <h3 className={styles.formSectionTitle}>Encargados</h3>
-        <UserSelectTable onChange={(value) => setData('responsible', value)} />
-        {error?.responsible && <p className={styles.errorMessage}>{error.responsible}</p>}
-        <div className={styles.sendContainer}>
-          {!result && !loading && (
-            <Button text="Crear nueva área" className={styles.sendButton} type="submit" />
-          )}
-          {loading && <Spinner />}
+            <h3 className={styles.formSectionTitle}>ícono del eje</h3>
+            <p className={styles.formInstructions}>Se recomienda utilizar un formato svg.</p>
+            <IconPicker
+              onChange={handleIconChange}
+              defaultImage={idArea ? `${serverHost}/image/area/${idArea}` : null}
+            />
+            {error?.icon && <p className={styles.errorMessage}>{error.icon}</p>}
+
+            <h3 className={styles.formSectionTitle}>Encargados</h3>
+            <UserSelectTable
+              onChange={(value) => setData('responsible', value)}
+              defaultSelectedUsers={areaData ? areaData.responsible : null}
+            />
+            {error?.responsible && <p className={styles.errorMessage}>{error.responsible}</p>}
+            <div className={styles.sendContainer}>
+              {!result && !loading && (
+                <Button
+                  text={idArea ? 'Editar área' : 'Crear nueva área'}
+                  className={styles.sendButton}
+                  type="submit"
+                />
+              )}
+              {loading && <Spinner />}
+            </div>
+          </form>
+
+          <SuccessNotificationPopUp
+            close={closeSuccess}
+            isOpen={isSuccessOpen}
+            callback={redirectOnSuccess}
+            text={
+              idArea
+                ? 'El eje de ASIGBO ha sido actualizado de forma exitosa.'
+                : 'El nuevo eje de Asigbo ha sido creado de forma exitosa.'
+            }
+          />
+          <ErrorNotificationPopUp
+            close={closeError}
+            isOpen={isErrorOpen}
+            text={fetchError?.message}
+          />
         </div>
-      </form>
-
-      <SuccessNotificationPopUp
-        close={closeSuccess}
-        isOpen={isSuccessOpen}
-        callback={redirectOnSuccess}
-        text="El nuevo eje de Asigbo ha sido creado de forma exitosa."
-      />
-      <ErrorNotificationPopUp close={closeError} isOpen={isErrorOpen} text={fetchError?.message} />
-    </div>
+      )}
+      {idArea && loadingAreaData && <LoadingView />}
+      {idArea && errorAreaData && <NotFoundPage />}
+    </>
   );
 }
 
 export default NewAreaPage;
-
-NewAreaPage.propTypes = {};
-
-NewAreaPage.defaultProps = {};

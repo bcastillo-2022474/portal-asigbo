@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Routes, useParams } from 'react-router-dom';
+import {
+  NavLink, Route, Routes, useParams,
+} from 'react-router-dom';
 import { BiSolidImage as ImageIcon } from 'react-icons/bi';
+import { serverHost } from '@/config';
+import useFetch from '@hooks/useFetch';
+import LoadingView from '@components/LoadingView';
+import NotFoundPage from '@pages/NotFoundPage';
+import consts from '@helpers/consts';
+import UserTable from '@components/UserTable';
+import Button from '@components/Button';
+import TabMenu from '@components/TabMenu';
+import BackTitle from '@components/BackTitle';
 import styles from './AreaDetailsPage.module.css';
-import { serverHost } from '../../config';
-import useFetch from '../../hooks/useFetch';
-import LoadingView from '../../components/LoadingView/LoadingView';
-import NotFoundPage from '../NotFoundPage/NotFoundPage';
-import consts from '../../helpers/consts';
-import UserTable from '../../components/UserTable/UserTable';
-import Button from '../../components/Button/Button';
-import TabMenu from '../../components/TabMenu/TabMenu';
 
 function AreaDetailsPage({ adminPrivileges }) {
   const {
@@ -31,15 +34,14 @@ function AreaDetailsPage({ adminPrivileges }) {
       {loading && <LoadingView />}
       {area && (
         <div className={styles.areaDetailsPage}>
-          <header className={styles.pageHeader}>
-            <h1 className={styles.pageTitle}>Eje de ASIGBO</h1>
+          <BackTitle title="Eje de ASIGBO" href="/area" className={styles.pageHeader}>
             {adminPrivileges && (
               <div className={styles.buttonsContainer}>
-                <Button text="Editar" />
+                <NavLink to="editar"><Button text="Editar" /></NavLink>
                 <Button text="Eliminar" red />
               </div>
             )}
-          </header>
+          </BackTitle>
 
           <div className={styles.nameContainer}>
             {!iconError ? (

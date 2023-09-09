@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Pagination } from '@mui/material';
+import Table from '@components/Table';
+import TableRow from '@components/TableRow';
+import Button from '@components/Button';
+import useToken from '@hooks/useToken';
+import UserTableFilter from '@components/UserTableFilter';
+import useFetch from '@hooks/useFetch';
+import { serverHost } from '@/config';
+import useCount from '@hooks/useCount';
 import styles from './UserSelectTable.module.css';
-import UserTableFilter from '../UserTableFilter/UserTableFilter';
-import Table from '../Table/Table';
-import TableRow from '../TableRow/TableRow';
-import Button from '../Button/Button';
-import useToken from '../../hooks/useToken';
-import useFetch from '../../hooks/useFetch';
-import { serverHost } from '../../config';
-import useCount from '../../hooks/useCount';
 
 /**
  * Componente tabla para poder seleccionar usuarios.
@@ -77,7 +77,7 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
       ...list,
       ...users.result.filter(
         (userData) => selectedTableRows.includes(userData.id)
-        && !list.some((user) => user.id === userData.id),
+         && !list.some((user) => user.id === userData.id),
       ),
     ]);
     setSelectedTableRows([]);
@@ -104,7 +104,14 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
     if (filtersCopy.search?.trim().length === 0) delete filtersCopy.search;
     if (filtersCopy.promotion?.trim().length === 0) delete filtersCopy.promotion;
 
-    const uri = `${serverHost}/user?${new URLSearchParams(filtersCopy).toString()}`;
+    const searchParams = new URLSearchParams(filtersCopy);
+
+    // si hay usuarios seleccionados por default , estos serán buscados primero
+    defaultSelectedUsers?.forEach((user) => {
+      searchParams.append('priority', user.id);
+    });
+
+    const uri = `${serverHost}/user?${searchParams.toString()}`;
     getUsersFetch({ uri, headers: { authorization: token } });
   }, [userFilters, currentPage]);
 
@@ -184,13 +191,15 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
 export default UserSelectTable;
 
 UserSelectTable.propTypes = {
-  defaultSelectedUsers: PropTypes.arrayOf(PropTypes.objectOf({
-    id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    lastname: PropTypes.string.isRequired,
-    promotion: PropTypes.number.isRequired,
-    promotionGroup: PropTypes.string.isRequired,
-  })),
+  defaultSelectedUsers: PropTypes.arrayOf(
+    PropTypes.objectOf({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      lastname: PropTypes.string.isRequired,
+      promotion: PropTypes.number.isRequired,
+      promotionGroup: PropTypes.string.isRequired,
+    }),
+  ),
   onChange: PropTypes.func,
 };
 

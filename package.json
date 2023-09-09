@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npm-run-all --parallel serve-vite compileStyles",
+    "dev": "vite",
     "serve-vite": "vite",
     "compileStyles": "node ./bin/compiler_scss.js",
     "build": "vite build",

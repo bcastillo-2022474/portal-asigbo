@@ -2,10 +2,10 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { AiFillPlusCircle as PlusIcon } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
-import styles from './GlobalConfigPage.module.css';
+import styles from './AreasListPage.module.css';
 import AreasList from '../../components/AreasList/AreasList';
 
-function GlobalConfigPage() {
+function AreasListPage() {
   return (
     <div className={styles.globalConfigPage}>
       <h1>Configuración general</h1>
@@ -20,12 +20,12 @@ function GlobalConfigPage() {
   );
 }
 
-export default GlobalConfigPage;
+export default AreasListPage;
 
-GlobalConfigPage.propTypes = {
+AreasListPage.propTypes = {
 
 };
 
-GlobalConfigPage.defaultProps = {
+AreasListPage.defaultProps = {
 
 };

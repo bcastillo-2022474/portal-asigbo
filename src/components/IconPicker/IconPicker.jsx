@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { BiSolidImage as ImageIcon } from 'react-icons/bi';
 import { AiOutlinePlus as PlusIcon, AiOutlineMinus as MinusIcon } from 'react-icons/ai';
@@ -7,6 +7,8 @@ import styles from './IconPicker.module.css';
 
 function IconPicker({ className, onChange, defaultImage }) {
   const [imagePreview, setImagePreview] = useState(defaultImage);
+
+  const inputRef = useRef();
 
   const handleChange = (e) => {
     const image = e.target.files[0];
@@ -26,7 +28,11 @@ function IconPicker({ className, onChange, defaultImage }) {
     if (onChange) onChange(image);
   };
 
-  const clearInput = () => setImagePreview(null);
+  const clearInput = () => {
+    setImagePreview(null);
+    if (onChange) onChange(null); // callback que indica que la imágen se ha retirado
+    inputRef.current.value = null;
+  };
   return (
     <div
       className={`${styles.inputPhoto} ${imagePreview ? styles.imageSelected : ''} ${className}`}
@@ -35,8 +41,9 @@ function IconPicker({ className, onChange, defaultImage }) {
         type="file"
         id="inputPhoto"
         className={styles.inputFile}
-        accept="image/png, image/jpeg, image/jpg"
+        accept="image/png, image/jpeg, image/jpg, image/svg"
         onChange={handleChange}
+        ref={inputRef}
       />
       {!imagePreview ? (
         <label htmlFor="inputPhoto" className={`${styles.inputLabel} ${styles.iconPosition}`}>
@@ -56,7 +63,7 @@ function IconPicker({ className, onChange, defaultImage }) {
         </span>
       )}
       <ImageIcon className={styles.imageIcon} />
-      <img src={imagePreview} alt="" className={styles.image} />
+      <img src={imagePreview} alt="" className={styles.image} onError={clearInput} />
     </div>
   );
 }

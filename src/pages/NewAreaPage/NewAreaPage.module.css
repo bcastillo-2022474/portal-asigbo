@@ -48,3 +48,17 @@
   color: var(--error-color--);
   
 }
+
+@media only screen and (max-width: 600px){
+
+  .pageTitle{
+    justify-content: center !important;
+  }
+  .pageTitle div:first-child{
+    flex-direction: column;
+  }
+
+  .pageTitle span{
+    display: block !important;
+  }
+}

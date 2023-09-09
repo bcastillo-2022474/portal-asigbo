@@ -5,7 +5,6 @@ export default yup.object().shape({
     .string()
     .min(5, 'El nombre del eje debe tener un largo de al menos 5 caracteres.')
     .required('El nombre del eje es obligatorio.'),
-  icon: yup.mixed().required('Debes agregar un ícono.'),
   responsible: yup
     .array()
     .typeError("El campo 'responsible' debe ser un arreglo.")

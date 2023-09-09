@@ -1,0 +1,39 @@
+.backTitle{
+  display: flex;
+  justify-content: space-between;
+  column-gap: 25px;
+}
+
+.titleContainer{
+  display: flex;
+  column-gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.backTitle h1{
+  font-size: var(--h1-title-size--);
+  text-align: center;
+}
+
+.returnArrowIcon{
+  font-size: 40px;
+}
+
+.arrowLink:hover{
+  color: var(--blue-theme-color--);
+}
+
+.arrowLink{
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  text-decoration: none;
+  color: black;
+  font-size: var(--h4-title-size--);
+  font-weight: bold;
+}
+
+.arrowLink > span{
+  display: none;
+}

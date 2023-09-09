@@ -1,3 +1,3 @@
-import UnderConstruccionPage from './UnderConstruccionPage';
+import NotFoundPage from './NotFoundPage';
 
-export default UnderConstruccionPage;
+export default NotFoundPage;

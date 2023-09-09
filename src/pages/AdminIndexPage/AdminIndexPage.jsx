@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import GlobalConfigPage from '@pages/GlobalConfigPage';
+import AreasListPage from '@pages/AreasListPage';
 import NewAreaPage from '@pages/NewAreaPage';
 import PageContainer from '@components/PageContainer/PageContainer';
 import AdminProfilePage from '@pages/AdminProfilePage';
@@ -14,9 +14,10 @@ function AdminIndexPage() {
       <Routes>
         <Route path="/" element={<AdminProfilePage />} />
         <Route path="/newUser" element={<NewUserPage />} />
+        <Route path="/area/:idArea/editar" element={<NewAreaPage />} />
         <Route path="/area/:idArea/*" element={<AreaDetailsPage adminPrivileges />} />
         <Route path="/area/nuevo" element={<NewAreaPage />} />
-        <Route path="/configuracion" element={<GlobalConfigPage />} />
+        <Route path="/area" element={<AreasListPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </PageContainer>
