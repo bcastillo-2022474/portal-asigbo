@@ -1,18 +1,17 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { AiFillPlusCircle as PlusIcon } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
 import styles from './AreasListPage.module.css';
 import AreasList from '../../components/AreasList/AreasList';
+import Button from '../../components/Button/Button';
 
 function AreasListPage() {
   return (
     <div className={styles.globalConfigPage}>
-      <h1>Configuración general</h1>
-      <div className={styles.sectionHeader}>
-        <h2>Ejes de ASIGBO</h2>
-        <NavLink to="/area/nuevo">
-          <PlusIcon className={styles.plusIcon} />
+      <div className={styles.pageHeader}>
+        <h1>Ejes de ASIGBO</h1>
+        <NavLink to="/area/nuevo" className={styles.newLink}>
+          <Button text="Nuevo" />
         </NavLink>
       </div>
       <AreasList />
