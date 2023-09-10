@@ -12,24 +12,31 @@ import consts from '@helpers/consts';
 import UserTable from '@components/UserTable';
 import TabMenu from '@components/TabMenu';
 import BackTitle from '@components/BackTitle';
-import { AiTwotoneEdit as EditIcon, AiFillDelete as DeleteIcon } from 'react-icons/ai';
+import {
+  AiTwotoneEdit as EditIcon,
+  AiFillDelete as DeleteIcon,
+  AiFillLock as BlockIcon,
+  AiFillUnlock as UnblockIcon,
+} from 'react-icons/ai';
 import OptionsButton from '@components/OptionsButton';
 import SuccessNotificationPopUp from '@components/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '@components/ErrorNotificationPopUp';
 import ConfirmationPopUp from '@components/ConfirmationPopUp';
 import usePopUp from '@hooks/usePopUp';
 import styles from './AreaDetailsPage.module.css';
+import useToogle from '../../hooks/useToogle';
 
 function AreaDetailsPage({ adminPrivileges }) {
   const {
     callFetch: fetchAreaData, result: area, loading, error,
   } = useFetch();
 
+  // Fetch utilizado para eliminar, habilitar o deshabilitar eje
   const {
-    callFetch: fetchDeleteArea,
-    result: deleteResult,
-    loading: deleteLoading,
-    error: deleteError,
+    callFetch: fetchAlterArea,
+    result: alterAreaResult,
+    loading: alterAreaLoading,
+    error: alterAreaError,
   } = useFetch();
 
   const { idArea } = useParams();
@@ -38,7 +45,10 @@ function AreaDetailsPage({ adminPrivileges }) {
   const navigate = useNavigate();
 
   const [iconError, setIconError] = useState(false);
+  // true: acción de eliminar, false: acción de habilitar o deshabilitar
   const [isDeleting, setIsDeleting] = useState(false);
+  // true: el área posee un estado habilitado, false: inhabilitado
+  const [isAreaEnabled, toogleAreaEnabled, setIsAreaEnabled] = useToogle();
 
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
@@ -49,12 +59,19 @@ function AreaDetailsPage({ adminPrivileges }) {
   }, []);
 
   useEffect(() => {
-    if (deleteResult) openSuccess();
-  }, [deleteResult]);
+    // establecer si el área está bloqueada al inicio
+    if (area) setIsAreaEnabled(!area.blocked);
+  }, [area]);
 
   useEffect(() => {
-    if (deleteError) openError();
-  }, [deleteError]);
+    if (alterAreaResult) openSuccess();
+
+    if (!isDeleting) toogleAreaEnabled(); // La acción modificó estado de habilitado
+  }, [alterAreaResult]);
+
+  useEffect(() => {
+    if (alterAreaError) openError();
+  }, [alterAreaError]);
 
   const handleEditOptionClick = () => navigate('editar');
 
@@ -63,18 +80,29 @@ function AreaDetailsPage({ adminPrivileges }) {
     setIsDeleting(true); // especifica que la acción es de eliminar
   };
 
+  const handleEnableOptionClick = () => {
+    // abrir ventana de confirmación y especificar que no se va a eliminar
+    // La variable isAreaEnabled especifica la acción a realizar:
+    // true: está habilitada y por lo tanto se va a deshabilitar con esta acción y viceversa
+    openConfirmaton();
+    setIsDeleting(false);
+  };
+
   const redirectOnDeleteSuccess = () => navigate('/area');
 
   const handleConfirmation = (value) => {
     // recibe el valor de la confirmación y ejecuta acción correspondiente
     if (!value) return;
 
-    const uri = isDeleting ? `${serverHost}/area/${idArea}` : '';
+    const uri = isDeleting
+      ? `${serverHost}/area/${idArea}`
+      : `${serverHost}/area/${idArea}/${isAreaEnabled ? 'disable' : 'enable'}`;
 
-    setIsDeleting(true);
-    fetchDeleteArea({
+    const method = isDeleting ? 'DELETE' : 'PATCH';
+
+    fetchAlterArea({
       uri,
-      method: 'DELETE',
+      method,
       headers: { authorization: token },
       parse: false,
     });
@@ -82,7 +110,7 @@ function AreaDetailsPage({ adminPrivileges }) {
 
   return (
     <>
-      {(loading || deleteLoading) && <LoadingView />}
+      {(loading || alterAreaLoading) && <LoadingView />}
       {area && (
         <div className={styles.areaDetailsPage}>
           <BackTitle title="Eje de ASIGBO" href="/area" className={styles.pageHeader}>
@@ -91,6 +119,11 @@ function AreaDetailsPage({ adminPrivileges }) {
                 <OptionsButton
                   options={[
                     { icon: <EditIcon />, text: 'Editar', onClick: handleEditOptionClick },
+                    {
+                      icon: isAreaEnabled ? <BlockIcon /> : <UnblockIcon />,
+                      text: isAreaEnabled ? 'Deshabilitar' : 'Habilitar',
+                      onClick: handleEnableOptionClick,
+                    },
                     { icon: <DeleteIcon />, text: 'Eliminar', onClick: handleDeleteOptionClick },
                   ]}
                 />
@@ -144,16 +177,14 @@ function AreaDetailsPage({ adminPrivileges }) {
             <>
               ¿Estás seguro/a de
               <b> eliminar </b>
-              este eje de ASIGBO? Esta es una acción permanente que
-              no podrá ser revertida.
+              este eje de ASIGBO? Esta es una acción permanente que no podrá ser revertida.
             </>
           ) : (
             <>
               ¿Estás seguro/a de
-              <b> deshabilitar </b>
-              este eje de ASIGBO? Esta acción sí puede ser
-              revertida, sin embargo, puede resultar en comportamientos inesperados para los
-              usuarios.
+              <b>{isAreaEnabled ? ' deshabilitar ' : ' habilitar '}</b>
+              este eje de ASIGBO? Esta acción sí puede ser revertida, sin embargo, puede resultar en
+              comportamientos inesperados para los usuarios.
             </>
           )
         }
@@ -162,15 +193,21 @@ function AreaDetailsPage({ adminPrivileges }) {
       <SuccessNotificationPopUp
         close={closeSuccess}
         isOpen={isSuccessOpen}
-        callback={redirectOnDeleteSuccess}
+        callback={isDeleting ? redirectOnDeleteSuccess : null}
         text={
           isDeleting
             ? 'El eje de ASIGBO ha sido eliminado de forma exitosa.'
-            : 'El eje de ASIGBO ha sido inhabilitado de forma exitosa.'
+            : `El eje de ASIGBO ha sido ${
+              isAreaEnabled ? 'habilitado' : 'deshabilitado'
+            } de forma exitosa.`
         }
       />
 
-      <ErrorNotificationPopUp close={closeError} isOpen={isErrorOpen} text={deleteError?.message} />
+      <ErrorNotificationPopUp
+        close={closeError}
+        isOpen={isErrorOpen}
+        text={alterAreaError?.message}
+      />
     </>
   );
 }
