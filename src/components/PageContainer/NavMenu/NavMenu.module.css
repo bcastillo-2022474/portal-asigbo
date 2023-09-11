@@ -9,14 +9,18 @@
 @media only screen and (min-width: 767px) {
   .navMenu .buttons {
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   .navButtons {
-    height: 80%;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     row-gap: 10px;
+    max-height: 80%;
+    overflow: auto;
   }
   .navButtons .optionIcon {
     width: 120px;
@@ -28,7 +32,8 @@
     fill: var(--blue-theme-color--);
   }
   .sessionButtons {
-    flex-grow: 1;
+    height: 20%;
+    min-height: 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
