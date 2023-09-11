@@ -12,9 +12,11 @@
 
 .page{
   flex-grow: 1;
+  max-height: calc(100vh - var(--navbar-height--));
+  overflow: auto;
 }
 
-@media only screen and (min-width: 767px) {
+@media only screen and (min-width: 767px) and (min-height: 500px) {
   .navMenu{
     margin-block: 10px;
     border-radius: 20px;
@@ -25,7 +27,7 @@
   }
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 767px), (max-height: 499px) {
   .navMenu{
     width: var(--sidebar-mobile-width--);
     position: absolute;

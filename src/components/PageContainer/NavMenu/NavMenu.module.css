@@ -6,7 +6,7 @@
   display: none;
 }
 
-@media only screen and (min-width: 767px) {
+@media only screen and (min-width: 767px) and (min-height: 500px) {
   .navMenu .buttons {
     height: 100%;
     display: flex;
@@ -25,6 +25,7 @@
   .navButtons .optionIcon {
     width: 120px;
     height: 120px;
+    min-height: 120px;
   }
   .navButtons .optionIcon svg {
     width: 45px;
@@ -49,7 +50,7 @@
     fill: var(--blue-theme-color--);
   }
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 767px), (max-height: 499px) {
   .navMenu {
     display: flex;
     flex-direction: column;
@@ -62,6 +63,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 125px;
     justify-content: center;
   }
   .navMenu .profile .profilePicture {
@@ -73,41 +75,53 @@
     font-weight: bold;
     justify-content: center;
   }
+  .navMenu ::-webkit-scrollbar {
+    width: 20px;
+  }
+  .navMenu ::-webkit-scrollbar-track {
+    width: 1px;
+    background: transparent;
+  }
+  .navMenu ::-webkit-scrollbar-thumb {
+    background: white;
+    border: 5px solid var(--blue-theme-color--);
+    border-radius: 20px;
+  }
+  .navMenu ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
   .buttons {
     width: 100%;
     padding-inline: 5%;
-    position: relative;
-    bottom: 0;
-    flex-direction: column-reverse;
+    margin-block: 5%;
+    flex-direction: column;
     flex-grow: 1;
-    max-height: calc(100% - 120px);
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   .profileName {
     max-width: 60%;
     text-align: center;
     font-weight: bold;
   }
-  .navButtons {
-    padding-block: 5%;
-    width: 100%;
-    height: 90%;
-    max-height: 90%;
-    overflow: auto;
-  }
-  .navButtons .optionIcon svg {
-    width: 30px;
-    height: 30px;
-  }
-  .sessionButtons {
+  .optionIcon {
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 10%;
-    width: 100%;
+    height: 70px;
   }
-  .sessionButtons .logOut svg {
-    width: 30px;
-    height: 30px;
+  .optionIcon svg {
+    height: 35px;
+    width: 35px;
+  }
+  .logOut {
+    display: flex;
+    align-items: center;
+    height: 70px;
+  }
+  .logOut svg {
+    height: 35px;
+    width: 35px;
   }
 }

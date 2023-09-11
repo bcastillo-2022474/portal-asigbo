@@ -1,4 +1,4 @@
-@media (max-width: 767px) {
+@media only screen and (max-width: 767px), (max-height: 499px) {
   .menuButton {
     color: white;
     width: 100%;
@@ -36,7 +36,7 @@
     transform: scale(1.03);
   }
 }
-@media (min-width: 768px) {
+@media only screen and (min-width: 767px) and (min-height: 500px) {
   .menuButton {
     display: flex;
     flex-direction: column;

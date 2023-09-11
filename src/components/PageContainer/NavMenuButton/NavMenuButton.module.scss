@@ -20,7 +20,7 @@ $smallBreakpoint: 963px;
 $mobileBreakpoint: 768px;
 $mobileVerticalBreakpoint: 636px;
 
-@media (max-width: calc($mobileBreakpoint - 1px)){
+@media only screen and (max-width: 767px), (max-height: 499px){
     .menuButton{
         color: $textColor;
         width: 100%;
@@ -63,7 +63,7 @@ $mobileVerticalBreakpoint: 636px;
     }
 }
 
-@media (min-width: $mobileBreakpoint){
+@media only screen and (min-width: 767px) and (min-height: 500px){
     .menuButton{
         display: flex;
         flex-direction: column;

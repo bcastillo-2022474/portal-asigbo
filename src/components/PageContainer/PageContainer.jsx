@@ -27,7 +27,7 @@ function PageContainer({ children }) {
   // manejar condiciones especiales de Layouts móviles y de escritorio
   useEffect(() => {
     function handleWindow() {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 768 || window.innerHeight < 500) {
         if (!isMobile) {
           setToggle(false);
         }
