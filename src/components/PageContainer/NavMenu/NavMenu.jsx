@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { BiLogOut } from 'react-icons/bi';
+import { IoMdSettings } from 'react-icons/io';
 import styles from './NavMenu.module.css';
 import UserPicture from '../../UserPicture';
 import useLogout from '../../../hooks/useLogout';
@@ -28,7 +29,7 @@ function NavMenu({ idUser, name, className }) {
       </div>
       <div className={styles.buttons}>
         <div className={styles.navButtons}>
-          Botones de Navegación
+          <NavMenuButton icon={<IoMdSettings />} label="Configuración" className={styles.optionIcon} />
         </div>
         <div className={styles.sessionButtons}>
           <NavMenuButton icon={<BiLogOut />} clickCallback={logout} label="Cerrar Sesión" className={styles.logOut} />
