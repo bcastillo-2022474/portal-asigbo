@@ -7,6 +7,7 @@ import AdminProfilePage from '@pages/AdminProfilePage';
 import NewUserPage from '@pages/NewUserPage';
 import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
+import AdminConfiguration from '../AdminConfiguration/AdminConfiguration';
 
 function AdminIndexPage() {
   return (
@@ -18,6 +19,7 @@ function AdminIndexPage() {
         <Route path="/area/:idArea/*" element={<AreaDetailsPage adminPrivileges />} />
         <Route path="/area/nuevo" element={<NewAreaPage />} />
         <Route path="/area" element={<AreasListPage />} />
+        <Route path="/config/*" element={<AdminConfiguration />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </PageContainer>

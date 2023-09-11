@@ -1,0 +1,18 @@
+.adminConfiguration{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
+}
+
+.pageTitle{
+  font-size: var(--h1-title-size--);
+}
+
+.tabMenu{
+  margin-bottom: 30px;
+}
+
+.sectionTitle{
+  font-size: var(--h3-title-size--);
+}
