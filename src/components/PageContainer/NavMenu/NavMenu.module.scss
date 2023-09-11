@@ -4,6 +4,16 @@
     }
     width: 100%;
     height: 100%;
+
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    a:visited{
+        color: inherit;
+    }
+    
 }
 
 @media only screen and (min-width: 767px) and (min-height: 500px) {

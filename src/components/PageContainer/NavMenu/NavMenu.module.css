@@ -5,6 +5,13 @@
 .navMenu .profile {
   display: none;
 }
+.navMenu a {
+  text-decoration: none;
+  color: inherit;
+}
+.navMenu a:visited {
+  color: inherit;
+}
 
 @media only screen and (min-width: 767px) and (min-height: 500px) {
   .navMenu .buttons {
