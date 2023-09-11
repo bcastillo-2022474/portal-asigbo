@@ -68,18 +68,20 @@ $mobileVerticalBreakpoint: 636px;
 @media (min-width: $mobileBreakpoint){
   .NavMenu{
     position: absolute;
-    width: 8vw;
-    height: 84.5vh;
+    width: var(--sidebar-width--);
+    top: 0;
     margin-inline: 1vw;
-    margin-block: 2vh;
+    margin-block: 12px;
     border-radius: 20px;
     border: 1px solid rgba(0, 0, 0, 0.25);
     overflow: hidden;
-    padding: 1%;
+    padding: 12px;
     transition: inherit;
 
     .buttons{
       height: 100%;
+      width: 100%;
+      max-width: 100%;
       .buttonOverlay{
         .menuButton{
           margin-block: 10%;

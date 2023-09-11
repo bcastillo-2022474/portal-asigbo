@@ -1,6 +1,6 @@
 @media (max-width: 767px) {
   .pageContent {
-    transition: width 0.3s ease, right 0.3s ease;
+    transition: right 0.3s ease;
     width: 100%;
     min-height: 88vh;
     border-radius: 35px 35px 0 0;
@@ -39,7 +39,7 @@
     max-height: 100%;
     overflow-y: auto;
     top: 0;
-    transition: width 0.3s ease, left 0.3s ease;
+    transition: left 0.3s ease;
   }
   .pageContent .content::-webkit-scrollbar {
     width: 20px;
@@ -57,61 +57,17 @@
     left: 0;
   }
   .pageContent.showBar .content {
-    left: 10vw;
-    width: 90vw;
+    left: calc(var(--sidebar-width--) + 40px);
+    width: calc(100vw - (var(--sidebar-width--) + 40px));
   }
   .pageContent.hideBar .NavMenu {
     bottom: 0;
-    left: -10vw;
+    left: calc(-1 * (var(--sidebar-width--) + 40px));
   }
   .pageContent.hideBar .content {
     left: 0;
     width: 100vw;
   }
-}
-@media (min-width: 768px) and (max-width: 1440px) and (min-width: 1120px) {
-  .pageContent .NavMenu {
-    width: 10vw;
-  }
-  .pageContent.showBar .NavMenu {
-    bottom: 0;
-    left: 0;
-  }
-  .pageContent.showBar .content {
-    left: 12vw;
-    width: 88vw;
-  }
-  .pageContent.hideBar .NavMenu {
-    bottom: 0;
-    left: -12vw;
-  }
-  .pageContent.hideBar .content {
-    left: 0;
-    width: 100vw;
-  }
-}
-@media (min-width: 768px) and (max-width: 1120px) {
-  .pageContent .NavMenu {
-    width: 12vw;
-  }
-  .pageContent.showBar .NavMenu {
-    bottom: 0;
-    left: 0;
-  }
-  .pageContent.showBar .content {
-    left: 14vw;
-    width: 86vw;
-  }
-  .pageContent.hideBar .NavMenu {
-    bottom: 0;
-    left: -14vw;
-  }
-  .pageContent.hideBar .content {
-    left: 0;
-    width: 100vw;
-  }
-}
-@media (min-width: 768px) {
   .pageContent.expand {
     height: 100vh;
     max-height: 100vh;
@@ -125,7 +81,7 @@
     height: 100vh;
   }
   .pageContent.shrink {
-    height: 88.55vh;
-    max-height: 88.5vh;
+    height: calc(100vh - var(--navbar-height--));
+    max-height: calc(100vh - var(--navbar-height--));
   }
 }

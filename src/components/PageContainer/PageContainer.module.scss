@@ -7,7 +7,7 @@ $ScrollBarHoverColor: #555;
 
 //Medidas Desktop
 $toggleTimeAnimation: 0.3s;
-$bigScreenSideBarWidth: 10vw;
+$bigScreenSideBarWidth: calc(var(--sidebar-width--) + (2 * 20px));
 $bigScreenSideBarMarginInline: 1vw;
 $midScreenSideBarWidth: 12vw;
 $midScreenSideBarMarginInline: 1vw;
@@ -28,7 +28,7 @@ $normalMobileSideBarWidth: 60vw;
 
 @media (max-width: calc($mobileBreakpoint - 1px)){
   .pageContent{
-    transition: width $toggleTimeAnimation ease, right $toggleTimeAnimation ease;
+    transition: right $toggleTimeAnimation ease;
     width: 100%;
     min-height: 88vh;
     border-radius: 35px 35px 0 0;
@@ -78,7 +78,7 @@ $normalMobileSideBarWidth: 60vw;
       max-height: 100%;
       overflow-y: auto;
       top: 0;
-      transition: width $toggleTimeAnimation ease, left $toggleTimeAnimation ease;
+      transition: left $toggleTimeAnimation ease;
 
       &::-webkit-scrollbar{
         width: 20px;
@@ -119,68 +119,6 @@ $normalMobileSideBarWidth: 60vw;
       width: 100vw;
     }
   }
-  
-  @media (max-width: $bigBreakpoint) and (min-width: $midBreakpoint){
-    .pageContent{
-      .NavMenu{
-        width: calc($midScreenSideBarWidth - 2* $midScreenSideBarMarginInline);
-      }
-    }
-  
-    .pageContent.showBar{
-      .NavMenu{
-        bottom: 0;
-        left: 0;
-      }
-      .content{
-        left: $midScreenSideBarWidth;
-        width: calc(100vw - $midScreenSideBarWidth);
-      }
-    
-    }
-    
-    .pageContent.hideBar{
-      .NavMenu{
-        bottom: 0;
-        left: calc(-1*$midScreenSideBarWidth);
-      }
-      .content{
-        left: 0;
-        width: 100vw;
-      }
-    }
-  }
-  
-  @media (max-width: $midBreakpoint){
-    .pageContent{
-      .NavMenu{
-        width: calc($smallScreenSideBarWidth - 2* $smallScreenSideBarMarginInline);
-      }
-    }
-  
-    .pageContent.showBar{
-      .NavMenu{
-        bottom: 0;
-        left: 0;
-      }
-      .content{
-        left: $smallScreenSideBarWidth;
-        width: calc(100vw - $smallScreenSideBarWidth);
-      }
-    
-    }
-    
-    .pageContent.hideBar{
-      .NavMenu{
-        bottom: 0;
-        left: calc(-1*$smallScreenSideBarWidth);
-      }
-      .content{
-        left: 0;
-        width: 100vw;
-      }
-    }
-  }
 
   .pageContent.expand{
     height: 100vh;
@@ -196,7 +134,7 @@ $normalMobileSideBarWidth: 60vw;
   }
 
   .pageContent.shrink{
-    height: 88.55vh;
-    max-height: 88.5vh;
+    height: calc(100vh - var(--navbar-height--));
+    max-height: calc(100vh - var(--navbar-height--));
   }
 }

@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import MenuIcon from '../../../assets/icons/MenuIcon';
 import styles from './TopBar.module.css';
 import UserInfo from '../UserInfo/UserInfo';
-/*
-
-TopBar: Es un componente que establece la barra superior de cualquier página autenticada,
-posee un botón destinado a desplegar cualquier menú por medio del parámetro de función toggler,
-se deberá proveer de un logo y el nombre del becado
-
-@params: {function} toggler: Función destinada a retraer y desplegar algo
-@params: {string | JSXElement}: Fuente del logotipo a mostrar
-@params: {string} name: Nombre del becado
+/**
+*
+* @TopBar: Es un componente que establece la barra superior de cualquier página autenticada,
+* posee un botón destinado a desplegar cualquier menú por medio del parámetro de función toggler,
+* se deberá proveer de un logo y el nombre del becado
+*
+*@param {function} toggler: Función destinada a retraer y desplegar algo
+*@param {string | JSXElement}: Fuente del logotipo a mostrar
+*@param {string} name: Nombre del becado
 
 */
 function TopBar({ toggler, logo, name }) {

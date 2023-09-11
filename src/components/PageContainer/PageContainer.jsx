@@ -7,13 +7,13 @@ import TopBar from './TopBar/TopBar';
 import getTokenPayload from '../../helpers/getTokenPayload';
 import styles from './PageContainer.module.css';
 
-/*
-
-PageContainer: Componente con TopBar y sidebar de Menú integrados, es en donde se cargará
-cualquier página autenticada, colocando el contenido como hijo directo de este componente
-
-@params: {JSXNode} children : Página o páginas que se mostrarán dentro
-
+/**
+*
+*PageContainer: Componente con TopBar y sidebar de Menú integrados, es en donde se cargará
+*cualquier página autenticada, colocando el contenido como hijo directo de este componente
+*
+*@param {JSXNode} children : Página o páginas que se mostrarán dentro
+*
 */
 function PageContainer({ children }) {
   // Estado de sidebar mostrada o retraída, mostrada por defecto.
