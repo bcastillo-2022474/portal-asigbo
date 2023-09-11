@@ -22,6 +22,9 @@
   --page-horizontal-padding--: 50px;
   --page-vertical-padding--: 50px;
 
+  --min-page-horizontal-padding--: 30px;
+  --min-page-vertical-padding--: 30px;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
