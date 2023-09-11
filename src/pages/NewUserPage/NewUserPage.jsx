@@ -26,7 +26,7 @@ function NewUserPage() {
   const token = useToken();
 
   const {
-    callFetch, result: fetchResult, loading, error: fetchError,
+    callFetch, result, loading, error: fetchError,
   } = useFetch();
 
   const handleIconClick = () => {
@@ -40,7 +40,7 @@ function NewUserPage() {
     const headers = array[0];
     const rows = array.slice(1);
 
-    const result = rows.map((row) => {
+    const json = rows.map((row) => {
       const obj = {};
       headers.forEach((header, i) => {
         obj[header] = row[i];
@@ -48,7 +48,7 @@ function NewUserPage() {
       return obj;
     });
 
-    return result;
+    return json;
   };
 
   const handleImport = (file) => {
@@ -113,8 +113,8 @@ function NewUserPage() {
   };
 
   useEffect(() => {
-    if (fetchResult) openSuccess();
-  }, [fetchResult]);
+    if (result) openSuccess();
+  }, [result]);
 
   useEffect(() => {
     if (fetchError) openError();
@@ -185,7 +185,7 @@ function NewUserPage() {
           </Table>
           <br />
           <br />
-          {!fetchResult && !loading && (
+          {!loading && (
             <Button
               text="Guardar"
               className={styles.sendButton}
