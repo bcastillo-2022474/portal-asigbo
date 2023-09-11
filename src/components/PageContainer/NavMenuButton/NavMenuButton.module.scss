@@ -26,6 +26,7 @@ $mobileVerticalBreakpoint: 636px;
         width: 100%;
 
         .option{
+            cursor: pointer;
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -39,6 +40,7 @@ $mobileVerticalBreakpoint: 636px;
             padding: 5%;
             margin-inline: 5%;
             margin-block: 4%;
+            transition: background-color 0.2s ease, transform 0.3s ease;
 
             .button{
                 display: flex;
@@ -55,6 +57,7 @@ $mobileVerticalBreakpoint: 636px;
 
             &:hover{
                 background-color: $NavButtonHoverColor;
+                transform: scale(1.03);
             }
         }
     }

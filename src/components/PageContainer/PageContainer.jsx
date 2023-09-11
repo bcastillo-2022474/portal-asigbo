@@ -6,6 +6,7 @@ import TopBar from './TopBar/TopBar';
 import getTokenPayload from '../../helpers/getTokenPayload';
 import styles from './PageContainer.module.css';
 import NotFoundPage from '../../pages/NotFoundPage';
+import NavMenu from './NavMenu/NavMenu';
 
 /**
  *
@@ -26,9 +27,9 @@ function PageContainer({ children }) {
   // manejar condiciones especiales de Layouts móviles y de escritorio
   useEffect(() => {
     function handleWindow() {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth < 768) {
         if (!isMobile) {
-          setToggle(true);
+          setToggle(false);
         }
         setMobile(true);
       } else {
@@ -74,7 +75,7 @@ function PageContainer({ children }) {
       )}
       <div className={styles.pageContainer}>
         <div className={`${styles.navMenu} ${isToggled ? undefined : styles.retractedMenu}`}>
-          <span>{isToggled ? 'Si' : 'No'}</span>
+          <NavMenu name={`${payload.name} ${payload.lastname}`} />
         </div>
         <div className={styles.page}>
           {children}

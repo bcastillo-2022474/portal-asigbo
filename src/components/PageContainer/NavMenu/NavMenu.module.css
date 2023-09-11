@@ -1,0 +1,57 @@
+.navMenu {
+  border-right: 1px solid black;
+  width: 100%;
+  height: 100%;
+}
+.navMenu .profile {
+  display: none;
+}
+
+@media only screen and (max-width: 767px) {
+  .navMenu {
+    width: 100%;
+    height: 100%;
+    color: white;
+    padding-block: 10%;
+  }
+  .navMenu .profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 17.5%;
+    row-gap: 1vh;
+  }
+  .navMenu .profile .profilePicture {
+    width: 90px;
+    height: 90px;
+    font-size: 35px;
+    font-weight: bold;
+  }
+  .buttons {
+    width: 100%;
+    height: 82.5%;
+    padding-inline: 5%;
+  }
+  .profileName {
+    max-width: 60%;
+    text-align: center;
+    font-weight: bold;
+  }
+  .navButtons {
+    width: 100%;
+    height: 90%;
+    max-height: 90%;
+  }
+  .sessionButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 10%;
+    width: 100%;
+  }
+  .sessionButtons .logOut svg {
+    width: 30px;
+    height: 30px;
+  }
+}
