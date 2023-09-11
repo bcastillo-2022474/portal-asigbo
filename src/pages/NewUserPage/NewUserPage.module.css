@@ -7,19 +7,20 @@
     height: 100%;
 }
 
-.headerContainer{
+.headerContainer {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
 
-.pageTitle{
+.pageTitle {
     text-align: center;
-    margin-left: 40%;
+    width: '100%',
 }
 
-.iconWrapper{
+.iconWrapper {
     width: 15vh;
     height: 15vh;
     display: flex;
@@ -29,7 +30,7 @@
     margin-right: 5%;
 }
 
-.form{
+.form {
     width: 65%;
     display: flex;
     flex-direction: column;
