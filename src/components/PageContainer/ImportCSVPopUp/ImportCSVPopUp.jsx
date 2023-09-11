@@ -6,6 +6,7 @@ import jschardet from 'jschardet';
 import Button from '@components/Button';
 import { BsFillCloudUploadFill } from 'react-icons/bs';
 import styles from './ImportCSVPopUp.module.css';
+import consts from '../../../helpers/consts';
 
 function ImportCSVPopUp({
   close, isOpen, onImport,
@@ -13,8 +14,13 @@ function ImportCSVPopUp({
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleChange = async (e) => {
+  const cleanAndClose = () => {
+    close();
     setError(false);
+    setErrorMessage('');
+  };
+
+  const handleChange = async (e) => {
     const file = e.target.files[0];
     if (file.type !== 'text/csv') {
       setError(true);
@@ -26,8 +32,14 @@ function ImportCSVPopUp({
     const buffer = await response.arrayBuffer();
     const detectedEncoding = jschardet.detect(new Uint8Array(buffer));
     const text = new TextDecoder(detectedEncoding.encoding).decode(buffer);
+    const headers = text.split('\n')[0].trim().split(',');
+    if (headers.toString() !== consts.csvHeaders.toString()) {
+      setError(true);
+      setErrorMessage('Formato incorrecto. Se espera que los encabezados sean: "Código, Nombres, Apellidos, Correo, Promoción, Carrera y Sexo"');
+      return;
+    }
     onImport(text);
-    close();
+    cleanAndClose();
   };
 
   const uploadFile = () => {
@@ -37,7 +49,7 @@ function ImportCSVPopUp({
 
   return (
     isOpen && (
-      <PopUp close={close} maxWidth={370}>
+      <PopUp close={cleanAndClose} maxWidth={370}>
         <div className={styles.container}>
           <label htmlFor="importCSV">
             <BsFillCloudUploadFill style={{ fontSize: '10em', color: '#16337F' }} />
