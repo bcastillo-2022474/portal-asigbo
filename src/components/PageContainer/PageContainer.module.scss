@@ -1,144 +1,31 @@
-$NavBarColor: #16337f;
-$NavBarMenuColor: #2b468b;
-$NavScrollBarColor: #3b5db4;
-$textColor: white;
-$ScrollBarColor: #888;
-$ScrollBarHoverColor: #555;
-
-//Medidas Desktop
-$toggleTimeAnimation: 0.3s;
-$bigScreenSideBarWidth: calc(var(--sidebar-width--) + (2 * 20px));
-$bigScreenSideBarMarginInline: 1vw;
-$midScreenSideBarWidth: 12vw;
-$midScreenSideBarMarginInline: 1vw;
-$smallScreenSideBarWidth: 14vw;
-$smallScreenSideBarMarginInline: 1vw;
-
-//Breakpoints
-$bigBreakpoint: 1440px;
-$midBreakpoint: 1120px;
-$smallBreakpoint: 963px;
-$mobileBreakpoint: 768px;
-$mobileVerticalBreakpoint: 636px;
-
-
-//Medidas Mobile
-$normalMobileSideBarWidth: 60vw;
-
-
-@media (max-width: calc($mobileBreakpoint - 1px)){
-  .pageContent{
-    width: 100%;
-    min-height: 88vh;
-    border-radius: 35px 35px 0 0;
-    overflow: hidden;
-  }
-
-  .pageContent.showBar{
-    transition: left $toggleTimeAnimation ease;
-    .NavMenu{
-      bottom: 0;
-      left: 0vw;
-    }
-  }
-
-  .pageContent.hideBar{
-    .NavMenu{
-      bottom: 0;
-      left: calc(0px - var(--sidebar-mobile-width--));
-    }
-  }
-
-  .pageContent.expand{
-    height: 100%;
-    .content{
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .pageContent.shrink{
-    background-color: white;
-  }
-
-  .pageContent.animation{
-    transition: left $toggleTimeAnimation ease;
-  }
-
+.pageContainer{
+  height: calc(100vh - var(--navbar-height--));
+  max-height: calc(100vh - var(--navbar-height--));
+  display: flex;
+  flex-direction: row;
 }
 
-//Estilos Desktop
-@media (min-width: $mobileBreakpoint){
-  .pageContent{
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    transition: left $toggleTimeAnimation ease;
-  
-    .content{
-      position: absolute;
-      height: 100%;
-      max-height: 100%;
-      overflow-y: auto;
-      top: 0;
-      transition: left $toggleTimeAnimation ease;
+.navMenu{
+  width: var(--sidebar-width--);
+  min-width: var(--sidebar-width--);
+  background-color: red;
+}
 
-      &::-webkit-scrollbar{
-        width: 20px;
-      }
+.page{
+  flex-grow: 1;
+}
 
-      &::-webkit-scrollbar-thumb {
-        border-radius: 15px;
-        border: 3px solid white;
-        background: $ScrollBarColor;
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        background: $ScrollBarHoverColor;
-      }
-    }
-  
-  }
-  
-  .pageContent.showBar{
-    .NavMenu{
-      bottom: 0;
-      left: 0;
-    }
-    .content{
-      left: $bigScreenSideBarWidth;
-      width: calc(100vw - $bigScreenSideBarWidth);
-    }
-  
-  }
-  
-  .pageContent.hideBar{
-    .NavMenu{
-      bottom: 0;
-      left: calc(-1*$bigScreenSideBarWidth);
-    }
-    .content{
-      left: 0;
-      width: 100vw;
-    }
-  }
-
-  .pageContent.expand{
-    height: 100vh;
-    max-height: 100vh;
-    .content{
-      left: 0;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 100vw;
-      height: 100vh;
-    }
-  }
-
-  .pageContent.shrink{
+@media only screen and (max-width: 767px) {
+  .navMenu{
+    width: var(--sidebar-mobile-width--);
+    position: absolute;
+    top: var(--navbar-height--);
+    left: 0;
     height: calc(100vh - var(--navbar-height--));
-    max-height: calc(100vh - var(--navbar-height--));
+    z-index: 1;
+    transition: left 0.3s ease;
+  }
+  .retractedMenu{
+    left: calc(0px - var(--sidebar-mobile-width--));
   }
 }
