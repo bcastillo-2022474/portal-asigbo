@@ -34,10 +34,7 @@ function NavMenuButton({
 NavMenuButton.defaultProps = {
   icon: '',
   label: '',
-  clickCallback: () => {
-    // eslint-disable-next-line no-console
-    throw new Error('No se ha establecido un callback para este botón');
-  },
+  clickCallback: null,
   className: '',
 };
 
