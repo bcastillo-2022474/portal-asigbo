@@ -8,6 +8,7 @@
 .navMenu {
   width: var(--sidebar-width--);
   min-width: var(--sidebar-width--);
+  z-index: 100;
 }
 
 .page {
@@ -31,7 +32,6 @@
     top: var(--navbar-height--);
     left: 0;
     height: calc(100vh - var(--navbar-height--));
-    z-index: 1;
     transition: left 0.3s ease;
     background-color: var(--blue-theme-color--);
   }

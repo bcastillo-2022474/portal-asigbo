@@ -91,7 +91,7 @@
     border-radius: 20px;
   }
   .navMenu ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    cursor: pointer;
   }
   .buttons {
     width: 100%;
