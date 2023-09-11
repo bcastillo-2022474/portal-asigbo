@@ -16,6 +16,7 @@ function UserTableFilter({
   onDeleteAllClick,
   showAddAllOption,
   showDeleteAllOption,
+  hideActionButtons,
 }) {
   const [filter, setFilter] = useState({});
   const token = useToken();
@@ -41,10 +42,13 @@ function UserTableFilter({
   };
   return (
     <div className={`${styles.userTableFilter} ${className}`}>
+      {!hideActionButtons
+      && (
       <div className={styles.buttonContainer}>
         {!showDeleteAllOption && <Button text="Añadir todos" green disabled={!showAddAllOption} onClick={onAddAllClick} />}
         {showDeleteAllOption && <Button text="Eliminar todos" red onClick={onDeleteAllClick} />}
       </div>
+      )}
       <div className={styles.inputContainer}>
         <InputSearchSelect
           className={styles.selectInput}
@@ -94,6 +98,7 @@ UserTableFilter.propTypes = {
   onChange: PropTypes.func,
   onAddAllClick: PropTypes.func,
   onDeleteAllClick: PropTypes.func,
+  hideActionButtons: PropTypes.bool,
 };
 
 UserTableFilter.defaultProps = {
@@ -103,4 +108,5 @@ UserTableFilter.defaultProps = {
   onChange: null,
   onAddAllClick: null,
   onDeleteAllClick: null,
+  hideActionButtons: false,
 };

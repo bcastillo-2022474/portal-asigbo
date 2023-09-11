@@ -40,7 +40,7 @@ function TableRow({
 export default TableRow;
 
 TableRow.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   children: PropTypes.node,
   onClick: PropTypes.func,
   onSelect: PropTypes.func,
@@ -52,6 +52,7 @@ TableRow.propTypes = {
 };
 
 TableRow.defaultProps = {
+  id: null,
   children: null,
   onClick: null,
   checked: false,
