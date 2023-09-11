@@ -34,7 +34,7 @@ function NavMenu({ idUser, name, className }) {
           <NavLink to="/">
             <NavMenuButton icon={<HiHome />} label="Inicio" className={styles.optionIcon} />
           </NavLink>
-          <NavLink to="/">
+          <NavLink to="/config">
             <NavMenuButton icon={<IoMdSettings />} label="Configuración" className={styles.optionIcon} />
           </NavLink>
         </div>
