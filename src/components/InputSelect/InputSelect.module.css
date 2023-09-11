@@ -1,0 +1,99 @@
+.inputSelectContainer{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    height: fit-content;
+}
+
+.inputField {
+    padding: 10px;
+    border: 2px solid;
+    border-radius: 5px;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    background-color: #ffffff !important;
+}
+
+.inputLabel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.inputSelectContainer select:focus {
+    outline: none;
+    border: 2px solid #16337F;
+}
+
+.inputSelectContainer select:focus + .inputLabel .labelText {
+    font-size: 12px;
+    transform: translate(0, -120%);
+    background-color: white;
+    padding-left: 4px;
+    padding-right: 4px;
+    color: #16337F;
+}
+
+.inputLabel .labelText{
+    transition: all 0.15s ease-out;
+}
+
+.inputLabel .labelText, select:valid + .inputLabel .labelText {
+    font-size: 12px;
+    transform: translate(0, -120%);
+    background-color: white;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+select:invalid + .inputLabel .labelText{
+    font-size: 16px;
+    transform: translate(0, 0);
+    background-color: none;
+}
+  
+  select:focus + .label .text {
+    color: #16337F;
+}
+
+  .inputSelectContainer.error select{
+    border-color: var(--error-color--);
+}
+
+.inputSelectContainer.error label{
+    color:var(--error-color--);
+    position: absolute;
+    top: -20px;
+    bottom: 0;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.inputSelectContainer .inputError{
+    text-align: left;
+    color: var(--error-color--);
+    font-size: 15px;
+    font-weight: normal;
+}
+
+select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+}
+
+select:-webkit-autofill + .inputLabel .labelText {
+    font-size: 12px;
+    transform: translate(0, -120%);
+    background-color: white;
+    padding-left: 4px;
+    padding-right: 4px;
+}
