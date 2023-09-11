@@ -14,6 +14,17 @@
   flex-grow: 1;
 }
 
+@media only screen and (min-width: 767px) {
+  .navMenu{
+    margin-block: 10px;
+    border-radius: 20px;
+    margin-inline: 15px;
+    overflow: hidden;
+    padding: 10px;
+    box-shadow: 0px 0px 2px 2px #c4c4c4;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   .navMenu{
     width: var(--sidebar-mobile-width--);

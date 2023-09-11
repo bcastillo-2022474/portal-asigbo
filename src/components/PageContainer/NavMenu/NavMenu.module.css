@@ -6,6 +6,44 @@
   display: none;
 }
 
+@media only screen and (min-width: 767px) {
+  .navMenu .buttons {
+    height: 100%;
+  }
+  .navButtons {
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 10px;
+  }
+  .navButtons .optionIcon {
+    width: 120px;
+    height: 120px;
+  }
+  .navButtons .optionIcon svg {
+    width: 45px;
+    height: 45px;
+    fill: var(--blue-theme-color--);
+  }
+  .sessionButtons {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .sessionButtons .logOut {
+    width: 120px;
+    height: 120px;
+  }
+  .sessionButtons .logOut svg {
+    width: 45px;
+    height: 45px;
+    fill: var(--blue-theme-color--);
+  }
+}
 @media only screen and (max-width: 767px) {
   .navMenu {
     display: flex;

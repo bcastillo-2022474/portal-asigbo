@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BiLogOut } from 'react-icons/bi';
 import { IoMdSettings } from 'react-icons/io';
+import { IoLogOut } from 'react-icons/io5';
+import { HiHome } from 'react-icons/hi';
 import styles from './NavMenu.module.css';
 import UserPicture from '../../UserPicture';
 import useLogout from '../../../hooks/useLogout';
@@ -29,10 +30,11 @@ function NavMenu({ idUser, name, className }) {
       </div>
       <div className={styles.buttons}>
         <div className={styles.navButtons}>
+          <NavMenuButton icon={<HiHome />} label="Inicio" className={styles.optionIcon} />
           <NavMenuButton icon={<IoMdSettings />} label="Configuración" className={styles.optionIcon} />
         </div>
         <div className={styles.sessionButtons}>
-          <NavMenuButton icon={<BiLogOut />} clickCallback={logout} label="Cerrar Sesión" className={styles.logOut} />
+          <NavMenuButton icon={<IoLogOut />} clickCallback={logout} label="Cerrar Sesión" className={styles.logOut} />
         </div>
       </div>
     </div>
