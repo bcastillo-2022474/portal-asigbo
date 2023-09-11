@@ -68,12 +68,14 @@ $mobileVerticalBreakpoint: 636px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        width: 50%;
         
         .option{
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100%;
+            width: 90%;
             background-color: transparent;
             border: transparent;
 
@@ -84,19 +86,14 @@ $mobileVerticalBreakpoint: 636px;
                 background-color: $backgroundButtonColor;
                 border: transparent;
                 cursor: pointer;
-                width: 70%;
+                width: 75%;
                 aspect-ratio: 1;
                 border-radius: 100%;
                 transition: box-shadow 0.3s ease, transform 0.3s ease;
-        
-                &:hover{
-                    transform: scale(1.1);
-                    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-                }
             }
         
             .icon{
-                width: 75%;
+                width: 100%;
             }
         
             span{

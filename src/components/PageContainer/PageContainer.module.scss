@@ -18,12 +18,10 @@
 
 @media only screen and (min-width: 767px) and (min-height: 500px) {
   .navMenu{
-    margin-block: 10px;
-    border-radius: 20px;
-    margin-inline: 15px;
     overflow: hidden;
     padding: 10px;
-    box-shadow: 0px 0px 2px 2px #c4c4c4;
+    background-color: #E3E3E3;
+    font-size: 0.75rem;
   }
 }
 
