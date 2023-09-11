@@ -1,4 +1,4 @@
-.tableContainer{
+.tableContainer {
   width: 100%;
   height: fit-content;
   overflow-x: auto;
@@ -24,7 +24,7 @@
 
 }
 
-.checkboxCell{
+.checkboxCell {
   width: fit-content;
   padding-left: 15px !important;
   padding-right: 0 !important;
@@ -33,33 +33,36 @@
 .table thead td {
   box-sizing: border-box;
   padding: 7px 25px 7px 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.verticalDesign{
+.verticalDesign {
   overflow: hidden;
   box-shadow: none;
 }
 
-.verticalDesign thead{
+.verticalDesign thead {
   display: none;
 }
 
-.verticalDesign table{
+.verticalDesign table {
   display: block;
   width: 100%;
   box-shadow: none;
 }
 
-.verticalDesign tbody{
+.verticalDesign tbody {
   width: 100%;
   display: block;
 }
 
-.completeRow{
+.completeRow {
   padding: 40px 0;
 }
 
-.noResults{
+.noResults {
   font-size: 18px;
   color: gray;
 }

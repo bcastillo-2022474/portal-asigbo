@@ -12,7 +12,9 @@ function UserTable({ users }) {
       {users?.map((user, index) => (
         <TableRow id={user.id} key={user.id}>
           <td>{index + 1}</td>
-          <td className={styles.pictureRow}><UserPicture name={user.name} idUser={user.id} /></td>
+          <td className={styles.pictureRow}>
+            <UserPicture name={user.name} idUser={user.id} />
+          </td>
           <td className={styles.nameRow}>
             {`${user.name} ${user.lastname}`}
           </td>
