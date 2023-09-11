@@ -1,88 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { IoMdSettings } from 'react-icons/io';
+import { IoLogOut } from 'react-icons/io5';
+import { HiHome } from 'react-icons/hi';
+import styles from './NavMenu.module.css';
+import UserPicture from '../../UserPicture';
 import useLogout from '../../../hooks/useLogout';
 import NavMenuButton from '../NavMenuButton/NavMenuButton';
-import HomeIcon from '../../../assets/icons/HomeIcon';
-import SettingsIcon from '../../../assets/icons/SettingsIcon';
-import LogOutIcon from '../../../assets/icons/LogOutIcon';
-import XIcon from '../../../assets/icons/XIcon';
-import LogoLetrasBlancas from '../../../assets/General/Copia de Transparente (letras blancas).png';
-import styles from './NavMenu.module.css';
 
-/*
-NavMenu: Es un sidebar desplegable que corre el contenido adyacente
-a la izquierda, este se encargará de proveer al usuario de las opciones de navegación
-que tenga disponibles
-
-@param: ninguno
+/**
+*
+* @module NavMenu: Es un componente que establece la barra lateral de navegación, únicamente
+* contiene el layout, cualquier función o manipulación externa será en materia de componente.
+*
+* @param {string} idUser: ID del usuario
+* @param {string} name: Nombre del usuario
+* @param {string} className: Clases extras a agregar al elemento padre del componente
+*
 */
-function NavMenu({ toggler, className }) {
-  // Strokes refiere al color de relleno de los íconos
-  const [strokes, setStrokes] = useState('');
-  const [isMobile, setMobile] = useState(false);
-  const logOut = useLogout();
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    function handleWindow() {
-      if (window.innerWidth < 768) {
-        setStrokes('#FFFFFF');
-        setMobile(true);
-      } else {
-        setStrokes('#16337F');
-        setMobile(false);
-      }
-    }
-
-    handleWindow();
-
-    window.addEventListener('resize', handleWindow);
-
-    return () => {
-      window.removeEventListener('resize', handleWindow);
-    };
-  }, []);
-
-  const redir = (route, replace) => {
-    navigate(route, { replace });
-  };
+function NavMenu({ idUser, name, className }) {
+  const logout = useLogout();
 
   return (
-    <nav className={`${styles.NavMenu} ${className}`}>
-      {/* Contenedor de botones */}
-      {isMobile && (
-      <>
-        <button className={styles.closeIcon} type="button" onClick={toggler}>
-          <XIcon fill={strokes} stroke={strokes} />
-        </button>
-        <img src={LogoLetrasBlancas} alt="Logo de Asigbo" className={styles.LogoSideBar} />
-      </>
-      )}
+    <div className={`${styles.navMenu} ${className}`}>
+      <div className={styles.profile}>
+        <UserPicture className={styles.profilePicture} name={name} idUser={idUser} />
+        <span className={styles.profileName}>{name}</span>
+      </div>
       <div className={styles.buttons}>
-        {/* Overlay de botones del centro de la barra */}
-        <div className={`${styles.buttonOverlay} ${styles.center}`}>
-          <NavMenuButton label="Inicio" icon={<HomeIcon fill={strokes} />} className={styles.menuButton} clickCallback={() => { redir('/', true); }} />
-          <NavMenuButton label="Ajustes" icon={<SettingsIcon fill={strokes} />} className={styles.menuButton} />
+        <div className={styles.navButtons}>
+          <NavMenuButton icon={<HiHome />} label="Inicio" className={styles.optionIcon} />
+          <NavMenuButton icon={<IoMdSettings />} label="Configuración" className={styles.optionIcon} />
         </div>
-        {/* Overlay de botones en el fondo de la barra */}
-        <div className={`${styles.buttonOverlay} ${styles.bottom}`}>
-          <NavMenuButton label="Cerrar Sesión" icon={<LogOutIcon fill={strokes} stroke={strokes} width="70%" height="70%" />} clickCallback={logOut} className={styles.menuButton} />
+        <div className={styles.sessionButtons}>
+          <NavMenuButton icon={<IoLogOut />} clickCallback={logout} label="Cerrar Sesión" className={styles.logOut} />
         </div>
       </div>
-    </nav>
+    </div>
   );
 }
 
-NavMenu.defaultProps = {
-  // eslint-disable-next-line no-console
-  toggler: () => console.log('Porfavor, establece un toggler para cerrar este menú'),
-  className: '',
+NavMenu.propTypes = {
+  idUser: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
-NavMenu.propTypes = {
-  toggler: PropTypes.func,
-  className: PropTypes.string,
+NavMenu.defaultProps = {
+  idUser: null,
+  className: undefined,
 };
 
 export default NavMenu;

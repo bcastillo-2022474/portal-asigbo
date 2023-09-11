@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './NavMenuButton.module.css';
 
-/*
-
-NavMenuButton: Es un componente que contiene un botón personalizado para el componente
-NavMenu cuyos íconos, labels y callbacks de click son personalizables desde cualquier padre
-
-@params: {JSXElement} icon: Cualquier componente JSX que contenga un ícono
-@params: {string} label: Etiqueta que se muestra debajo del botón
-@params: {function} clickCallback: Cualquier función que corresponda al click del botón
-
+/**
+*
+* NavMenuButton Es un componente que contiene un botón personalizado para el componente
+* NavMenu cuyos íconos, labels y callbacks de click son personalizables desde cualquier padre
+*
+* @param {JSXElement} icon: Cualquier componente JSX que contenga un ícono
+* @param {string} label: Etiqueta que se muestra debajo del botón
+* @param {function} clickCallback: Cualquier función que corresponda al click del botón
+*
 */
 function NavMenuButton({
   icon, label, clickCallback, className,

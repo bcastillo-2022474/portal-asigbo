@@ -16,9 +16,3 @@ function App() {
 }
 
 export default App;
-/* <div>App</div> */
-/* <SessionProvider>
-      <Router>
-        <IndexPage />
-      </Router>
-    </SessionProvider> */

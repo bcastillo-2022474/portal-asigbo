@@ -1,105 +1,146 @@
-$backgroundButtonColor: #E3E3E3;
-$NavBarColor: #16337f;
-$NavBarMenuColor: #2b468b;
-$NavScrollBarColor: #3b5db4;
-$textColor: white;
-
-//Medidas
-$toggleTimeAnimation: 0.3s;
-$bigScreenSideBarWidth: 10vw;
-$bigScreenSideBarMarginInline: 1vw;
-$midScreenSideBarWidth: 12vw;
-$midScreenSideBarMarginInline: 1vw;
-$smallScreenSideBarWidth: 14vw;
-$smallScreenSideBarMarginInline: 1vw;
-
-//Breakpoints
-$bigBreakpoint: 1440px;
-$midBreakpoint: 1120px;
-$smallBreakpoint: 963px;
-$mobileBreakpoint: 768px;
-$mobileVerticalBreakpoint: 636px;
-
-@media (max-width: calc($mobileBreakpoint - 1px)){
-  .NavMenu{
-    display: flex;
-    position: fixed;
-    flex-direction: column;
-    top: 0;
-    right: 0;
-    width: 60vw;
-    background-color: $NavBarColor;
-    height: 100vh;
-    transition: inherit;
-
-    .closeIcon{
-      height: 5%;
-      position: absolute;
-      background-color: transparent;
-      border: transparent;
-      top: 0;
-      right: 0;
+.navMenu{
+    .profile{
+        display: none;
     }
-
-    .LogoSideBar{
-      height: 15%;
-      width: 100%;
-      object-fit: cover;
-    }
-
-    .buttons{
-      flex: 1;
-
-      .center{
-        height: 80%;
-      }
-
-      .bottom{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 20%;
-      }
-    }
-
-  }
+    width: 100%;
+    height: 100%;
 }
 
-@media (min-width: $mobileBreakpoint){
-  .NavMenu{
-    position: absolute;
-    width: 8vw;
-    height: 84.5vh;
-    margin-inline: 1vw;
-    margin-block: 2vh;
-    border-radius: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-    padding: 1%;
-    transition: inherit;
-
-    .buttons{
-      height: 100%;
-      .buttonOverlay{
-        .menuButton{
-          margin-block: 10%;
+@media only screen and (min-width: 767px) and (min-height: 500px) {
+    .navMenu{
+        .buttons{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
-      }
+    }
 
-      .center{
-        height: 69%;
+    .navButtons{
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-      }
+        row-gap: 40px;
+        max-height: 80%;
+        overflow: auto;
 
-      .bottom{
+        .optionIcon{
+            width: 90px;
+            height: 90px;
+            min-height: 90px;
+
+            svg{
+                width: 60px;
+                height: 60px;
+                fill: var(--blue-theme-color--);
+            }
+        }
+    }
+
+    .sessionButtons{
+        height: 20%;
+        min-height: 150px;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        height: 29%;
-      }
+        justify-content: center;
 
+        .logOut{
+            width: 90px;
+            height: 90px;
+            min-height: 90px;
+
+            svg{
+                width: 50px;
+                height: 50px;
+                position: relative;
+                left: 7px;
+                fill: var(--blue-theme-color--);
+            }
+        }
+    }
+}
+
+// Estilos Mobile
+@media only screen and (max-width: 767px), (max-height: 499px) {
+  .navMenu{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    color: white;
+    padding-block: 10%;
+    .profile{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 125px;
+        justify-content: center;
+
+        .profilePicture{
+            width: 90px;
+            height: 90px;
+            min-width: 90px;
+            min-height: 90px;
+            font-size: 35px;
+            font-weight: bold;
+            justify-content: center;
+        }
+    }
+
+    ::-webkit-scrollbar{
+        width: 20px;
+      }
+      ::-webkit-scrollbar-track {
+        width: 1px;
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: white;
+        border: 5px solid var(--blue-theme-color--);
+        border-radius: 20px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        cursor: pointer;
+      }
+  }
+
+  .buttons{
+    width: 100%;
+    padding-inline: 5%;
+    margin-block: 5%;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .profileName{
+    max-width: 60%;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .optionIcon{
+    display: flex;
+    align-items: center;
+    height: 70px;
+    svg{
+        height: 35px;
+        width: 35px;
+    }
+  }
+
+  .logOut{
+    display: flex;
+    align-items: center;
+    height: 70px;
+    svg{
+        height: 35px;
+        width: 35px;
     }
   }
 }
