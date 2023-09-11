@@ -1,18 +1,20 @@
 @media (max-width: 767px) {
   .pageContent {
-    transition: right 0.3s ease;
     width: 100%;
     min-height: 88vh;
     border-radius: 35px 35px 0 0;
     overflow: hidden;
   }
+  .pageContent.showBar {
+    transition: left 0.3s ease;
+  }
   .pageContent.showBar .NavMenu {
     bottom: 0;
-    right: 0vw;
+    left: 0vw;
   }
   .pageContent.hideBar .NavMenu {
     bottom: 0;
-    right: -60vw;
+    left: calc(0px - var(--sidebar-mobile-width--));
   }
   .pageContent.expand {
     height: 100%;
@@ -23,6 +25,9 @@
   }
   .pageContent.shrink {
     background-color: white;
+  }
+  .pageContent.animation {
+    transition: left 0.3s ease;
   }
 }
 @media (min-width: 768px) {

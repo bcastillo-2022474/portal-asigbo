@@ -18,6 +18,7 @@ import styles from './PageContainer.module.css';
 function PageContainer({ children }) {
   // Estado de sidebar mostrada o retraída, mostrada por defecto.
   const [isToggled, setToggle] = useState(false);
+  const [isAnimated, setAnimation] = useState(false);
   const [isShown, setShown] = useState(false);
   const [payload, setPayload] = useState({});
   const token = useToken();
@@ -26,8 +27,12 @@ function PageContainer({ children }) {
     function handleWindow() {
       if (window.innerWidth <= 768) {
         setToggle(false);
+        setTimeout(() => {
+          setAnimation(true);
+        }, 10);
       } else {
         setToggle(true);
+        setAnimation(false);
       }
     }
 
@@ -44,6 +49,7 @@ function PageContainer({ children }) {
     if (token === undefined || token === null) setShown(false);
     else {
       setShown(true);
+      setToggle(false);
       setPayload(getTokenPayload(token));
     }
   }, [token]);
@@ -56,7 +62,7 @@ function PageContainer({ children }) {
   return (
     <>
       {isShown ? <TopBar toggler={toggleMenu} logo={LogoLetrasBlancas} name={`${payload.name} ${payload.lastname}`} /> : false}
-      <div className={`${styles.pageContent} ${isToggled ? styles.showBar : styles.hideBar} ${isShown ? styles.shrink : styles.expand}`}>
+      <div className={`${styles.pageContent} ${isToggled ? styles.showBar : styles.hideBar} ${isShown ? styles.shrink : styles.expand} ${isAnimated ? styles.animation : undefined}`}>
         {isShown ? <NavMenu toggler={toggleMenu} className={styles.NavMenu} /> : false}
         <div className={styles.content}>
           {children}
