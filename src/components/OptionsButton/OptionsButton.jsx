@@ -34,6 +34,7 @@ function OptionsButton({ options }) {
 
       <div className={`${styles.dropMenu} ${isMenuVisible ? styles.visible : ''}`}>
         {options?.map((option) => (
+          option !== null && (
           <div
             className={styles.menuItem}
             key={randomString()}
@@ -45,6 +46,7 @@ function OptionsButton({ options }) {
             {option.icon}
             <span>{option.text}</span>
           </div>
+          )
         ))}
       </div>
     </div>

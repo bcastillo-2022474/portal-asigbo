@@ -25,6 +25,7 @@
 .dropMenu.visible{
   display: block;
   animation: showMenu .3s;
+  z-index: 999;
 }
 
 .menuItem {

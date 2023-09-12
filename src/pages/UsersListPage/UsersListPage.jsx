@@ -4,10 +4,12 @@ import useToken from '../../hooks/useToken';
 import useFetch from '../../hooks/useFetch';
 import { serverHost } from '../../config';
 import LoadingView from '../../components/LoadingView/LoadingView';
+import ManageUsersTable from '../../components/ManageUsersTable/ManageUsersTable';
 
 function UsersListPage() {
   const token = useToken();
   const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     callFetch: getUsers,
@@ -16,10 +18,10 @@ function UsersListPage() {
     loading: loadingUsers,
   } = useFetch();
 
-  const fetchUsers = (page, promotion, search) => {
-    console.log(`${serverHost}/user${promotion ? `?promotion=${promotion}` : ''}${search ? `?search=${search}` : ''}`);
+  const fetchUsers = (promotion, search) => {
+    console.log(`${serverHost}/user?includeBlocked=true?page=${currentPage}${promotion ? `?promotion=${promotion}` : ''}${search ? `?search=${search}` : ''}`);
     getUsers({
-      uri: `${serverHost}/user${promotion ? `?promotion=${promotion}` : ''}${search ? `?search=${search}` : ''}`,
+      uri: `${serverHost}/user?includeBlocked=true&page=${currentPage}${promotion ? `&promotion=${promotion}` : ''}${search ? `&search=${search}` : ''}`,
       headers: { authorization: token },
     });
   };
@@ -36,13 +38,15 @@ function UsersListPage() {
 
   useEffect(() => {
     console.log(users);
-    fetchUsers(0, 2020);
+    setCurrentPage(1);
+    fetchUsers();
   }, []);
 
   return (
     <div className={styles.usersListPage}>
       {loadingUsers && <LoadingView />}
       <h1 className={styles.pageTitle}>Lista de usuarios</h1>
+      <ManageUsersTable users={users.result} />
     </div>
   );
 }

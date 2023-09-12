@@ -1,0 +1,31 @@
+.nameRow{
+    text-align: left;
+    order: 0;
+    border-bottom:0 !important;
+  }
+  
+  .pictureRow{
+    display: flex !important;
+    justify-content: end;
+    order:1;
+  }
+  
+  .promotionRow{
+    order: 2;
+  }
+  
+  /*El breakpoint debe coinicidir con el de la table*/
+  @media only screen and (max-width: 700px){
+    .picture{
+      width: 100%;
+    }
+  }
+
+  .actionsRow{
+    overflow: visible !important;
+  }
+
+  .optionsContainer{
+    display: flex;
+    justify-content: center;
+  }
