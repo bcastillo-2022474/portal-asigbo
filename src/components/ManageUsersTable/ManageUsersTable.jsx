@@ -41,6 +41,7 @@ function ManageUsersTable({ users }) {
                   user.blocked ? { icon: <UnblockIcon />, text: 'Desbloquear', onClick: handleUnblockOptionClick } : { icon: <BlockIcon />, text: 'Bloquear', onClick: handleBlockOptionClick },
                   !user.completeRegistration ? { icon: <EmailIcon />, text: 'Reenviar correo de registro', onClick: handleReSendEmailOptionClick } : null, // Placeholder object with no-op function
                 ]}
+                showMenuAtTop={index === (users.length - 1) && index > 2}
               />
             </div>
           </td>
