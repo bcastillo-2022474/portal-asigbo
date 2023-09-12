@@ -128,6 +128,7 @@ $adminButtonColor: #F0F0F0;
   display: flex;
   flex-direction: column;
   align-items: start;
+  flex-grow: 1;
 }
 
 .chartContainer{
@@ -153,11 +154,22 @@ $adminButtonColor: #F0F0F0;
   object-fit: cover;
 }
 
+
+.chartContainer{
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 .chart{
   width: 100%;
-  max-width: 400px;
+  height: 100%;
+  max-width: 300px;
+  max-height: 300px;
+  aspect-ratio: 1 / 1;
   canvas{
-    aspect-ratio: 1/1;
+    aspect-ratio: 1 / 1;
     width: 100% !important;
     height: 100% !important;
   }
