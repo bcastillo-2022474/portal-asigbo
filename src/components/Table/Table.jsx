@@ -28,6 +28,7 @@ function Table({
   children,
   breakPoint,
   maxCellWidth,
+  minCellWidth,
   showCheckbox,
   onSelectedRowsChange,
   className,
@@ -105,7 +106,7 @@ function Table({
               </td>
             )}
             {header?.map((val) => (
-              <td style={{ maxWidth: maxCellWidth }} key={randomString(10)}>
+              <td style={{ maxWidth: maxCellWidth, minWidth: minCellWidth }} key={randomString(10)}>
                 {val}
               </td>
             ))}
@@ -139,6 +140,7 @@ function Table({
                 header,
                 useVerticalStyle,
                 maxCellWidth: child?.props.maxCellWidth ?? maxCellWidth,
+                minCellWidth: child?.props.minCellWidth ?? minCellWidth,
                 showCheckbox,
               });
             }
@@ -158,6 +160,7 @@ Table.propTypes = {
   children: PropTypes.node,
   breakPoint: PropTypes.string,
   maxCellWidth: PropTypes.string,
+  minCellWidth: PropTypes.string,
   showCheckbox: PropTypes.bool,
   onSelectedRowsChange: PropTypes.func,
   className: PropTypes.string,
@@ -169,6 +172,7 @@ Table.defaultProps = {
   children: null,
   breakPoint: '600px',
   maxCellWidth: null,
+  minCellWidth: null,
   showCheckbox: true,
   onSelectedRowsChange: null,
   className: '',

@@ -1,154 +1,167 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import NavMenuButton from '@components/PageContainer/NavMenuButton/NavMenuButton';
 import InputText from '@components/InputText';
 import ExcelIcon from '@assets/icons/ExcelIcon';
-import XIcon from '@assets/icons/XIcon';
-import Button from '@components/Button';
+import { useNavigate } from 'react-router-dom';
+import Spinner from '../../components/Spinner/Spinner';
+import Button from '../../components/Button/Button';
+import InputSelect from '../../components/InputSelect/InputSelect';
+import InputNumber from '../../components/InputNumber/InputNumber';
 import styles from './NewUserPage.module.css';
-import Table from '../../components/Table/Table';
-import ImportCSVPopUp from '../../components/PageContainer/ImportCSVPopUp';
-import TableRow from '../../components/TableRow/TableRow';
+import useForm from '../../hooks/useForm';
+import useFetch from '../../hooks/useFetch';
+import usePopUp from '../../hooks/usePopUp';
+import useToken from '../../hooks/useToken';
+import { serverHost } from '../../config';
+import createUserSchema from './createUserSchema';
+import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp/SuccessNotificationPopUp';
+import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
 
 function NewUserPage() {
-  const [form, setForm] = useState({});
-  const [errors, setErrors] = useState({});
-  const [usersData, setUsersData] = useState([]);
-  const [openCSVImport, setOpenCSVImport] = useState(false);
-  const handleIconClick = () => {
-    if (usersData.length === 0) setOpenCSVImport(true);
-    else {
-      setUsersData([]);
-    }
-  };
+  const token = useToken();
+  const navigate = useNavigate();
 
-  const arrayToJSON = (array) => {
-    const headers = array[0];
-    const rows = array.slice(1);
+  const {
+    form, error, setData, validateField, clearFieldError, validateForm,
+  } = useForm(createUserSchema);
 
-    const result = rows.map((row) => {
-      const obj = {};
-      headers.forEach((header, i) => {
-        obj[header] = row[i];
-      });
-      return obj;
+  const {
+    callFetch: postUser,
+    result: resultPostUser,
+    error: errorPostUser,
+    loading: loadingPostUser,
+  } = useFetch();
+
+  const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
+  const [isErrorOpen, openError, closeError] = usePopUp();
+
+  const redirectOnSuccess = () => navigate('/');
+
+  const handleSubmitUser = async (e) => {
+    e.preventDefault();
+
+    setData('code', Math.floor(Math.random() * (15001 - 0) + 0));
+
+    const formErrors = await validateForm();
+    if (formErrors) return;
+
+    postUser({
+      uri: `${serverHost}/user/`,
+      method: 'POST',
+      headers: { authorization: token },
+      body: JSON.stringify(form),
     });
-
-    return result;
   };
 
-  const handleImport = (file) => {
-    const rows = file.trim().split('\n');
-    const content = rows.map((row) => row.split(','));
-    setUsersData(arrayToJSON(content));
+  const handleIconClick = () => {
+    // Abrir popup para subir excel
   };
 
   const handleFormChange = (e) => {
-    const field = e.target.name;
-    const { value } = e.target;
-    setForm((lastValue) => ({ ...lastValue, [field]: value }));
+    const { name, value } = e.target;
+    // console.log(name, value);
+    setData(name, value);
   };
 
-  const clearError = (e) => {
-    setErrors((lastVal) => ({ ...lastVal, [e.target.name]: null }));
-  };
+  useEffect(() => {
+    if (errorPostUser) openError();
+  }, [errorPostUser]);
 
-  const validateFirstNames = () => {
-    if (form?.name?.trim().length > 0) return true;
-    setErrors((lastVal) => ({ ...lastVal, name: 'Los nombres del becado son requeridos' }));
-    return false;
-  };
-
-  const validateLastNames = () => {
-    if (form?.lastName?.trim().length > 0) return true;
-    setErrors((lastVal) => ({ ...lastVal, lastName: 'Los nombres del becado son requeridos' }));
-    return false;
-  };
-
-  const validateEmail = () => {
-    if (form?.email?.trim().length > 0) return true;
-    setErrors((lastVal) => ({ ...lastVal, email: 'El email del becado es requerido' }));
-    return false;
-  };
-
-  const selectUser = (user) => {
-    setUsersData((list) => {
-      if (list.some((userData) => userData[0] === user[0])) return list;
-      return [...list, user];
-    });
-  };
-
-  const removeUser = (user) => {
-    setUsersData((list) => list.filter((userData) => userData.code !== user.code));
-  };
+  useEffect(() => {
+    if (resultPostUser) openSuccess();
+  }, [resultPostUser]);
 
   return (
     <div className={styles.newUserPage}>
       <div className={styles.headerContainer}>
-        <h1 className={styles.pageTitle}>
-          {usersData.length === 0 ? 'Crear usuario' : 'Importar información desde archivo'}
-        </h1>
-        {usersData.length > 0 && <p>Revise que los datos sean los esperados.</p>}
+        <h1 className={styles.pageTitle}>Crear usuario</h1>
         <div className={styles.iconWrapper}>
           <NavMenuButton
-            icon={usersData.length === 0 ? <ExcelIcon height="80%" width="80%" />
-              : <XIcon fill height="80%" width="80%" />}
+            icon={<ExcelIcon height="80%" width="80%" />}
             clickCallback={handleIconClick}
           />
         </div>
       </div>
-      {usersData.length === 0 ? (
-        <div className={styles.form}>
-          <InputText
-            title="Nombres del becado"
-            name="name"
-            value={form?.name}
-            error={errors?.name}
-            onChange={handleFormChange}
-            onFocus={clearError}
-            onBlur={validateFirstNames}
-          />
-          <InputText
-            title="Apellidos del becado"
-            name="lastName"
-            value={form?.lastName}
-            error={errors?.lastName}
-            onChange={handleFormChange}
-            onFocus={clearError}
-            onBlur={validateLastNames}
-          />
-          <InputText
-            title="Correo electrónico del becado"
-            name="email"
-            value={form?.email}
-            error={errors?.email}
-            onChange={handleFormChange}
-            onFocus={clearError}
-            onBlur={validateEmail}
-          />
+      <form className={styles.form} onSubmit={handleSubmitUser}>
+        <InputText
+          title="Nombres del becado"
+          name="name"
+          value={form?.name}
+          error={error?.name}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('name')}
+          onBlur={() => validateField('name')}
+        />
+        <InputText
+          title="Apellidos del becado"
+          name="lastname"
+          value={form?.lastname}
+          error={error?.lastname}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('lastname')}
+          onBlur={() => validateField('lastname')}
+        />
+        <InputText
+          title="Correo electrónico del becado"
+          name="email"
+          value={form?.email}
+          error={error?.email}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('email')}
+          onBlur={() => validateField('email')}
+        />
+        <InputText
+          title="Carrera"
+          name="career"
+          value={form?.career}
+          error={error?.career}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('career')}
+          onBlur={() => validateField('career')}
+        />
+        <InputNumber
+          name="promotion"
+          value={form?.promotion}
+          error={error?.promotion}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('promotion')}
+          onBlur={() => validateField('promotion')}
+          title="Promoción"
+          min={2000}
+          max={2100}
+        />
+        <InputSelect
+          options={[{ value: 'M', title: 'Masculino' }, { value: 'F', title: 'Femenino' }]}
+          name="sex"
+          error={error?.sex}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('sex')}
+          onBlur={() => validateField('sex')}
+          placeholder="Sexo"
+          title="Sexo"
+          value={form?.sex}
+        />
+        <div className={styles.sendContainer}>
+          {!resultPostUser && !loadingPostUser && (
+            <Button text="Registrar becado" className={styles.sendButton} type="submit" />
+          )}
+          {loadingPostUser && <Spinner />}
         </div>
-      ) : (
-        <Table maxCellWidth="50px" showCheckbox={false} header={Object.keys(usersData[0])}>
-          {usersData.map((user) => (
-            <TableRow id={user.code}>
-              {Object.values(user).map((data) => (
-                <td>{data}</td>
-              ))}
-              <td>
-                {usersData.some((userData) => userData.code === user.code) ? (
-                  <Button text="Remover" red onClick={() => removeUser(user)} />
-                ) : (
-                  <Button text="Agregar" green onClick={() => selectUser(user)} />
-                )}
-              </td>
-            </TableRow>
-          ))}
-        </Table>
-      )}
-      <ImportCSVPopUp
-        onImport={handleImport}
-        close={() => setOpenCSVImport(false)}
-        isOpen={openCSVImport}
+      </form>
+
+      <SuccessNotificationPopUp
+        close={closeSuccess}
+        isOpen={isSuccessOpen}
+        callback={redirectOnSuccess}
+        text="El usuario del becado ha sido creado de forma exitosa."
       />
+
+      <ErrorNotificationPopUp
+        close={closeError}
+        isOpen={isErrorOpen}
+        text={errorPostUser?.message}
+      />
+
     </div>
   );
 }

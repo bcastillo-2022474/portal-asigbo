@@ -1,0 +1,21 @@
+.usersListPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
+}
+
+.pageTitle{
+    text-align: left;
+    width: 65%;
+    align-self: flex-start;
+}
+
+@media only screen and (max-width: 765px){
+    
+    .pageTitle{
+        text-align: center;
+    }
+}

@@ -25,6 +25,8 @@
 
   --page-scrollbar-color--: #b7b7b7;
   --page-scrollbar-color-hover--: #7e7e7e;
+  --min-page-horizontal-padding--: 30px;
+  --min-page-vertical-padding--: 30px;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
