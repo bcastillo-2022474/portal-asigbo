@@ -247,7 +247,6 @@ function UserProfilePage() {
           </div>
           <div className={styles.allActivities}>
             <h3>Actividades Realizadas</h3>
-            <UserTableFilter />
             <ActivityTableFilter />
           </div>
         </div>

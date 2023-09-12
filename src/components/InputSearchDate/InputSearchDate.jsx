@@ -17,7 +17,10 @@ function InputSearchDateBetween({
 
   // eslint-disable-next-line arrow-body-style
   const disabledDate = (current) => {
-    return current < dayjs(disabledBefore).startOf('day');
+    if (disabledBefore) {
+      return current < dayjs(disabledBefore).startOf('day');
+    }
+    return false;
   };
 
   return (
