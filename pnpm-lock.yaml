@@ -26,6 +26,9 @@ dependencies:
   color-thief-react:
     specifier: ^2.1.0
     version: 2.1.0(react-dom@18.2.0)(react@18.2.0)
+  dayjs:
+    specifier: ^1.11.9
+    version: 1.11.9
   gsap:
     specifier: ^3.12.2
     version: 3.12.2

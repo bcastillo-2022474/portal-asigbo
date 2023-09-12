@@ -19,6 +19,7 @@
     "buffer": "^6.0.3",
     "chart.js": "^4.4.0",
     "color-thief-react": "^2.1.0",
+    "dayjs": "^1.11.9",
     "gsap": "^3.12.2",
     "jschardet": "^3.0.0",
     "prop-types": "^15.8.1",

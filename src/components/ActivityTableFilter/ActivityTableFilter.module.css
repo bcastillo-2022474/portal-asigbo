@@ -1,0 +1,15 @@
+.activityFilter {
+  width: 100%;
+  border-radius: 7px;
+  border: 1px solid #b8bfc3;
+  padding: 15px;
+  margin-block: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.dateInput {
+  max-width: 250px;
+  margin-inline: 30px;
+}

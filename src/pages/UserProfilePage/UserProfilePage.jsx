@@ -19,6 +19,7 @@ import Button from '../../components/Button';
 import { serverHost } from '../../config';
 import UserTableFilter from '../../components/UserTableFilter/UserTableFilter';
 import InputSearchDate from '../../components/InputSearchDate';
+import ActivityTableFilter from '../../components/ActivityTableFilter/ActivityTableFilter';
 
 /**
  * @module UserProfilePage: Genera una página en la que se mostrará la información básica
@@ -247,7 +248,7 @@ function UserProfilePage() {
           <div className={styles.allActivities}>
             <h3>Actividades Realizadas</h3>
             <UserTableFilter />
-            <InputSearchDate />
+            <ActivityTableFilter />
           </div>
         </div>
       )}
