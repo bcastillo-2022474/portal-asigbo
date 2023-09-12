@@ -10,6 +10,8 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import Table2 from '../../components/Table2/Table';
 import useUserInfo from '../../hooks/useUserInfo';
 import { serverHost } from '../../config';
+import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
+import consts from '../../helpers/consts';
 
 /**
  * @module UserProfilePage: Genera una página en la que se mostrará la información básica
@@ -71,7 +73,7 @@ function UserProfilePage() {
         <div className={styles.infoBlock}>
           <h1>Información del Becado</h1>
           <div className={styles.holderDetails}>
-            <HolderIcon fill="#000000" className={styles.holderIcon} />
+            <ProfilePicture uri="https://placehold.co/600x600" className={styles.pfp} />
             <div className={styles.holderInfo}>
               <h2>{`${loggedInfo ? loggedInfo.name : ''} ${loggedInfo ? loggedInfo.lastname : ''}`}</h2>
               <span>
@@ -113,7 +115,6 @@ function UserProfilePage() {
         </div>
       )}
       {errorInfo ? <div>Ocurrió un error</div> : undefined}
-      <img src={`${serverHost}/image/user/${userId}`} alt="Imágen" onError={onError} />
     </div>
   );
 }
