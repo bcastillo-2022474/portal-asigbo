@@ -7,6 +7,7 @@
 
   --error-color--:#df0303;
   --blue-theme-color--:#16337f; 
+  --blue-theme-color-hover--:#2e4d9c; 
 
   --text-font-size--:16px;
   --h1-title-size--:35px;
@@ -21,6 +22,9 @@
 
   --page-horizontal-padding--: 50px;
   --page-vertical-padding--: 50px;
+
+  --page-scrollbar-color--: #b7b7b7;
+  --page-scrollbar-color-hover--: #7e7e7e;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;

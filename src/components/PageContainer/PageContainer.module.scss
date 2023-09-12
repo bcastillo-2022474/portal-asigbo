@@ -3,6 +3,22 @@
   max-height: calc(100vh - var(--navbar-height--));
   display: flex;
   flex-direction: row;
+  ::-webkit-scrollbar{
+    width: 25px;
+  }
+  ::-webkit-scrollbar-track {
+    width: 1px;
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--page-scrollbar-color--);
+    border: 5px solid white;
+    border-radius: 20px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    opacity: 0.7;
+    background-color: var(--page-scrollbar-color-hover--);
+  }
 }
 
 .navMenu{

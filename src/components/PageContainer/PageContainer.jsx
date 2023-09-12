@@ -73,7 +73,7 @@ function PageContainer({ children }) {
       ) : (
         false
       )}
-      <div className={styles.pageContainer}>
+      <div className={`${styles.pageContainer}`}>
         <div className={`${styles.navMenu} ${isToggled ? undefined : styles.retractedMenu}`}>
           <NavMenu name={`${payload.name} ${payload.lastname}`} />
         </div>

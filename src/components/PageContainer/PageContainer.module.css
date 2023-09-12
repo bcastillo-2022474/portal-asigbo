@@ -4,11 +4,26 @@
   display: flex;
   flex-direction: row;
 }
+.pageContainer ::-webkit-scrollbar {
+  width: 25px;
+}
+.pageContainer ::-webkit-scrollbar-track {
+  width: 1px;
+  background: transparent;
+}
+.pageContainer ::-webkit-scrollbar-thumb {
+  background: var(--page-scrollbar-color--);
+  border: 5px solid white;
+  border-radius: 20px;
+}
+.pageContainer ::-webkit-scrollbar-thumb:hover {
+  opacity: 0.7;
+  background-color: var(--page-scrollbar-color-hover--);
+}
 
 .navMenu {
   width: var(--sidebar-width--);
   min-width: var(--sidebar-width--);
-  z-index: 100;
 }
 
 .page {
@@ -23,6 +38,7 @@
     padding: 10px;
     background-color: #E3E3E3;
     font-size: 0.75rem;
+    z-index: 100;
   }
 }
 @media only screen and (max-width: 767px), (max-height: 499px) {
@@ -32,6 +48,7 @@
     top: var(--navbar-height--);
     left: 0;
     height: calc(100vh - var(--navbar-height--));
+    z-index: 1;
     transition: left 0.3s ease;
     background-color: var(--blue-theme-color--);
   }

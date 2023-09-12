@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { IoMdSettings } from 'react-icons/io';
 import useLoggedInfo from '@hooks/useLoggedInfo';
 import HolderIcon from '../../assets/icons/HolderIcon';
 import styles from './UserProfilePage.module.css';
@@ -12,6 +13,7 @@ import useUserInfo from '../../hooks/useUserInfo';
 import { serverHost } from '../../config';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import consts from '../../helpers/consts';
+import Button from '../../components/Button';
 
 /**
  * @module UserProfilePage: Genera una página en la que se mostrará la información básica
@@ -71,7 +73,13 @@ function UserProfilePage() {
     <div className={styles.main}>
       {loading ? <LoadingView /> : (
         <div className={styles.infoBlock}>
-          <h1>Información del Becado</h1>
+          <div className={styles.pageHeader}>
+            <h1>Información del Becado</h1>
+            <Button className={styles.adminButton}>
+              Administrar
+              <IoMdSettings className={styles.adminButtIcon} />
+            </Button>
+          </div>
           <div className={styles.holderDetails}>
             <ProfilePicture uri="https://placehold.co/600x600" className={styles.pfp} />
             <div className={styles.holderInfo}>
@@ -108,9 +116,17 @@ function UserProfilePage() {
                 <ProgressBar progress={loggedInfo ? (loggedInfo.serviceHours.total / 2) : 0} />
               </div>
             </div>
-            {errorActivities
-              ? <span>{errorActivities.message}</span>
-              : <Table2 headers={headers} content={content} />}
+          </div>
+          <div className={styles.areaClasification}>
+            <h4>Clasificación de horas de servicio</h4>
+            <div className={styles.areaDetails}>
+              <div className={styles.areaList}>
+                Lista
+              </div>
+              <div className={styles.chart}>
+                Chart
+              </div>
+            </div>
           </div>
         </div>
       )}
