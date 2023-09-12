@@ -151,7 +151,7 @@ function SelectAdminTable() {
         breakPoint="900px"
       >
         {users?.result.map((user, index) => (
-          <TableRow>
+          <TableRow key={user.id}>
             <td>{index + 1}</td>
             <td className={styles.pictureRow}>
               <UserPicture name={user.name} idUser={user.id} />
@@ -159,7 +159,7 @@ function SelectAdminTable() {
             <td className={styles.nameRow}>{`${user.name} ${user.lastname}`}</td>
             <td className={styles.promotionRow}>{user.promotion}</td>
             <td className={styles.buttonRow}>
-              {user.role.includes(consts.roles.admin) ? (
+              {user.role?.includes(consts.roles.admin) ? (
                 <Button text="Remover" red onClick={() => handleRemoveUserClick(user)} />
               ) : (
                 <Button text="Agregar" green onClick={() => handleAssignUserClick(user)} />
