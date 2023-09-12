@@ -223,7 +223,9 @@ function UserProfilePage() {
                     : 'Hola'}
                 </ul>
               </div>
-              <div className={styles.chart}><Doughnut data={data} /></div>
+              <div className={styles.chartContainer}>
+                <Doughnut data={data} className={styles.chart} />
+              </div>
             </div>
           </div>
         </div>
