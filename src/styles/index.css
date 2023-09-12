@@ -5,6 +5,8 @@
   line-height: 1.5;
   font-weight: 400;
 
+  --global-font-family--:  'Montserrat','Inter', sans-serif;
+
   --error-color--:#df0303;
   --blue-theme-color--:#16337f; 
   --blue-theme-color-hover--:#2e4d9c; 

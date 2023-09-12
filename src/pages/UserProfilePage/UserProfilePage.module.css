@@ -106,7 +106,7 @@
   flex-grow: 1;
 }
 
-.areaClasification h4 {
+.areaClasification h3 {
   margin-block: 40px;
 }
 
@@ -123,6 +123,7 @@
   flex-direction: column;
   align-items: start;
   flex-grow: 1;
+  margin-bottom: 40px;
 }
 
 .chartContainer {
@@ -167,4 +168,8 @@
   aspect-ratio: 1/1;
   width: 100% !important;
   height: 100% !important;
+}
+
+.allActivities h3 {
+  margin-block: 40px;
 }

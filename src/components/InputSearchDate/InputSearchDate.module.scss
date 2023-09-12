@@ -1,0 +1,29 @@
+.inputDateContainer{
+    width: 100%;
+    box-shadow: none !important;
+}
+
+.inputDate{
+    width: 100%;
+    border-radius: 7px;
+    color:#828484 !important;
+    border: 1px solid #b8bfc3;
+    height: 45px;
+    font-family: var(--global-font-family--) !important;
+    font-size: var(--text-font-size--) !important;
+    background-color: #F0F0F0;
+    box-shadow: none !important;
+    input{
+        font-size: inherit !important;
+        font-family: inherit !important;
+        color: black !important;
+    }
+    input::placeholder{
+        color: #757575 !important;
+    }
+
+    &:hover{
+        box-shadow: none !important;
+        border: 1px solid #b8bfc3 !important;
+    }
+}

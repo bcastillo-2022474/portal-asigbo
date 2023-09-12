@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable quotes */
 /* eslint-disable no-unused-vars */
 /* eslint-disable arrow-body-style */
 import React, { useEffect, useState } from 'react';
@@ -15,49 +17,31 @@ import useUserInfo from '../../hooks/useUserInfo';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import Button from '../../components/Button';
 import { serverHost } from '../../config';
+import UserTableFilter from '../../components/UserTableFilter/UserTableFilter';
+import InputSearchDate from '../../components/InputSearchDate';
 
 /**
  * @module UserProfilePage: Genera una página en la que se mostrará la información básica
  * de un becado.
+ *
+ * @todo Colocar un color adecuado para cada cada sección del chart, es decir, ver el color
+ * predominante del ícono que al que pertenece el área, es preferible que esto pueda venir
+ * del backend, puesto que es complicado hacerlo en frontend, debido a que está sujeto a procesos
+ * asincrónicos por la consulta.
  */
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
 function UserProfilePage() {
+  // Estados de información
   const { userId } = useParams();
   const [loading, setLoading] = useState(true);
-  // eslint-disable-next-line no-unused-vars
   const [content, setContent] = useState([[]]);
   const [completedAct, setCompletedAct] = useState([]);
-  // eslint-disable-next-line no-unused-vars
   const [deptDetails, setDeptDetails] = useState([]);
+  const [chartData, setChartData] = useState({});
+
+  // Hooks de carga de información
   const {
     info: loggedInfo,
     error: errorInfo,
@@ -65,6 +49,7 @@ function UserProfilePage() {
   } = useUserInfo(userId);
   const { info: loggedActivities, loading: loadingActivities } = useEnrolledActivities(userId);
 
+  // Efecto de animación de carga
   useEffect(() => {
     if (loadingInfo || loadingActivities) {
       setLoading(true);
@@ -73,6 +58,7 @@ function UserProfilePage() {
     }
   }, [loadingInfo, loadingActivities]);
 
+  // Efecto que maneja las actividades comunes y completadas.
   useEffect(() => {
     let newArr = [];
     const completed = [];
@@ -96,6 +82,9 @@ function UserProfilePage() {
     setContent(newArr);
   }, [loggedActivities]);
 
+  // Efecto que maneja las areas en las que únicamente se han completado actividades,
+  // guarda en el estado un arreglo de objetos donde cada objeto posee el ID del área,
+  // su nombre, y cuántas horas totales completadas posee por el perfil.
   useEffect(() => {
     const auxObj = {};
     const areas = [];
@@ -128,9 +117,36 @@ function UserProfilePage() {
     setDeptDetails(areas);
   }, [completedAct]);
 
+  // Manejo de datos del chart, utiliza la misma información que las áreas, sin
+  // embargo posee una sintaxis especial que hay que mapear.
   useEffect(() => {
-    console.log(deptDetails);
+    const newData = {
+      labels: [],
+      datasets: [
+        {
+          label: '# de Horas',
+          data: [],
+          backgroundColor: [
+            '#E18634',
+          ],
+          borderColor: [
+            '#7d4a1b',
+          ],
+          borderWidth: 2,
+        },
+      ],
+    };
+    newData.labels = [];
+    deptDetails.forEach(async (value) => {
+      newData.labels.push(value.name);
+      newData.datasets[0].data.push(value.hours);
+    });
+    setChartData(newData);
   }, [deptDetails]);
+
+  useEffect(() => {
+    console.log(chartData);
+  }, [chartData]);
 
   return (
     <div className={styles.main}>
@@ -206,7 +222,7 @@ function UserProfilePage() {
             </div>
           </div>
           <div className={styles.areaClasification}>
-            <h4>Clasificación de horas de servicio</h4>
+            <h3>Clasificación de horas de servicio</h3>
             <div className={styles.areaDetails}>
               <div className={styles.areaList}>
                 <ul>
@@ -224,9 +240,14 @@ function UserProfilePage() {
                 </ul>
               </div>
               <div className={styles.chartContainer}>
-                <Doughnut data={data} className={styles.chart} />
+                <Doughnut data={chartData} className={styles.chart} />
               </div>
             </div>
+          </div>
+          <div className={styles.allActivities}>
+            <h3>Actividades Realizadas</h3>
+            <UserTableFilter />
+            <InputSearchDate />
           </div>
         </div>
       )}
