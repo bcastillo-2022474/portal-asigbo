@@ -3,13 +3,15 @@ import { serverHost } from '../config';
 import useFetch from './useFetch';
 
 /**
- * @module useLoggedInfo: Hook que obtiene la información del usuario con sesión activa. Esta
+ * @module useUserInfo: Hook que obtiene la información del usuario con sesión activa. Esta
  * se obtiene únicamente cuando el hook es llamado.
  *
- * @async 'serverHost/user/logged': Obtiene la información del usuario con sesión activa por
+ * @param {string} _id: ID del usuario a consultar.
+ *
+ * @async 'serverHost/user/:id': Obtiene la información del usuario con sesión activa por
  * medio de callFetch.
  *
- * @property {async Function} getLoggedInfo(): Función asincrónica que obtiene la información
+ * @property {async Function} getUserInfo(): Función asincrónica que obtiene la información
  * de la sesión activa.
  *
  * @property {Object} info: Objeto que contiene la información obtenida del becado en sesión activa.
@@ -34,10 +36,10 @@ import useFetch from './useFetch';
  *
  * @property {boolean} loading: Booleano que indica si la consulta está cargando la información.
  *
- * @returns {getLoggedInfo(), info, error, loading}
+ * @returns {getUserInfo(), info, error, loading}
  */
 
-function useLoggedInfo() {
+function useUserInfo(_id) {
   const {
     callFetch,
     result,
@@ -45,21 +47,21 @@ function useLoggedInfo() {
     loading,
   } = useFetch();
 
-  const getLoggedInfo = async () => {
-    const uri = `${serverHost}/user/logged`;
+  const getUserInfo = async () => {
+    const uri = `${serverHost}/user/${_id}`;
     await callFetch({ uri });
   };
 
   useEffect(() => {
-    getLoggedInfo();
+    getUserInfo();
   }, []);
 
   return {
-    getLoggedInfo,
+    getUserInfo,
     info: result,
     error,
     loading,
   };
 }
 
-export default useLoggedInfo;
+export default useUserInfo;

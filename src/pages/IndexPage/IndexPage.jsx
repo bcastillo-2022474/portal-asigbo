@@ -9,7 +9,6 @@ import UserIndexPage from '../UserIndexPage/UserIndexPage';
 
 const IndexPage = () => {
   const token = useToken();
-
   let page;
 
   if (token === null) page = <UnloggedIndexPage />;

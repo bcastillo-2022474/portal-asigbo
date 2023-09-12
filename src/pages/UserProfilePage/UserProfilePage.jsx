@@ -1,23 +1,32 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import useLoggedInfo from '@hooks/useLoggedInfo';
 import HolderIcon from '../../assets/icons/HolderIcon';
 import styles from './UserProfilePage.module.css';
-import useLoggedInfo from '../../hooks/useLoggedInfo';
 import useEnrolledActivities from '../../hooks/useEnrolledActivities';
 import LoadingView from '../../components/LoadingView';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import Table2 from '../../components/Table2/Table';
+import useUserInfo from '../../hooks/useUserInfo';
+import { serverHost } from '../../config';
+
+/**
+ * @module UserProfilePage: Genera una página en la que se mostrará la información básica
+ * de un becado.
+ */
 
 function UserProfilePage() {
+  const { userId } = useParams();
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState([[]]);
-  const { info: loggedInfo, error: errorInfo, loading: loadingInfo } = useLoggedInfo();
+  const { info: loggedInfo, error: errorInfo, loading: loadingInfo } = useUserInfo(userId);
   const {
     info: loggedActivities,
     error: errorActivities,
     loading: loadingActivities,
-  } = useEnrolledActivities();
+  } = useEnrolledActivities(userId);
+
   const headers = ['No.', 'Actividad', 'Horas de servicio', 'Fecha', 'Eje'];
 
   useEffect(() => {
@@ -27,6 +36,18 @@ function UserProfilePage() {
       setLoading(false);
     }
   }, [loadingInfo, loadingActivities]);
+
+  const onError = () => {
+    console.log('Error');
+  };
+
+  useEffect(() => {
+    console.log(loggedInfo);
+  }, [loggedInfo]);
+
+  useEffect(() => {
+    console.log(loggedActivities);
+  }, [loggedActivities]);
 
   useEffect(() => {
     let newArr = [];
@@ -73,12 +94,12 @@ function UserProfilePage() {
               <div className={styles.totalHours}>
                 <span>Total de horas de servicio</span>
                 <h2>
-                  {`${loggedInfo ? loggedInfo.serviceHours.total : '0'} horas`}
+                  {`${loggedInfo ? `${loggedInfo.serviceHours ? loggedInfo.serviceHours.total : '0'}` : '0'} horas`}
                 </h2>
               </div>
               <div className={styles.totalHours}>
                 <span>Actividades participadas</span>
-                <h2>{`${loggedInfo ? loggedInfo.serviceHours.areas.length : '0'} actividades`}</h2>
+                <h2>{`${loggedActivities ? Object.keys(loggedActivities).length : '0'} actividades`}</h2>
               </div>
               <div className={styles.progressContainer}>
                 <span>Porcentaje de horas beca requisito completadas</span>
@@ -92,6 +113,7 @@ function UserProfilePage() {
         </div>
       )}
       {errorInfo ? <div>Ocurrió un error</div> : undefined}
+      <img src={`${serverHost}/image/user/${userId}`} alt="Imágen" onError={onError} />
     </div>
   );
 }
