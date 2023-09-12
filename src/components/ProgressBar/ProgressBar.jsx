@@ -34,7 +34,11 @@ function ProgressBar({ progress, className }) {
     checkType(progress);
     const delayer = setTimeout(() => {
       if (checkType(progress)) {
-        setProgress(progress);
+        if (progress > 100) {
+          setProgress(100);
+        } else {
+          setProgress(progress);
+        }
       }
     }, 200);
     return () => clearTimeout(delayer);

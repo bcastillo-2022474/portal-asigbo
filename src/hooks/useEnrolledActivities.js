@@ -11,7 +11,7 @@ function useEnrolledActivities(_id) {
   } = useFetch();
 
   const getEnrolledActivities = async () => {
-    const uri = `${serverHost}/activity/${_id}`;
+    const uri = `${serverHost}/activity/assignment/?idUser=${_id}`;
     await callFetch({ uri });
   };
 

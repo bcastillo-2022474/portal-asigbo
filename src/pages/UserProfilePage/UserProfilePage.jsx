@@ -1,37 +1,69 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable arrow-body-style */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { IoMdSettings } from 'react-icons/io';
-import useLoggedInfo from '@hooks/useLoggedInfo';
-import HolderIcon from '../../assets/icons/HolderIcon';
+import {
+  Chart as ChartJS, ArcElement, Tooltip, Legend,
+} from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
 import styles from './UserProfilePage.module.css';
 import useEnrolledActivities from '../../hooks/useEnrolledActivities';
 import LoadingView from '../../components/LoadingView';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
-import Table2 from '../../components/Table2/Table';
 import useUserInfo from '../../hooks/useUserInfo';
-import { serverHost } from '../../config';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
-import consts from '../../helpers/consts';
 import Button from '../../components/Button';
+import { serverHost } from '../../config';
 
 /**
  * @module UserProfilePage: Genera una página en la que se mostrará la información básica
  * de un becado.
  */
 
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+const data = {
+  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  datasets: [
+    {
+      label: '# of Votes',
+      data: [12, 19, 3, 5, 2, 3],
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+      ],
+      borderWidth: 1,
+    },
+  ],
+};
+
 function UserProfilePage() {
   const { userId } = useParams();
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
   const [content, setContent] = useState([[]]);
-  const { info: loggedInfo, error: errorInfo, loading: loadingInfo } = useUserInfo(userId);
+  const [completedAct, setCompletedAct] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [deptDetails, setDeptDetails] = useState([]);
   const {
-    info: loggedActivities,
-    error: errorActivities,
-    loading: loadingActivities,
-  } = useEnrolledActivities(userId);
-
-  const headers = ['No.', 'Actividad', 'Horas de servicio', 'Fecha', 'Eje'];
+    info: loggedInfo,
+    error: errorInfo,
+    loading: loadingInfo,
+  } = useUserInfo(userId);
+  const { info: loggedActivities, loading: loadingActivities } = useEnrolledActivities(userId);
 
   useEffect(() => {
     if (loadingInfo || loadingActivities) {
@@ -41,37 +73,70 @@ function UserProfilePage() {
     }
   }, [loadingInfo, loadingActivities]);
 
-  const onError = () => {
-    console.log('Error');
-  };
-
-  useEffect(() => {
-    console.log(loggedInfo);
-  }, [loggedInfo]);
-
-  useEffect(() => {
-    console.log(loggedActivities);
-  }, [loggedActivities]);
-
   useEffect(() => {
     let newArr = [];
+    const completed = [];
     if (loggedActivities) {
-      newArr = loggedActivities.map((value, index) => {
-        const item = [];
-        item.push(index);
-        item.push(value.name);
-        item.push(value.serviceHours);
-        item.push(value.date.slice(0, 10));
-        item.push(value.asigboArea.name);
-        return item;
+      loggedActivities.forEach((value) => {
+        if (value.completed) {
+          completed.push(value);
+        }
+      });
+
+      newArr = loggedActivities.map((value) => {
+        const temp = value;
+
+        if (value.activity) {
+          temp.activity.date = value.activity.date.slice(0, 10);
+        }
+        return temp;
       });
     }
+    setCompletedAct(completed);
     setContent(newArr);
   }, [loggedActivities]);
 
+  useEffect(() => {
+    const auxObj = {};
+    const areas = [];
+    if (completedAct) {
+      completedAct.forEach((value) => {
+        const temp = {};
+        temp.areaId = value.activity.asigboArea.id;
+        temp.areaName = value.activity.asigboArea.name;
+
+        if (auxObj[temp.areaId]) {
+          auxObj[temp.areaId] += value.activity.serviceHours;
+        } else {
+          auxObj[temp.areaId] = value.activity.serviceHours;
+        }
+      });
+    }
+    Object.keys(auxObj).forEach((valueKeys) => {
+      const values = completedAct.find(
+        (object) => object.activity.asigboArea.id === valueKeys,
+      );
+
+      if (values) {
+        const area = {};
+        area.id = values.activity.asigboArea.id;
+        area.name = values.activity.asigboArea.name;
+        area.hours = auxObj[valueKeys];
+        areas.push(area);
+      }
+    });
+    setDeptDetails(areas);
+  }, [completedAct]);
+
+  useEffect(() => {
+    console.log(deptDetails);
+  }, [deptDetails]);
+
   return (
     <div className={styles.main}>
-      {loading ? <LoadingView /> : (
+      {loading ? (
+        <LoadingView />
+      ) : (
         <div className={styles.infoBlock}>
           <div className={styles.pageHeader}>
             <h1>Información del Becado</h1>
@@ -81,9 +146,17 @@ function UserProfilePage() {
             </Button>
           </div>
           <div className={styles.holderDetails}>
-            <ProfilePicture uri="https://placehold.co/600x600" className={styles.pfp} />
+            <ProfilePicture
+              uri="https://placehold.co/600x600"
+              className={styles.pfp}
+            />
             <div className={styles.holderInfo}>
-              <h2>{`${loggedInfo ? loggedInfo.name : ''} ${loggedInfo ? loggedInfo.lastname : ''}`}</h2>
+              <h2>
+                {`${loggedInfo ? loggedInfo.name : ''} ${
+                  loggedInfo ? loggedInfo.lastname : ''
+                }`}
+
+              </h2>
               <span>
                 <b>Código: </b>
                 <b>{loggedInfo ? loggedInfo.code : ''}</b>
@@ -104,16 +177,31 @@ function UserProfilePage() {
               <div className={styles.totalHours}>
                 <span>Total de horas de servicio</span>
                 <h2>
-                  {`${loggedInfo ? `${loggedInfo.serviceHours ? loggedInfo.serviceHours.total : '0'}` : '0'} horas`}
+                  {`${
+                    loggedInfo
+                      ? `${
+                        loggedInfo.serviceHours
+                          ? loggedInfo.serviceHours.total
+                          : '0'
+                      }`
+                      : '0'
+                  } horas`}
                 </h2>
               </div>
               <div className={styles.totalHours}>
                 <span>Actividades participadas</span>
-                <h2>{`${loggedActivities ? Object.keys(loggedActivities).length : '0'} actividades`}</h2>
+                <h2>
+                  {`${
+                    loggedActivities ? Object.keys(loggedActivities).length : '0'
+                  } actividades`}
+
+                </h2>
               </div>
               <div className={styles.progressContainer}>
                 <span>Porcentaje de horas beca requisito completadas</span>
-                <ProgressBar progress={loggedInfo ? (loggedInfo.serviceHours.total / 2) : 0} />
+                <ProgressBar
+                  progress={loggedInfo ? loggedInfo.serviceHours.total / 2 : 0}
+                />
               </div>
             </div>
           </div>
@@ -121,11 +209,21 @@ function UserProfilePage() {
             <h4>Clasificación de horas de servicio</h4>
             <div className={styles.areaDetails}>
               <div className={styles.areaList}>
-                Lista
+                <ul>
+                  { deptDetails
+                    ? deptDetails.map((value, _index, array) => {
+                      return (
+                        <li key={value + array} className={styles.areaListItem}>
+                          <img src={`${serverHost}/image/area/${value.id}`} alt="Logotipo" className={styles.areaListIcon} />
+                          <b>{`${value.name}:`}</b>
+                          {`${value.hours} horas`}
+                        </li>
+                      );
+                    })
+                    : 'Hola'}
+                </ul>
               </div>
-              <div className={styles.chart}>
-                Chart
-              </div>
+              <div className={styles.chart}><Doughnut data={data} /></div>
             </div>
           </div>
         </div>
