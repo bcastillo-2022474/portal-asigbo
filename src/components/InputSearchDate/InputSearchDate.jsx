@@ -10,6 +10,7 @@ function InputSearchDateBetween({
   className,
   setDate,
   disabledBefore,
+  disabledAfter,
 }) {
   const onChange = (newDate) => {
     setDate(newDate.$d);
@@ -17,8 +18,16 @@ function InputSearchDateBetween({
 
   // eslint-disable-next-line arrow-body-style
   const disabledDate = (current) => {
-    if (disabledBefore) {
-      return current < dayjs(disabledBefore).startOf('day');
+    if (disabledBefore || disabledAfter) {
+      let disabledDown;
+      let disableUp;
+      if (disabledBefore) {
+        disabledDown = (current < dayjs(disabledBefore).startOf('day'));
+      }
+      if (disabledAfter) {
+        disableUp = (current > dayjs(disabledAfter).startOf('day'));
+      }
+      return disableUp || disabledDown;
     }
     return false;
   };
@@ -48,6 +57,7 @@ InputSearchDateBetween.propTypes = {
   placeholder: PropTypes.string,
   className: PropTypes.string,
   disabledBefore: PropTypes.instanceOf(Date),
+  disabledAfter: PropTypes.instanceOf(Date),
   setDate: PropTypes.func.isRequired,
 };
 
@@ -55,6 +65,7 @@ InputSearchDateBetween.defaultProps = {
   placeholder: 'Seleccionar fecha',
   className: '',
   disabledBefore: undefined,
+  disabledAfter: undefined,
 };
 
 export default InputSearchDateBetween;

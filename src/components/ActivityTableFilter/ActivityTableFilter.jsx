@@ -12,7 +12,7 @@ function ActivityTableFilter() {
     <div className={styles.activityFilter}>
       <div className={styles.selectDate}>
         <span>Desde:</span>
-        <InputSearchDate className={styles.dateInput} placeholder="Fecha de Incio" setDate={setInitialDate} />
+        <InputSearchDate className={styles.dateInput} placeholder="Fecha de Incio" setDate={setInitialDate} disabledAfter={finalDate} />
       </div>
       <div className={styles.selectDate}>
         <span>Hasta:</span>
