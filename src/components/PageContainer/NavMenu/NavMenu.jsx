@@ -17,10 +17,13 @@ import NavMenuButton from '../NavMenuButton/NavMenuButton';
 * @param {string} idUser: ID del usuario
 * @param {string} name: Nombre del usuario
 * @param {string} className: Clases extras a agregar al elemento padre del componente
-*
+* @param {function} toggler: Función que cerrará el sidebar en caso de existir función de apertura
+* y cierre
 */
 
-function NavMenu({ idUser, name, className }) {
+function NavMenu({
+  idUser, name, className, toggler,
+}) {
   const logout = useLogout();
 
   return (
@@ -31,10 +34,10 @@ function NavMenu({ idUser, name, className }) {
       </div>
       <div className={styles.buttons}>
         <div className={styles.navButtons}>
-          <NavLink to="/">
+          <NavLink to="/" onClick={toggler || undefined}>
             <NavMenuButton icon={<HiHome />} label="Inicio" className={styles.optionIcon} />
           </NavLink>
-          <NavLink to="/config">
+          <NavLink to="/config" onClick={toggler || undefined}>
             <NavMenuButton icon={<IoMdSettings />} label="Configuración" className={styles.optionIcon} />
           </NavLink>
         </div>
@@ -50,11 +53,13 @@ NavMenu.propTypes = {
   idUser: PropTypes.string,
   name: PropTypes.string.isRequired,
   className: PropTypes.string,
+  toggler: PropTypes.func,
 };
 
 NavMenu.defaultProps = {
   idUser: null,
   className: undefined,
+  toggler: undefined,
 };
 
 export default NavMenu;

@@ -75,7 +75,7 @@ function PageContainer({ children }) {
       )}
       <div className={`${styles.pageContainer}`}>
         <div className={`${styles.navMenu} ${isToggled ? undefined : styles.retractedMenu}`}>
-          <NavMenu name={`${payload.name} ${payload.lastname}`} />
+          <NavMenu name={`${payload.name} ${payload.lastname}`} toggler={toggleMenu} />
         </div>
         <div className={styles.page}>
           {children}

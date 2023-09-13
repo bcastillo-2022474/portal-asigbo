@@ -186,6 +186,7 @@
   }
   .pageHeader .adminButton {
     margin-block: 20px;
+    margin-left: 0;
   }
   .pageHeader h1 {
     text-align: center;
