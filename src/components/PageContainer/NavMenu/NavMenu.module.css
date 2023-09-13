@@ -8,6 +8,7 @@
 .navMenu a {
   text-decoration: none;
   color: inherit;
+  cursor: pointer;
 }
 .navMenu a:visited {
   color: inherit;
@@ -33,6 +34,7 @@
     width: 90px;
     height: 90px;
     min-height: 90px;
+    cursor: pointer;
   }
   .navButtons .optionIcon svg {
     width: 60px;
@@ -51,6 +53,7 @@
     width: 90px;
     height: 90px;
     min-height: 90px;
+    cursor: pointer;
   }
   .sessionButtons .logOut svg {
     width: 50px;

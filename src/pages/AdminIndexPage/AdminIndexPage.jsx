@@ -9,6 +9,7 @@ import ImportUsersPage from '@pages/ImportUsersPage';
 import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import AdminConfiguration from '../AdminConfiguration/AdminConfiguration';
+import UserProfilePage from '../UserProfilePage/UserProfilePage';
 import UsersListPage from '../UsersListPage/UsersListPage';
 
 function AdminIndexPage() {
@@ -24,6 +25,7 @@ function AdminIndexPage() {
         <Route path="/area" element={<AreasListPage />} />
         <Route path="/config/*" element={<AdminConfiguration />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/user/:userId" element={<UserProfilePage />} />
         <Route path="/usuarios" element={<UsersListPage />} />
       </Routes>
     </PageContainer>
