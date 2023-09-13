@@ -7,8 +7,12 @@
     padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
 }
 
+.tableCell {
+    cursor: pointer;
+}
+
 .buttonCell {
-    text-align: center;
+    text-align: center !important;
 }
 
 .headerContainer {
@@ -22,7 +26,7 @@
 
 .pageTitle {
     text-align: left;
-    width: 65%;
+    width: 100%;
     align-self: flex-start;
 }
 
