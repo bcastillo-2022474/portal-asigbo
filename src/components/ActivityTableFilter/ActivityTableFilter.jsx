@@ -38,11 +38,11 @@ function ActivityTableFilter({ searchHandler, initialDateHandler, finalDateHandl
     <div className={styles.activityFilter}>
       <div className={styles.selectDate}>
         <span>Desde:</span>
-        <InputSearchDate className={styles.dateInput} placeholder="Fecha de Incio" setDate={setInitialDate} disabledAfter={finalDate} />
+        <InputSearchDate className={styles.dateInput} placeholder="Fecha de inicio" setDate={setInitialDate} disabledAfter={finalDate} />
       </div>
       <div className={styles.selectDate}>
         <span>Hasta:</span>
-        <InputSearchDate className={styles.dateInput} placeholder="Fecha de Culminación" setDate={setFinalDate} disabledBefore={initialDate} />
+        <InputSearchDate className={styles.dateInput} placeholder="Fecha de culminación" setDate={setFinalDate} disabledBefore={initialDate} />
       </div>
       <div className={styles.searchInput}>
         <SearchInput handleSearch={searchHandler} />

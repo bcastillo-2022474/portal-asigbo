@@ -25,7 +25,7 @@ function AdminIndexPage() {
         <Route path="/area" element={<AreasListPage />} />
         <Route path="/config/*" element={<AdminConfiguration />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="/user/:userId" element={<UserProfilePage />} />
+        <Route path="/usuario/:userId" element={<UserProfilePage />} />
         <Route path="/usuarios" element={<UsersListPage />} />
       </Routes>
     </PageContainer>
