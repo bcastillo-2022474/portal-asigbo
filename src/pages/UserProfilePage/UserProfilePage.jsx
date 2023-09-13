@@ -1,6 +1,3 @@
-/* eslint-disable react/no-unknown-property */
-/* eslint-disable quotes */
-/* eslint-disable no-unused-vars */
 /* eslint-disable arrow-body-style */
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -15,6 +12,7 @@ import LoadingView from '../../components/LoadingView';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import useUserInfo from '../../hooks/useUserInfo';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
+import NotFound from '../NotFoundPage';
 import Button from '../../components/Button';
 import { serverHost } from '../../config';
 import ActivityTable from '../../components/ActivityTable';
@@ -39,6 +37,7 @@ function UserProfilePage() {
   const [completedAct, setCompletedAct] = useState([]);
   const [deptDetails, setDeptDetails] = useState([]);
   const [chartData, setChartData] = useState({});
+  const [notFound, setNotFound] = useState(false);
 
   // Hooks de carga de información
   const {
@@ -46,7 +45,18 @@ function UserProfilePage() {
     error: errorInfo,
     loading: loadingInfo,
   } = useUserInfo(userId);
-  const { info: loggedActivities, loading: loadingActivities } = useEnrolledActivities(userId);
+  const {
+    info: enrolledActivities,
+    loading: loadingActivities,
+    error: errorActivities,
+  } = useEnrolledActivities(userId);
+
+  useEffect(() => {
+    if (errorInfo) {
+      setNotFound(true);
+    }
+    console.error(errorInfo, errorActivities);
+  }, [errorInfo, errorActivities]);
 
   // Efecto de animación de carga
   useEffect(() => {
@@ -61,14 +71,14 @@ function UserProfilePage() {
   useEffect(() => {
     let newArr = [];
     const completed = [];
-    if (loggedActivities) {
-      loggedActivities.forEach((value) => {
+    if (enrolledActivities) {
+      enrolledActivities.forEach((value) => {
         if (value.completed) {
           completed.push(value);
         }
       });
 
-      newArr = loggedActivities.map((value) => {
+      newArr = enrolledActivities.map((value) => {
         const temp = value;
 
         if (value.activity) {
@@ -79,7 +89,7 @@ function UserProfilePage() {
     }
     setCompletedAct(completed);
     setContent(newArr);
-  }, [loggedActivities]);
+  }, [enrolledActivities]);
 
   // Efecto que maneja las areas en las que únicamente se han completado actividades,
   // guarda en el estado un arreglo de objetos donde cada objeto posee el ID del área,
@@ -143,15 +153,7 @@ function UserProfilePage() {
     setChartData(newData);
   }, [deptDetails]);
 
-  useEffect(() => {
-    console.log(chartData);
-  }, [chartData]);
-
-  useEffect(() => {
-    console.log(content);
-  }, [content]);
-
-  return (
+  return notFound ? <NotFound /> : (
     <div className={styles.main}>
       {loading ? (
         <LoadingView />
@@ -211,7 +213,7 @@ function UserProfilePage() {
                 <span>Actividades participadas</span>
                 <h2>
                   {`${
-                    loggedActivities ? Object.keys(loggedActivities).length : '0'
+                    enrolledActivities ? Object.keys(enrolledActivities).length : '0'
                   } actividades`}
 
                 </h2>
