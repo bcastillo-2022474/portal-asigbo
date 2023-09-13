@@ -8,6 +8,14 @@
 .container label {
   cursor: pointer;
   position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: 1px black dashed;
+  border-radius: 10px;
+  margin-top: 15px;
+  background-color: #f2f2f2;
+  padding: 20px;
 }
 
 .container input {

@@ -5,6 +5,7 @@ import NewAreaPage from '@pages/NewAreaPage';
 import PageContainer from '@components/PageContainer/PageContainer';
 import AdminProfilePage from '@pages/AdminProfilePage';
 import NewUserPage from '@pages/NewUserPage';
+import ImportUsersPage from '@pages/ImportUsersPage';
 import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import AdminConfiguration from '../AdminConfiguration/AdminConfiguration';
@@ -16,6 +17,7 @@ function AdminIndexPage() {
       <Routes>
         <Route path="/" element={<AdminProfilePage />} />
         <Route path="/newUser" element={<NewUserPage />} />
+        <Route path="/importUsers" element={<ImportUsersPage />} />
         <Route path="/area/:idArea/editar" element={<NewAreaPage />} />
         <Route path="/area/:idArea/*" element={<AreaDetailsPage adminPrivileges />} />
         <Route path="/area/nuevo" element={<NewAreaPage />} />

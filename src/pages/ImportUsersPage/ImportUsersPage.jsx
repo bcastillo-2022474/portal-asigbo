@@ -7,7 +7,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import Button from '../../components/Button/Button';
 import InputSelect from '../../components/InputSelect/InputSelect';
 import InputNumber from '../../components/InputNumber/InputNumber';
-import styles from './NewUserPage.module.css';
+import styles from './ImportUsersPage.module.css';
 import useForm from '../../hooks/useForm';
 import useFetch from '../../hooks/useFetch';
 import usePopUp from '../../hooks/usePopUp';
@@ -18,7 +18,7 @@ import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp/
 import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
 import ImportCSVPopUp from '../../components/ImportCSVPopUp/ImportCSVPopUp';
 
-function NewUserPage() {
+function ImportUsersPage() {
   const token = useToken();
   const navigate = useNavigate();
   const [openImport, setOpenImport] = useState(false);
@@ -181,4 +181,4 @@ function NewUserPage() {
   );
 }
 
-export default NewUserPage;
+export default ImportUsersPage;

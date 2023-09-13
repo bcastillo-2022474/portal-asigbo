@@ -3,10 +3,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PopUp from '@components/PopUp';
 import jschardet from 'jschardet';
-import Button from '@components/Button';
-import { BsFillCloudUploadFill } from 'react-icons/bs';
+import { BiSolidCloudUpload } from 'react-icons/bi';
 import styles from './ImportCSVPopUp.module.css';
-import consts from '../../../helpers/consts';
+import consts from '../../helpers/consts';
 
 function ImportCSVPopUp({
   close, isOpen, onImport,
@@ -42,24 +41,20 @@ function ImportCSVPopUp({
     cleanAndClose();
   };
 
-  const uploadFile = () => {
-    const fileInput = document.getElementById('importCSV');
-    fileInput.click();
-  };
-
   return (
     isOpen && (
-      <PopUp close={cleanAndClose} maxWidth={370}>
+      <PopUp close={cleanAndClose} maxWidth={700}>
         <div className={styles.container}>
           <label htmlFor="importCSV">
-            <BsFillCloudUploadFill style={{ fontSize: '10em', color: '#16337F' }} />
+            <BiSolidCloudUpload style={{ fontSize: '10em', color: '#16337F', margin: '-20px 0' }} />
+            <h2>Importar información</h2>
+            <p>Haz click o arrastra y suelta el archivo.</p>
             <input
               id="importCSV"
               type="file"
               onChange={handleChange}
             />
           </label>
-          <Button htmlFor="importCSV" text="Subir archivo" onClick={uploadFile} />
           <p style={{
             color: 'red',
             display: `${error ? 'block' : 'none'}`,
