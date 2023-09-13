@@ -12,6 +12,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
 import usePopUp from '../../hooks/usePopUp';
+import UserDataPopUp from '../../components/UserDataPopUp/UserDataPopUp';
 
 function ImportUsersPage() {
   const { state } = useLocation();
@@ -19,10 +20,23 @@ function ImportUsersPage() {
 
   if (!data) return <NotFoundPage />;
 
-  const [selectedUsers, setSelectedUsers] = useState(data);
+  const format = (rawData) => (
+    rawData.map((info) => ({
+      code: info['Código'],
+      name: info.Nombres,
+      lastname: info.Apellidos,
+      email: info.Correo,
+      career: info.Carrera,
+      promotion: info['Promoción'],
+      sex: info.Sexo,
+    })));
+
+  const [importedData, setImportedData] = useState(format(data));
+  const [selectedUsers, setSelectedUsers] = useState(importedData);
   const navigate = useNavigate();
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
+  const [openForm, setOpenForm] = useState(null);
   const token = useToken();
 
   const {
@@ -30,12 +44,12 @@ function ImportUsersPage() {
   } = useFetch();
 
   const removeUser = (user) => {
-    setSelectedUsers((current) => current.filter((userData) => userData['Código'] !== user['Código']));
+    setSelectedUsers((current) => current.filter((userData) => userData.code !== user.code));
   };
 
   const selectUser = (user) => {
     setSelectedUsers((current) => {
-      if (current.some((userData) => userData['Código'] === user['Código'])) return current;
+      if (current.some((userData) => userData.code === user.code)) return current;
       return [...current, user];
     });
   };
@@ -56,6 +70,12 @@ function ImportUsersPage() {
     });
   };
 
+  const onFormSubmit = (oldInfo, newInfo) => {
+    if (JSON.stringify(oldInfo) === JSON.stringify(newInfo)) return;
+    setImportedData((current) => current.map((el) => (el === oldInfo ? newInfo : el)));
+    setSelectedUsers((current) => current.map((el) => (el === oldInfo ? newInfo : el)));
+  };
+
   useEffect(() => {
     if (result) openSuccess();
   }, [result]);
@@ -69,15 +89,35 @@ function ImportUsersPage() {
       <div className={styles.headerContainer}>
         <h1 className={styles.pageTitle}>Importar usuarios desde archivo</h1>
       </div>
-      <Table maxCellWidth="100px" showCheckbox={false} header={['Nombres', 'Apellidos', 'Correo', 'Promoción']}>
-        {data.map((user) => (
-          <TableRow key={user['Código']} id={user['Código']}>
-            <td>{user.Nombres}</td>
-            <td>{user.Apellidos}</td>
-            <td>{user.Correo}</td>
-            <td>{user['Promoción']}</td>
+      <Table minCellWidth="50px" breakPoint="700px" showCheckbox={false} header={['Nombres', 'Apellidos', 'Correo', 'Promoción']}>
+        {importedData.map((user, index) => (
+          <TableRow key={user.code} id={user.code}>
+            <td
+              className={styles.tableCell}
+              onClick={() => setOpenForm(index)}
+            >
+              {user.name}
+            </td>
+            <td
+              className={styles.tableCell}
+              onClick={() => setOpenForm(index)}
+            >
+              {user.lastname}
+            </td>
+            <td
+              className={styles.tableCell}
+              onClick={() => setOpenForm(index)}
+            >
+              {user.email}
+            </td>
+            <td
+              className={styles.tableCell}
+              onClick={() => setOpenForm(index)}
+            >
+              {user.promotion}
+            </td>
             <td className={styles.buttonCell}>
-              {selectedUsers.some((userData) => userData['Código'] === user['Código']) ? (
+              {selectedUsers.some((userData) => userData.code === user.code) ? (
                 <Button text="Remover" red onClick={() => removeUser(user)} />
               ) : (
                 <Button text="Agregar" green onClick={() => selectUser(user)} />
@@ -117,6 +157,16 @@ function ImportUsersPage() {
         isOpen={isErrorOpen}
         text={fetchError?.message}
       />
+      {importedData.map((user, index) => (
+        <UserDataPopUp
+          key={user.code}
+          isOpen={openForm === index}
+          info={user}
+          codes={importedData.map((el) => el.code)}
+          close={() => setOpenForm(null)}
+          onSubmit={onFormSubmit}
+        />
+      ))}
     </div>
   );
 }

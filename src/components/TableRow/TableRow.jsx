@@ -40,6 +40,7 @@ function TableRow({
       }`}
       onClick={onClick}
       onMouseDown={onMouseDown}
+      style={{ cursor: onClick ? 'pointer' : undefined }}
     >
       {showCheckbox && (
         <td className={`${styles.checkboxCell}`}>
