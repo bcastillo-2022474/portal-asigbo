@@ -9,6 +9,7 @@ import UserTableFilter from '@components/UserTableFilter';
 import useFetch from '@hooks/useFetch';
 import { serverHost } from '@/config';
 import useCount from '@hooks/useCount';
+import UserNameLink from '@components/UserNameLink';
 import styles from './UserSelectTable.module.css';
 
 /**
@@ -163,7 +164,9 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
           (user, index) => (
             <TableRow id={user.id} key={user.id}>
               <td>{(users ? users.resultsPerPage * currentPage : 0) + index + 1}</td>
-              <td>{`${user.name} ${user.lastname}`}</td>
+              <td>
+                <UserNameLink idUser={user.id} name={`${user.name} ${user.lastname}`} />
+              </td>
               <td>
                 {selectedUsers.some((userData) => userData.id === user.id) ? (
                   <Button text="Remover" red onClick={() => removeUser(user)} />
