@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { IoMdSettings } from 'react-icons/io';
 import {
   Chart as ChartJS, ArcElement, Tooltip, Legend,
@@ -169,10 +169,12 @@ function UserProfilePage() {
         <div className={styles.infoBlock}>
           <div className={styles.pageHeader}>
             <h1>Información del Becado</h1>
-            <Button className={styles.adminButton}>
-              Administrar
-              <IoMdSettings className={styles.adminButtIcon} />
-            </Button>
+            <Link to="editar">
+              <Button className={styles.adminButton}>
+                Administrar
+                <IoMdSettings className={styles.adminButtIcon} />
+              </Button>
+            </Link>
           </div>
           <div className={styles.holderDetails}>
             <ProfilePicture
