@@ -5,7 +5,8 @@
   flex-direction: row;
 }
 .pageContainer ::-webkit-scrollbar {
-  width: 25px;
+  width: 10px;
+  height: 10px;
 }
 .pageContainer ::-webkit-scrollbar-track {
   width: 1px;
@@ -13,7 +14,6 @@
 }
 .pageContainer ::-webkit-scrollbar-thumb {
   background: var(--page-scrollbar-color--);
-  border: 5px solid white;
   border-radius: 20px;
 }
 .pageContainer ::-webkit-scrollbar-thumb:hover {
