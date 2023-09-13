@@ -17,6 +17,8 @@ import Button from '../../components/Button';
 import { serverHost } from '../../config';
 import ActivityTable from '../../components/ActivityTable';
 
+/*----------------------------------------------------------------------------------------------*/
+
 /**
  * @module UserProfilePage: Genera una página en la que se mostrará la información básica
  * de un becado.
@@ -26,6 +28,8 @@ import ActivityTable from '../../components/ActivityTable';
  * del backend, puesto que es complicado hacerlo en frontend, debido a que está sujeto a procesos
  * asincrónicos por la consulta.
  */
+
+/*----------------------------------------------------------------------------------------------*/
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -51,11 +55,12 @@ function UserProfilePage() {
     error: errorActivities,
   } = useEnrolledActivities(userId);
 
+  // Si no encuentra al usuario o hay algún error relacionado con la información
+  // se tomará como datos no encontrados
   useEffect(() => {
     if (errorInfo) {
       setNotFound(true);
     }
-    console.error(errorInfo, errorActivities);
   }, [errorInfo, errorActivities]);
 
   // Efecto de animación de carga
@@ -259,5 +264,7 @@ function UserProfilePage() {
     </div>
   );
 }
+
+/*----------------------------------------------------------------------------------------------*/
 
 export default UserProfilePage;

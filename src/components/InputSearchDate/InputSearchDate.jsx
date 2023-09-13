@@ -5,6 +5,22 @@ import esES from 'antd/locale/es_ES';
 import dayjs from 'dayjs';
 import styles from './InputSearchDate.module.css';
 
+/*----------------------------------------------------------------------------------------------*/
+
+/**
+ * @module InputSearchBetween: Componente "input" en el que se podrá seleccionar una fecha,
+ * asimismo, restringir fechas de ser necesario.
+ *
+ * @param {string} placeholder: Placeholder que se mostrará cuando no se haya seleccionado una fecha
+ * @param {string} className: Clase(s) a agregar al elemento padre del componente.
+ * @param {function} setDate: Función que se espera que maneje la fecha seleccionada.
+ * @param {string} disabledBefore: Establece una restricción de selección antes de esta fecha.
+ * @param {string} disabledAfter: Establece una restricción de selección después de esta fecha.
+ *
+ */
+
+/*----------------------------------------------------------------------------------------------*/
+
 function InputSearchDateBetween({
   placeholder,
   className,
@@ -12,11 +28,13 @@ function InputSearchDateBetween({
   disabledBefore,
   disabledAfter,
 }) {
+  // Función que maneja el cambio en la fecha.
   const onChange = (newDate) => {
     setDate(newDate.$d);
   };
 
   // eslint-disable-next-line arrow-body-style
+  // Función que deshabilita las fechas según los parámetros dados.
   const disabledDate = (current) => {
     if (disabledBefore || disabledAfter) {
       let disabledDown;
@@ -53,6 +71,8 @@ function InputSearchDateBetween({
   );
 }
 
+/*----------------------------------------------------------------------------------------------*/
+
 InputSearchDateBetween.propTypes = {
   placeholder: PropTypes.string,
   className: PropTypes.string,
@@ -67,5 +87,7 @@ InputSearchDateBetween.defaultProps = {
   disabledBefore: undefined,
   disabledAfter: undefined,
 };
+
+/*----------------------------------------------------------------------------------------------*/
 
 export default InputSearchDateBetween;
