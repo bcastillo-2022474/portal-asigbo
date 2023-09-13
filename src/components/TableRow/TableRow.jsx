@@ -26,6 +26,7 @@ function TableRow({
   maxCellWidth,
   minCellWidth,
   showCheckbox,
+  onMouseDown,
 }) {
   const handleChange = (e) => {
     const value = e.target.checked;
@@ -38,6 +39,7 @@ function TableRow({
         checked ? styles.selectedRow : ''
       }`}
       onClick={onClick}
+      onMouseDown={onMouseDown}
     >
       {showCheckbox && (
         <td className={`${styles.checkboxCell}`}>
@@ -66,12 +68,14 @@ TableRow.propTypes = {
   maxCellWidth: PropTypes.string,
   minCellWidth: PropTypes.string,
   showCheckbox: PropTypes.bool,
+  onMouseDown: PropTypes.func,
 };
 
 TableRow.defaultProps = {
   id: null,
   children: null,
   onClick: null,
+  onMouseDown: null,
   checked: false,
   header: [],
   useVerticalStyle: false,
