@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React from 'react';
 import PropTypes from 'prop-types';
+import UserNameLink from '@components/UserNameLink';
 import Table from '../Table/Table';
 import TableRow from '../TableRow/TableRow';
 import UserPicture from '../UserPicture';
@@ -16,7 +17,7 @@ function UserTable({ users }) {
             <UserPicture name={user.name} idUser={user.id} />
           </td>
           <td className={styles.nameRow}>
-            {`${user.name} ${user.lastname}`}
+            <UserNameLink idUser={user.id} name={`${user.name} ${user.lastname}`} />
           </td>
           <td className={styles.promotionRow}>{user.promotion}</td>
         </TableRow>

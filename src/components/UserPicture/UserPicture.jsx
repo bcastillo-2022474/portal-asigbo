@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { serverHost } from '@/config';
+import consts from '@helpers/consts';
+import getTokenPayload from '@helpers/getTokenPayload';
+import useToken from '@hooks/useToken';
 import styles from './UserPicture.module.css';
-import { serverHost } from '../../config';
-import consts from '../../helpers/consts';
 
 /**
  * @module UserPicture: Foto de perfil del usuario, de lo contrario se mostrará una imagen
@@ -20,20 +23,25 @@ import consts from '../../helpers/consts';
 function UserPicture({ idUser, name, className }) {
   const [imageError, setImageError] = useState(false);
 
+  const token = useToken();
+  const user = token ? getTokenPayload(token) : null;
+
   return (
-
-    <div className={`${styles.userPicture} ${className}`}>
-      {
-          !imageError
-            ? <img src={`${serverHost}/${consts.imageRoute.user}/${idUser}`} alt={`Foto de perfil de ${name}`} onError={() => setImageError(true)} />
-            : (
-              <div className={styles.initialCircle}>
-                {name ? name.charAt(0) : 'X'}
-              </div>
-            )
-      }
-    </div>
-
+    <Link
+      to={user?.id === idUser ? '/perfil' : `/usuario/${idUser}`}
+      className={`${styles.userPicture} ${className}`}
+      title={name}
+    >
+      {!imageError ? (
+        <img
+          src={`${serverHost}/${consts.imageRoute.user}/${idUser}`}
+          alt={`Foto de perfil de ${name}`}
+          onError={() => setImageError(true)}
+        />
+      ) : (
+        <div className={styles.initialCircle}>{name ? name.charAt(0) : 'X'}</div>
+      )}
+    </Link>
   );
 }
 
