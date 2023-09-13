@@ -65,7 +65,9 @@ function UserProfilePage() {
 
   // Efecto de animación de carga
   useEffect(() => {
-    if (loadingInfo || loadingActivities) {
+    if ((loadingInfo || !loggedInfo) && !errorInfo) {
+      setLoading(true);
+    } else if ((loadingActivities || !enrolledActivities) && !errorActivities) {
       setLoading(true);
     } else {
       setLoading(false);
@@ -134,6 +136,7 @@ function UserProfilePage() {
   // Manejo de datos del chart, utiliza la misma información que las áreas, sin
   // embargo posee una sintaxis especial que hay que mapear.
   useEffect(() => {
+    console.log(deptDetails);
     const newData = {
       labels: [],
       datasets: [
@@ -234,24 +237,28 @@ function UserProfilePage() {
           <div className={styles.areaClasification}>
             <h3>Clasificación de horas de servicio</h3>
             <div className={styles.areaDetails}>
-              <div className={styles.areaList}>
-                <ul>
-                  { deptDetails
-                    ? deptDetails.map((value, _index, array) => {
-                      return (
-                        <li key={value + array} className={styles.areaListItem}>
-                          <img src={`${serverHost}/image/area/${value.id}`} alt="Logotipo" className={styles.areaListIcon} />
-                          <b>{`${value.name}:`}</b>
-                          {`${value.hours} horas`}
-                        </li>
-                      );
-                    })
-                    : 'Hola'}
-                </ul>
-              </div>
-              <div className={styles.chartContainer}>
-                <Doughnut data={chartData} className={styles.chart} />
-              </div>
+              {deptDetails.length !== 0 ? (
+                <>
+                  <div className={styles.areaList}>
+                    <ul>
+                      { deptDetails
+                        ? deptDetails.map((value, _index, array) => {
+                          return (
+                            <li key={value + array} className={styles.areaListItem}>
+                              <img src={`${serverHost}/image/area/${value.id}`} alt="Logotipo" className={styles.areaListIcon} />
+                              <b>{`${value.name}:`}</b>
+                              {`${value.hours} horas`}
+                            </li>
+                          );
+                        })
+                        : 'Hola'}
+                    </ul>
+                  </div>
+                  <div className={styles.chartContainer}>
+                    <Doughnut data={chartData} className={styles.chart} />
+                  </div>
+                </>
+              ) : <span>No se ha completado ninguna actividad aún...</span>}
             </div>
           </div>
           <div className={styles.allActivities}>

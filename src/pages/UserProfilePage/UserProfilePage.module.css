@@ -142,11 +142,12 @@
 }
 
 .areaListIcon {
-  width: 50px;
-  height: 50px;
-  max-width: 50px;
-  max-height: 50px;
+  width: 30px;
+  height: 30px;
+  max-width: 30px;
+  max-height: 30px;
   margin-right: 10px;
+  margin-block: 10px;
   object-fit: cover;
 }
 
@@ -173,4 +174,36 @@
 
 .allActivities h3 {
   margin-block: 40px;
+}
+
+@media only screen and (max-width: 545px) {
+  .pageHeader {
+    display: flex;
+    flex-direction: column;
+  }
+  .pageHeader .adminButton {
+    margin-block: 20px;
+  }
+  .holderDetails {
+    display: flex;
+    flex-direction: column;
+  }
+  .pfp {
+    width: 75% !important;
+    height: 75% !important;
+    max-width: 225px !important;
+    max-height: 225px !important;
+  }
+}
+@media only screen and (max-width: 435px) {
+  .chart {
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: 1/1;
+  }
+  .chart canvas {
+    aspect-ratio: 1/1;
+    width: 100% !important;
+    height: 100% !important;
+  }
 }

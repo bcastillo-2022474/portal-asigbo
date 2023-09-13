@@ -146,7 +146,7 @@ function ActivityTable({ loading, data }) {
         initialDateHandler={initialDateHandler}
         finalDateHandler={finalDateHandler}
       />
-      <Table header={['No.', 'Actividad', 'Horas de servicio', 'Completado', 'Fecha', 'Eje']} loading={loading} breakPoint="1370px" showCheckbox={false}>
+      <Table header={['Actividad', 'Horas de servicio', 'Completado', 'Fecha', 'Eje']} loading={loading} breakPoint="1110px" showCheckbox={false}>
         {filtrated && filtrated.map((value) => (
           <TableRow
             id={value.id}
@@ -154,7 +154,6 @@ function ActivityTable({ loading, data }) {
             key={value}
             onMouseDown={() => newTabActivity(value.id)}
           >
-            <td>{value.activity.id}</td>
             <td>{value.activity.name}</td>
             <td>{value.activity.serviceHours}</td>
             <td>{value.completed ? 'Si' : 'No'}</td>
