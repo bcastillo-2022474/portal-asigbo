@@ -1,4 +1,4 @@
-.newUserPage {
+.importUsersPage {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,15 +7,8 @@
     padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
 }
 
-.importButton {
-    color: #16337f;
-    background-color: white;
-    box-shadow: inset 0 0 0 2px #16337f
-}
-
-.importButton:active {
-    color: white;
-    box-shadow: none;
+.buttonCell {
+    text-align: center;
 }
 
 .headerContainer {
@@ -33,24 +26,6 @@
     align-self: flex-start;
 }
 
-.iconWrapper {
-    width: 15vh;
-    height: 15vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    display: none;
-}
-
-.form {
-    width: 65%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-}
-
 .actionsContainer {
     display: flex;
     justify-content: center;
@@ -59,10 +34,6 @@
 }
 
 @media only screen and (max-width: 765px) {
-    .form {
-        width: 85%;
-    }
-
     .pageTitle {
         text-align: center;
     }

@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 import PopUp from '@components/PopUp';
 import jschardet from 'jschardet';
 import { BiSolidCloudUpload } from 'react-icons/bi';
+import { useNavigate } from 'react-router-dom';
 import styles from './ImportCSVPopUp.module.css';
 import consts from '../../helpers/consts';
 
 function ImportCSVPopUp({
-  close, isOpen, onImport,
+  close, isOpen,
 }) {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const cleanAndClose = () => {
     close();
@@ -31,13 +33,23 @@ function ImportCSVPopUp({
     const buffer = await response.arrayBuffer();
     const detectedEncoding = jschardet.detect(new Uint8Array(buffer));
     const text = new TextDecoder(detectedEncoding.encoding).decode(buffer);
-    const headers = text.split('\n')[0].trim().split(',');
+    const content = text.trim().split('\n');
+    const headers = content[0].trim().split(',');
     if (headers.toString() !== consts.csvHeaders.toString()) {
       setError(true);
       setErrorMessage('Formato incorrecto. Se espera que los encabezados sean: "Código, Nombres, Apellidos, Correo, Promoción, Carrera y Sexo"');
       return;
     }
-    onImport(text);
+    const rows = content.slice(1).map((row) => row.trim().split(','));
+    const data = rows.map((row) => headers.reduce((acc, header, index) => {
+      acc[header] = row[index];
+      return acc;
+    }, {}));
+    navigate('/importUsers', {
+      state: {
+        data,
+      },
+    });
     cleanAndClose();
   };
 
@@ -74,11 +86,9 @@ export default ImportCSVPopUp;
 
 ImportCSVPopUp.propTypes = {
   close: PropTypes.func.isRequired,
-  onImport: PropTypes.func,
   isOpen: PropTypes.bool,
 };
 
 ImportCSVPopUp.defaultProps = {
-  onImport: null,
   isOpen: false,
 };
