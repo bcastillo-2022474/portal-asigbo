@@ -185,11 +185,17 @@ $adminButtonColor: #F0F0F0;
 }
 
 @media only screen and (max-width: 545px){
+  .main{
+    padding-inline: 30px;
+  }
   .pageHeader{
     display: flex;
     flex-direction: column;
     .adminButton{
       margin-block: 20px;
+    }
+    h1{
+      text-align: center;
     }
   }
 

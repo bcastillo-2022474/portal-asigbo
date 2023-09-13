@@ -177,12 +177,18 @@
 }
 
 @media only screen and (max-width: 545px) {
+  .main {
+    padding-inline: 30px;
+  }
   .pageHeader {
     display: flex;
     flex-direction: column;
   }
   .pageHeader .adminButton {
     margin-block: 20px;
+  }
+  .pageHeader h1 {
+    text-align: center;
   }
   .holderDetails {
     display: flex;

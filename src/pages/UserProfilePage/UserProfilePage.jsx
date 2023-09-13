@@ -176,7 +176,7 @@ function UserProfilePage() {
           </div>
           <div className={styles.holderDetails}>
             <ProfilePicture
-              uri={`/image/user/${loggedInfo ? loggedInfo.id : ''}`}
+              uri={`${serverHost}/image/user/${loggedInfo ? loggedInfo.id : ''}`}
               className={styles.pfp}
             />
             <div className={styles.holderInfo}>
