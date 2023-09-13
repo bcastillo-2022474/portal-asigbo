@@ -25,7 +25,7 @@ function InputSearchDateBetween({
         disabledDown = (current < dayjs(disabledBefore).startOf('day'));
       }
       if (disabledAfter) {
-        disableUp = (current > dayjs(disabledAfter).startOf('day'));
+        disableUp = (current > dayjs(disabledAfter).endOf('day'));
       }
       return disableUp || disabledDown;
     }

@@ -5,23 +5,30 @@ import styles from './Table.module.css';
 import Spinner from '../Spinner/Spinner';
 import randomString from '../../helpers/randomString';
 /**
- * Componente para crear las tablas del proyecto.
+ * @module Table: Componente para crear las tablas del proyecto.
  *
- * Sigue la siguiente estructura:
  *
+ * @example
  * <Table>
  *  <TableRow>
  *    <td>valor fila </td>
  *  </TableRow>
  * </Table>
  *
- * @param header lista de strings con los encabezados de la tabla.
- * @param breakPoint max-width en el que se aplica el estilo mobile.
- * @param maxCellWidth max-width de las celdas de la tabla
- * @param showCheckbox boolean. Mostrar los check para seleccionar filas.
- * @param onSelectedRowsChange callback que devuelve las filas seleccionadas.
- * @param className clase a aplicar al contenedor de la tabla.
+ * @param {string[]} header Arreglo de strings con los encabezados de la tabla.
+ * @param {string} breakPoint max-width en el que se aplica el estilo mobile. Se espera que sea
+ * un string con medidas válidas.
+ * @param {string} maxCellWidth max-width de las celdas de la tabla. Se espera que sea compatible
+ * con estilos CSS.
+ * @param {string} minCellWidth min-width de las celdas de la tabla. Se espera que sea compatible
+ * con estilos CSS.
+ * @param {boolean} showCheckbox Se utiliza para indicar si los checkbox se muestran o no.
+ * @param {function(selectedRowsId)} onSelectedRowsChange Función que devuelve las filas
+ * seleccionadas.
+ * @param {string} className String de clases aplicables al elemento padre de la tabla.
+ * @param {boolean} loading Indica a la tabla si la información está cargando o no.
  *
+ * @requires <TableRow/>
  */
 function Table({
   header,

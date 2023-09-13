@@ -33,6 +33,7 @@ $adminButtonColor: #F0F0F0;
   color: black;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-block: 10px;
+  margin-inline-start: 30px;
 
   &:hover{
     opacity: 1;

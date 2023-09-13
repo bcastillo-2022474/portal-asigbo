@@ -17,9 +17,7 @@ import useUserInfo from '../../hooks/useUserInfo';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import Button from '../../components/Button';
 import { serverHost } from '../../config';
-import UserTableFilter from '../../components/UserTableFilter/UserTableFilter';
-import InputSearchDate from '../../components/InputSearchDate';
-import ActivityTableFilter from '../../components/ActivityTableFilter/ActivityTableFilter';
+import ActivityTable from '../../components/ActivityTable';
 
 /**
  * @module UserProfilePage: Genera una página en la que se mostrará la información básica
@@ -149,6 +147,10 @@ function UserProfilePage() {
     console.log(chartData);
   }, [chartData]);
 
+  useEffect(() => {
+    console.log(content);
+  }, [content]);
+
   return (
     <div className={styles.main}>
       {loading ? (
@@ -247,7 +249,7 @@ function UserProfilePage() {
           </div>
           <div className={styles.allActivities}>
             <h3>Actividades Realizadas</h3>
-            <ActivityTableFilter />
+            <ActivityTable data={content} loading={loading} />
           </div>
         </div>
       )}
