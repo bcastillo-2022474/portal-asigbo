@@ -9,6 +9,8 @@ import UserTableFilter from '@components/UserTableFilter';
 import useFetch from '@hooks/useFetch';
 import { serverHost } from '@/config';
 import useCount from '@hooks/useCount';
+import UserNameLink from '@components/UserNameLink';
+import UserPicture from '@components/UserPicture';
 import styles from './UserSelectTable.module.css';
 
 /**
@@ -153,18 +155,24 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
         onDeleteAllClick={removeAllSelectedUsers}
       />
       <Table
-        header={['No.', 'Nombre', '']}
+        header={['No.', '', 'Nombre', '']}
         maxCellWidth="200px"
         loading={loadingUsers}
         onSelectedRowsChange={handleRowSelect}
         resetRowSelection={triggerResetRowsSelection}
+        breakPoint="700px"
       >
         {(userFilters?.status === '1' ? filterSelectedUsers() : users?.result)?.map(
           (user, index) => (
             <TableRow id={user.id} key={user.id}>
               <td>{(users ? users.resultsPerPage * currentPage : 0) + index + 1}</td>
-              <td>{`${user.name} ${user.lastname}`}</td>
-              <td>
+              <td className={styles.pictureRow}>
+                <UserPicture name={user.name} idUser={user.id} />
+              </td>
+              <td className={styles.nameRow}>
+                <UserNameLink idUser={user.id} name={`${user.name} ${user.lastname}`} />
+              </td>
+              <td className={styles.buttonRow}>
                 {selectedUsers.some((userData) => userData.id === user.id) ? (
                   <Button text="Remover" red onClick={() => removeUser(user)} />
                 ) : (

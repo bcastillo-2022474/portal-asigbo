@@ -44,7 +44,7 @@ function useForm(schema) {
   const clearFormErrors = () => setError(null);
 
   return {
-    form, error, setData, validateForm, validateField, clearFieldError, clearFormErrors,
+    form, error, setData, setForm, validateForm, validateField, clearFieldError, clearFormErrors,
   };
 }
 

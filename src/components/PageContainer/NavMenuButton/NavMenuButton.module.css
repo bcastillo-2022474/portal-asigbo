@@ -43,6 +43,7 @@
     align-items: center;
     justify-content: center;
     width: 50%;
+    cursor: pointer;
   }
   .menuButton .option {
     display: flex;
@@ -51,6 +52,7 @@
     width: 90%;
     background-color: transparent;
     border: transparent;
+    cursor: pointer;
   }
   .menuButton .option .button {
     display: flex;

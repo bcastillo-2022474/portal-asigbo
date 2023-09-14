@@ -70,6 +70,7 @@ $mobileVerticalBreakpoint: 636px;
         align-items: center;
         justify-content: center;
         width: 50%;
+        cursor: pointer;
         
         .option{
             display: flex;
@@ -78,6 +79,7 @@ $mobileVerticalBreakpoint: 636px;
             width: 90%;
             background-color: transparent;
             border: transparent;
+            cursor: pointer;
 
             .button{
                 display: flex;

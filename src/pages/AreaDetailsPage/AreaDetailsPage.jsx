@@ -10,6 +10,7 @@ import LoadingView from '@components/LoadingView';
 import NotFoundPage from '@pages/NotFoundPage';
 import consts from '@helpers/consts';
 import UserTable from '@components/UserTable';
+import ActivityTable from '@components/ActivityTable';
 import TabMenu from '@components/TabMenu';
 import BackTitle from '@components/BackTitle';
 import {
@@ -23,6 +24,7 @@ import SuccessNotificationPopUp from '@components/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '@components/ErrorNotificationPopUp';
 import ConfirmationPopUp from '@components/ConfirmationPopUp';
 import usePopUp from '@hooks/usePopUp';
+import useActivitiesByArea from '../../hooks/useActivitiesByArea';
 import styles from './AreaDetailsPage.module.css';
 import useToogle from '../../hooks/useToogle';
 
@@ -30,6 +32,8 @@ function AreaDetailsPage({ adminPrivileges }) {
   const {
     callFetch: fetchAreaData, result: area, loading, error,
   } = useFetch();
+  const [content, setContent] = useState([[]]);
+  const [loadingInfo, setLoadingInfo] = useState(true);
 
   // Fetch utilizado para eliminar, habilitar o deshabilitar eje
   const {
@@ -38,9 +42,21 @@ function AreaDetailsPage({ adminPrivileges }) {
     loading: alterAreaLoading,
     error: alterAreaError,
   } = useFetch();
-
   const { idArea } = useParams();
   const token = useParams();
+  const {
+    info: activitiesByArea,
+    loading: loadingActivities,
+    error: errorActivities,
+  } = useActivitiesByArea(idArea);
+
+  useEffect(() => {
+    if ((loadingActivities || !activitiesByArea) && !errorActivities) {
+      setLoadingInfo(true);
+    } else {
+      setLoadingInfo(false);
+    }
+  }, [loadingActivities]);
 
   const navigate = useNavigate();
 
@@ -73,6 +89,29 @@ function AreaDetailsPage({ adminPrivileges }) {
     if (alterAreaError) openError();
   }, [alterAreaError]);
 
+  // Efecto que maneja las actividades comunes y completadas.
+  useEffect(() => {
+    let newArr = [];
+    const completed = [];
+    if (activitiesByArea) {
+      activitiesByArea.forEach((value) => {
+        if (value.completed) {
+          completed.push(value);
+        }
+      });
+
+      newArr = activitiesByArea.map((value) => {
+        const temp = value;
+
+        if (value && value.date) {
+          const [dateOnly] = value.registrationEndDate.split('T');
+          temp.registrationEndDate = dateOnly;
+        }
+        return temp;
+      });
+    }
+    setContent(newArr);
+  }, [activitiesByArea]);
   const handleEditOptionClick = () => navigate('editar');
 
   const handleDeleteOptionClick = () => {
@@ -152,6 +191,7 @@ function AreaDetailsPage({ adminPrivileges }) {
               { text: 'Actividades', href: 'actividades' },
             ]}
           />
+
           <Routes>
             <Route
               path="/"
@@ -162,7 +202,15 @@ function AreaDetailsPage({ adminPrivileges }) {
                 </>
               )}
             />
-            <Route path="/actividades" element={<span>hola</span>} />
+            <Route
+              path="/actividades"
+              element={(
+                <>
+                  <h3 className={styles.sectionTitle}>Listado de Actividades</h3>
+                  <ActivityTable data={content} loading={loadingInfo} listingType="byArea" />
+                </>
+              )}
+            />
           </Routes>
         </div>
       )}

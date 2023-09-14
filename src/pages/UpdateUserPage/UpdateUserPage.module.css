@@ -1,0 +1,41 @@
+.updateUserPage{
+  padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
+}
+
+.pageTitle{
+  font-size: var(--h1-title-size--);
+  margin-bottom: 20px;
+}
+
+.formContainer{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 10px;
+  column-gap: 20px;
+  max-width: 1000px;
+}
+
+.completeRow{
+  grid-column: 1/-1;
+}
+
+.sectionTitle{
+  font-size: var(--h3-title-size--);
+  margin-top: 30px;
+  margin-bottom: 15px;
+}
+
+.inputSex{
+  max-width: 150px;
+}
+
+.buttonContainer{
+  display: flex;
+  margin-top: 70px;
+  justify-content: center;
+}
+
+.buttonContainer button{
+  padding-left: 50px;
+  padding-right: 50px;
+}

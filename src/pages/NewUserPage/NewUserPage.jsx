@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavMenuButton from '@components/PageContainer/NavMenuButton/NavMenuButton';
 import InputText from '@components/InputText';
 import ExcelIcon from '@assets/icons/ExcelIcon';
@@ -16,10 +16,12 @@ import { serverHost } from '../../config';
 import createUserSchema from './createUserSchema';
 import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
+import ImportCSVPopUp from '../../components/ImportCSVPopUp/ImportCSVPopUp';
 
 function NewUserPage() {
   const token = useToken();
   const navigate = useNavigate();
+  const [openImport, setOpenImport] = useState(false);
 
   const {
     form, error, setData, validateField, clearFieldError, validateForm,
@@ -141,9 +143,17 @@ function NewUserPage() {
           title="Sexo"
           value={form?.sex}
         />
-        <div className={styles.sendContainer}>
+        <div className={styles.actionsContainer}>
           {!resultPostUser && !loadingPostUser && (
-            <Button text="Registrar becado" className={styles.sendButton} type="submit" />
+            <>
+              <Button text="Registrar becado" className={styles.sendButton} type="submit" />
+              <Button
+                text="Importar usuarios desde archivo"
+                className={`${styles.sendButton} ${styles.importButton}`}
+                type="button"
+                onClick={() => setOpenImport(true)}
+              />
+            </>
           )}
           {loadingPostUser && <Spinner />}
         </div>
@@ -160,6 +170,11 @@ function NewUserPage() {
         close={closeError}
         isOpen={isErrorOpen}
         text={errorPostUser?.message}
+      />
+
+      <ImportCSVPopUp
+        isOpen={openImport}
+        close={() => setOpenImport(false)}
       />
 
     </div>

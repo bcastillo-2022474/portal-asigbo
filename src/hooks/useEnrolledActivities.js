@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { serverHost } from '../config';
 import useFetch from './useFetch';
 
-function useEnrolledActivities() {
+function useEnrolledActivities(_id) {
   const {
     callFetch,
     result,
@@ -11,7 +11,7 @@ function useEnrolledActivities() {
   } = useFetch();
 
   const getEnrolledActivities = async () => {
-    const uri = `${serverHost}/activity/logged`;
+    const uri = `${serverHost}/activity/assignment/?idUser=${_id}`;
     await callFetch({ uri });
   };
 
