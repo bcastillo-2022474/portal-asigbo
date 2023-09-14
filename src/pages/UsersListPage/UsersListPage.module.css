@@ -1,10 +1,7 @@
 .usersListPage {
+    padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
 }
 
 .pageTitle{
@@ -18,5 +15,6 @@
     
     .pageTitle{
         text-align: center;
+        align-self: center;
     }
 }

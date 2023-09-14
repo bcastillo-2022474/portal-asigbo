@@ -12,6 +12,9 @@ import OptionsButton from '../OptionsButton/OptionsButton';
 import { serverHost } from '../../config';
 import useToken from '../../hooks/useToken';
 import useFetch from '../../hooks/useFetch';
+import InputSearchSelect from '../InputSearchSelect/InputSearchSelect';
+import SearchInput from '../SearchInput/SearchInput';
+import consts from '../../helpers/consts';
 
 function ManageUsersTable() {
   const handleBlockOptionClick = () => {
@@ -30,6 +33,7 @@ function ManageUsersTable() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [paginationItems, setPaginationItems] = useState();
+  const [filter, setFilter] = useState({});
 
   const {
     callFetch: getUsers,
@@ -38,38 +42,103 @@ function ManageUsersTable() {
     loading: loadingUsers,
   } = useFetch();
 
-  const fetchUsers = (promotion, search) => {
-    console.log(`${serverHost}/user?includeBlocked=true?page=${currentPage}${promotion ? `?promotion=${promotion}` : ''}${search ? `?search=${search}` : ''}`);
+  const fetchUsers = () => {
+    const { promotion, search } = filter;
+    const paramsObj = {
+      includeBlocked: true, page: currentPage,
+    };
+
+    if (promotion !== undefined && promotion !== '') {
+      paramsObj.promotion = promotion;
+    }
+
+    if (search !== undefined && search !== '') {
+      paramsObj.search = search;
+    }
+
+    const searchParams = new URLSearchParams(paramsObj);
     getUsers({
-      uri: `${serverHost}/user?includeBlocked=true&page=${currentPage}${promotion ? `&promotion=${promotion}` : ''}${search ? `&search=${search}` : ''}`,
+      uri: `${serverHost}/user?${searchParams.toString()}`,
       headers: { authorization: token },
     });
   };
 
+  const {
+    callFetch: getPromotionsFetch,
+    result: promotions,
+    loading: loadingPromotions,
+    error: errorPromotions,
+  } = useFetch();
+
   const handlePageChange = (e, page) => {
     setCurrentPage(page - 1);
-    fetchUsers();
   };
+
+  const handleChange = (name, value) => {
+    setCurrentPage(0);
+    setFilter((lastVal) => ({ ...lastVal, [name]: value }));
+  };
+
+  useEffect(() => {
+    // cambiar número en la paginación
+    const media = matchMedia('(max-width:700px)');
+
+    const handleMediaChange = (e) => {
+      if (e.matches) setPaginationItems(0);
+      else setPaginationItems(2);
+    };
+
+    media.onchange = handleMediaChange;
+    handleMediaChange(media);
+    getPromotionsFetch({ uri: `${serverHost}/promotion`, headers: { authorization: token } });
+  }, []);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [currentPage, filter]);
 
   useEffect(() => {
     if (!resultUsers) return;
     setUsers(resultUsers.result);
-    setPaginationItems(resultUsers.pages);
-    console.log(resultUsers);
   }, [resultUsers]);
 
   useEffect(() => {
-    if (errorUsers) console.log(errorUsers);
+    setUsers([]);
   }, [errorUsers]);
 
   useEffect(() => {
-    console.log(users);
     setCurrentPage(0);
-    fetchUsers();
   }, []);
 
   return (
     <div className={styles.manageUsersTable}>
+      <div className={styles.filtersContainer}>
+        <InputSearchSelect
+          className={styles.selectInput}
+          placeholder="Promoción"
+          value={filter.promotion}
+          onChange={(e) => handleChange('promotion', e.target.value)}
+          options={
+            promotions
+              ? [
+                ...promotions.notStudents.map(
+                  (val) => ({ value: val, title: consts.promotionsGroups[val] }),
+                ),
+                {
+                  value: promotions.students.id,
+                  title: consts.promotionsGroups[promotions.students.id],
+                },
+                ...promotions.students.years.map((year) => ({ value: `${year}`, title: `${year}` })),
+              ]
+              : null
+          }
+          disabled={errorPromotions || loadingPromotions}
+        />
+        <SearchInput
+          className={styles.searchInput}
+          handleSearch={(val) => handleChange('search', val)}
+        />
+      </div>
       <Table showCheckbox={false} header={['No.', '', 'Nombre', 'Promoción', '']} breakPoint="700px">
         {users?.map((user, index) => (
           <TableRow id={user.id} key={user.id} style={{ position: 'absolute' }}>

@@ -13,19 +13,46 @@
   .promotionRow{
     order: 2;
   }
+
+  .filtersContainer{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
   
   /*El breakpoint debe coinicidir con el de la table*/
   @media only screen and (max-width: 700px){
     .picture{
       width: 100%;
     }
+
+    .actionsRow{
+      width: 100%;
+      display: flex !important;
+    }
+
+    .filtersContainer{
+      grid-template-columns: 1fr;
+      width: 85%;
+      gap: 10px;
+    }
   }
 
   .actionsRow{
     overflow: visible !important;
+    order: 4;
   }
 
   .optionsContainer{
     display: flex;
     justify-content: center;
+    justify-self: flex-end;
   }
+
+.manageUsersTable{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
