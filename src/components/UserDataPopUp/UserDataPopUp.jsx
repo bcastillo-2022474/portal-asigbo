@@ -57,6 +57,7 @@ function UserDataPopUp({
   return (
     isOpen && (
       <PopUp close={cleanAndClose} maxWidth={700}>
+        <h1 className={styles.title}>Editar usuario</h1>
         <form className={styles.form} onSubmit={handleSubmit}>
           <InputNumber
             name="code"
@@ -69,6 +70,7 @@ function UserDataPopUp({
             disabled={disabledForm}
             min={0}
             max={100000}
+            className={styles.smallInput}
           />
           <InputText
             title="Nombres"
@@ -79,6 +81,7 @@ function UserDataPopUp({
             onFocus={() => clearFieldError('name')}
             onBlur={() => validateField('name')}
             disabled={disabledForm}
+            className={styles.nextRow}
           />
           <InputText
             title="Apellidos"
@@ -100,16 +103,6 @@ function UserDataPopUp({
             onBlur={() => validateField('email')}
             disabled={disabledForm}
           />
-          <InputText
-            title="Carrera"
-            name="career"
-            value={form?.career}
-            error={error?.career}
-            onChange={handleFormChange}
-            onFocus={() => clearFieldError('career')}
-            onBlur={() => validateField('career')}
-            disabled={disabledForm}
-          />
           <InputNumber
             name="promotion"
             value={form?.promotion}
@@ -120,6 +113,16 @@ function UserDataPopUp({
             title="Promoción"
             min={2000}
             max={2100}
+            disabled={disabledForm}
+          />
+          <InputText
+            title="Carrera"
+            name="career"
+            value={form?.career}
+            error={error?.career}
+            onChange={handleFormChange}
+            onFocus={() => clearFieldError('career')}
+            onBlur={() => validateField('career')}
             disabled={disabledForm}
           />
           <InputSelect
@@ -133,7 +136,6 @@ function UserDataPopUp({
             title="Sexo"
             value={form?.sex}
             disabled={disabledForm}
-            className={styles.bigRow}
           />
           <p
             style={{ display: errorMessage ? 'block' : 'none' }}
@@ -142,8 +144,8 @@ function UserDataPopUp({
             {errorMessage}
           </p>
           <div className={`${styles.actionsContainer} ${styles.bigRow}`}>
-            <Button className={!disabledForm ? styles.disabledButton : undefined} text="Editar" type="button" onClick={() => setDisabledForm(false)} />
-            <Button className={disabledForm ? styles.disabledButton : undefined} text="Guardar" type="submit" />
+            <Button className={`${styles.button} ${!disabledForm ? styles.disabledButton : undefined}`} text="Editar" type="button" onClick={() => setDisabledForm(false)} />
+            <Button className={`${styles.button} ${disabledForm ? styles.disabledButton : undefined}`} text="Guardar" type="submit" />
           </div>
         </form>
       </PopUp>
