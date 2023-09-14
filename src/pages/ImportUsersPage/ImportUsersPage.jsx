@@ -21,7 +21,8 @@ function ImportUsersPage() {
   if (!data) return <NotFoundPage />;
 
   const format = (rawData) => (
-    rawData.map((info) => ({
+    rawData.map((info, index) => ({
+      id: `${info['Cóigo']}-${index}`,
       code: info['Código'],
       name: info.Nombres,
       lastname: info.Apellidos,
@@ -44,12 +45,12 @@ function ImportUsersPage() {
   } = useFetch();
 
   const removeUser = (user) => {
-    setSelectedUsers((current) => current.filter((userData) => userData.code !== user.code));
+    setSelectedUsers((current) => current.filter((userData) => userData.id !== user.id));
   };
 
   const selectUser = (user) => {
     setSelectedUsers((current) => {
-      if (current.some((userData) => userData.code === user.code)) return current;
+      if (current.some((userData) => userData.id === user.id)) return current;
       return [...current, user];
     });
   };
@@ -91,7 +92,7 @@ function ImportUsersPage() {
       </div>
       <Table minCellWidth="50px" breakPoint="700px" showCheckbox={false} header={['Nombres', 'Apellidos', 'Correo', 'Promoción']}>
         {importedData.map((user, index) => (
-          <TableRow key={user.code} id={user.code}>
+          <TableRow key={user.id} id={user.id}>
             <td
               className={styles.tableCell}
               onClick={() => setOpenForm(index)}
@@ -117,7 +118,7 @@ function ImportUsersPage() {
               {user.promotion}
             </td>
             <td className={styles.buttonCell}>
-              {selectedUsers.some((userData) => userData.code === user.code) ? (
+              {selectedUsers.some((userData) => userData.id === user.id) ? (
                 <Button text="Remover" red onClick={() => removeUser(user)} />
               ) : (
                 <Button text="Agregar" green onClick={() => selectUser(user)} />
@@ -159,7 +160,7 @@ function ImportUsersPage() {
       />
       {importedData.map((user, index) => (
         <UserDataPopUp
-          key={user.code}
+          key={user.id}
           isOpen={openForm === index}
           info={user}
           codes={importedData.map((el) => el.code)}

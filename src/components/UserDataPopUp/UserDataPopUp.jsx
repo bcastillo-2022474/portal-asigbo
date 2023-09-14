@@ -44,7 +44,7 @@ function UserDataPopUp({
       return;
     }
     setErrorMessage(undefined);
-    onSubmit(info, form);
+    onSubmit(info, { id: info.id, ...form });
     setDisabledForm(true);
   };
 
