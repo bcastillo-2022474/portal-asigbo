@@ -23,6 +23,7 @@ import usePopUp from '../../hooks/usePopUp';
 import InputSearchSelect from '../InputSearchSelect/InputSearchSelect';
 import SearchInput from '../SearchInput/SearchInput';
 import consts from '../../helpers/consts';
+import UserNameLink from '../UserNameLink/UserNameLink';
 
 function ManageUsersTable() {
   const token = useToken();
@@ -238,7 +239,7 @@ function ManageUsersTable() {
               <UserPicture name={user.name} idUser={user.id} />
             </td>
             <td className={styles.nameRow}>
-              {`${user.name} ${user.lastname}`}
+              <UserNameLink idUser={user.id} name={`${user.name} ${user.lastname}`} />
             </td>
             <td className={styles.promotionRow}>{user.promotion}</td>
             <td className={styles.actionsRow}>
