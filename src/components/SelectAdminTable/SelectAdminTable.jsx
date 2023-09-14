@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { Pagination } from '@mui/material';
@@ -70,7 +69,6 @@ function SelectAdminTable() {
     filterCopy.page = currentPage;
 
     const searchParams = new URLSearchParams(filterCopy);
-
     adminList?.forEach((value) => searchParams.append('priority', value));
 
     const uri = `${serverHost}/user?${searchParams.toString()}`;
@@ -148,7 +146,7 @@ function SelectAdminTable() {
       <Table
         header={['No.', '', 'Nombre', 'Promoción', '']}
         showCheckbox={false}
-        loading={loadingUsers}
+        loading={loadingUsers || loadingAdminsList}
         breakPoint="900px"
       >
         {users?.result.map((user, index) => (
@@ -158,6 +156,7 @@ function SelectAdminTable() {
               <UserPicture name={user.name} idUser={user.id} />
             </td>
             <td className={styles.nameRow}>
+
               <UserNameLink name={`${user.name} ${user.lastname}`} idUser={user.id} />
             </td>
             <td className={styles.promotionRow}>{user.promotion}</td>
