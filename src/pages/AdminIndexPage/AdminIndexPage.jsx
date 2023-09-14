@@ -6,6 +6,7 @@ import PageContainer from '@components/PageContainer/PageContainer';
 import AdminProfilePage from '@pages/AdminProfilePage';
 import NewUserPage from '@pages/NewUserPage';
 import ImportUsersPage from '@pages/ImportUsersPage';
+import UpdateUserPage from '@pages/UpdateUserPage';
 import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import AdminConfiguration from '../AdminConfiguration/AdminConfiguration';
@@ -26,6 +27,7 @@ function AdminIndexPage() {
         <Route path="/config/*" element={<AdminConfiguration />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/usuario/:userId" element={<UserProfilePage />} />
+        <Route path="/usuario/:userId/editar" element={<UpdateUserPage />} />
         <Route path="/usuarios" element={<UsersListPage />} />
       </Routes>
     </PageContainer>
