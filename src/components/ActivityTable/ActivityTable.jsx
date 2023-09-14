@@ -24,7 +24,7 @@ import { serverHost } from '../../config';
 
 /*----------------------------------------------------------------------------------------------*/
 
-function ActivityTable({ loading, data }) {
+function ActivityTable({ loading, data, listingType }) {
   // Estados
   const navigate = useNavigate();
   const [search, setSearch] = useState();
@@ -84,44 +84,55 @@ function ActivityTable({ loading, data }) {
     }
     return false;
   };
-
   /**
-   * @function filterBetweenDates: Función que filtra entre las fechas establecidas o dadas,
-   * si alguna de ellas se omite, se hará en base a la cota superior o inferior establecida,
-   * si se envían las dos cotas, se filtrará entre ambas fechas. Y si no se proporciona ninguna
-   * se devolverá el objeto o arreglo exactamente igual al parámetro dado.
-   *
-   * @param {Object} dataArr: Objeto sobre el que se filtrará
-   * @param {string} lowerDate: Cota inferior de fecha.
-   * @param {string} upperDate: Cota superior de fecha.
-   * @returns {Object} Objeto filtrado entre fechas dadas.
-   */
-  const filterBetweenDates = (dataArr, lowerDate, upperDate) => {
+ * @function filterBetweenDates: Función que filtra entre las fechas establecidas o dadas,
+ * si alguna de ellas se omite, se hará en base a la cota superior o inferior establecida,
+ * si se envían las dos cotas, se filtrará entre ambas fechas. Y si no se proporciona ninguna
+ * se devolverá el objeto o arreglo exactamente igual al parámetro dado.
+ *
+ * @param {Object[]} dataArr: Objeto sobre el que se filtrará
+ * @param {string} lowerDate: Cota inferior de fecha.
+ * @param {string} upperDate: Cota superior de fecha.
+ * @param {string} activityType: Tipo de actividad ('enrolled' o 'byArea').
+ * @returns {Object[]} Objeto filtrado entre fechas dadas.
+ */
+  const filterBetweenDates = (dataArr, lowerDate, upperDate, activityType = 'enrolled') => {
+    const getDateFromValue = (value) => {
+      if (activityType === 'enrolled') {
+        return dayjs(value.activity.date);
+      } if (activityType === 'byArea') {
+        return dayjs(value.registrationEndDate);
+      }
+      return null;
+    };
+
     let filtered;
+
     if (lowerDate && upperDate) {
       filtered = dataArr.filter(
         (value) => {
-          const fecha = dayjs(value.activity.date);
+          const fecha = getDateFromValue(value);
           return ((dayjs(lowerDate).startOf('day') <= fecha) && (dayjs(upperDate).endOf('day') >= fecha));
         },
       );
     } else if (lowerDate) {
       filtered = dataArr.filter(
         (value) => {
-          const fecha = dayjs(value.activity.date);
+          const fecha = getDateFromValue(value);
           return (dayjs(lowerDate).startOf('day') <= fecha);
         },
       );
     } else if (upperDate) {
       filtered = dataArr.filter(
         (value) => {
-          const fecha = dayjs(value.activity.date);
+          const fecha = getDateFromValue(value);
           return (dayjs(upperDate).endOf('day') >= fecha);
         },
       );
     } else {
       return dataArr;
     }
+
     return filtered;
   };
 
@@ -135,7 +146,7 @@ function ActivityTable({ loading, data }) {
     } else {
       filtered = data;
     }
-    filtered = filterBetweenDates(filtered, initialDate, finalDate);
+    filtered = filterBetweenDates(filtered, initialDate, finalDate, listingType);
     setFiltrated(filtered);
   }, [search, initialDate, finalDate]);
 
@@ -146,24 +157,43 @@ function ActivityTable({ loading, data }) {
         initialDateHandler={initialDateHandler}
         finalDateHandler={finalDateHandler}
       />
-      <Table header={['Actividad', 'Horas de servicio', 'Completado', 'Fecha', 'Eje']} loading={loading} breakPoint="1110px" showCheckbox={false}>
-        {filtrated && filtrated.map((value) => (
-          <TableRow
-            id={value.id}
-            onClick={() => goToActivity(value.id)}
-            key={value}
-            onMouseDown={() => newTabActivity(value.id)}
-          >
-            <td>{value.activity.name}</td>
-            <td>{value.activity.serviceHours}</td>
-            <td>{value.completed ? 'Si' : 'No'}</td>
-            <td>{value.activity.date}</td>
-            <td>
-              <img src={`${serverHost}/image/area/${value.activity.asigboArea.id}`} alt="AreaLogo" className={styles.areaLogo} title={value.activity.asigboArea.name} />
-            </td>
-          </TableRow>
-        ))}
-      </Table>
+      {listingType === 'enrolled' && (
+        <Table header={['Actividad', 'Horas de servicio', 'Completado', 'Fecha', 'Eje']} loading={loading} breakPoint="1110px" showCheckbox={false}>
+          {filtrated && filtrated.map((value) => (
+            <TableRow
+              id={value.id}
+              onClick={() => goToActivity(value.id)}
+              key={value.id}
+              onMouseDown={() => newTabActivity(value.id)}
+            >
+              <td>{value.activity.name}</td>
+              <td>{value.activity.serviceHours}</td>
+              <td>{value.completed ? 'Si' : 'No'}</td>
+              <td>{value.activity.date}</td>
+              <td>
+                <img src={`${serverHost}/image/area/${value.activity.asigboArea.id}`} alt="AreaLogo" className={styles.areaLogo} title={value.activity.asigboArea.name} />
+              </td>
+            </TableRow>
+          ))}
+        </Table>
+      )}
+
+      {listingType === 'byArea' && (
+        <Table header={['Actividad', 'Horas de servicio', 'Fecha']} loading={loading} breakPoint="1110px" showCheckbox={false}>
+          {filtrated && filtrated.map((value) => (
+            <TableRow
+              id={value.id}
+              onClick={() => goToActivity(value.id)}
+              key={value.id}
+              onMouseDown={() => newTabActivity(value.id)}
+            >
+              <td>{value.name}</td>
+              <td>{value.serviceHours}</td>
+              <td>{value.registrationEndDate}</td>
+            </TableRow>
+          ))}
+        </Table>
+      )}
     </div>
   );
 }
@@ -173,11 +203,13 @@ function ActivityTable({ loading, data }) {
 ActivityTable.propTypes = {
   loading: PropTypes.bool,
   data: PropTypes.instanceOf(Object),
+  listingType: PropTypes.oneOf(['enrolled', 'byArea']),
 };
 
 ActivityTable.defaultProps = {
   loading: false,
   data: undefined,
+  listingType: 'enrolled',
 };
 
 /*----------------------------------------------------------------------------------------------*/
