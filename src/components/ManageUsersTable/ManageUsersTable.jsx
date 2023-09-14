@@ -1,8 +1,15 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useState, useEffect } from 'react';
-import { AiFillLock as BlockIcon, AiFillUnlock as UnblockIcon } from 'react-icons/ai';
+import {
+  AiFillLock as BlockIcon,
+  AiFillUnlock as UnblockIcon,
+  AiFillDelete as DeleteIcon,
+}
+  from 'react-icons/ai';
 import { MdEmail as EmailIcon } from 'react-icons/md';
 import { Pagination } from '@mui/material';
+import SuccessNotificationPopUp from '@components/SuccessNotificationPopUp';
+import ErrorNotificationPopUp from '@components/ErrorNotificationPopUp';
 import LoadingView from '../LoadingView/LoadingView';
 import Table from '../Table/Table';
 import TableRow from '../TableRow/TableRow';
@@ -12,28 +19,20 @@ import OptionsButton from '../OptionsButton/OptionsButton';
 import { serverHost } from '../../config';
 import useToken from '../../hooks/useToken';
 import useFetch from '../../hooks/useFetch';
+import usePopUp from '../../hooks/usePopUp';
 import InputSearchSelect from '../InputSearchSelect/InputSearchSelect';
 import SearchInput from '../SearchInput/SearchInput';
 import consts from '../../helpers/consts';
 
 function ManageUsersTable() {
-  const handleBlockOptionClick = () => {
-    /* Bloquear usuario */
-  };
-
-  const handleUnblockOptionClick = () => {
-    /* Desbloquear usuario */
-  };
-
-  const handleReSendEmailOptionClick = () => {
-    /* Reenviar correo de registro */
-  };
-
   const token = useToken();
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [paginationItems, setPaginationItems] = useState();
   const [filter, setFilter] = useState({});
+
+  const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
+  const [isErrorOpen, openError, closeError] = usePopUp();
 
   const {
     callFetch: getUsers,
@@ -41,6 +40,30 @@ function ManageUsersTable() {
     error: errorUsers,
     loading: loadingUsers,
   } = useFetch();
+
+  const {
+    callFetch: disableUser,
+    result: resultDisable,
+    error: errorDisable,
+    loading: loadingDisable,
+  } = useFetch();
+
+  const {
+    callFetch: enableUser,
+    result: resultEnable,
+    error: errorEnable,
+    loading: loadingEnable,
+  } = useFetch();
+
+  const {
+    callFetch: deleteUser,
+    result: resultDelete,
+    error: errorDelete,
+    loading: loadingDelete,
+  } = useFetch();
+
+  // Mensajes a mostrar
+  const [notificationText, setNotificationText] = useState('');
 
   const fetchUsers = () => {
     const { promotion, search } = filter;
@@ -70,6 +93,39 @@ function ManageUsersTable() {
     error: errorPromotions,
   } = useFetch();
 
+  const handleBlockOptionClick = async (userId) => {
+    await disableUser({
+      uri: `${serverHost}/user/${userId}/disable`,
+      headers: { authorization: token },
+      method: 'PATCH',
+      parse: false,
+    });
+    fetchUsers();
+  };
+
+  const handleUnblockOptionClick = async (userId) => {
+    await enableUser({
+      uri: `${serverHost}/user/${userId}/enable`,
+      headers: { authorization: token },
+      method: 'PATCH',
+      parse: false,
+    });
+    fetchUsers();
+  };
+
+  const handleReSendEmailOptionClick = () => {
+    /* Reenviar correo de registro */
+  };
+
+  const handleDeleteUserOptionClick = async (userId) => {
+    await deleteUser({
+      uri: `${serverHost}/user/${userId}`,
+      headers: { authorization: token },
+      method: 'DELETE',
+      parse: false,
+    });
+  };
+
   const handlePageChange = (e, page) => {
     setCurrentPage(page - 1);
   };
@@ -98,17 +154,52 @@ function ManageUsersTable() {
   }, [currentPage, filter]);
 
   useEffect(() => {
-    if (!resultUsers) return;
-    setUsers(resultUsers.result);
+    if (resultUsers) setUsers(resultUsers.result);
   }, [resultUsers]);
 
   useEffect(() => {
-    setUsers([]);
+    if (errorUsers) setUsers([]);
   }, [errorUsers]);
 
   useEffect(() => {
     setCurrentPage(0);
   }, []);
+
+  useEffect(() => {
+    if (!resultDisable) return;
+    setNotificationText('El usuario del becado ha sido deshabilitado de forma exitosa.');
+    openSuccess();
+  }, [resultDisable]);
+
+  useEffect(() => {
+    if (!errorDisable) return;
+    setNotificationText(() => errorDisable?.message);
+    openError();
+  }, [errorDisable]);
+
+  useEffect(() => {
+    if (!resultEnable) return;
+    setNotificationText('El usuario del becado ha sido habilitado de forma exitosa.');
+    openSuccess();
+  }, [resultEnable]);
+
+  useEffect(() => {
+    if (!errorEnable) return;
+    setNotificationText(errorEnable?.message);
+    openError();
+  }, [errorEnable]);
+
+  useEffect(() => {
+    if (!resultDelete) return;
+    setNotificationText('El usuario del becado ha sido eliminado de forma exitosa.');
+    openSuccess();
+  }, [resultDelete]);
+
+  useEffect(() => {
+    if (!errorDelete) return;
+    setNotificationText(errorDelete?.message);
+    openError();
+  }, [errorDelete]);
 
   return (
     <div className={styles.manageUsersTable}>
@@ -154,11 +245,12 @@ function ManageUsersTable() {
               <div className={styles.optionsContainer}>
                 <OptionsButton
                   options={[
-                    user.blocked ? { icon: <UnblockIcon />, text: 'Desbloquear', onClick: handleUnblockOptionClick } : { icon: <BlockIcon />, text: 'Bloquear', onClick: handleBlockOptionClick },
+                    user.blocked ? { icon: <UnblockIcon />, text: 'Desbloquear', onClick: () => handleUnblockOptionClick(user.id) } : { icon: <BlockIcon />, text: 'Bloquear', onClick: () => handleBlockOptionClick(user.id) },
                     !user.completeRegistration ? { icon: <EmailIcon />, text: 'Reenviar correo de registro', onClick: handleReSendEmailOptionClick } : null, // Placeholder object with no-op function
+                    { icon: <DeleteIcon />, text: 'Eliminar usuario', onClick: () => handleDeleteUserOptionClick(user.id) },
                   ]}
                   showMenuAtTop={(index === (users.length - 1) && index > 2)
-                    || (index === (users.length - 2) && index > 1 && !user.completeRegistration)}
+                    || (index === (users.length - 2) && index > 1 && user.completeRegistration)}
                 />
               </div>
             </td>
@@ -173,7 +265,18 @@ function ManageUsersTable() {
         page={currentPage + 1}
       />
 
-      {loadingUsers && <LoadingView />}
+      <SuccessNotificationPopUp
+        close={closeSuccess}
+        isOpen={isSuccessOpen}
+        text={notificationText}
+      />
+
+      <ErrorNotificationPopUp
+        close={closeError}
+        isOpen={isErrorOpen}
+        text={notificationText}
+      />
+      {(loadingUsers || loadingDisable || loadingEnable || loadingDelete) && <LoadingView />}
     </div>
   );
 }

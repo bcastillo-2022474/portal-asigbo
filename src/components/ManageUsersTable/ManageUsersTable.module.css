@@ -15,10 +15,13 @@
   }
 
   .filtersContainer{
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+    align-self: flex-end;
+    display: flex;
+    column-gap: 15px;
+    row-gap: 10px;
+    justify-content: flex-end;
+    flex: 1;
+    flex-direction: row;
   }
   
   /*El breakpoint debe coinicidir con el de la table*/
@@ -33,9 +36,10 @@
     }
 
     .filtersContainer{
-      grid-template-columns: 1fr;
-      width: 85%;
-      gap: 10px;
+      justify-content: center;
+      flex-direction: column;
+      align-self: center;
+      width: 100%;
     }
   }
 
@@ -55,4 +59,12 @@
     flex-direction: column;
     align-items: center;
     gap: 20px;
+}
+
+.searchInput{
+  min-width: 300px;
+}
+
+.selectInput{
+  min-width: 40%;
 }
