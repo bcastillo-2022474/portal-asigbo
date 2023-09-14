@@ -1,7 +1,21 @@
 .form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
+  gap: 20px;
+  padding: 0 10px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.smallInput {
+  width: 50%;
+}
+
+.nextRow {
+  grid-column: 1/2;
 }
 
 .errorMessage {
@@ -10,6 +24,7 @@
 }
 
 .actionsContainer {
+  margin-top: 15px;
   text-align: center;
 }
 
@@ -19,6 +34,11 @@
 
 .bigRow {
   grid-column: span 2;
+}
+
+.button {
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 .container {
