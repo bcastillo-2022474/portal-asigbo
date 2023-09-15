@@ -11,7 +11,7 @@ import styles from './OptionsButton.module.css';
  * @param options Arreglo de opciones a mostrar. Las opciones deben ser un objeto:
  * {icon: Nodo, text: string, onClick: func}
  */
-function OptionsButton({ options }) {
+function OptionsButton({ options, showMenuAtTop }) {
   const [isMenuVisible, toogleMenu, setMenuVisible] = useToogle(false);
   const buttonRef = useRef();
 
@@ -32,8 +32,9 @@ function OptionsButton({ options }) {
         <DownArrow />
       </Button>
 
-      <div className={`${styles.dropMenu} ${isMenuVisible ? styles.visible : ''}`}>
+      <div className={`${styles.dropMenu} ${isMenuVisible ? styles.visible : ''} ${showMenuAtTop ? styles.topMenu : ''}`}>
         {options?.map((option) => (
+          option !== null && (
           <div
             className={styles.menuItem}
             key={randomString()}
@@ -45,6 +46,7 @@ function OptionsButton({ options }) {
             {option.icon}
             <span>{option.text}</span>
           </div>
+          )
         ))}
       </div>
     </div>
@@ -61,8 +63,10 @@ OptionsButton.propTypes = {
       onClick: PropTypes.func,
     }),
   ),
+  showMenuAtTop: PropTypes.bool,
 };
 
 OptionsButton.defaultProps = {
   options: null,
+  showMenuAtTop: false,
 };

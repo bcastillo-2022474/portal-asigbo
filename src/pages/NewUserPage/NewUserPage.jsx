@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useEffect, useState } from 'react';
 import NavMenuButton from '@components/PageContainer/NavMenuButton/NavMenuButton';
 import InputText from '@components/InputText';
-import ExcelIcon from '@assets/icons/ExcelIcon';
 import { useNavigate } from 'react-router-dom';
+import CSVICon from '../../assets/icons/CSVIcon';
 import Spinner from '../../components/Spinner/Spinner';
 import Button from '../../components/Button/Button';
 import InputSelect from '../../components/InputSelect/InputSelect';
@@ -36,6 +39,8 @@ function NewUserPage() {
 
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
+
+  const [isHoveringInfo, setIsHoveringInfo] = useState(false);
 
   const redirectOnSuccess = () => navigate('/');
 
@@ -77,11 +82,25 @@ function NewUserPage() {
     <div className={styles.newUserPage}>
       <div className={styles.headerContainer}>
         <h1 className={styles.pageTitle}>Crear usuario</h1>
-        <div className={styles.iconWrapper}>
+        <div
+          className={styles.iconWrapper}
+          onMouseOver={() => setIsHoveringInfo(true)}
+          onMouseOut={() => setIsHoveringInfo(false)}
+          onClick={() => setOpenImport(true)}
+        >
           <NavMenuButton
-            icon={<ExcelIcon height="80%" width="80%" />}
+            className={styles.navMenuButton}
+            icon={<CSVICon fill="#16337F" width="75%" height="75%" />}
             clickCallback={handleIconClick}
           />
+        </div>
+      </div>
+      <div className={`${styles.csvInfoWrapper} ${isHoveringInfo ? styles.showing : styles.hidden}`}>
+        <div className={styles.arrowUp} />
+        <div className={styles.csvInfo}>
+          ¿Creando múltiples usuarios?
+          Presiona aquí para subir una hoja de Excel con los datos de todos
+          los becados que necesitan un nuevo usuario
         </div>
       </div>
       <form className={styles.form} onSubmit={handleSubmitUser}>
@@ -143,20 +162,20 @@ function NewUserPage() {
           title="Sexo"
           value={form?.sex}
         />
+
+        {!resultPostUser && !loadingPostUser && (
         <div className={styles.actionsContainer}>
-          {!resultPostUser && !loadingPostUser && (
-            <>
-              <Button text="Registrar becado" className={styles.sendButton} type="submit" />
-              <Button
-                text="Importar usuarios desde archivo"
-                className={`${styles.sendButton} ${styles.importButton}`}
-                type="button"
-                onClick={() => setOpenImport(true)}
-              />
-            </>
-          )}
-          {loadingPostUser && <Spinner />}
+          <Button text="Registrar becado" className={styles.sendButton} type="submit" />
+          <div className={styles.csvButtonWrapper} onClick={() => setOpenImport(true)}>
+            <div className={styles.csvIconWrapper}>
+              <CSVICon fill="#16337F" className={styles.csvIconSmall} />
+            </div>
+            <button type="button" className={styles.csvButton}>Importar usuarios desde archivo</button>
+          </div>
         </div>
+        )}
+        {loadingPostUser && <Spinner />}
+
       </form>
 
       <SuccessNotificationPopUp
