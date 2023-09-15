@@ -10,6 +10,7 @@ import { MdEmail as EmailIcon } from 'react-icons/md';
 import { Pagination } from '@mui/material';
 import SuccessNotificationPopUp from '@components/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '@components/ErrorNotificationPopUp';
+import ConfirmationPopUp from '@components/ConfirmationPopUp';
 import LoadingView from '../LoadingView/LoadingView';
 import Table from '../Table/Table';
 import TableRow from '../TableRow/TableRow';
@@ -32,8 +33,11 @@ function ManageUsersTable() {
   const [paginationItems, setPaginationItems] = useState();
   const [filter, setFilter] = useState({});
 
+  const [userId, setUserId] = useState('');
+
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
+  const [isConfirmatonOpen, openConfirmaton, closeConfirmaton] = usePopUp();
 
   const {
     callFetch: getUsers,
@@ -66,6 +70,15 @@ function ManageUsersTable() {
   // Mensajes a mostrar
   const [notificationText, setNotificationText] = useState('');
 
+  // Confirmación de las acciones
+  const [action, setAction] = useState('');
+
+  const handleAction = (currentUserId, currentAction) => {
+    setUserId(currentUserId);
+    setAction(currentAction);
+    openConfirmaton();
+  };
+
   const fetchUsers = () => {
     const { promotion, search } = filter;
     const paramsObj = {
@@ -94,9 +107,9 @@ function ManageUsersTable() {
     error: errorPromotions,
   } = useFetch();
 
-  const handleBlockOptionClick = async (userId) => {
+  const handleBlockOptionClick = async (currentUserId) => {
     await disableUser({
-      uri: `${serverHost}/user/${userId}/disable`,
+      uri: `${serverHost}/user/${currentUserId}/disable`,
       headers: { authorization: token },
       method: 'PATCH',
       parse: false,
@@ -104,9 +117,9 @@ function ManageUsersTable() {
     fetchUsers();
   };
 
-  const handleUnblockOptionClick = async (userId) => {
+  const handleUnblockOptionClick = async (currentUserId) => {
     await enableUser({
-      uri: `${serverHost}/user/${userId}/enable`,
+      uri: `${serverHost}/user/${currentUserId}/enable`,
       headers: { authorization: token },
       method: 'PATCH',
       parse: false,
@@ -118,13 +131,20 @@ function ManageUsersTable() {
     /* Reenviar correo de registro */
   };
 
-  const handleDeleteUserOptionClick = async (userId) => {
+  const handleDeleteUserOptionClick = async (currentUserId) => {
     await deleteUser({
-      uri: `${serverHost}/user/${userId}`,
+      uri: `${serverHost}/user/${currentUserId}`,
       headers: { authorization: token },
       method: 'DELETE',
       parse: false,
     });
+  };
+
+  const handleConfirmation = (value) => {
+    if (!value) return;
+    if (action === 'deleting') handleDeleteUserOptionClick(userId);
+    if (action === 'disabling') handleBlockOptionClick(userId);
+    if (action === 'enabling') handleUnblockOptionClick(userId);
   };
 
   const handlePageChange = (e, page) => {
@@ -246,9 +266,9 @@ function ManageUsersTable() {
               <div className={styles.optionsContainer}>
                 <OptionsButton
                   options={[
-                    user.blocked ? { icon: <UnblockIcon />, text: 'Desbloquear', onClick: () => handleUnblockOptionClick(user.id) } : { icon: <BlockIcon />, text: 'Bloquear', onClick: () => handleBlockOptionClick(user.id) },
+                    user.blocked ? { icon: <UnblockIcon />, text: 'Desbloquear', onClick: () => handleAction(user.id, 'enabling') } : { icon: <BlockIcon />, text: 'Bloquear', onClick: () => handleAction(user.id, 'disabling') },
                     !user.completeRegistration ? { icon: <EmailIcon />, text: 'Reenviar correo de registro', onClick: handleReSendEmailOptionClick } : null, // Placeholder object with no-op function
-                    { icon: <DeleteIcon />, text: 'Eliminar usuario', onClick: () => handleDeleteUserOptionClick(user.id) },
+                    { icon: <DeleteIcon />, text: 'Eliminar usuario', onClick: () => handleAction(user.id, 'deleting') },
                   ]}
                   showMenuAtTop={(index === (users.length - 1) && index > 2)
                     || (index === (users.length - 2) && index > 1 && user.completeRegistration)}
@@ -264,6 +284,29 @@ function ManageUsersTable() {
         className={styles.pagination}
         onChange={handlePageChange}
         page={currentPage + 1}
+      />
+
+      <ConfirmationPopUp
+        close={closeConfirmaton}
+        isOpen={isConfirmatonOpen}
+        callback={handleConfirmation}
+        body={
+          action === 'deleting' ? (
+            <>
+              ¿Estás seguro/a de
+              <b> eliminar </b>
+              el usuario de este becado? Esta es una acción permanente que no podrá ser revertida.
+            </>
+          ) : (
+            <>
+              ¿Estás seguro/a de
+              <b>{action === 'disabling' ? ' deshabilitar ' : ' habilitar '}</b>
+              el usuario de este becado? Esta acción sí puede ser revertida,
+              sin embargo, puede resultar en
+              comportamientos inesperados para los usuarios.
+            </>
+          )
+        }
       />
 
       <SuccessNotificationPopUp
