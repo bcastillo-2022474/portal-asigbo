@@ -14,6 +14,7 @@ import TabMenu from '../../components/TabMenu';
 import ActivityDetails from '../../components/ActivityDetails';
 import LoadingView from '../../components/LoadingView';
 import NotFound from '../NotFoundPage';
+import ActivityResponsibles from '../../components/ActivityResponsibles';
 
 function ActivityDetailsPage() {
   const { idActividad: activityID } = useParams();
@@ -72,7 +73,7 @@ function ActivityDetailsPage() {
           <Route
             path="/encargados"
             element={(
-              <h3 className={styles.sectionTitle}>Encargados</h3>
+              <ActivityResponsibles loading={loading} />
               )}
           />
           <Route
