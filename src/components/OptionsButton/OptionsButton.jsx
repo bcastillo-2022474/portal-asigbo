@@ -11,7 +11,12 @@ import styles from './OptionsButton.module.css';
  * @param options Arreglo de opciones a mostrar. Las opciones deben ser un objeto:
  * {icon: Nodo, text: string, onClick: func}
  */
-function OptionsButton({ options, showMenuAtTop }) {
+function OptionsButton({
+  options,
+  showMenuAtTop,
+  className,
+  label,
+}) {
   const [isMenuVisible, toogleMenu, setMenuVisible] = useToogle(false);
   const buttonRef = useRef();
 
@@ -26,9 +31,9 @@ function OptionsButton({ options, showMenuAtTop }) {
   }, []);
 
   return (
-    <div className={styles.optionsButtonContainer}>
+    <div className={`${styles.optionsButtonContainer} ${className}`}>
       <Button className={styles.optionsButton} buttonRef={buttonRef} onClick={toogleMenu}>
-        <span>Acciones</span>
+        <span>{label}</span>
         <DownArrow />
       </Button>
 
@@ -64,9 +69,13 @@ OptionsButton.propTypes = {
     }),
   ),
   showMenuAtTop: PropTypes.bool,
+  className: PropTypes.string,
+  label: PropTypes.string,
 };
 
 OptionsButton.defaultProps = {
   options: null,
   showMenuAtTop: false,
+  className: '',
+  label: 'Acciones',
 };

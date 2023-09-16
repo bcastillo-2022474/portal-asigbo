@@ -30,6 +30,10 @@
   --min-page-horizontal-padding--: 30px;
   --min-page-vertical-padding--: 30px;
 
+  --page-inline-padding--: 60px;
+  --page-block-padding--: 40px;
+  --page-inline-padding-mobile--: 30px;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
