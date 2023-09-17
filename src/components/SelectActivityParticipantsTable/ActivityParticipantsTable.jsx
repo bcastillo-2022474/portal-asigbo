@@ -297,11 +297,12 @@ function ActivityParticipantsTable({ idActivity }) {
       <ActivityParticipantsTableFilter onChange={handleUserFilterChange} />
 
       <Table
-        header={['No.', '', 'Nombre', 'Estado', '']}
+        header={['No.', '', 'Nombre', 'Promoción', 'Estado', '']}
         loading={assignmetsLoading || loadingUsers}
         resetTableHeight={resetTableHeightTrigger}
-        breakPoint="1000px"
+        breakPoint="1100px"
         onTableStyleChange={handleTableStyleChange}
+        showCheckbox={false}
       >
         {usersToShow?.map((user, index) => {
           const currentStatus = getAssignmentStatus(user.id);
@@ -314,6 +315,7 @@ function ActivityParticipantsTable({ idActivity }) {
               <td className={styles.nameRow}>
                 <UserNameLink idUser={user.id} name={`${user.name} ${user.lastname}`} />
               </td>
+              <td className={styles.promotionRow}>{user.promotion}</td>
               <td className={styles.statusRow}>{currentStatus}</td>
               <td className={styles.buttonRow}>
                 <OptionsButton

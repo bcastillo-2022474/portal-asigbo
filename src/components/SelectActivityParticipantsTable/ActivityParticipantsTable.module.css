@@ -14,12 +14,17 @@
   border-bottom:0 !important;
 }
 
-.statusRow{
+.promotionRow{
   order: 2;
+
+}
+
+.statusRow{
+  order: 3;
 }
 
 .buttonRow{
-  order: 3;
+  order: 4;
   overflow: visible !important;
 }
 
