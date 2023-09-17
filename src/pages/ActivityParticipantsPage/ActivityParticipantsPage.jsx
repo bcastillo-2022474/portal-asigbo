@@ -1,12 +1,9 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import styles from './ActivityParticipantsPage.module.css';
 import ActivityParticipantsTable from '../../components/SelectActivityParticipantsTable/ActivityParticipantsTable';
 
-function ActivityParticipantsPage() {
-  const { idActivity } = useParams();
-
+function ActivityParticipantsPage({ idActivity }) {
   return (
     <div className={styles.activityParticipantsPage}>
       <h3>Participantes</h3>
@@ -18,7 +15,7 @@ function ActivityParticipantsPage() {
 export default ActivityParticipantsPage;
 
 ActivityParticipantsPage.propTypes = {
-
+  idActivity: PropTypes.string.isRequired,
 };
 
 ActivityParticipantsPage.defaultProps = {

@@ -1,5 +1,4 @@
 .activityParticipantsPage{
-  padding: var(--page-horizontal-padding--) var(--page-horizontal-padding--);
   display: flex;
   flex-direction: column;
   gap: 20px;

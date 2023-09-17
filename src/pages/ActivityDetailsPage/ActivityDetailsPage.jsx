@@ -14,6 +14,8 @@ import TabMenu from '../../components/TabMenu';
 import ActivityDetails from '../../components/ActivityDetails';
 import LoadingView from '../../components/LoadingView';
 import NotFound from '../NotFoundPage';
+import ActivityParticipantsTable from '../../components/SelectActivityParticipantsTable/ActivityParticipantsTable';
+import ActivityParticipantsPage from '../ActivityParticipantsPage/ActivityParticipantsPage';
 
 function ActivityDetailsPage() {
   const { idActividad: activityID } = useParams();
@@ -77,9 +79,7 @@ function ActivityDetailsPage() {
           />
           <Route
             path="/participantes"
-            element={(
-              <h3 className={styles.sectionTitle}>Participantes</h3>
-              )}
+            element={<ActivityParticipantsPage idActivity={activityID} />}
           />
         </Routes>
       </div>
