@@ -21,6 +21,8 @@
 .buttonRow{
   order: 3;
   overflow: visible !important;
-  display: flex !important;
-  justify-content: end;
+}
+
+.optionsButton{
+  margin-left: auto;
 }

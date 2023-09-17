@@ -13,7 +13,9 @@ import styles from './OptionsButton.module.css';
  * @param showMenuAtTop Boolean. Indica si el menu debe mostrarse en la parte superior del botón.
  * @param onMenuVisibleChange Función. Callback que devuelve como parámetro la visibilidad del menú.
  */
-function OptionsButton({ options, showMenuAtTop, onMenuVisibleChange }) {
+function OptionsButton({
+  options, showMenuAtTop, onMenuVisibleChange, className,
+}) {
   const [isMenuVisible, toogleMenu, setMenuVisible] = useToogle(false);
   const buttonRef = useRef();
 
@@ -33,7 +35,7 @@ function OptionsButton({ options, showMenuAtTop, onMenuVisibleChange }) {
   }, [isMenuVisible]);
 
   return (
-    <div className={styles.optionsButtonContainer}>
+    <div className={`${styles.optionsButtonContainer} ${className}`}>
       <Button className={styles.optionsButton} buttonRef={buttonRef} onClick={toogleMenu}>
         <span>Acciones</span>
         <DownArrow />
@@ -72,10 +74,12 @@ OptionsButton.propTypes = {
   ),
   showMenuAtTop: PropTypes.bool,
   onMenuVisibleChange: PropTypes.func,
+  className: PropTypes.string,
 };
 
 OptionsButton.defaultProps = {
   options: null,
   showMenuAtTop: false,
   onMenuVisibleChange: null,
+  className: '',
 };

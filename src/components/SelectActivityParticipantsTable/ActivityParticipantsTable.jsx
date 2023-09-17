@@ -68,6 +68,9 @@ function ActivityParticipantsTable({ idActivity }) {
   último menú desaparece */
   const { count: resetTableHeightTrigger, next: fireTableHeightTrigger } = useCount();
 
+  /* Indica si la tabla posee el estilo vertical */
+  const [tableVerticalStyle, setTableVerticalStyle] = useState(false);
+
   useEffect(() => {
     // obtener asignaciones al iniciar la tabla
     fetchAssignmets({
@@ -281,6 +284,8 @@ function ActivityParticipantsTable({ idActivity }) {
     if (!isVisible) fireTableHeightTrigger();
   };
 
+  const handleTableStyleChange = (isVertical) => setTableVerticalStyle(isVertical);
+
   const usersToShow = userFilters?.status === '1' || userFilters?.status === '2' // Si posee filtro de estado, filtrar datos locales
     ? filterUsersByState()
     : users?.result;
@@ -293,6 +298,8 @@ function ActivityParticipantsTable({ idActivity }) {
         header={['No.', '', 'Nombre', 'Estado', '']}
         loading={assignmetsLoading || loadingUsers}
         resetTableHeight={resetTableHeightTrigger}
+        breakPoint="1000px"
+        onTableStyleChange={handleTableStyleChange}
       >
         {usersToShow?.map((user, index) => {
           const currentStatus = getAssignmentStatus(user.id);
@@ -309,7 +316,12 @@ function ActivityParticipantsTable({ idActivity }) {
               <td className={styles.buttonRow}>
                 <OptionsButton
                   onMenuVisibleChange={handleActionMenuVisibilityChange}
-                  showMenuAtTop={index > usersToShow.length - 3 && index >= 2}
+                  showMenuAtTop={
+                    // En estilo vertical siempre se muestra arriba
+                    // O las últimas 2 filas cuando hay al menos 3 en total
+                    tableVerticalStyle || (index > usersToShow.length - 3 && index >= 2)
+                  }
+                  className={styles.optionsButton}
                   options={(() => {
                     if (currentStatus === status.completed) {
                       return [

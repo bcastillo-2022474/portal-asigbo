@@ -31,6 +31,8 @@ import randomString from '../../helpers/randomString';
  * @param {number} resetTableHeight Funciona como un trigger para resetear el alto de la tabla.
  * El alto puede verse modificado cuando el contenido supera el contenedor (los submenus por
  * ejemplo).
+ * @param {function(isVerticalStyle)} onTableStyleChange callback para cuando cambia el estilo de
+ * la tabla. El parámetro de la función devuelve si es el estilo vertical o no.
  *
  * @requires <TableRow/>
  */
@@ -46,6 +48,7 @@ function Table({
   loading,
   resetRowSelection,
   resetTableHeight,
+  onTableStyleChange,
 }) {
   const [selectedRowsId, setSelectedRowsId] = useState([]);
   const [useVerticalStyle, setUseVerticalStyle] = useState(false);
@@ -128,6 +131,10 @@ function Table({
 
     return () => observer.disconnect(); // Deja de recibir cambios al desmontar comp.
   }, []);
+
+  useEffect(() => {
+    if (onTableStyleChange) onTableStyleChange(useVerticalStyle);
+  }, [useVerticalStyle]);
 
   return (
     <div
@@ -212,6 +219,7 @@ Table.propTypes = {
   loading: PropTypes.bool,
   resetRowSelection: PropTypes.number,
   resetTableHeight: PropTypes.number,
+  onTableStyleChange: PropTypes.func,
 };
 
 Table.defaultProps = {
@@ -225,4 +233,5 @@ Table.defaultProps = {
   loading: false,
   resetRowSelection: null,
   resetTableHeight: null,
+  onTableStyleChange: null,
 };
