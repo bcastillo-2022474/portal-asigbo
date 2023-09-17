@@ -166,7 +166,7 @@ function Table({
         </thead>
         <tbody>
           {loading && (
-            <tr>
+            <tr className={styles.loadingRow}>
               <td className={styles.completeRow} colSpan={(header?.length ?? 0) + 1}>
                 <Spinner />
               </td>
@@ -174,7 +174,7 @@ function Table({
           )}
 
           {!loading && !(children?.length > 0) && (
-            <tr>
+            <tr className={styles.noContentRow}>
               <td
                 className={`${styles.completeRow} ${styles.noResults}`}
                 colSpan={(header?.length ?? 0) + 1}
