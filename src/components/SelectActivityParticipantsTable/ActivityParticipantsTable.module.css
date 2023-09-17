@@ -1,0 +1,26 @@
+.pagination{
+  margin: auto;
+}
+
+.pictureRow{
+  display: flex !important;
+  justify-content: end;
+  order:1;
+}
+
+.nameRow{
+  text-align: left;
+  order: 0;
+  border-bottom:0 !important;
+}
+
+.statusRow{
+  order: 2;
+}
+
+.buttonRow{
+  order: 3;
+  overflow: visible !important;
+  display: flex !important;
+  justify-content: end;
+}

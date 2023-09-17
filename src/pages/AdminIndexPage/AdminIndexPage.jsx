@@ -12,6 +12,7 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import AdminConfiguration from '../AdminConfiguration/AdminConfiguration';
 import UserProfilePage from '../UserProfilePage/UserProfilePage';
 import UsersListPage from '../UsersListPage/UsersListPage';
+import ActivityParticipantsPage from '../ActivityParticipantsPage/ActivityParticipantsPage';
 
 function AdminIndexPage() {
   return (
@@ -29,6 +30,7 @@ function AdminIndexPage() {
         <Route path="/usuario/:userId" element={<UserProfilePage />} />
         <Route path="/usuario/:userId/editar" element={<UpdateUserPage />} />
         <Route path="/usuarios" element={<UsersListPage />} />
+        <Route path="/actividad/:idActivity" element={<ActivityParticipantsPage />} />
       </Routes>
     </PageContainer>
   );
