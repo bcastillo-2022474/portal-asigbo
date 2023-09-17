@@ -10,8 +10,10 @@ import styles from './OptionsButton.module.css';
  * Botón que muestra un menu que aparece/desaparece al hacer click.
  * @param options Arreglo de opciones a mostrar. Las opciones deben ser un objeto:
  * {icon: Nodo, text: string, onClick: func}
+ * @param showMenuAtTop Boolean. Indica si el menu debe mostrarse en la parte superior del botón.
+ * @param onMenuVisibleChange Función. Callback que devuelve como parámetro la visibilidad del menú.
  */
-function OptionsButton({ options, showMenuAtTop }) {
+function OptionsButton({ options, showMenuAtTop, onMenuVisibleChange }) {
   const [isMenuVisible, toogleMenu, setMenuVisible] = useToogle(false);
   const buttonRef = useRef();
 
@@ -24,6 +26,11 @@ function OptionsButton({ options, showMenuAtTop }) {
 
     return () => document.removeEventListener('click', handleWindowClick);
   }, []);
+
+  useEffect(() => {
+    // llamar al callback con cambio de visibilidad
+    if (onMenuVisibleChange) onMenuVisibleChange(isMenuVisible);
+  }, [isMenuVisible]);
 
   return (
     <div className={styles.optionsButtonContainer}>
@@ -64,9 +71,11 @@ OptionsButton.propTypes = {
     }),
   ),
   showMenuAtTop: PropTypes.bool,
+  onMenuVisibleChange: PropTypes.func,
 };
 
 OptionsButton.defaultProps = {
   options: null,
   showMenuAtTop: false,
+  onMenuVisibleChange: null,
 };

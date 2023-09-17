@@ -27,6 +27,10 @@ import randomString from '../../helpers/randomString';
  * seleccionadas.
  * @param {string} className String de clases aplicables al elemento padre de la tabla.
  * @param {boolean} loading Indica a la tabla si la información está cargando o no.
+ * @param {number} resetTableHeight Funciona como un trigger para resetear las filas seleccionadas.
+ * @param {number} resetTableHeight Funciona como un trigger para resetear el alto de la tabla.
+ * El alto puede verse modificado cuando el contenido supera el contenedor (los submenus por
+ * ejemplo).
  *
  * @requires <TableRow/>
  */
@@ -41,6 +45,7 @@ function Table({
   className,
   loading,
   resetRowSelection,
+  resetTableHeight,
 }) {
   const [selectedRowsId, setSelectedRowsId] = useState([]);
   const [useVerticalStyle, setUseVerticalStyle] = useState(false);
@@ -61,6 +66,10 @@ function Table({
       // seleccionar todos
       setSelectedRowsId(React.Children.map(children, (item) => item.props.id) ?? []);
     } else setSelectedRowsId([]); // vaciar todos
+  };
+
+  const resetTableSize = () => {
+    containerRef.current.style.height = 'auto';
   };
 
   useEffect(() => {
@@ -90,6 +99,35 @@ function Table({
     if (resetRowSelection === null) return;
     setSelectedRowsId([]);
   }, [resetRowSelection]);
+
+  useEffect(() => {
+    resetTableSize();
+  }, [children, resetTableHeight]);
+
+  useEffect(() => {
+    /* Detecta si el contenido de la tabla sobrepasa su tamaño y ajusta su altura para
+    evitar la aparición de un scroll vertical
+    ¡IMPORTANTE! Luego de modificar el alto, es necesario resetear su altura a auto.
+    */
+    const handleContainerSizeChange = () => {
+      const contentSize = containerRef.current.scrollHeight;
+      const containerSize = containerRef.current.offsetHeight;
+
+      if (contentSize > containerSize) {
+        containerRef.current.style.height = `${contentSize + 30}px`;
+      }
+    };
+
+    // Observer para detectar cambios en el contenedor de la tabla
+    const observer = new MutationObserver(handleContainerSizeChange);
+
+    const config = { attributes: true, childList: true, subtree: true };
+
+    // Comienza a observar el div
+    observer.observe(containerRef.current, config);
+
+    return () => observer.disconnect(); // Deja de recibir cambios al desmontar comp.
+  }, []);
 
   return (
     <div
@@ -173,6 +211,7 @@ Table.propTypes = {
   className: PropTypes.string,
   loading: PropTypes.bool,
   resetRowSelection: PropTypes.number,
+  resetTableHeight: PropTypes.number,
 };
 
 Table.defaultProps = {
@@ -185,4 +224,5 @@ Table.defaultProps = {
   className: '',
   loading: false,
   resetRowSelection: null,
+  resetTableHeight: null,
 };

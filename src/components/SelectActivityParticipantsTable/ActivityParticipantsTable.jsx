@@ -18,6 +18,7 @@ import ConfirmationPopUp from '../ConfirmationPopUp/ConfirmationPopUp';
 import SuccessNotificationPopUp from '../SuccessNotificationPopUp/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '../ErrorNotificationPopUp/ErrorNotificationPopUp';
 import usePopUp from '../../hooks/usePopUp';
+import useCount from '../../hooks/useCount';
 
 const actions = {
   assign: 'asignar',
@@ -62,6 +63,10 @@ function ActivityParticipantsTable({ idActivity }) {
   const [isConfirmationOpen, openConfirmation, closeConfirmation] = usePopUp();
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
+
+  /* Contador (utilizado como trigger) para resetear altura de tabla cuando el
+  último menú desaparece */
+  const { count: resetTableHeightTrigger, next: fireTableHeightTrigger } = useCount();
 
   useEffect(() => {
     // obtener asignaciones al iniciar la tabla
@@ -268,10 +273,17 @@ function ActivityParticipantsTable({ idActivity }) {
     }
   };
 
-  const usersToShow = (userFilters?.status === '1' || userFilters?.status === '2' // Si posee filtro de estado, filtrar datos locales
+  /**
+   * Callback para cuando el estado de visibilidad de los menus de acciones cambia.
+   * Busca resetear el alto de la tabla.
+   */
+  const handleActionMenuVisibilityChange = (isVisible) => {
+    if (!isVisible) fireTableHeightTrigger();
+  };
+
+  const usersToShow = userFilters?.status === '1' || userFilters?.status === '2' // Si posee filtro de estado, filtrar datos locales
     ? filterUsersByState()
-    : users?.result
-  );
+    : users?.result;
 
   return (
     <>
@@ -280,9 +292,9 @@ function ActivityParticipantsTable({ idActivity }) {
       <Table
         header={['No.', '', 'Nombre', 'Estado', '']}
         loading={assignmetsLoading || loadingUsers}
+        resetTableHeight={resetTableHeightTrigger}
       >
-        {
-        usersToShow?.map((user, index) => {
+        {usersToShow?.map((user, index) => {
           const currentStatus = getAssignmentStatus(user.id);
           return (
             <TableRow id={user.id} key={user.id}>
@@ -296,7 +308,8 @@ function ActivityParticipantsTable({ idActivity }) {
               <td className={styles.statusRow}>{currentStatus}</td>
               <td className={styles.buttonRow}>
                 <OptionsButton
-                  showMenuAtTop={index === usersToShow.length - 1 && index > 2}
+                  onMenuVisibleChange={handleActionMenuVisibilityChange}
+                  showMenuAtTop={index > usersToShow.length - 3 && index >= 2}
                   options={(() => {
                     if (currentStatus === status.completed) {
                       return [
@@ -333,8 +346,7 @@ function ActivityParticipantsTable({ idActivity }) {
               </td>
             </TableRow>
           );
-        })
-}
+        })}
       </Table>
 
       {userFilters.status !== '1' && userFilters.status !== '2' && (
@@ -364,10 +376,18 @@ function ActivityParticipantsTable({ idActivity }) {
         isOpen={isSuccessOpen}
         close={closeSuccess}
         text={(() => {
-          if (currentAction === actions.assign) { return 'El usuario ha sido asignado de forma exitosa.'; }
-          if (currentAction === actions.unassign) { return 'El usuario ha sido desasignado de forma exitosa.'; }
-          if (currentAction === actions.complete) { return 'La asignación del usuario a esta actividad ha sido marcada como completada.'; }
-          if (currentAction === actions.uncomplete) { return 'La asignación del usuario a esta actividad ha sido marcada como no completada.'; }
+          if (currentAction === actions.assign) {
+            return 'El usuario ha sido asignado de forma exitosa.';
+          }
+          if (currentAction === actions.unassign) {
+            return 'El usuario ha sido desasignado de forma exitosa.';
+          }
+          if (currentAction === actions.complete) {
+            return 'La asignación del usuario a esta actividad ha sido marcada como completada.';
+          }
+          if (currentAction === actions.uncomplete) {
+            return 'La asignación del usuario a esta actividad ha sido marcada como no completada.';
+          }
           return 'Operación exitosa.';
         })()}
         callback={handleFinishAction}
