@@ -1,0 +1,34 @@
+.main {
+  padding-inline: var(--page-inline-padding--);
+  padding-block: var(--page-block-padding--);
+}
+
+.pageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pageHeader .optionsButton {
+  display: none;
+}
+
+.responsible .optionsButton {
+  display: block;
+}
+
+@media only screen and (max-width: 460px) {
+  .pageHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .pageHeader h1 {
+    width: 100%;
+    text-align: center;
+    margin-block-end: 25px;
+  }
+  .pageHeader .optionsButton {
+    margin-block-end: 15px;
+  }
+}

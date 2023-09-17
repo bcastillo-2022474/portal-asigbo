@@ -76,6 +76,7 @@ function UserProfilePage() {
 
   // Efecto que maneja las actividades comunes y completadas.
   useEffect(() => {
+    console.log(enrolledActivities);
     let newArr = [];
     const completed = [];
     if (enrolledActivities) {
@@ -136,7 +137,6 @@ function UserProfilePage() {
   // Manejo de datos del chart, utiliza la misma información que las áreas, sin
   // embargo posee una sintaxis especial que hay que mapear.
   useEffect(() => {
-    console.log(deptDetails);
     const newData = {
       labels: [],
       datasets: [

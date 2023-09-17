@@ -14,7 +14,11 @@ import styles from './OptionsButton.module.css';
  * @param onMenuVisibleChange Función. Callback que devuelve como parámetro la visibilidad del menú.
  */
 function OptionsButton({
-  options, showMenuAtTop, onMenuVisibleChange, className,
+  options,
+  showMenuAtTop,
+  onMenuVisibleChange,
+  className,
+  label,
 }) {
   const [isMenuVisible, toogleMenu, setMenuVisible] = useToogle(false);
   const buttonRef = useRef();
@@ -37,7 +41,7 @@ function OptionsButton({
   return (
     <div className={`${styles.optionsButtonContainer} ${className}`}>
       <Button className={styles.optionsButton} buttonRef={buttonRef} onClick={toogleMenu}>
-        <span>Acciones</span>
+        <span>{label}</span>
         <DownArrow />
       </Button>
 
@@ -73,13 +77,15 @@ OptionsButton.propTypes = {
     }),
   ),
   showMenuAtTop: PropTypes.bool,
-  onMenuVisibleChange: PropTypes.func,
   className: PropTypes.string,
+  label: PropTypes.string,
+  onMenuVisibleChange: PropTypes.func,
 };
 
 OptionsButton.defaultProps = {
   options: null,
   showMenuAtTop: false,
-  onMenuVisibleChange: null,
   className: '',
+  label: 'Acciones',
+  onMenuVisibleChange: null,
 };
