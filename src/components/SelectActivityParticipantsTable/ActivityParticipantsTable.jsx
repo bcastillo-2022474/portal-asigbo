@@ -98,7 +98,7 @@ function ActivityParticipantsTable({ idActivity }) {
   useEffect(() => {
     if (!assignedUsers || !assignmentCompletedUsers) return;
 
-    if (userFilters.status === '1' || userFilters.status === '2') return; // Búsqueda local
+    if (userFilters.status === '1' || userFilters.status === '2' || userFilters.status === '3') return; // Búsqueda local
 
     // Realizar búsqueda de usuarios
     const searchParams = new URLSearchParams({});
@@ -163,8 +163,10 @@ function ActivityParticipantsTable({ idActivity }) {
 
   const filterUsersByState = () => {
     let selectedUsers;
-    if (userFilters.status === '1') selectedUsers = assignedUsers;
-    else if (userFilters.status === '2') selectedUsers = assignmentCompletedUsers;
+
+    if (userFilters.status === '1') selectedUsers = [...assignmentCompletedUsers, ...assignedUsers];
+    else if (userFilters.status === '2') selectedUsers = assignedUsers;
+    else if (userFilters.status === '3') selectedUsers = assignmentCompletedUsers;
     else return null;
     return selectedUsers.filter((user) => {
       if (userFilters.search?.trim() !== '') {
@@ -286,9 +288,9 @@ function ActivityParticipantsTable({ idActivity }) {
 
   const handleTableStyleChange = (isVertical) => setTableVerticalStyle(isVertical);
 
-  const usersToShow = userFilters?.status === '1' || userFilters?.status === '2' // Si posee filtro de estado, filtrar datos locales
-    ? filterUsersByState()
-    : users?.result;
+  const usersToShow = !userFilters.status || userFilters.status === '' // Si posee filtro de estado, filtrar datos locales
+    ? users?.result
+    : filterUsersByState();
 
   return (
     <>
@@ -361,7 +363,7 @@ function ActivityParticipantsTable({ idActivity }) {
         })}
       </Table>
 
-      {userFilters.status !== '1' && userFilters.status !== '2' && (
+      {(!userFilters.status || userFilters.status === '') && (
         <Pagination
           count={users?.pages ?? 0}
           siblingCount={paginationItems}

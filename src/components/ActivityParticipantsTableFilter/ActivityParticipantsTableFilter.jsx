@@ -49,7 +49,7 @@ function ActivityParticipantsTableFilter({
           value={filter.status}
           onChange={(e) => handleChange('status', e.target.value)}
           options={
-            [{ title: 'Inscrito', value: '1' }, { title: 'Completado', value: '2' }]
+            [{ title: 'Inscrito', value: '1' }, { title: 'No completado', value: '2' }, { title: 'Completado', value: '3' }]
           }
         />
         <InputSearchSelect
