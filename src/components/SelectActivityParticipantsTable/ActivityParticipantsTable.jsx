@@ -39,6 +39,7 @@ function ActivityParticipantsTable({ idActivity }) {
     callFetch: fetchAssignmets,
     result: assignmentsResult,
     loading: assignmetsLoading,
+    error: assignmentsError,
   } = useFetch();
 
   const { callFetch: fetchUsers, result: users, loading: loadingUsers } = useFetch();
@@ -98,6 +99,13 @@ function ActivityParticipantsTable({ idActivity }) {
     setAssignedUsers(assignedUsersToAdd);
     setAssignmentCompletedUsers(assignmentCompletedUsersToAdd);
   }, [assignmentsResult]);
+
+  useEffect(() => {
+    // Si ocurrió un error al obtener asignaciones, colocar arrays vacios
+    if (!assignmentsError) return;
+    setAssignedUsers([]);
+    setAssignmentCompletedUsers([]);
+  }, [assignmentsError]);
 
   useEffect(() => {
     if (!assignedUsers || !assignmentCompletedUsers) return;
