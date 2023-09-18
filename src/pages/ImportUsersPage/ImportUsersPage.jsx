@@ -56,7 +56,7 @@ function ImportUsersPage() {
   };
 
   const sendData = () => {
-    const uri = `${serverHost}/upload`;
+    const uri = `${serverHost}/user/uploadUsers`;
     const method = 'POST';
 
     const formatedData = {
