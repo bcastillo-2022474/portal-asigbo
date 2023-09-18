@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Pagination } from '@mui/material';
-import { FaUserPlus as AddUserIcon, FaUserTimes as RemoveUserIcon } from 'react-icons/fa';
+import { FaUserPlus as AddUserIcon, FaUserTimes as RemoveUserIcon, FaClipboardList as ListIcon } from 'react-icons/fa';
 import { AiFillCheckCircle as CheckIcon, AiFillCloseCircle as RemoveIcon } from 'react-icons/ai';
+
+import { useNavigate } from 'react-router-dom';
 import styles from './ActivityParticipantsTable.module.css';
 import ActivityParticipantsTableFilter from '../ActivityParticipantsTableFilter/ActivityParticipantsTableFilter';
 import Table from '../Table/Table';
@@ -70,6 +72,8 @@ function ActivityParticipantsTable({ idActivity }) {
 
   /* Indica si la tabla posee el estilo vertical */
   const [tableVerticalStyle, setTableVerticalStyle] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // obtener asignaciones al iniciar la tabla
@@ -330,6 +334,11 @@ function ActivityParticipantsTable({ idActivity }) {
                     if (currentStatus === status.completed) {
                       return [
                         {
+                          icon: <ListIcon />,
+                          text: 'Ver detalles',
+                          onClick: () => navigate(`/actividad/${idActivity}/asignacion/${user.id}`),
+                        },
+                        {
                           icon: <RemoveIcon />,
                           text: 'No completar',
                           onClick: () => uncompleteClickController(user),
@@ -338,6 +347,11 @@ function ActivityParticipantsTable({ idActivity }) {
                     }
                     if (currentStatus === status.asigned) {
                       return [
+                        {
+                          icon: <ListIcon />,
+                          text: 'Ver detalles',
+                          onClick: () => navigate(`/actividad/${idActivity}/asignacion/${user.id}`),
+                        },
                         {
                           icon: <CheckIcon />,
                           text: 'Completar',

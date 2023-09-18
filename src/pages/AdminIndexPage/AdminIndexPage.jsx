@@ -7,6 +7,7 @@ import AdminProfilePage from '@pages/AdminProfilePage';
 import NewUserPage from '@pages/NewUserPage';
 import ImportUsersPage from '@pages/ImportUsersPage';
 import UpdateUserPage from '@pages/UpdateUserPage';
+import ActivityAssignmentDetailsPage from '@pages/ActivityAssignmentDetailsPage';
 import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import AdminConfiguration from '../AdminConfiguration/AdminConfiguration';
@@ -30,6 +31,7 @@ function AdminIndexPage() {
         <Route path="/usuario/:userId" element={<UserProfilePage />} />
         <Route path="/usuario/:userId/editar" element={<UpdateUserPage />} />
         <Route path="/usuarios" element={<UsersListPage />} />
+        <Route path="/actividad/:activityId/asignacion/:userId" element={<ActivityAssignmentDetailsPage />} />
         <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />
       </Routes>
     </PageContainer>

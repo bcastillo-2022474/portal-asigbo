@@ -32,6 +32,7 @@ function useForm(schema) {
         [name]: errors[name],
       }));
     }
+    return errors;
   };
 
   const clearFieldError = (name) => {
