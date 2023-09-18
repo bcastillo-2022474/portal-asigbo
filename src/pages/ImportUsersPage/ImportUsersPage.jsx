@@ -22,7 +22,7 @@ function ImportUsersPage() {
 
   const format = (rawData) => (
     rawData.map((info, index) => ({
-      id: `${info['Cóigo']}-${index}`,
+      id: `${info['Código']}-${index}`,
       code: info['Código'],
       name: info.Nombres,
       lastname: info.Apellidos,
