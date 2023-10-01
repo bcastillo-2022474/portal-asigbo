@@ -57,7 +57,7 @@ function RecoverPasswordPage() {
 
   return (
     <UnloggedPageContainer>
-      <div className={styles.finishRegistrationPage}>
+      <div className={styles.recoverPasswordPage}>
         <img className={styles.logo} src={asigboLogo} alt="Logo de Asigbo" />
 
         <h1 className={styles.title}>

@@ -81,7 +81,10 @@ function UpdatePasswordPage() {
   }, [form]);
 
   useEffect(() => {
-    if (!searchParams) return;
+    if (searchParams.size === 0) {
+      openError();
+      return;
+    }
 
     const accessParam = searchParams.get('access');
 
@@ -114,7 +117,7 @@ function UpdatePasswordPage() {
   return (
     <UnloggedPageContainer>
       {!validateAccessLoading && validateAccessSuccess && (
-        <div className={styles.finishRegistrationPage}>
+        <div className={styles.updatePasswordPage}>
           <img className={styles.logo} src={asigboLogo} alt="Logo de Asigbo" />
 
           <h1 className={styles.title}>
@@ -127,7 +130,7 @@ function UpdatePasswordPage() {
 
           <form onSubmit={handleSubmit}>
             <InputText
-              title="contraseña."
+              title="Contraseña."
               name="password"
               type="password"
               onChange={handleChange}
