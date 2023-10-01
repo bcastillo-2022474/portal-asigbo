@@ -47,8 +47,6 @@ function NewUserPage() {
   const handleSubmitUser = async (e) => {
     e.preventDefault();
 
-    setData('code', Math.floor(Math.random() * (15001 - 0) + 0));
-
     const formErrors = await validateForm();
     if (formErrors) return;
 
@@ -68,6 +66,7 @@ function NewUserPage() {
     const { name, value } = e.target;
     // console.log(name, value);
     setData(name, value);
+    setData('code', Math.floor(Math.random() * (15001 - 0) + 0));
   };
 
   useEffect(() => {
@@ -164,15 +163,15 @@ function NewUserPage() {
         />
 
         {!resultPostUser && !loadingPostUser && (
-        <div className={styles.actionsContainer}>
-          <Button text="Registrar becado" className={styles.sendButton} type="submit" />
-          <div className={styles.csvButtonWrapper} onClick={() => setOpenImport(true)}>
-            <div className={styles.csvIconWrapper}>
-              <CSVICon fill="#16337F" className={styles.csvIconSmall} />
+          <div className={styles.actionsContainer}>
+            <Button text="Registrar becado" className={styles.sendButton} type="submit" />
+            <div className={styles.csvButtonWrapper} onClick={() => setOpenImport(true)}>
+              <div className={styles.csvIconWrapper}>
+                <CSVICon fill="#16337F" className={styles.csvIconSmall} />
+              </div>
+              <button type="button" className={styles.csvButton}>Importar usuarios desde archivo</button>
             </div>
-            <button type="button" className={styles.csvButton}>Importar usuarios desde archivo</button>
           </div>
-        </div>
         )}
         {loadingPostUser && <Spinner />}
 

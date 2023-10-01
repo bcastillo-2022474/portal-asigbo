@@ -7,8 +7,12 @@
     padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
 }
 
+.tableCell {
+    cursor: pointer;
+}
+
 .buttonCell {
-    text-align: center;
+    text-align: end !important;
 }
 
 .headerContainer {
@@ -22,8 +26,13 @@
 
 .pageTitle {
     text-align: left;
-    width: 65%;
+    width: 100%;
     align-self: flex-start;
+}
+
+.titleText {
+    width: 100%;
+    margin-top: 5px;
 }
 
 .actionsContainer {
@@ -34,7 +43,7 @@
 }
 
 @media only screen and (max-width: 765px) {
-    .pageTitle {
+    .pageTitle, .titleText {
         text-align: center;
     }
 }
