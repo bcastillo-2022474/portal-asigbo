@@ -59,7 +59,10 @@
   bottom: 0;
   width: 100%;
   z-index: 2;
-  fill: white;
+}
+
+.wave path{
+  fill:   var(--page-background-color--);
 }
 
 
