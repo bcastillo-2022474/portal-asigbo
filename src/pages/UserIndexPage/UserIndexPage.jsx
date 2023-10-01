@@ -9,6 +9,7 @@ import getTokenPayload from '../../helpers/getTokenPayload';
 import consts from '../../helpers/consts';
 import AreasListPage from '../AreasListPage/AreasListPage';
 import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
+import ActivityDetailsPage from '../ActivityDetailsPage';
 
 function UserIndexPage() {
   const token = useToken();
@@ -21,6 +22,7 @@ function UserIndexPage() {
         <Route path="/" element={<HomePage />} />
         <Route path="/panel" element={<WorkPanelPage />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />
 
         {
           userData?.role.includes(consts.roles.asigboAreaResponsible)
