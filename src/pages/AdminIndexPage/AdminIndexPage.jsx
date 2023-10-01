@@ -15,8 +15,13 @@ import UsersListPage from '../UsersListPage/UsersListPage';
 import ActivityDetailsPage from '../ActivityDetailsPage';
 import HomePage from '../HomePage/HomePage';
 import WorkPanelPage from '../WorkPanelPage/WorkPanelPage';
+import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePage';
+import useToken from '../../hooks/useToken';
+import getTokenPayload from '../../helpers/getTokenPayload';
 
 function AdminIndexPage() {
+  const token = useToken();
+  const user = token ? getTokenPayload(token) : null;
   return (
     <PageContainer>
       <Routes>
@@ -35,6 +40,7 @@ function AdminIndexPage() {
         <Route path="/actividad/:activityId/asignacion/:userId" element={<ActivityAssignmentDetailsPage />} />
         <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />
         <Route path="/panel" element={<WorkPanelPage />} />
+        <Route path="/perfil" element={<SimpleUserProfilePage idUser={user.id} />} />
       </Routes>
     </PageContainer>
   );
