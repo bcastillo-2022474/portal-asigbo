@@ -18,6 +18,7 @@ import WorkPanelPage from '../WorkPanelPage/WorkPanelPage';
 import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePage';
 import useToken from '../../hooks/useToken';
 import getTokenPayload from '../../helpers/getTokenPayload';
+import UpdateUserInRoutePage from '../UpdateUserInRoutePage/UpdateUserInRoutePage';
 
 function AdminIndexPage() {
   const token = useToken();
@@ -35,12 +36,13 @@ function AdminIndexPage() {
         <Route path="/config/*" element={<AdminConfiguration />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/usuario/:userId" element={<UserProfilePage />} />
-        <Route path="/usuario/:userId/editar" element={<UpdateUserPage />} />
+        <Route path="/usuario/:userId/editar" element={<UpdateUserInRoutePage />} />
         <Route path="/usuario" element={<UsersListPage />} />
         <Route path="/actividad/:activityId/asignacion/:userId" element={<ActivityAssignmentDetailsPage />} />
         <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />
         <Route path="/panel" element={<WorkPanelPage />} />
         <Route path="/perfil" element={<SimpleUserProfilePage idUser={user.id} />} />
+        <Route path="/perfil/editar" element={<UpdateUserPage userId={user.id} />} />
       </Routes>
     </PageContainer>
   );

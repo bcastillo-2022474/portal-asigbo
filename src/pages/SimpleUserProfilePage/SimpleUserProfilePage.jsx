@@ -34,7 +34,7 @@ function SimpleUserProfilePage({ idUser }) {
 
         <header className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Perfil del becado</h1>
-          <Link to="/">
+          <Link to="editar">
             <AdminButton />
           </Link>
         </header>

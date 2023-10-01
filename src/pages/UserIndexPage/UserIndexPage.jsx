@@ -10,11 +10,13 @@ import consts from '../../helpers/consts';
 import AreasListPage from '../AreasListPage/AreasListPage';
 import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
 import ActivityDetailsPage from '../ActivityDetailsPage';
+import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePage';
+import UpdateUserPage from '../UpdateUserPage/UpdateUserPage';
 
 function UserIndexPage() {
   const token = useToken();
 
-  const userData = token ? getTokenPayload(token) : null;
+  const user = token ? getTokenPayload(token) : null;
 
   return (
     <PageContainer>
@@ -23,9 +25,11 @@ function UserIndexPage() {
         <Route path="/panel" element={<WorkPanelPage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />
+        <Route path="/perfil" element={<SimpleUserProfilePage idUser={user.id} />} />
+        <Route path="/perfil/editar" element={<UpdateUserPage userId={user.id} />} />
 
         {
-          userData?.role.includes(consts.roles.asigboAreaResponsible)
+          user?.role.includes(consts.roles.asigboAreaResponsible)
           && (
           <>
             <Route path="/area" element={<AreasListPage />} />

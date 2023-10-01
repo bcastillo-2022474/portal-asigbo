@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import InputPhoto from '@components/InputPhoto';
 import InputText from '@components/InputText';
 import InputSelect from '@components/InputSelect';
@@ -22,12 +22,9 @@ import getTokenPayload from '../../helpers/getTokenPayload';
 
 /**
  * Página para editar el perfil de un usuario.
- * @param sessionUser boolean. Indica que los datos a editar corresponden al usuario en sesión.
  * @returns
  */
-function UpdateUserPage({ sessionUser }) {
-  const { userId } = useParams();
-
+function UpdateUserPage({ userId }) {
   const {
     callFetch: fetchUserData,
     result: user,
@@ -55,7 +52,7 @@ function UpdateUserPage({ sessionUser }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const uri = sessionUser ? `${serverHost}/user/logged` : `${serverHost}/user/${userId}`;
+    const uri = `${serverHost}/user/${userId}`;
     fetchUserData({ uri, headers: { authorization: token } });
   }, []);
 
@@ -120,7 +117,7 @@ function UpdateUserPage({ sessionUser }) {
   };
 
   const handleSuccessUpdate = () => {
-    navigate(userData.id === userId ? '/profile' : `/usuario/${userId}`);
+    navigate(userData.id === userId ? '/perfil' : `/usuario/${userId}`);
   };
 
   return (
@@ -241,9 +238,8 @@ function UpdateUserPage({ sessionUser }) {
 export default UpdateUserPage;
 
 UpdateUserPage.propTypes = {
-  sessionUser: PropTypes.bool,
+  userId: PropTypes.string.isRequired,
 };
 
 UpdateUserPage.defaultProps = {
-  sessionUser: false,
 };
