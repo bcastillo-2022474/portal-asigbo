@@ -14,6 +14,7 @@ import UserProfilePage from '../UserProfilePage/UserProfilePage';
 import UsersListPage from '../UsersListPage/UsersListPage';
 import ActivityDetailsPage from '../ActivityDetailsPage';
 import HomePage from '../HomePage/HomePage';
+import WorkPanelPage from '../WorkPanelPage/WorkPanelPage';
 
 function AdminIndexPage() {
   return (
@@ -33,6 +34,7 @@ function AdminIndexPage() {
         <Route path="/usuarios" element={<UsersListPage />} />
         <Route path="/actividad/:activityId/asignacion/:userId" element={<ActivityAssignmentDetailsPage />} />
         <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />
+        <Route path="/panel" element={<WorkPanelPage />} />
       </Routes>
     </PageContainer>
   );
