@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 import AreasListPage from '@pages/AreasListPage';
 import NewAreaPage from '@pages/NewAreaPage';
 import PageContainer from '@components/PageContainer/PageContainer';
-import AdminProfilePage from '@pages/AdminProfilePage';
 import NewUserPage from '@pages/NewUserPage';
 import ImportUsersPage from '@pages/ImportUsersPage';
 import UpdateUserPage from '@pages/UpdateUserPage';
@@ -14,12 +13,13 @@ import AdminConfiguration from '../AdminConfiguration/AdminConfiguration';
 import UserProfilePage from '../UserProfilePage/UserProfilePage';
 import UsersListPage from '../UsersListPage/UsersListPage';
 import ActivityDetailsPage from '../ActivityDetailsPage';
+import HomePage from '../HomePage/HomePage';
 
 function AdminIndexPage() {
   return (
     <PageContainer>
       <Routes>
-        <Route path="/" element={<AdminProfilePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/newUser" element={<NewUserPage />} />
         <Route path="/importUsers" element={<ImportUsersPage />} />
         <Route path="/area/:idArea/editar" element={<NewAreaPage />} />
