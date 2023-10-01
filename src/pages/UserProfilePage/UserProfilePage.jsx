@@ -1,7 +1,6 @@
 /* eslint-disable arrow-body-style */
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { IoMdSettings } from 'react-icons/io';
 import {
   Chart as ChartJS, ArcElement, Tooltip, Legend,
 } from 'chart.js';
@@ -13,9 +12,9 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import useUserInfo from '../../hooks/useUserInfo';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import NotFound from '../NotFoundPage';
-import Button from '../../components/Button';
 import { serverHost } from '../../config';
 import ActivityTable from '../../components/ActivityTable';
+import AdminButton from '../../components/AdminButton/AdminButton';
 
 /*----------------------------------------------------------------------------------------------*/
 
@@ -170,10 +169,7 @@ function UserProfilePage() {
           <div className={styles.pageHeader}>
             <h1>Información del Becado</h1>
             <Link to="editar">
-              <Button className={styles.adminButton}>
-                Administrar
-                <IoMdSettings className={styles.adminButtIcon} />
-              </Button>
+              <AdminButton className={styles.adminButton} />
             </Link>
           </div>
           <div className={styles.holderDetails}>
