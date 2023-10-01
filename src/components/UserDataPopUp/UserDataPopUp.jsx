@@ -56,7 +56,7 @@ function UserDataPopUp({
 
   return (
     isOpen && (
-      <PopUp close={cleanAndClose} maxWidth={700}>
+      <PopUp closeWithBackground={false} close={cleanAndClose} maxWidth={700}>
         <h1 className={styles.title}>Editar usuario</h1>
         <form className={styles.form} onSubmit={handleSubmit}>
           <InputNumber

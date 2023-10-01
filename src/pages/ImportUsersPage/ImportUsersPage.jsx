@@ -60,7 +60,10 @@ function ImportUsersPage() {
     const method = 'POST';
 
     const formatedData = {
-      data: selectedUsers,
+      data: selectedUsers.map((el) => {
+        const { id, ...rest } = el;
+        return rest;
+      }),
     };
 
     callFetch({
