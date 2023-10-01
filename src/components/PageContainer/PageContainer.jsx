@@ -69,6 +69,7 @@ function PageContainer({ children }) {
           logo={LogoLetrasBlancas}
           name={`${payload.name} ${payload.lastname}`}
           showToggler={isMobile}
+          idUser={payload.id}
         />
       ) : (
         false
