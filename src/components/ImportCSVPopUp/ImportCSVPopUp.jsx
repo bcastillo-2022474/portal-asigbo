@@ -49,6 +49,7 @@ function ImportCSVPopUp({
       state: {
         data,
       },
+      replace: true,
     });
     cleanAndClose();
   };

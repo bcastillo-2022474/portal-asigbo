@@ -3,12 +3,11 @@ import asigboLogo from '@assets/asigboazul.png';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import UnloggedPageContainer from '../UnloggedPageContainer/UnloggedPageContainer';
 // import PropTypes from 'prop-types';
-import styles from './FinishRegistrationPage.module.css';
-import InputPhoto from '../../components/InputPhoto/InputPhoto';
+import styles from './UpdatePasswordPage.module.css';
 import InputText from '../../components/InputText/InputText';
 import Button from '../../components/Button/Button';
 import useForm from '../../hooks/useForm';
-import registrationSchema from './registrationSchema';
+import updateSchema from './updateSchema';
 import useFetch from '../../hooks/useFetch';
 import { serverHost } from '../../config';
 import LoadingView from '../../components/LoadingView/LoadingView';
@@ -19,10 +18,10 @@ import usePopUp from '../../hooks/usePopUp';
 import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
 import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp';
 
-function FinishRegistrationPage() {
+function UpdatePasswordPage() {
   const {
     form, error, setData, validateField, clearFieldError, validateForm,
-  } = useForm(registrationSchema);
+  } = useForm(updateSchema);
 
   const {
     callFetch, loading, error: fetchError, result,
@@ -51,29 +50,19 @@ function FinishRegistrationPage() {
   const handleValidateField = (e) => validateField(e.target.name);
   const handleClearFieldError = (e) => clearFieldError(e.target.name);
 
-  const onPhotoChange = (value) => {
-    setData('photo', value);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const errors = await validateForm();
     if (errors) return;
 
-    const data = new FormData();
-
-    data.append('password', form.password);
-    data.append('photo', form.photo);
-
     callFetch({
-      uri: `${serverHost}/user/finishRegistration`,
+      uri: `${serverHost}/user/updatePassword`,
       method: 'POST',
-      body: data,
-      headers: { authorization: access },
-      removeContentType: true,
+      body: JSON.stringify(form),
       parse: false,
       autoRefreshAccessToken: false,
+      headers: { authorization: access },
     });
   };
 
@@ -101,7 +90,7 @@ function FinishRegistrationPage() {
 
     if (!accessParam) return;
     // realizar petición para validar el token de acceso
-    const uri = `${serverHost}/user/validateRegisterToken`;
+    const uri = `${serverHost}/user/validateRecoverToken`;
     fetchValidateAccess({
       uri,
       headers: { authorization: accessParam },
@@ -128,25 +117,23 @@ function FinishRegistrationPage() {
   return (
     <UnloggedPageContainer>
       {!validateAccessLoading && validateAccessSuccess && (
-        <div className={styles.finishRegistrationPage}>
+        <div className={styles.updatePasswordPage}>
           <img className={styles.logo} src={asigboLogo} alt="Logo de Asigbo" />
 
           <h1 className={styles.title}>
-            ¡Bienvenido
-            {' '}
-            {userData?.name}
-            !
+            Cambiar contraseña
           </h1>
           <p className={styles.instructions}>
-            Ayudanos a completar tu perfíl para poder acceder a tu cuenta del portal de Asigbo.
+            Queda tan solo un paso para recuperar el acceso a tu cuenta ASIGBO. A continuación,
+            ingresa tu nueva contraseña.
           </p>
 
           <form onSubmit={handleSubmit}>
-            <InputPhoto onChange={onPhotoChange} className={styles.inputPhoto} />
             <InputText
-              title="Ingresar contraseña."
-              onChange={handleChange}
+              title="Contraseña."
               name="password"
+              type="password"
+              onChange={handleChange}
               value={form?.password}
               error={error?.password}
               onFocus={handleClearFieldError}
@@ -154,6 +141,7 @@ function FinishRegistrationPage() {
             />
             <InputText
               title="Repetir contraseña."
+              type="password"
               onChange={handleChange}
               name="repeatPassword"
               value={form?.repeatPassword}
@@ -181,7 +169,7 @@ function FinishRegistrationPage() {
 
       <SuccessNotificationPopUp
         close={closeSuccess}
-        text="Haz completado tu perfil exitosamente."
+        text="Contraseña actualizada exitosamente."
         callback={forceLogin}
         isOpen={isSuccessOpen}
       />
@@ -189,8 +177,8 @@ function FinishRegistrationPage() {
   );
 }
 
-export default FinishRegistrationPage;
+export default UpdatePasswordPage;
 
-FinishRegistrationPage.propTypes = {};
+UpdatePasswordPage.propTypes = {};
 
-FinishRegistrationPage.defaultProps = {};
+UpdatePasswordPage.defaultProps = {};

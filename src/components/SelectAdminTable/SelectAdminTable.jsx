@@ -156,7 +156,6 @@ function SelectAdminTable() {
               <UserPicture name={user.name} idUser={user.id} />
             </td>
             <td className={styles.nameRow}>
-
               <UserNameLink name={`${user.name} ${user.lastname}`} idUser={user.id} />
             </td>
             <td className={styles.promotionRow}>{user.promotion}</td>
