@@ -31,7 +31,7 @@ function AdminIndexPage() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/usuario/:userId" element={<UserProfilePage />} />
         <Route path="/usuario/:userId/editar" element={<UpdateUserPage />} />
-        <Route path="/usuarios" element={<UsersListPage />} />
+        <Route path="/usuario" element={<UsersListPage />} />
         <Route path="/actividad/:activityId/asignacion/:userId" element={<ActivityAssignmentDetailsPage />} />
         <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />
         <Route path="/panel" element={<WorkPanelPage />} />
