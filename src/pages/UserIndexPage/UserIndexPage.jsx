@@ -12,6 +12,7 @@ import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
 import ActivityDetailsPage from '../ActivityDetailsPage';
 import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePage';
 import UpdateUserPage from '../UpdateUserPage/UpdateUserPage';
+import UserProfileIndexPage from '../UserProfileIndexPage/UserProfileIndexPage';
 
 function UserIndexPage() {
   const token = useToken();
@@ -27,6 +28,7 @@ function UserIndexPage() {
         <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />
         <Route path="/perfil" element={<SimpleUserProfilePage idUser={user.id} />} />
         <Route path="/perfil/editar" element={<UpdateUserPage userId={user.id} />} />
+        <Route path="/usuario/:userId" element={<UserProfileIndexPage />} />
 
         {
           user?.role.includes(consts.roles.asigboAreaResponsible)

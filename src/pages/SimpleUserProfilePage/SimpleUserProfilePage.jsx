@@ -10,6 +10,7 @@ import LoadingView from '../../components/LoadingView';
 import NotFoundPage from '../NotFoundPage';
 import DataField from '../../components/DataField/DataField';
 import AdminButton from '../../components/AdminButton/AdminButton';
+import getTokenPayload from '../../helpers/getTokenPayload';
 
 /**
  *
@@ -22,6 +23,7 @@ function SimpleUserProfilePage({ idUser }) {
   } = useFetch();
 
   const token = useToken();
+  const sessionUser = token ? getTokenPayload(token) : null;
 
   useEffect(() => {
     fetchUserData({ uri: `${serverHost}/user/${idUser}`, headers: { authorization: token } });
@@ -34,9 +36,14 @@ function SimpleUserProfilePage({ idUser }) {
 
         <header className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Perfil del becado</h1>
-          <Link to="editar">
-            <AdminButton />
-          </Link>
+          {
+            // Validar privilegio de usuario para editar su propio perfil
+           sessionUser?.id === user?.id && (
+           <Link to="editar">
+             <AdminButton />
+           </Link>
+           )
+          }
         </header>
 
         <div className={styles.profileHeader}>

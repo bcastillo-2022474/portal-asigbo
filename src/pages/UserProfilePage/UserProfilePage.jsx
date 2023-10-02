@@ -1,10 +1,11 @@
 /* eslint-disable arrow-body-style */
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   Chart as ChartJS, ArcElement, Tooltip, Legend,
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import PropTypes from 'prop-types';
 import styles from './UserProfilePage.module.css';
 import useEnrolledActivities from '../../hooks/useEnrolledActivities';
 import LoadingView from '../../components/LoadingView';
@@ -32,9 +33,8 @@ import AdminButton from '../../components/AdminButton/AdminButton';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function UserProfilePage() {
+function UserProfilePage({ userId }) {
   // Estados de información
-  const { userId } = useParams();
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState([[]]);
   const [completedAct, setCompletedAct] = useState([]);
@@ -273,3 +273,7 @@ function UserProfilePage() {
 /*----------------------------------------------------------------------------------------------*/
 
 export default UserProfilePage;
+
+UserProfilePage.propTypes = {
+  userId: PropTypes.string.isRequired,
+};

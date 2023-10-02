@@ -10,7 +10,6 @@ import ActivityAssignmentDetailsPage from '@pages/ActivityAssignmentDetailsPage'
 import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import AdminConfiguration from '../AdminConfiguration/AdminConfiguration';
-import UserProfilePage from '../UserProfilePage/UserProfilePage';
 import UsersListPage from '../UsersListPage/UsersListPage';
 import ActivityDetailsPage from '../ActivityDetailsPage';
 import HomePage from '../HomePage/HomePage';
@@ -19,6 +18,7 @@ import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePag
 import useToken from '../../hooks/useToken';
 import getTokenPayload from '../../helpers/getTokenPayload';
 import UpdateUserInRoutePage from '../UpdateUserInRoutePage/UpdateUserInRoutePage';
+import UserProfileIndexPage from '../UserProfileIndexPage/UserProfileIndexPage';
 
 function AdminIndexPage() {
   const token = useToken();
@@ -35,7 +35,7 @@ function AdminIndexPage() {
         <Route path="/area" element={<AreasListPage />} />
         <Route path="/config/*" element={<AdminConfiguration />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="/usuario/:userId" element={<UserProfilePage />} />
+        <Route path="/usuario/:userId" element={<UserProfileIndexPage />} />
         <Route path="/usuario/:userId/editar" element={<UpdateUserInRoutePage />} />
         <Route path="/usuario" element={<UsersListPage />} />
         <Route path="/actividad/:activityId/asignacion/:userId" element={<ActivityAssignmentDetailsPage />} />
