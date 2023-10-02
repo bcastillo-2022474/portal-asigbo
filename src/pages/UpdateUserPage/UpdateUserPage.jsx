@@ -19,6 +19,7 @@ import usePopUp from '@hooks/usePopUp';
 import updateUserSchema from './updateUserSchema';
 import styles from './UpdateUserPage.module.css';
 import getTokenPayload from '../../helpers/getTokenPayload';
+import consts from '../../helpers/consts';
 
 /**
  * Página para editar el perfil de un usuario.
@@ -120,117 +121,127 @@ function UpdateUserPage({ userId }) {
     navigate(userData.id === userId ? '/perfil' : `/usuario/${userId}`);
   };
 
+  // Valida que sea admin o encargado del año del usuario a editar
+  const validatePagePermissionAccess = () => userData.role.includes(consts.roles.admin)
+    || (
+      userData.role.includes(consts.roles.promotionResponsible)
+      && user?.promotion === userData?.promotion
+    );
+
   return (
     <>
-      {user && (
-        <div className={styles.updateUserPage}>
-          <h1 className={styles.pageTitle}>Editar perfil</h1>
-          <form onSubmit={handleSubmit}>
-            <div className={styles.formContainer}>
-              <InputPhoto
-                defaultImage={`${serverHost}/image/user/${userId}`}
-                onChange={handleImageChange}
-              />
+      {user && validatePagePermissionAccess() && (
+      <div className={styles.updateUserPage}>
+        <h1 className={styles.pageTitle}>Editar perfil</h1>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.formContainer}>
+            <InputPhoto
+              defaultImage={`${serverHost}/image/user/${userId}`}
+              onChange={handleImageChange}
+            />
 
-              <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
-                Información personal
-              </h3>
+            <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
+              Información personal
+            </h3>
 
-              <InputText
-                title="Nombres"
-                name="name"
-                onChange={handleChange}
-                value={form?.name}
-                error={error?.name}
-                onFocus={() => clearFieldError('name')}
-                onBlur={() => validateField('name')}
-              />
+            <InputText
+              title="Nombres"
+              name="name"
+              onChange={handleChange}
+              value={form?.name}
+              error={error?.name}
+              onFocus={() => clearFieldError('name')}
+              onBlur={() => validateField('name')}
+            />
 
-              <InputText
-                title="Apellidos"
-                name="lastname"
-                onChange={handleChange}
-                value={form?.lastname}
-                error={error?.lastname}
-                onFocus={() => clearFieldError('lastname')}
-                onBlur={() => validateField('lastname')}
-              />
+            <InputText
+              title="Apellidos"
+              name="lastname"
+              onChange={handleChange}
+              value={form?.lastname}
+              error={error?.lastname}
+              onFocus={() => clearFieldError('lastname')}
+              onBlur={() => validateField('lastname')}
+            />
 
-              <InputText
-                title="Correo electrónico"
-                name="email"
-                onChange={handleChange}
-                value={form?.email}
-                error={error?.email}
-                onFocus={() => clearFieldError('email')}
-                onBlur={() => validateField('email')}
-              />
+            <InputText
+              title="Correo electrónico"
+              name="email"
+              onChange={handleChange}
+              value={form?.email}
+              error={error?.email}
+              onFocus={() => clearFieldError('email')}
+              onBlur={() => validateField('email')}
+            />
 
-              <InputSelect
-                placeholder=""
-                className={styles.inputSex}
-                title="Sexo"
-                options={[
-                  { value: 'F', title: 'F' },
-                  { value: 'M', title: 'M' },
-                ]}
-                name="sex"
-                onChange={handleChange}
-                value={form?.sex}
-                error={error?.sex}
-                onFocus={() => clearFieldError('sex')}
-                onBlur={() => validateField('sex')}
-              />
+            <InputSelect
+              placeholder=""
+              className={styles.inputSex}
+              title="Sexo"
+              options={[
+                { value: 'F', title: 'F' },
+                { value: 'M', title: 'M' },
+              ]}
+              name="sex"
+              onChange={handleChange}
+              value={form?.sex}
+              error={error?.sex}
+              onFocus={() => clearFieldError('sex')}
+              onBlur={() => validateField('sex')}
+            />
 
-              <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
-                Información académica
-              </h3>
+            <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
+              Información académica
+            </h3>
 
-              <InputText
-                title="Carrera"
-                name="career"
-                onChange={handleChange}
-                value={form?.career}
-                error={error?.career}
-                onFocus={() => clearFieldError('career')}
-                onBlur={() => validateField('career')}
-              />
+            <InputText
+              title="Carrera"
+              name="career"
+              onChange={handleChange}
+              value={form?.career}
+              error={error?.career}
+              onFocus={() => clearFieldError('career')}
+              onBlur={() => validateField('career')}
+            />
 
-              <InputNumber
-                title="Promoción"
-                min={2000}
-                max={new Date().getFullYear() + 1}
-                name="promotion"
-                onChange={handleChange}
-                value={form?.promotion}
-                error={error?.promotion}
-                onFocus={() => clearFieldError('promotion')}
-                onBlur={() => validateField('promotion')}
-              />
-            </div>
+            <InputNumber
+              title="Promoción"
+              min={2000}
+              max={new Date().getFullYear() + 1}
+              name="promotion"
+              onChange={handleChange}
+              value={form?.promotion}
+              error={error?.promotion}
+              onFocus={() => clearFieldError('promotion')}
+              onBlur={() => validateField('promotion')}
+            />
+          </div>
 
-            <div className={`${styles.buttonContainer} ${styles.completeRow}`}>
-              {updateLoading && <Spinner />}
-              {!updateResult && !updateLoading && <Button type="submit" text="Actualizar perfil de usuario" />}
-            </div>
-          </form>
+          <div className={`${styles.buttonContainer} ${styles.completeRow}`}>
+            {updateLoading && <Spinner />}
+            {!updateResult && !updateLoading && (
+            <Button type="submit" text="Actualizar perfil de usuario" />
+            )}
+          </div>
+        </form>
 
-          <ErrorNotificationPopUp
-            close={closeError}
-            isOpen={isErrorOpen}
-            text={updateError?.message ?? 'Ocurrió un error.'}
-          />
+        <ErrorNotificationPopUp
+          close={closeError}
+          isOpen={isErrorOpen}
+          text={updateError?.message ?? 'Ocurrió un error.'}
+        />
 
-          <SuccessNotificationPopUp
-            close={closeSuccess}
-            isOpen={isSuccessOpen}
-            text="El usuario fue actualizado de exitosamente."
-            callback={handleSuccessUpdate}
-          />
-        </div>
+        <SuccessNotificationPopUp
+          close={closeSuccess}
+          isOpen={isSuccessOpen}
+          text="El usuario fue actualizado de exitosamente."
+          callback={handleSuccessUpdate}
+        />
+      </div>
       )}
+
       {userLoading && <LoadingView />}
-      {userError && <NotFoundPage />}
+      {(userError || (user && !validatePagePermissionAccess())) && <NotFoundPage />}
     </>
   );
 }
@@ -241,5 +252,4 @@ UpdateUserPage.propTypes = {
   userId: PropTypes.string.isRequired,
 };
 
-UpdateUserPage.defaultProps = {
-};
+UpdateUserPage.defaultProps = {};
