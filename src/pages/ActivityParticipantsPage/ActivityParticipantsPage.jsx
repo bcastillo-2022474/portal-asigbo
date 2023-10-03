@@ -6,7 +6,7 @@ import ActivityParticipantsTable from '../../components/SelectActivityParticipan
 function ActivityParticipantsPage({ idActivity }) {
   return (
     <div className={styles.activityParticipantsPage}>
-      <h3>Participantes</h3>
+      <h2>Participantes</h2>
       <ActivityParticipantsTable idActivity={idActivity} />
     </div>
   );
