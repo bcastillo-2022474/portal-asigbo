@@ -34,7 +34,6 @@ function AdminIndexPage() {
         <Route path="/area/nuevo" element={<NewAreaPage />} />
         <Route path="/area" element={<AreasListPage />} />
         <Route path="/config/*" element={<AdminConfiguration />} />
-        <Route path="*" element={<NotFoundPage />} />
         <Route path="/usuario/:userId" element={<UserProfileIndexPage />} />
         <Route path="/usuario/:userId/editar" element={<UpdateUserInRoutePage />} />
         <Route path="/usuario" element={<UsersListPage />} />
@@ -43,6 +42,7 @@ function AdminIndexPage() {
         <Route path="/panel" element={<WorkPanelPage />} />
         <Route path="/perfil" element={<SimpleUserProfilePage idUser={user.id} />} />
         <Route path="/perfil/editar" element={<UpdateUserPage userId={user.id} />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </PageContainer>
   );

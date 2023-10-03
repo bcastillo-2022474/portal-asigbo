@@ -75,7 +75,6 @@ function UserProfilePage({ userId }) {
 
   // Efecto que maneja las actividades comunes y completadas.
   useEffect(() => {
-    console.log(enrolledActivities);
     let newArr = [];
     const completed = [];
     if (enrolledActivities) {
@@ -238,11 +237,11 @@ function UserProfilePage({ userId }) {
               {deptDetails.length !== 0 ? (
                 <>
                   <div className={styles.areaList}>
-                    <ul>
+                    <ul key={`areaList${userId}`}>
                       { deptDetails
                         ? deptDetails.map((value, _index, array) => {
                           return (
-                            <li key={value + array} className={styles.areaListItem}>
+                            <li key={value.id + array} className={styles.areaListItem}>
                               <img src={`${serverHost}/image/area/${value.id}`} alt="Logotipo" className={styles.areaListIcon} />
                               <b>{`${value.name}:`}</b>
                               {`${value.hours} horas`}
@@ -253,7 +252,7 @@ function UserProfilePage({ userId }) {
                     </ul>
                   </div>
                   <div className={styles.chartContainer}>
-                    <Doughnut data={chartData} className={styles.chart} />
+                    <Doughnut data={chartData} className={styles.chart} key={`chartID ${userId}`} />
                   </div>
                 </>
               ) : <span>No se ha completado ninguna actividad aún...</span>}
