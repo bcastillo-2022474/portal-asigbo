@@ -39,3 +39,14 @@
   padding-left: 50px;
   padding-right: 50px;
 }
+
+@media only screen and (max-width: 600px){
+  .formContainer{
+    grid-template-columns: 1fr;
+  }
+
+  .buttonContainer button{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

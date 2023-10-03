@@ -13,10 +13,11 @@ import UserInfo from '../UserInfo/UserInfo';
 * @param {string | JSXElement}: Fuente del logotipo a mostrar
 * @param {string} name: Nombre del becado
 * @param {boolean} showToggler: Booleano dedicado a mostrar el hamburger menu o no
+* @param {string} idUser: Id del becado.
 *
 */
 function TopBar({
-  toggler, logo, name, showToggler,
+  toggler, logo, name, showToggler, idUser,
 }) {
   return (
     <nav className={styles.TopBar}>
@@ -37,7 +38,7 @@ function TopBar({
       </div>
 
       {/* Nombre e ícono del becado */}
-      <UserInfo className={styles.userInfo} name={name} />
+      <UserInfo className={styles.userInfo} name={name} idUser={idUser} />
 
     </nav>
   );
@@ -49,6 +50,7 @@ TopBar.defaultProps = {
   showToggler: true,
   logo: '',
   name: '',
+  idUser: null,
 };
 
 TopBar.propTypes = {
@@ -56,6 +58,7 @@ TopBar.propTypes = {
   toggler: PropTypes.func,
   logo: PropTypes.string,
   name: PropTypes.string,
+  idUser: PropTypes.string,
 };
 
 export default TopBar;

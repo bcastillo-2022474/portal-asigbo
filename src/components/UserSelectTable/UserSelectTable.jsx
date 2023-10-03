@@ -123,6 +123,7 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
 
   useEffect(() => {
     // cambiar número en la paginación
+    // Esta acción tiene fines estéticos para el número de items a mostrar
     const media = matchMedia('(max-width:700px)');
 
     const handleMediaChange = (e) => {

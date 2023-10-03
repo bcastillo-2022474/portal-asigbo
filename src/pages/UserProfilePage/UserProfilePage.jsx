@@ -1,11 +1,11 @@
 /* eslint-disable arrow-body-style */
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { IoMdSettings } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 import {
   Chart as ChartJS, ArcElement, Tooltip, Legend,
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import PropTypes from 'prop-types';
 import styles from './UserProfilePage.module.css';
 import useEnrolledActivities from '../../hooks/useEnrolledActivities';
 import LoadingView from '../../components/LoadingView';
@@ -13,9 +13,9 @@ import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import useUserInfo from '../../hooks/useUserInfo';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import NotFound from '../NotFoundPage';
-import Button from '../../components/Button';
 import { serverHost } from '../../config';
 import ActivityTable from '../../components/ActivityTable';
+import AdminButton from '../../components/AdminButton/AdminButton';
 
 /*----------------------------------------------------------------------------------------------*/
 
@@ -33,9 +33,8 @@ import ActivityTable from '../../components/ActivityTable';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function UserProfilePage() {
+function UserProfilePage({ userId }) {
   // Estados de información
-  const { userId } = useParams();
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState([[]]);
   const [completedAct, setCompletedAct] = useState([]);
@@ -170,10 +169,7 @@ function UserProfilePage() {
           <div className={styles.pageHeader}>
             <h1>Información del Becado</h1>
             <Link to="editar">
-              <Button className={styles.adminButton}>
-                Administrar
-                <IoMdSettings className={styles.adminButtIcon} />
-              </Button>
+              <AdminButton className={styles.adminButton} />
             </Link>
           </div>
           <div className={styles.holderDetails}>
@@ -277,3 +273,7 @@ function UserProfilePage() {
 /*----------------------------------------------------------------------------------------------*/
 
 export default UserProfilePage;
+
+UserProfilePage.propTypes = {
+  userId: PropTypes.string.isRequired,
+};

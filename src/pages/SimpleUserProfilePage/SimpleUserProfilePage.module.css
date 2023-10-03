@@ -1,0 +1,68 @@
+.simpleUserProfilePage{
+  padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
+}
+
+.pageHeader{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.pageTitle{
+  font-size: var(--h1-title-size--);
+}
+
+.profileHeader{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.userName{
+  font-size: 25px;
+}
+
+.profileHeader .headerDataContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+.mainDataContainer{
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: fit-content;
+
+}
+
+
+@media only screen and (max-width: 600px){
+  .pageHeader{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+  }
+
+  .pageTitle{
+    text-align: center;
+  }
+
+  .profileHeader{
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .headerDataContainer{
+    align-items: center;
+  }
+
+  .mainDataContainer{
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

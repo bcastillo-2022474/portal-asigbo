@@ -92,7 +92,10 @@ function FinishRegistrationPage() {
   }, [form]);
 
   useEffect(() => {
-    if (!searchParams) return;
+    if (searchParams.size === 0) {
+      openError();
+      return;
+    }
 
     const accessParam = searchParams.get('access');
 
