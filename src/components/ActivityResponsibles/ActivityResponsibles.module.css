@@ -1,11 +1,18 @@
 .main {
   padding-block: var(--page-block-padding--);
 }
+.main h1 {
+  font-size: var(--h1-title-size--);
+}
 .main h2 {
   font-size: var(--h2-title-size--);
 }
 .main h3 {
   font-size: var(--h3-title-size--);
+}
+
+.table {
+  margin-top: 20px;
 }
 
 .td {

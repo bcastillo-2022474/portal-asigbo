@@ -23,6 +23,7 @@ function ActivityDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [isResponsible, setIsResponsible] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const {
     info: user,
     error: userError,
@@ -87,11 +88,16 @@ function ActivityDetailsPage() {
           ''
         )}
       </div>
-      <img
-        src="https://placehold.co/600x400"
-        alt="placeholder"
-        className={styles.banner}
-      />
+      {!imageError ? (
+        <img
+          src={`${serverHost}/${activity}`}
+          alt="placeholder"
+          className={styles.banner}
+          onError={() => setImageError(true)}
+        />
+      ) : (
+        ''
+      )}
       <TabMenu
         className={styles.tabMenu}
         options={[
@@ -104,7 +110,7 @@ function ActivityDetailsPage() {
         <Route path="/" element={<ActivityDetails data={activity} />} />
         <Route
           path="/encargados"
-          element={<ActivityResponsibles loading={loading} />}
+          element={<ActivityResponsibles idActivity={activityID} />}
         />
         <Route
           path="/participantes"
