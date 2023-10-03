@@ -33,12 +33,11 @@ function ActivityTable({ loading, data, listingType }) {
   const [initialDate, setInitialDate] = useState();
   const [finalDate, setFinalDate] = useState();
 
-  // Si la búsqieda está vacía la información filtrada es igual a la que proviene del parámetro.
+  // Si la búsqueda está vacía la información filtrada es igual a la que proviene del parámetro.
   useEffect(() => {
     if (!search) {
       setFiltrated(data);
     }
-    console.log(data);
   }, [data]);
 
   // Redirección a actividad.
