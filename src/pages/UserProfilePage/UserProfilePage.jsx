@@ -95,6 +95,7 @@ function UserProfilePage({ userId }) {
     }
     setCompletedAct(completed);
     setContent(newArr);
+    console.log(enrolledActivities);
   }, [enrolledActivities]);
 
   // Efecto que maneja las areas en las que únicamente se han completado actividades,

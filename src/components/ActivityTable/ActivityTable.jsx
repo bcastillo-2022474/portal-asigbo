@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-restricted-syntax */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -37,6 +38,7 @@ function ActivityTable({ loading, data, listingType }) {
     if (!search) {
       setFiltrated(data);
     }
+    console.log(data);
   }, [data]);
 
   // Redirección a actividad.
