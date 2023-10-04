@@ -208,7 +208,7 @@ function Table({
 export default Table;
 
 Table.propTypes = {
-  header: PropTypes.arrayOf(PropTypes.string).isRequired,
+  header: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.node,
   breakPoint: PropTypes.string,
   maxCellWidth: PropTypes.string,
@@ -223,6 +223,7 @@ Table.propTypes = {
 };
 
 Table.defaultProps = {
+  header: [],
   children: null,
   breakPoint: '600px',
   maxCellWidth: null,

@@ -1,0 +1,14 @@
+.workPanelPage{
+  padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
+}
+
+.pageTitle{
+  font-size: var(--h1-title-size--);
+  margin-bottom: 25px;
+}
+
+.optionsContainer{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 25px;
+}
