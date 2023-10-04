@@ -25,6 +25,7 @@ import InputSearchSelect from '../InputSearchSelect/InputSearchSelect';
 import SearchInput from '../SearchInput/SearchInput';
 import consts from '../../helpers/consts';
 import UserNameLink from '../UserNameLink/UserNameLink';
+import useCount from '../../hooks/useCount';
 
 function ManageUsersTable() {
   const token = useToken();
@@ -32,6 +33,7 @@ function ManageUsersTable() {
   const [currentPage, setCurrentPage] = useState(0);
   const [paginationItems, setPaginationItems] = useState();
   const [filter, setFilter] = useState({});
+  const { count: resetTableHeightTrigger, next: fireTableHeightTrigger } = useCount();
 
   const [userId, setUserId] = useState('');
 
@@ -251,7 +253,12 @@ function ManageUsersTable() {
           handleSearch={(val) => handleChange('search', val)}
         />
       </div>
-      <Table showCheckbox={false} header={['No.', '', 'Nombre', 'Promoción', '']} breakPoint="700px">
+      <Table
+        showCheckbox={false}
+        header={['No.', '', 'Nombre', 'Promoción', '']}
+        breakPoint="700px"
+        resetTableHeight={resetTableHeightTrigger}
+      >
         {users?.map((user, index) => (
           <TableRow id={user.id} key={user.id} style={{ position: 'absolute' }}>
             <td>{index + 1}</td>
@@ -265,6 +272,7 @@ function ManageUsersTable() {
             <td className={styles.actionsRow}>
               <div className={styles.optionsContainer}>
                 <OptionsButton
+                  onMenuVisibleChange={fireTableHeightTrigger}
                   options={[
                     user.blocked ? { icon: <UnblockIcon />, text: 'Desbloquear', onClick: () => handleAction(user.id, 'enabling') } : { icon: <BlockIcon />, text: 'Bloquear', onClick: () => handleAction(user.id, 'disabling') },
                     !user.completeRegistration ? { icon: <EmailIcon />, text: 'Reenviar correo de registro', onClick: handleReSendEmailOptionClick } : null, // Placeholder object with no-op function

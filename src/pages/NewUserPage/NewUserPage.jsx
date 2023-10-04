@@ -58,10 +58,6 @@ function NewUserPage() {
     });
   };
 
-  const handleIconClick = () => {
-    // Abrir popup para subir excel
-  };
-
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     // console.log(name, value);
@@ -90,7 +86,6 @@ function NewUserPage() {
           <NavMenuButton
             className={styles.navMenuButton}
             icon={<CSVICon fill="#16337F" width="75%" height="75%" />}
-            clickCallback={handleIconClick}
           />
         </div>
       </div>
@@ -98,11 +93,12 @@ function NewUserPage() {
         <div className={styles.arrowUp} />
         <div className={styles.csvInfo}>
           ¿Creando múltiples usuarios?
-          Presiona aquí para subir una hoja de Excel con los datos de todos
+          Presiona aquí para subir un archivo CSV con los datos de todos
           los becados que necesitan un nuevo usuario
         </div>
       </div>
       <form className={styles.form} onSubmit={handleSubmitUser}>
+        <h2 className={styles.sectionTitle}>Información personal</h2>
         <InputText
           title="Nombres del becado"
           name="name"
@@ -122,7 +118,7 @@ function NewUserPage() {
           onBlur={() => validateField('lastname')}
         />
         <InputText
-          title="Correo electrónico del becado"
+          title="Correo electrónico"
           name="email"
           value={form?.email}
           error={error?.email}
@@ -130,6 +126,18 @@ function NewUserPage() {
           onFocus={() => clearFieldError('email')}
           onBlur={() => validateField('email')}
         />
+        <InputSelect
+          options={[{ value: 'M', title: 'Masculino' }, { value: 'F', title: 'Femenino' }]}
+          name="sex"
+          error={error?.sex}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('sex')}
+          onBlur={() => validateField('sex')}
+          placeholder="Sexo"
+          title="Sexo"
+          value={form?.sex}
+        />
+        <h2 className={styles.sectionTitle}>Información académica</h2>
         <InputText
           title="Carrera"
           name="career"
@@ -149,17 +157,6 @@ function NewUserPage() {
           title="Promoción"
           min={2000}
           max={2100}
-        />
-        <InputSelect
-          options={[{ value: 'M', title: 'Masculino' }, { value: 'F', title: 'Femenino' }]}
-          name="sex"
-          error={error?.sex}
-          onChange={handleFormChange}
-          onFocus={() => clearFieldError('sex')}
-          onBlur={() => validateField('sex')}
-          placeholder="Sexo"
-          title="Sexo"
-          value={form?.sex}
         />
 
         {!resultPostUser && !loadingPostUser && (

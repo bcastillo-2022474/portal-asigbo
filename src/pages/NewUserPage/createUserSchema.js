@@ -4,7 +4,7 @@ export default yup.object().shape({
   sex: yup
     .string()
     .matches(/^[MF]$/, "El campo 'sex' debe ser 'M' o 'F'.")
-    .required("El campo 'sex' es obligatorio."),
+    .required("El campo 'Sexo' es obligatorio."),
   code: yup
     .number()
     .nullable()
@@ -13,19 +13,19 @@ export default yup.object().shape({
   promotion: yup
     .number()
     .nullable()
-    .typeError("El campo 'promotion' debe ser un número.")
-    .integer("El campo 'promotion' debe ser un número entero.")
-    .min(2000, "El campo 'promotion' debe ser mayor a 2000")
-    .max(2100, "El campo 'promotion' debe ser menor o igual a 2100")
-    .required("El campo 'promotion' es obligatorio."),
+    .typeError('La promoción del becado debe ser un número.')
+    .integer('La promoción del becado debe ser un número entero.')
+    .min(2000, 'La promoción del becado  debe ser mayor a 2000')
+    .max(2100, 'La promoción del becado debe ser menor o igual a 2100')
+    .required('Se requiere la promoción del becado.'),
   career: yup
     .string()
-    .required("El campo 'career' es obligatorio"),
+    .required('Se requiere la carrera del becado'),
   email: yup
     .string()
     .nullable()
-    .email("El valor de 'email' no posee el formato de una email válido.")
-    .required("El campo 'email' es obligatorio."),
-  lastname: yup.string().required("El campo 'lastname' es obligatorio."),
-  name: yup.string().required("El campo 'name' es obligatorio."),
+    .email('El correo electrónico no posee el formato de una email válido.')
+    .required('Se requiere el correo electrónico del becado.'),
+  lastname: yup.string().required('Se requieren los apellidos del becado.'),
+  name: yup.string().required('Se requieren los nombres del becado.'),
 });

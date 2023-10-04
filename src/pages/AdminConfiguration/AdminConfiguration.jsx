@@ -3,14 +3,25 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import TabMenu from '@components/TabMenu/TabMenu';
 import SelectAdminTable from '@components/SelectAdminTable';
+import UpdatePromotion from '../../components/UpdatePromotion';
 import styles from './AdminConfiguration.module.css';
 
 function AdminConfiguration() {
   return (
     <div className={styles.adminConfiguration}>
       <h1 className={styles.pageTitle}>Configuración</h1>
-      <TabMenu className={styles.tabMenu} options={[{ text: 'General', href: '' }, { text: 'Administradores', href: 'admin' }]} />
+      <TabMenu className={styles.tabMenu} options={[{ text: 'General', href: 'general' }, { text: 'Administradores', href: 'admin' }]} />
       <Routes>
+        <Route
+          end
+          path="/general"
+          element={(
+            <>
+              <h3 className={styles.sectionTitle}>Grupos de promociones</h3>
+              <UpdatePromotion />
+            </>
+          )}
+        />
 
         <Route
           end

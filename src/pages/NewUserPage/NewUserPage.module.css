@@ -25,7 +25,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-bottom: 40px;
 }
 
 .pageTitle {
@@ -46,32 +45,51 @@
 }
 
 .form {
-    width: 65%;
-    display: flex;
+    width: 85%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    column-gap: 10px;
+    align-items: start;
+}
+
+.sectionTitle{
+    margin-top: 30px;
+    grid-column: -1/1;
 }
 
 .actionsContainer {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-column: -1/1;
     margin-top: 50px;
     gap: 15px;
+    max-width: 400px;
+    justify-self: center;
 }
 
 @media only screen and (max-width: 765px) {
     .form {
-        width: 85%;
+        grid-template-columns: 1fr;
+        row-gap: 5px;
     }
 
     .pageTitle {
         text-align: center;
+        align-self: center;
     }
 
     .iconWrapper{
         display: none;
+    }
+
+    .headerContainer{
+        text-align: center;
+    }
+
+    .sectionTitle{
+        text-align: center;
     }
 }
 
@@ -90,8 +108,8 @@
     width: 300px;
     position: absolute;
     z-index: 1000;
-    right: 8vw;
-    top: 13vh;
+    right: 8.5vw;
+    top: 16vh;
 }
 
 .csvInfoWrapper.showing {
@@ -101,8 +119,8 @@
     width: 300px;
     position: absolute;
     z-index: 1000;
-    right: 8vw;
-    top: 13vh;
+    right: 8.5vw;
+    top: 16vh;
     transition: opacity ease-in 0.5s;
 }
 

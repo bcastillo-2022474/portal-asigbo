@@ -1,0 +1,39 @@
+.form{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 25px;
+    width: 550px;
+}
+
+.buttonsContainer{
+    grid-column: -1/1;
+    margin-top: 30px;
+    display: flex;
+    gap: 25px;
+}
+
+.spinnerContainer{
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 650px) {
+    .updatePromotionContainer{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .form{
+    grid-template-columns: 1fr;
+    width: 100%;
+    justify-content: center;
+    gap: 0;
+    }
+
+    .info{
+        text-align: center;
+    }
+
+    .buttonsContainer{
+        justify-content: center;
+    }
+}
