@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 
+/* Nota: el .test() se evalúa hasta que se llama el validateForm del hook useForm */
 export default yup.object().shape({
   firstYearPromotion: yup
     .number()

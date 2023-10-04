@@ -98,7 +98,7 @@ function NewUserPage() {
         </div>
       </div>
       <form className={styles.form} onSubmit={handleSubmitUser}>
-        <h2 className={styles.sectionTitle}>Información personal</h2>
+        <h3 className={styles.sectionTitle}>Información personal</h3>
         <InputText
           title="Nombres del becado"
           name="name"
@@ -137,7 +137,7 @@ function NewUserPage() {
           title="Sexo"
           value={form?.sex}
         />
-        <h2 className={styles.sectionTitle}>Información académica</h2>
+        <h3 className={styles.sectionTitle}>Información académica</h3>
         <InputText
           title="Carrera"
           name="career"
@@ -161,7 +161,7 @@ function NewUserPage() {
 
         {!resultPostUser && !loadingPostUser && (
           <div className={styles.actionsContainer}>
-            <Button text="Registrar becado" className={styles.sendButton} type="submit" />
+            <Button text="Registrar becado" type="submit" />
             <div className={styles.csvButtonWrapper} onClick={() => setOpenImport(true)}>
               <div className={styles.csvIconWrapper}>
                 <CSVICon fill="#16337F" className={styles.csvIconSmall} />

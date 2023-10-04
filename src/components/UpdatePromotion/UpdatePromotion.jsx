@@ -127,50 +127,54 @@ function UpdatePromotion() {
   return (
     <div className={styles.updatePromotionContainer}>
       <p className={styles.info}>Especificar la promoción en primer y útlimo año de estudios</p>
-      {(loadingPromotions || loadingUpdate) && (
+      <form className={styles.form}>
+        <InputNumber
+          name="firstYearPromotion"
+          value={form?.firstYearPromotion}
+          error={error?.firstYearPromotion}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('firstYearPromotion')}
+          onBlur={() => validateField('firstYearPromotion')}
+          title="Promoción en primer año"
+          min={2000}
+          max={2100}
+        />
+
+        <InputNumber
+          name="lastYearPromotion"
+          value={form?.lastYearPromotion}
+          error={error?.lastYearPromotion}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('lastYearPromotion')}
+          onBlur={() => validateField('lastYearPromotion')}
+          title="Promoción en último año"
+          min={2000}
+          max={2100}
+        />
+        {error?.lastYearGreater && <p className={styles.errorMessage}>{error.lastYearGreater}</p>}
+        {(loadingPromotions || loadingUpdate) && (
         <div className={styles.spinnerContainer}>
           <Spinner />
         </div>
-      )}
-      {!loadingPromotions && !loadingUpdate && (
-        <form className={styles.form}>
-          <InputNumber
-            name="firstYearPromotion"
-            value={form?.firstYearPromotion}
-            error={error?.firstYearPromotion}
-            onChange={handleFormChange}
-            onFocus={() => clearFieldError('firstYearPromotion')}
-            onBlur={() => validateField('firstYearPromotion')}
-            title="Promoción en primer año"
-            min={2000}
-            max={2100}
-          />
-
-          <InputNumber
-            name="lastYearPromotion"
-            value={form?.lastYearPromotion}
-            error={error?.lastYearPromotion}
-            onChange={handleFormChange}
-            onFocus={() => clearFieldError('lastYearPromotion')}
-            onBlur={() => validateField('lastYearPromotion')}
-            title="Promoción en último año"
-            min={2000}
-            max={2100}
-          />
-          {error?.lastYearGreater && <p className={styles.errorMessage}>{error.lastYearGreater}</p>}
-          <div className={styles.buttonsContainer}>
-            <Button text="Avanzar promoción" onClick={() => handleAction('advance')} emptyBlue />
-            <Button text="Actualizar" onClick={() => handleAction('update')} />
-          </div>
-        </form>
-      )}
+        )}
+        {!loadingPromotions && !loadingUpdate && (
+        <div className={styles.buttonsContainer}>
+          <Button text="Avanzar promoción" onClick={() => handleAction('advance')} emptyBlue />
+          <Button text="Actualizar" onClick={() => handleAction('update')} />
+        </div>
+        )}
+      </form>
       <ConfirmationPopUp
         close={closeConfirmation}
         isOpen={isConfirmationOpen}
         callback={handleConfirmation}
         body={(
           <>
-            ¿Estás seguro/a de que quieres actualizar las promociones actuales?
+            ¿Estás seguro/a de que quieres
+            <b>
+              {action === 'update' ? ' actualizar ' : ' avanzar un año '}
+            </b>
+            las promociones actuales?
             Esta acción modificará inmediatamente el grupo de usuarios al que
             pertenecen ciertas promociones
           </>
