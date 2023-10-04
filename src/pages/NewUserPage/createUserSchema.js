@@ -4,7 +4,7 @@ export default yup.object().shape({
   sex: yup
     .string()
     .matches(/^[MF]$/, "El campo 'sex' debe ser 'M' o 'F'.")
-    .required("El campo 'Sexo' es obligatorio."),
+    .required('Es necesario conocer el sexo del becado.'),
   code: yup
     .number()
     .nullable()
@@ -20,7 +20,7 @@ export default yup.object().shape({
     .required('Se requiere la promoción del becado.'),
   career: yup
     .string()
-    .required('Se requiere la carrera del becado'),
+    .required('Se requiere la carrera del becado.'),
   email: yup
     .string()
     .nullable()
