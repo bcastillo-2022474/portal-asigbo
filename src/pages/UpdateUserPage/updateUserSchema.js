@@ -1,7 +1,18 @@
 import * as yup from 'yup';
 
 const updateUserSchema = yup.object().shape({
-
+  password: yup
+    .string(),
+  repeatPassword: yup
+    .string()
+    .when('password', (password, schema) => {
+      if (password?.[0] && password[0]?.length > 0) {
+        return schema.required('Debes ingresar de nuevo tu contraseña.')
+          .test('min-length', 'Debes ingresar de nuevo tu contraseña.', (value) => value?.length > 0)
+          .oneOf([yup.ref('password')], 'Las contraseñas no coinciden.');
+      }
+      return schema;
+    }),
   sex: yup.string().matches(/^[MF]$/, "El campo 'sex' debe ser 'M' o 'F'.").required('Debes seleccionar el sexo del usuario.'),
   promotion: yup
     .number()
