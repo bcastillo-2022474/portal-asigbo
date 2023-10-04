@@ -62,10 +62,10 @@ function ImagePicker({
 
   const handleOnChange = (evt) => {
     const images = evt.target.files;
-
     if (!images) return;
-    if (totalImages >= maxFiles) return; // max files
-    Object.values(images).forEach((image) => {
+    Object.values(images).forEach((image, index) => {
+      if (totalImages + index >= maxFiles) return; // Evitar que se selecciones más imágenes
+
       const id = randomString(10);
       const fileReader = new FileReader();
 
@@ -116,8 +116,9 @@ function ImagePicker({
               type="file"
               className={styles.inputFile}
               name="files"
-              multiple
+              multiple={(maxFiles - totalImages) > 1}
               onChange={handleOnChange}
+              accept="image/*"
             />
           </div>
         )}
