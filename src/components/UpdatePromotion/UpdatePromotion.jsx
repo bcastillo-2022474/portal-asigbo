@@ -157,6 +157,7 @@ function UpdatePromotion() {
             min={2000}
             max={2100}
           />
+          {error?.lastYearGreater && <p className={styles.errorMessage}>{error.lastYearGreater}</p>}
           <div className={styles.buttonsContainer}>
             <Button text="Avanzar promoción" onClick={() => handleAction('advance')} emptyBlue />
             <Button text="Actualizar" onClick={() => handleAction('update')} />

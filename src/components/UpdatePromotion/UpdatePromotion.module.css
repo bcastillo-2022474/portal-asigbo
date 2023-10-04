@@ -16,6 +16,12 @@
     margin-top: 30px;
 }
 
+.errorMessage{
+    margin-top: 20px;
+    grid-column: -1/1;
+    color: var(--error-color--);
+}
+
 @media screen and (max-width: 650px) {
     .updatePromotionContainer{
         display: flex;

@@ -15,4 +15,17 @@ export default yup.object().shape({
     .min(2000, 'El año de promoción debe ser mayor a 2000')
     .max(2100, 'El año de promoción debe ser menor o igual a 2100')
     .required('Se requiere el último año de promoción actual.'),
-});
+}).test(
+  'lastYearGreater',
+  "El campo 'lastYearPromotion' debe ser menor al campo 'firstYearPromotion'.",
+  (value, ctx) => {
+    const { firstYearPromotion, lastYearPromotion } = value;
+    const isValid = !(firstYearPromotion <= lastYearPromotion);
+
+    if (isValid) return true;
+    return ctx.createError({
+      path: 'lastYearGreater',
+      message: 'La promoción de primer año debe ser a la promoción del último año',
+    });
+  },
+);
