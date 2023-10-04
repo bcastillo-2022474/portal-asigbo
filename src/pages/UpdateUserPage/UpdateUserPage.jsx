@@ -43,6 +43,9 @@ function UpdateUserPage({ userId }) {
   const token = useToken();
   const userData = getTokenPayload(token);
 
+  const isAdmin = userData.role.includes(consts.roles.admin);
+  const isPromotionResponsible = userData.role.includes(consts.roles.promotionResponsible);
+
   const {
     form, error, setForm, setData, validateField, clearFieldError, validateForm,
   } = useForm(updateUserSchema);
@@ -106,6 +109,8 @@ function UpdateUserPage({ userId }) {
     const data = new FormData();
     Object.entries(form).forEach((val) => data.append(val[0], val[1]));
 
+    if (!isAdmin) data.delete('promotion');
+
     const uri = `${serverHost}/user/${userId}`;
     fetchUpdate({
       uri,
@@ -122,11 +127,8 @@ function UpdateUserPage({ userId }) {
   };
 
   // Valida que sea admin o encargado del año del usuario a editar
-  const validatePagePermissionAccess = () => userData.role.includes(consts.roles.admin)
-    || (
-      userData.role.includes(consts.roles.promotionResponsible)
-      && user?.promotion === userData?.promotion
-    );
+  const validatePagePermissionAccess = () => isAdmin
+    || (isPromotionResponsible && user?.promotion === userData?.promotion);
 
   return (
     <>
@@ -204,6 +206,9 @@ function UpdateUserPage({ userId }) {
               onBlur={() => validateField('career')}
             />
 
+            {
+              isAdmin
+            && (
             <InputNumber
               title="Promoción"
               min={2000}
@@ -215,6 +220,8 @@ function UpdateUserPage({ userId }) {
               onFocus={() => clearFieldError('promotion')}
               onBlur={() => validateField('promotion')}
             />
+            )
+            }
           </div>
 
           <div className={`${styles.buttonContainer} ${styles.completeRow}`}>
