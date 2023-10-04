@@ -10,11 +10,11 @@ function AdminConfiguration() {
   return (
     <div className={styles.adminConfiguration}>
       <h1 className={styles.pageTitle}>Configuración</h1>
-      <TabMenu className={styles.tabMenu} options={[{ text: 'General', href: 'general' }, { text: 'Administradores', href: 'admin' }]} />
+      <TabMenu className={styles.tabMenu} options={[{ text: 'General', href: '' }, { text: 'Administradores', href: 'admin' }]} />
       <Routes>
         <Route
           end
-          path="/general"
+          path=""
           element={(
             <>
               <h3 className={styles.sectionTitle}>Grupos de promociones</h3>
