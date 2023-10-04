@@ -25,7 +25,7 @@ export default yup.object().shape({
     if (isValid) return true;
     return ctx.createError({
       path: 'lastYearGreater',
-      message: 'La promoción de primer año debe ser a la promoción del último año',
+      message: 'La promoción de primer año debe ser menor a la promoción del último año',
     });
   },
 );
