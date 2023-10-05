@@ -1,0 +1,71 @@
+.newAreaPage{
+  padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
+}
+
+.pageTitle{
+  font-size: var(--h1-title-size--);
+}
+
+.inputRow {
+  display: flex;
+  justify-content: space-between; 
+  gap: 20px;
+}
+
+
+.formContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formSectionTitle{
+  font-size: var(--h3-title-size--);
+  grid-column: 1/-1;
+  margin-top: 20px;
+
+}
+
+.formInstructions{
+  font-size: var(--text-font-size--);
+}
+
+.inputText{
+  max-width: 50%;
+}
+
+@media only screen and (max-width:700px){
+  .inputText{
+    max-width: 100%;
+  }
+}
+
+.sendContainer{
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.sendButton{
+  width: 90%;
+  max-width: 400px;
+}
+
+.errorMessage{
+  color: var(--error-color--);
+  
+}
+
+@media only screen and (max-width: 600px){
+
+  .pageTitle{
+    justify-content: center !important;
+  }
+  .pageTitle div:first-child{
+    flex-direction: column;
+  }
+
+  .pageTitle span{
+    display: block !important;
+  }
+}
