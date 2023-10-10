@@ -4,6 +4,7 @@ import InputText from '@components/InputText';
 import InputNumber from '@components/InputNumber/InputNumber';
 import InputDate from '@components/InputDate/InputDate';
 import CheckBox from '@components/CheckBox/CheckBox';
+import ImagePicker from '@components/ImagePicker/ImagePicker';
 import useForm from '@hooks/useForm';
 import UserSelectTable from '@components/UserSelectTable';
 import Button from '@components/Button';
@@ -256,6 +257,9 @@ function NewActivityPage() {
                 onKeyDown={handleKeyDown}
               />
             </div>
+
+            <h3 className={styles.formSectionTitle}>Imagen representativa de la actividad</h3>
+            <ImagePicker />
 
             <h3 className={styles.formSectionTitle}>Encargados</h3>
             <CheckBox
