@@ -23,7 +23,7 @@ import createAsigboActivitySchema from './createAsigboActivitySchema';
 
 function NewActivityPage() {
   // Si el idArea no es null, el formulario es para editar
-  const { idArea } = useParams();
+  const { idArea, idActividad } = useParams();
 
   const {
     form, error, setData, validateField, clearFieldError, validateForm,
@@ -35,9 +35,12 @@ function NewActivityPage() {
 
   const token = useToken();
   const [isCheckboxChecked, setCheckboxChecked] = useState(false);
+  const [participantsChecked, setParticipantsChecked] = useState(false);
   const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [deletedDefaultImages, setDeletedDefaultImages] = useState([]);
 
   const navigate = useNavigate();
 
@@ -68,27 +71,37 @@ function NewActivityPage() {
     // construir form data a enviar
     const data = new FormData();
 
+    console.log(selectedImages);
+
     // guardar imagenes
-    form.files?.forEach((file) => FormData.append('files[]', file, file.name));
-    delete form.files;
+    selectedImages.forEach((file) => data.append('files[]', file, file.name));
+
+    data.append('deletedImages', JSON.stringify(deletedDefaultImages));
+
     const {
       // eslint-disable-next-line max-len
-      activityName, name, completionDate, serviceHours, description, maxParticipants, paymentRequired, responsible,
+      activityName, completionDate, registrationStartDate, registrationEndDate, serviceHours, description, maxParticipants, paymentRequired, responsible,
     } = form;
-    data.append('name', name);
+    data.append('name', activityName);
+    data.append('date', completionDate);
+    data.append('idAsigboArea', idArea);
     data.append('activityName', activityName);
-    data.append('completionDate', completionDate);
     data.append('serviceHours', serviceHours);
     data.append('description', description);
-    data.append('maxParticipants', maxParticipants);
-    data.append('paymentRequired', paymentRequired);
+    data.append('registrationStartDate', registrationStartDate);
+    data.append('registrationEndDate', registrationEndDate);
+    data.append('participantsNumber', maxParticipants);
+    data.append('paymentAmount', paymentRequired);
     responsible.forEach((val) => {
       data.append('responsible[]', val);
     });
 
-    const uri = idArea ? `${serverHost}/area/${idArea}` : `${serverHost}/area`;
-    const method = idArea ? 'PATCH' : 'POST';
+    const uri = idActividad ? `${serverHost}/activity/${idActividad}` : `${serverHost}/activity`;
+    const method = idActividad ? 'PATCH' : 'POST';
 
+    console.log(uri);
+    console.log(method);
+    console.log(data);
     callFetch({
       uri,
       headers: { authorization: token },
@@ -113,7 +126,7 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!idArea) return;
-    // Si es para editar, obtener datos del area
+    // Si es para editar, obtener datos de la actividad
     fetchAreaData({ uri: `${serverHost}/area/${idArea}`, authorization: { headers: token } });
   }, [idArea]);
 
@@ -211,6 +224,11 @@ function NewActivityPage() {
               min={0}
               max={2100}
             />
+            <CheckBox
+              label="Permitir participación de todos los becados"
+              checked={participantsChecked}
+              onChange={() => setParticipantsChecked(!participantsChecked)}
+            />
 
             <h3 className={styles.formSectionTitle}>Pago requerido</h3>
             <CheckBox
@@ -229,6 +247,8 @@ function NewActivityPage() {
               onBlur={() => validateField('paymentRequired')}
               onFocus={() => clearFieldError('paymentRequired')}
               onKeyDown={handleKeyDown}
+              min={0}
+              max={2100}
             />
             )}
 
@@ -237,30 +257,36 @@ function NewActivityPage() {
               <InputDate
                 title="Disponible desde"
                 className={styles.inputText}
-                name="completionDate"
-                value={form?.completionDate}
+                name="registrationStartDate"
+                value={form?.registrationStartDate}
                 error={error?.completionDate}
                 onChange={handleChange}
-                onBlur={() => validateField('completionDate')}
-                onFocus={() => clearFieldError('completionDate')}
+                onBlur={() => validateField('registrationStartDate')}
+                onFocus={() => clearFieldError('registrationStartDate')}
                 onKeyDown={handleKeyDown}
               />
               <InputDate
                 title="Disponible hasta"
                 className={styles.inputText}
-                name="completionDate"
-                value={form?.completionDate}
+                name="registrationEndDate"
+                value={form?.registrationEndDate}
                 error={error?.completionDate}
                 onChange={handleChange}
-                onBlur={() => validateField('completionDate')}
-                onFocus={() => clearFieldError('completionDate')}
+                onBlur={() => validateField('registrationEndDate')}
+                onFocus={() => clearFieldError('registrationEndDate')}
                 onKeyDown={handleKeyDown}
               />
             </div>
 
             <h3 className={styles.formSectionTitle}>Imagen representativa de la actividad</h3>
-            <ImagePicker />
-
+            <ImagePicker
+              onChange={(images, deletedDefault) => {
+                setSelectedImages(images);
+                setDeletedDefaultImages(deletedDefault);
+              }}
+              maxFiles={5} // Por ejemplo, puedes modificar según tus necesidades.
+              defaultImages={form?.defaultImages}
+            />
             <h3 className={styles.formSectionTitle}>Encargados</h3>
             <CheckBox
               label="Inscribir a los encargados como participantes de la actividad"
@@ -275,7 +301,7 @@ function NewActivityPage() {
             <div className={styles.sendContainer}>
               {!result && !loading && (
                 <Button
-                  text={idArea ? 'Editar área' : 'Crear nueva área'}
+                  text={idActividad ? 'Editar actividad' : 'Crear nueva actividad'}
                   className={styles.sendButton}
                   type="submit"
                 />
@@ -289,9 +315,9 @@ function NewActivityPage() {
             isOpen={isSuccessOpen}
             callback={redirectOnSuccess}
             text={
-              idArea
-                ? 'El eje de ASIGBO ha sido actualizado de forma exitosa.'
-                : 'El nuevo eje de Asigbo ha sido creado de forma exitosa.'
+              idActividad
+                ? 'La actividad ha sido actualizada de forma exitosa.'
+                : 'La nueva actividad ha sido creada de forma exitosa.'
             }
           />
           <ErrorNotificationPopUp
