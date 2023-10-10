@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import InputText from '@components/InputText';
 import InputNumber from '@components/InputNumber/InputNumber';
+import CheckBox from '@components/CheckBox/CheckBox';
 import useForm from '@hooks/useForm';
 import UserSelectTable from '@components/UserSelectTable';
 import Button from '@components/Button';
@@ -17,27 +18,21 @@ import NotFoundPage from '@pages/NotFoundPage';
 import BackTitle from '@components/BackTitle';
 import styles from './NewActivityPage.module.css';
 import createAsigboActivitySchema from './createAsigboActivitySchema';
-import updateAsigboActivitySchema from './updateAsigboAreaSchema';
 
 function NewActivityPage() {
   // Si el idArea no es null, el formulario es para editar
   const { idArea } = useParams();
 
-  // al editar, el icono siempre debe de existir
-  const [ignoreIcon] = useState(idArea !== undefined);
-
   const {
     form, error, setData, validateField, clearFieldError, validateForm,
-  } = useForm(
-    ignoreIcon ? updateAsigboActivitySchema : createAsigboActivitySchema,
-  );
+  } = useForm(createAsigboActivitySchema);
 
   const {
     callFetch, result, loading, error: fetchError,
   } = useFetch();
 
   const token = useToken();
-
+  const [isCheckboxChecked, setCheckboxChecked] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
 
@@ -69,9 +64,21 @@ function NewActivityPage() {
 
     // construir form data a enviar
     const data = new FormData();
-    const { name, icon, responsible } = form;
+
+    // guardar imagenes
+    form.files?.forEach((file) => FormData.append('files[]', file, file.name));
+    delete form.files;
+    const {
+      // eslint-disable-next-line max-len
+      activityName, name, completionDate, serviceHours, description, maxParticipants, paymentRequired, responsible,
+    } = form;
     data.append('name', name);
-    if (icon) data.append('icon', icon);
+    data.append('activityName', activityName);
+    data.append('completionDate', completionDate);
+    data.append('serviceHours', serviceHours);
+    data.append('description', description);
+    data.append('maxParticipants', maxParticipants);
+    data.append('paymentRequired', paymentRequired);
     responsible.forEach((val) => {
       data.append('responsible[]', val);
     });
@@ -128,55 +135,62 @@ function NewActivityPage() {
               <InputText
                 title="Nombre de la actividad"
                 className={styles.inputText}
-                name="name"
-                error={error?.name}
+                name="activityName"
+                error={error?.activityName}
+                value={form?.activityName}
                 onChange={handleChange}
-                onBlur={() => validateField('name')}
-                onFocus={() => clearFieldError('name')}
+                onBlur={() => validateField('activityName')}
+                onFocus={() => clearFieldError('activityName')}
                 onKeyDown={handleKeyDown}
               />
               <InputText
                 title="Eje de Asigbo"
                 className={styles.inputText}
-                name="name"
+                name="eje"
                 value={form?.name}
                 error={error?.name}
                 onChange={handleChange}
                 onBlur={() => validateField('name')}
                 onFocus={() => clearFieldError('name')}
                 onKeyDown={handleKeyDown}
+                disabled
               />
             </div>
             <div className={styles.inputRow}>
               <InputText
                 title="Fecha de realización"
                 className={styles.inputText}
-                name="name"
-                error={error?.name}
+                name="completionDate"
+                value={form?.completionDate}
+                error={error?.completionDate}
                 onChange={handleChange}
-                onBlur={() => validateField('name')}
-                onFocus={() => clearFieldError('name')}
+                onBlur={() => validateField('completionDate')}
+                onFocus={() => clearFieldError('completionDate')}
                 onKeyDown={handleKeyDown}
               />
               <InputNumber
                 title="Horas de servicio"
                 className={styles.inputText}
-                name="name"
-                error={error?.name}
+                name="serviceHours"
+                error={error?.serviceHours}
+                value={form?.serviceHours}
                 onChange={handleChange}
-                onBlur={() => validateField('name')}
-                onFocus={() => clearFieldError('name')}
+                onBlur={() => validateField('serviceHours')}
+                onFocus={() => clearFieldError('serviceHours')}
                 onKeyDown={handleKeyDown}
+                min={0}
+                max={2100}
               />
             </div>
             <InputText
+              // style={{ padding: '35px 25px' }}
               title="Descripción"
-              className={styles.inputText}
-              name="name"
-              error={error?.name}
+              className={styles.inputDescription}
+              name="description"
+              value={form?.description}
               onChange={handleChange}
-              onBlur={() => validateField('name')}
-              onFocus={() => clearFieldError('name')}
+              onBlur={() => validateField('description')}
+              onFocus={() => clearFieldError('description')}
               onKeyDown={handleKeyDown}
             />
 
@@ -184,37 +198,38 @@ function NewActivityPage() {
             <InputNumber
               title="Número máximo de participantes"
               className={styles.inputText}
-              name="name"
-              error={error?.name}
+              name="maxParticipants"
+              error={error?.maxParticipants}
+              value={form?.maxParticipants}
               onChange={handleChange}
-              onBlur={() => validateField('name')}
+              onBlur={() => validateField('maxParticipants')}
               onFocus={() => clearFieldError('name')}
               onKeyDown={handleKeyDown}
+              min={0}
+              max={2100}
             />
 
             <h3 className={styles.formSectionTitle}>Pago requerido</h3>
+            <CheckBox
+              label="La actividad necesita un pago por parte de los becados"
+              checked={isCheckboxChecked}
+              onChange={() => setCheckboxChecked(!isCheckboxChecked)}
+            />
+            {isCheckboxChecked && (
             <InputNumber
               title="Monto del pago"
               className={styles.inputText}
-              name="name"
-              error={error?.name}
+              name="paymentRequired"
+              error={error?.paymentRequired}
               onChange={handleChange}
-              onBlur={() => validateField('name')}
-              onFocus={() => clearFieldError('name')}
+              value={form?.paymentRequired}
+              onBlur={() => validateField('paymentRequired')}
+              onFocus={() => clearFieldError('paymentRequired')}
               onKeyDown={handleKeyDown}
             />
+            )}
 
             <h3 className={styles.formSectionTitle}>Inscripción</h3>
-            <InputText
-              title="Monto del pago"
-              className={styles.inputText}
-              name="name"
-              error={error?.name}
-              onChange={handleChange}
-              onBlur={() => validateField('name')}
-              onFocus={() => clearFieldError('name')}
-              onKeyDown={handleKeyDown}
-            />
 
             <h3 className={styles.formSectionTitle}>Encargados</h3>
             <UserSelectTable

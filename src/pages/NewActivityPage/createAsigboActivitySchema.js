@@ -1,11 +1,21 @@
 import * as yup from 'yup';
 
 export default yup.object().shape({
-  name: yup
+  activityName: yup
     .string()
-    .min(5, 'El nombre del eje debe tener un largo de al menos 5 caracteres.')
     .required('El nombre del la actividad es obligatoria.'),
-  icon: yup.mixed().required('Debes agregar un ícono.'),
+  completionDate: yup
+    .date()
+    .required('La fecha de realización es obligatoria.'),
+  serviceHours: yup
+    .number()
+    .required('La cantidad de horas de servicio es obligatoria.'),
+  maxParticipants: yup
+    .number()
+    .required('La cantidad máxima de participantes es obligatoria.'),
+  paymentRequired: yup
+    .number()
+    .required('El monto de pago es obligatorio.'),
   responsible: yup
     .array()
     .typeError("El campo 'responsible' debe ser un arreglo.")

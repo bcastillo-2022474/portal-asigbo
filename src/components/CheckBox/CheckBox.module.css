@@ -1,0 +1,53 @@
+
+
+   .checkBoxContainer {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .inputHidden {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  .customCheckBox {
+    position: relative;
+    height: 20px;
+    width: 20px;
+    background-color: #e5e5e5;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .inputHidden:checked ~ .customCheckBox {
+    background-color: #16337F;
+  }
+  
+  .customCheckBox:after {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 5px;
+    left: 4px;
+    top: 5px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(-45deg) scaleX(-1);
+    -moz-transform: rotate(-45deg) scaleX(-1);
+    -webkit-transform: rotate(-45deg) scaleX(-1);
+    -ms-transform: rotate(-45deg) scaleX(-1);
+    display: none;
+  }
+  
+  .inputHidden:checked ~ .customCheckBox:after {
+    display: block;
+  }
+  
+  .labelText {
+    margin-left: 8px;
+  }
+  

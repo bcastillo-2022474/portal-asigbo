@@ -17,6 +17,12 @@
     background-color: #ffffff !important;
 }
 
+.inputField:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed; 
+}
+
+
 .inputLabel {
     position: absolute;
     top: 0;

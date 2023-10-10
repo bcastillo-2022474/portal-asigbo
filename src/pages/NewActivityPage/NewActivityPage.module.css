@@ -34,6 +34,11 @@
   max-width: 50%;
 }
 
+.inputDescription {
+  max-width: 90%;
+    /* padding: 15px 10px;  */
+}
+
 @media only screen and (max-width:700px){
   .inputText{
     max-width: 100%;
@@ -54,6 +59,13 @@
 .errorMessage{
   color: var(--error-color--);
   
+}
+
+
+@media only screen and (max-width: 700px) {
+  .inputRow {
+      flex-direction: column;
+  }
 }
 
 @media only screen and (max-width: 600px){
