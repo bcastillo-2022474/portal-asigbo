@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import InputText from '@components/InputText';
 import InputNumber from '@components/InputNumber/InputNumber';
+import InputDate from '@components/InputDate/InputDate';
 import CheckBox from '@components/CheckBox/CheckBox';
 import useForm from '@hooks/useForm';
 import UserSelectTable from '@components/UserSelectTable';
@@ -33,6 +34,7 @@ function NewActivityPage() {
 
   const token = useToken();
   const [isCheckboxChecked, setCheckboxChecked] = useState(false);
+  const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
 
@@ -157,7 +159,7 @@ function NewActivityPage() {
               />
             </div>
             <div className={styles.inputRow}>
-              <InputText
+              <InputDate
                 title="Fecha de realización"
                 className={styles.inputText}
                 name="completionDate"
@@ -230,8 +232,37 @@ function NewActivityPage() {
             )}
 
             <h3 className={styles.formSectionTitle}>Inscripción</h3>
+            <div className={styles.inputRow}>
+              <InputDate
+                title="Disponible desde"
+                className={styles.inputText}
+                name="completionDate"
+                value={form?.completionDate}
+                error={error?.completionDate}
+                onChange={handleChange}
+                onBlur={() => validateField('completionDate')}
+                onFocus={() => clearFieldError('completionDate')}
+                onKeyDown={handleKeyDown}
+              />
+              <InputDate
+                title="Disponible hasta"
+                className={styles.inputText}
+                name="completionDate"
+                value={form?.completionDate}
+                error={error?.completionDate}
+                onChange={handleChange}
+                onBlur={() => validateField('completionDate')}
+                onFocus={() => clearFieldError('completionDate')}
+                onKeyDown={handleKeyDown}
+              />
+            </div>
 
             <h3 className={styles.formSectionTitle}>Encargados</h3>
+            <CheckBox
+              label="Inscribir a los encargados como participantes de la actividad"
+              checked={delegateAsParticipant}
+              onChange={() => setDelegateAsParticipant(!delegateAsParticipant)}
+            />
             <UserSelectTable
               onChange={(value) => setData('responsible', value)}
               defaultSelectedUsers={areaData ? areaData.responsible : null}
