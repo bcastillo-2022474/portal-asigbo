@@ -16,3 +16,9 @@
 .sectionTitle{
   font-size: var(--h3-title-size--);
 }
+
+@media only screen and (max-width: 650px) {
+  .sectionTitle {
+    text-align: center;
+  }
+}

@@ -19,7 +19,6 @@ function InputSelect({
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-        required
       >
         <option value="">{placeholder}</option>
         {options?.map((op) => <option key={randomId(10)} value={op.value}>{op.title}</option>)}

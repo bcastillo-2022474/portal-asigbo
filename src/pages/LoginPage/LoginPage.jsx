@@ -5,6 +5,7 @@ import waves from '@assets/wave-haikei.svg';
 import logo from '@assets/asigboazul.png';
 import { button, blue } from '@styles/buttons.module.css';
 import useLogin from '@hooks/useLogin';
+import { Link } from 'react-router-dom';
 import BottomWave from '../../components/BottomWave/BottomWave';
 import styles from './LoginPage.module.css';
 
@@ -89,7 +90,7 @@ function LoginPage() {
             {!loading && (<button className={`${button} ${blue}`} type="submit">Iniciar sesión</button>)}
             {loading && <Spinner />}
           </div>
-          <span className={styles.forgotPassword}>¿Olvidaste tu contraseña?</span>
+          <Link className={styles.forgotPassword} to="/recuperacion">¿Olvidaste tu contraseña?</Link>
         </form>
       </div>
       <div className={styles.bottomWaveWrapper}>

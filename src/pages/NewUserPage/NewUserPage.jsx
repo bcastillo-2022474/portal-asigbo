@@ -1,8 +1,11 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useEffect, useState } from 'react';
 import NavMenuButton from '@components/PageContainer/NavMenuButton/NavMenuButton';
 import InputText from '@components/InputText';
-import ExcelIcon from '@assets/icons/ExcelIcon';
 import { useNavigate } from 'react-router-dom';
+import CSVICon from '../../assets/icons/CSVIcon';
 import Spinner from '../../components/Spinner/Spinner';
 import Button from '../../components/Button/Button';
 import InputSelect from '../../components/InputSelect/InputSelect';
@@ -37,12 +40,12 @@ function NewUserPage() {
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
 
+  const [isHoveringInfo, setIsHoveringInfo] = useState(false);
+
   const redirectOnSuccess = () => navigate('/');
 
   const handleSubmitUser = async (e) => {
     e.preventDefault();
-
-    setData('code', Math.floor(Math.random() * (15001 - 0) + 0));
 
     const formErrors = await validateForm();
     if (formErrors) return;
@@ -55,14 +58,11 @@ function NewUserPage() {
     });
   };
 
-  const handleIconClick = () => {
-    // Abrir popup para subir excel
-  };
-
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     // console.log(name, value);
     setData(name, value);
+    setData('code', Math.floor(Math.random() * (15001 - 0) + 0));
   };
 
   useEffect(() => {
@@ -77,14 +77,28 @@ function NewUserPage() {
     <div className={styles.newUserPage}>
       <div className={styles.headerContainer}>
         <h1 className={styles.pageTitle}>Crear usuario</h1>
-        <div className={styles.iconWrapper}>
+        <div
+          className={styles.iconWrapper}
+          onMouseOver={() => setIsHoveringInfo(true)}
+          onMouseOut={() => setIsHoveringInfo(false)}
+          onClick={() => setOpenImport(true)}
+        >
           <NavMenuButton
-            icon={<ExcelIcon height="80%" width="80%" />}
-            clickCallback={handleIconClick}
+            className={styles.navMenuButton}
+            icon={<CSVICon fill="#16337F" width="75%" height="75%" />}
           />
         </div>
       </div>
+      <div className={`${styles.csvInfoWrapper} ${isHoveringInfo ? styles.showing : styles.hidden}`}>
+        <div className={styles.arrowUp} />
+        <div className={styles.csvInfo}>
+          ¿Creando múltiples usuarios?
+          Presiona aquí para subir un archivo CSV con los datos de todos
+          los becados que necesitan un nuevo usuario
+        </div>
+      </div>
       <form className={styles.form} onSubmit={handleSubmitUser}>
+        <h3 className={styles.sectionTitle}>Información personal</h3>
         <InputText
           title="Nombres del becado"
           name="name"
@@ -104,7 +118,7 @@ function NewUserPage() {
           onBlur={() => validateField('lastname')}
         />
         <InputText
-          title="Correo electrónico del becado"
+          title="Correo electrónico"
           name="email"
           value={form?.email}
           error={error?.email}
@@ -112,6 +126,18 @@ function NewUserPage() {
           onFocus={() => clearFieldError('email')}
           onBlur={() => validateField('email')}
         />
+        <InputSelect
+          options={[{ value: 'M', title: 'Masculino' }, { value: 'F', title: 'Femenino' }]}
+          name="sex"
+          error={error?.sex}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('sex')}
+          onBlur={() => validateField('sex')}
+          placeholder="Sexo"
+          title="Sexo"
+          value={form?.sex}
+        />
+        <h3 className={styles.sectionTitle}>Información académica</h3>
         <InputText
           title="Carrera"
           name="career"
@@ -132,31 +158,20 @@ function NewUserPage() {
           min={2000}
           max={2100}
         />
-        <InputSelect
-          options={[{ value: 'M', title: 'Masculino' }, { value: 'F', title: 'Femenino' }]}
-          name="sex"
-          error={error?.sex}
-          onChange={handleFormChange}
-          onFocus={() => clearFieldError('sex')}
-          onBlur={() => validateField('sex')}
-          placeholder="Sexo"
-          title="Sexo"
-          value={form?.sex}
-        />
-        <div className={styles.actionsContainer}>
-          {!resultPostUser && !loadingPostUser && (
-            <>
-              <Button text="Registrar becado" className={styles.sendButton} type="submit" />
-              <Button
-                text="Importar usuarios desde archivo"
-                className={`${styles.sendButton} ${styles.importButton}`}
-                type="button"
-                onClick={() => setOpenImport(true)}
-              />
-            </>
-          )}
-          {loadingPostUser && <Spinner />}
-        </div>
+
+        {!resultPostUser && !loadingPostUser && (
+          <div className={styles.actionsContainer}>
+            <Button text="Registrar becado" type="submit" />
+            <div className={styles.csvButtonWrapper} onClick={() => setOpenImport(true)}>
+              <div className={styles.csvIconWrapper}>
+                <CSVICon fill="#16337F" className={styles.csvIconSmall} />
+              </div>
+              <button type="button" className={styles.csvButton}>Importar usuarios desde archivo</button>
+            </div>
+          </div>
+        )}
+        {loadingPostUser && <Spinner />}
+
       </form>
 
       <SuccessNotificationPopUp

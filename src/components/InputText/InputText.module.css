@@ -1,5 +1,5 @@
 .inputTextContainer{
-    margin-top: 10px;
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -64,8 +64,8 @@ input:focus + .inputLabel .labelText, :not(input[value=""]) + .inputLabel .label
 .inputTextContainer.error label{
     color:var(--error-color--);
     position: absolute;
-    top: -20px;
-    bottom: 0;
+    top: 0;
+    bottom: calc(100% - 40px);
     left: 16px;
     display: flex;
     align-items: center;
@@ -77,6 +77,7 @@ input:focus + .inputLabel .labelText, :not(input[value=""]) + .inputLabel .label
     color: var(--error-color--);
     font-size: 15px;
     font-weight: normal;
+    display: flex;
 }
 
 input:-webkit-autofill {

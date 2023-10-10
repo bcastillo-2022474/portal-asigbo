@@ -1,0 +1,82 @@
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 0 10px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.smallInput {
+  width: 50%;
+}
+
+.nextRow {
+  grid-column: 1/2;
+}
+
+.errorMessage {
+  color: red;
+  text-align: center;
+}
+
+.actionsContainer {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.disabledButton {
+  display: none;
+}
+
+.bigRow {
+  grid-column: span 2;
+}
+
+.button {
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+}
+
+.container label {
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: 1px black dashed;
+  border-radius: 10px;
+  margin-top: 15px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.container input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 450px) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .bigRow {
+    grid-column: span 1;
+  }
+}

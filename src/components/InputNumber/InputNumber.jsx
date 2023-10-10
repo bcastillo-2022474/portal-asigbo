@@ -17,7 +17,7 @@ function InputNumber({
         {...props}
         id={id}
         name={name}
-        defaultValue={value}
+        value={value}
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
@@ -46,7 +46,7 @@ InputNumber.propTypes = {
 InputNumber.defaultProps = {
   error: null,
   value: '',
-  name: randomId(15),
+  name: null,
   onChange: null,
   onBlur: null,
   onFocus: null,

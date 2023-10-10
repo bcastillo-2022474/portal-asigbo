@@ -29,6 +29,12 @@ import useActivitiesByArea from '../../hooks/useActivitiesByArea';
 import styles from './AreaDetailsPage.module.css';
 import useToogle from '../../hooks/useToogle';
 
+/**
+ *
+ * @param {Boolean} adminPrivileges: Indica si la página se muestra a un usuario administrador.
+ * Default false.
+ * @returns
+ */
 function AreaDetailsPage({ adminPrivileges }) {
   const {
     callFetch: fetchAreaData, result: area, loading, error,

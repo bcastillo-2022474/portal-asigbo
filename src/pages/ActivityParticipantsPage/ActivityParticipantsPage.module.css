@@ -1,0 +1,9 @@
+.activityParticipantsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.activityParticipantsPage h2 {
+  font-size: var(--h2-title-size--);
+  margin-top: 40px;
+}

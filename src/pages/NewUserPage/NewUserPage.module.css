@@ -1,7 +1,7 @@
 .newUserPage {
     display: flex;
+    position: relative;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
     width: 100%;
     padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
@@ -24,46 +24,159 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-bottom: 40px;
 }
 
 .pageTitle {
     text-align: left;
-    width: 65%;
+    width: 100%;
     align-self: flex-start;
 }
 
 .iconWrapper {
-    width: 15vh;
-    height: 15vh;
+    width: 12vh;
+    height: 12vh;
+    border-radius: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    display: none;
+    position: absolute;
+    right: 8vw;
 }
 
 .form {
-    width: 65%;
-    display: flex;
+    width: 85%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 15px;
+    column-gap: 10px;
+    align-items: start;
+}
+
+.sectionTitle{
+    margin-top: 30px;
+    grid-column: -1/1;
 }
 
 .actionsContainer {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-column: -1/1;
     margin-top: 50px;
-    column-gap: 15px;
+    gap: 15px;
+    max-width: 400px;
+    justify-self: center;
 }
 
 @media only screen and (max-width: 765px) {
+    .newUserPage {
+        align-items: center;
+    }
     .form {
-        width: 85%;
+        grid-template-columns: 1fr;
+        row-gap: 5px;
     }
 
     .pageTitle {
         text-align: center;
+        align-self: center;
+    }
+
+    .iconWrapper{
+        display: none;
+    }
+
+    .headerContainer{
+        text-align: center;
+    }
+
+    .sectionTitle{
+        text-align: center;
+    }
+}
+
+.navMenuButton{
+    width: 100%;
+}
+
+.csvInfoWrapper{
+    transition: opacity ease-in 0.5s;
+}
+
+.csvInfoWrapper.hidden{
+    display: none;
+    flex-direction: column;
+    opacity: 0;
+    width: 300px;
+    position: absolute;
+    z-index: 1000;
+    right: 8.5vw;
+    top: 16vh;
+}
+
+.csvInfoWrapper.showing {
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    width: 300px;
+    position: absolute;
+    z-index: 1000;
+    right: 8.5vw;
+    top: 16vh;
+    transition: opacity ease-in 0.5s;
+}
+
+.csvInfo{
+    text-align: center;
+    transition: all ease;
+    background-color: #E3E3E3;
+    padding: 5px;
+    color: var(--blue-theme-color--);
+    font-weight: 600;
+}
+
+.arrowUp {
+    width: 0; 
+    height: 0; 
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid #E3E3E3;
+    align-self: flex-end;
+    margin-right: 20px;
+    z-index: 1000;
+  }
+
+.csvButtonWrapper{
+    display: flex;
+    color: #16337f;
+    box-shadow: inset 0 0 0 2px #16337f;
+    border-radius: 8px;
+    padding: 10px 15px;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    height: fit-content;
+    gap: 15px;
+}
+
+.csvButton {
+    color: #16337f;
+    background-color: white;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    flex: 10;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.csvIconWrapper{
+    max-width: 20px;
+}
+
+@media only screen and (min-width: 765px) {
+    .csvButtonWrapper{
+        display: none;
     }
 }

@@ -5,8 +5,19 @@ import { BiSolidUser as UserIcon } from 'react-icons/bi';
 import { AiOutlinePlus as PlusIcon, AiOutlineMinus as MinusIcon } from 'react-icons/ai';
 import styles from './InputPhoto.module.css';
 
+/**
+ * Componente para seleccionar una foto.
+ * @param className String. Clase del componente.
+ * @param onChange func. Callback que se ejecuta cuando cambia el estado del input.
+ *      Devuelve dos parámetros (value, hasDefaultImage).
+ *      Value: valor actual de la imagen. Null si no hay imagen seleccionada.
+ *      hasDefaultImage: True si se proveyó una imagen default cargada exitosamente.
+ * @param defaultImage src de la imagen default.
+ * @returns
+ */
 function InputPhoto({ className, onChange, defaultImage }) {
   const [imagePreview, setImagePreview] = useState(defaultImage);
+  const [hasDefaultImage, setHasDefaultImage] = useState(defaultImage !== null);
 
   const handleChange = (e) => {
     const image = e.target.files[0];
@@ -23,10 +34,31 @@ function InputPhoto({ className, onChange, defaultImage }) {
     };
 
     fileReader.readAsDataURL(image);
-    onChange(image);
+    onChange(image, hasDefaultImage);
   };
 
-  const clearInput = () => setImagePreview(null);
+  /**
+   * Limpia la imagen seleccionada.
+   * @param hasDefImage Valor prioritario que indica si la imagen default fue exitosa.
+   */
+  const clearInput = (hasDefImage) => {
+    setImagePreview(null);
+    onChange(null, hasDefImage ?? hasDefaultImage);
+  };
+
+  const handleClearKeyUp = (e) => {
+    if (e.code !== 'Enter') return;
+    clearInput();
+  };
+
+  const handleImageError = () => {
+    // Indicar que la imagen default falló
+    if (imagePreview === defaultImage) {
+      setHasDefaultImage(false);
+      clearInput(false);
+    } else clearInput();
+  };
+
   return (
     <div
       className={`${styles.inputPhoto} ${imagePreview ? styles.imageSelected : ''} ${className}`}
@@ -47,8 +79,8 @@ function InputPhoto({ className, onChange, defaultImage }) {
       ) : (
         <span
           className={`${styles.iconCircle} ${styles.iconPosition}`}
-          onClick={clearInput}
-          onKeyUp={clearInput}
+          onClick={() => clearInput()}
+          onKeyUp={handleClearKeyUp}
           role="button"
           tabIndex="0"
         >
@@ -56,7 +88,7 @@ function InputPhoto({ className, onChange, defaultImage }) {
         </span>
       )}
       <UserIcon className={styles.userIcon} />
-      <img src={imagePreview} alt="" className={styles.image} />
+      <img src={imagePreview} alt="" className={styles.image} onError={handleImageError} />
     </div>
   );
 }
