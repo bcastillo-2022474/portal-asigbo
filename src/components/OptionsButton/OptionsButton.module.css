@@ -1,6 +1,7 @@
 .optionsButtonContainer {
   position: relative;
   height: fit-content;
+  width: fit-content;
 }
 
 .optionsButton {
@@ -17,14 +18,20 @@
   display: none;
   background-color: white;
   box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px,
-    rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.1) 0px 0px 0px 1px,
     rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
-    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    rgba(0, 0, 0, 0.1) 0px 4px 6px -2px;
+}
+
+.dropMenu.topMenu{
+  bottom: calc(100% + 10px);
+  top: unset;
 }
 
 .dropMenu.visible{
   display: block;
   animation: showMenu .3s;
+  z-index: 999;
 }
 
 .menuItem {
@@ -37,7 +44,7 @@
 }
 
 .menuItem:hover{
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgb(219, 224, 249);
 }
 
 @keyframes showMenu{

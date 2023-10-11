@@ -37,3 +37,18 @@
 .arrowLink > span{
   display: none;
 }
+
+.backTitle.vertical {
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+}
+
+.backTitle.vertical > div:first-child{
+  flex-direction: column;
+  align-items: center;
+}
+
+.backTitle.vertical span{
+  display: block;
+}

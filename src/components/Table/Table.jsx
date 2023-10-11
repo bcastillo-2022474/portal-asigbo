@@ -27,6 +27,12 @@ import randomString from '../../helpers/randomString';
  * seleccionadas.
  * @param {string} className String de clases aplicables al elemento padre de la tabla.
  * @param {boolean} loading Indica a la tabla si la información está cargando o no.
+ * @param {number} resetTableHeight Funciona como un trigger para resetear las filas seleccionadas.
+ * @param {number} resetTableHeight Funciona como un trigger para resetear el alto de la tabla.
+ * El alto puede verse modificado cuando el contenido supera el contenedor (los submenus por
+ * ejemplo).
+ * @param {function(isVerticalStyle)} onTableStyleChange callback para cuando cambia el estilo de
+ * la tabla. El parámetro de la función devuelve si es el estilo vertical o no.
  *
  * @requires <TableRow/>
  */
@@ -41,6 +47,8 @@ function Table({
   className,
   loading,
   resetRowSelection,
+  resetTableHeight,
+  onTableStyleChange,
 }) {
   const [selectedRowsId, setSelectedRowsId] = useState([]);
   const [useVerticalStyle, setUseVerticalStyle] = useState(false);
@@ -61,6 +69,10 @@ function Table({
       // seleccionar todos
       setSelectedRowsId(React.Children.map(children, (item) => item.props.id) ?? []);
     } else setSelectedRowsId([]); // vaciar todos
+  };
+
+  const resetTableSize = () => {
+    containerRef.current.style.height = 'auto';
   };
 
   useEffect(() => {
@@ -90,6 +102,39 @@ function Table({
     if (resetRowSelection === null) return;
     setSelectedRowsId([]);
   }, [resetRowSelection]);
+
+  useEffect(() => {
+    resetTableSize();
+  }, [children, resetTableHeight]);
+
+  useEffect(() => {
+    /* Detecta si el contenido de la tabla sobrepasa su tamaño y ajusta su altura para
+    evitar la aparición de un scroll vertical
+    ¡IMPORTANTE! Luego de modificar el alto, es necesario resetear su altura a auto.
+    */
+    const handleContainerSizeChange = () => {
+      const contentSize = containerRef.current.scrollHeight;
+      const containerSize = containerRef.current.offsetHeight;
+
+      if (contentSize > containerSize) {
+        containerRef.current.style.height = `${contentSize + 30}px`;
+      }
+    };
+
+    // Observer para detectar cambios en el contenedor de la tabla
+    const observer = new MutationObserver(handleContainerSizeChange);
+
+    const config = { attributes: true, childList: true, subtree: true };
+
+    // Comienza a observar el div
+    observer.observe(containerRef.current, config);
+
+    return () => observer.disconnect(); // Deja de recibir cambios al desmontar comp.
+  }, []);
+
+  useEffect(() => {
+    if (onTableStyleChange) onTableStyleChange(useVerticalStyle);
+  }, [useVerticalStyle]);
 
   return (
     <div
@@ -121,7 +166,7 @@ function Table({
         </thead>
         <tbody>
           {loading && (
-            <tr>
+            <tr className={styles.loadingRow}>
               <td className={styles.completeRow} colSpan={(header?.length ?? 0) + 1}>
                 <Spinner />
               </td>
@@ -129,7 +174,7 @@ function Table({
           )}
 
           {!loading && !(children?.length > 0) && (
-            <tr>
+            <tr className={styles.noContentRow}>
               <td
                 className={`${styles.completeRow} ${styles.noResults}`}
                 colSpan={(header?.length ?? 0) + 1}
@@ -163,7 +208,7 @@ function Table({
 export default Table;
 
 Table.propTypes = {
-  header: PropTypes.arrayOf(PropTypes.string).isRequired,
+  header: PropTypes.arrayOf(PropTypes.string),
   children: PropTypes.node,
   breakPoint: PropTypes.string,
   maxCellWidth: PropTypes.string,
@@ -173,9 +218,12 @@ Table.propTypes = {
   className: PropTypes.string,
   loading: PropTypes.bool,
   resetRowSelection: PropTypes.number,
+  resetTableHeight: PropTypes.number,
+  onTableStyleChange: PropTypes.func,
 };
 
 Table.defaultProps = {
+  header: [],
   children: null,
   breakPoint: '600px',
   maxCellWidth: null,
@@ -185,4 +233,6 @@ Table.defaultProps = {
   className: '',
   loading: false,
   resetRowSelection: null,
+  resetTableHeight: null,
+  onTableStyleChange: null,
 };

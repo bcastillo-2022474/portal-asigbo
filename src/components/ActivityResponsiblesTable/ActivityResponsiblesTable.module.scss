@@ -1,0 +1,19 @@
+.pictureCol{
+    display: flex !important;
+    justify-content: end;
+    order: 1;
+}
+
+.nameCol{
+    text-align: left;
+    order: 0;
+    border-bottom: 0 !important;
+}
+
+.promoCol{
+    order: 2;
+}
+
+.table{
+    margin-top: 20px;
+}

@@ -12,13 +12,13 @@
   min-height: 100px;
   min-width: 100px;
   background-color: #CACACA;
+  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.1);
 }
 
 .image {
-  height: auto;
   aspect-ratio: 1;
   width: 100%;
-  object-fit: cover;
+  height: 100%;
 }
 
 .placeHolder {

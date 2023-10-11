@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Table from '@components/Table';
@@ -22,7 +24,7 @@ function ImportUsersPage() {
 
   const format = (rawData) => (
     rawData.map((info, index) => ({
-      id: `${info['Cóigo']}-${index}`,
+      id: `${info['Código']}-${index}`,
       code: info['Código'],
       name: info.Nombres,
       lastname: info.Apellidos,
@@ -34,10 +36,10 @@ function ImportUsersPage() {
 
   const [importedData, setImportedData] = useState(format(data));
   const [selectedUsers, setSelectedUsers] = useState(importedData);
-  const navigate = useNavigate();
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [openForm, setOpenForm] = useState(null);
+  const navigate = useNavigate();
   const token = useToken();
 
   const {
@@ -56,11 +58,14 @@ function ImportUsersPage() {
   };
 
   const sendData = () => {
-    const uri = `${serverHost}/upload`;
+    const uri = `${serverHost}/user/uploadUsers`;
     const method = 'POST';
 
     const formatedData = {
-      data: selectedUsers,
+      data: selectedUsers.map((el) => {
+        const { id, ...rest } = el;
+        return rest;
+      }),
     };
 
     callFetch({
@@ -89,6 +94,10 @@ function ImportUsersPage() {
     <div className={styles.importUsersPage}>
       <div className={styles.headerContainer}>
         <h1 className={styles.pageTitle}>Importar usuarios desde archivo</h1>
+        <p className={styles.titleText}>
+          Verifica que la información cargada sea la correcta. Cuando termines,
+          guarda los registros en la base de datos.
+        </p>
       </div>
       <Table minCellWidth="50px" breakPoint="700px" showCheckbox={false} header={['Nombres', 'Apellidos', 'Correo', 'Promoción']}>
         {importedData.map((user, index) => (
@@ -132,15 +141,15 @@ function ImportUsersPage() {
           !loading && (
             <>
               <Button
+                red
+                text="Cancelar"
+                className={styles.cancelButton}
+                onClick={() => navigate('/newUser', { replace: true })}
+              />
+              <Button
                 text="Guardar"
                 className={styles.sendButton}
                 onClick={sendData}
-              />
-              <Button
-                red
-                text="Regresar"
-                className={styles.cancelButton}
-                onClick={() => navigate('/newUser')}
               />
             </>
           )
@@ -150,7 +159,7 @@ function ImportUsersPage() {
       <SuccessNotificationPopUp
         close={closeSuccess}
         isOpen={isSuccessOpen}
-        callback={() => navigate('/')}
+        callback={() => navigate('/newUser', { replace: true })}
         text="La información ha sido ingresada correctamente"
       />
       <ErrorNotificationPopUp

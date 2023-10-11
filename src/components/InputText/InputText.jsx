@@ -4,7 +4,7 @@ import randomId from '@helpers/randomString';
 import styles from './InputText.module.css';
 
 function InputText({
-  title, error, value, onChange, onBlur, onFocus, name, className, ...props
+  title, error, value, onChange, onBlur, onFocus, name, className, disabled, ...props
 }) {
   const id = randomId(15);
   return (
@@ -19,6 +19,7 @@ function InputText({
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
+        disabled={disabled}
       />
       <label className={styles.inputLabel} htmlFor={id}>
         <div className={styles.labelText}>{title}</div>
@@ -37,6 +38,7 @@ InputText.propTypes = {
   value: PropTypes.string,
   name: PropTypes.string,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 InputText.defaultProps = {
@@ -48,6 +50,7 @@ InputText.defaultProps = {
   onFocus: null,
   title: null,
   className: '',
+  disabled: false,
 };
 
 export default InputText;

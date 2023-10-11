@@ -10,6 +10,7 @@
   --error-color--:#df0303;
   --blue-theme-color--:#16337f; 
   --blue-theme-color-hover--:#2e4d9c; 
+  --page-background-color--: white;
 
   --text-font-size--:16px;
   --h1-title-size--:35px;
@@ -29,6 +30,10 @@
   --page-scrollbar-color-hover--: #7e7e7e;
   --min-page-horizontal-padding--: 30px;
   --min-page-vertical-padding--: 30px;
+
+  --page-inline-padding--: 60px;
+  --page-block-padding--: 40px;
+  --page-inline-padding-mobile--: 30px;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -55,11 +60,12 @@ html, body, #root{
 
 a{
   color: black;
+  text-decoration: none;
 }
 
 @media only screen and (max-width: 400px){
   :root{
     --page-horizontal-padding--: 25px;
-  --page-vertical-padding--: 25px;
+  --page-vertical-padding--: 50px;
   }
 }

@@ -1,0 +1,70 @@
+.nameRow{
+    text-align: left;
+    order: 0;
+    border-bottom:0 !important;
+  }
+  
+  .pictureRow{
+    display: flex !important;
+    justify-content: end;
+    order:1;
+  }
+  
+  .promotionRow{
+    order: 2;
+  }
+
+  .filtersContainer{
+    align-self: flex-end;
+    display: flex;
+    column-gap: 15px;
+    row-gap: 10px;
+    justify-content: flex-end;
+    flex: 1;
+    flex-direction: row;
+  }
+  
+  /*El breakpoint debe coinicidir con el de la table*/
+  @media only screen and (max-width: 700px){
+    .picture{
+      width: 100%;
+    }
+
+    .actionsRow{
+      width: 100%;
+      display: flex !important;
+    }
+
+    .filtersContainer{
+      justify-content: center;
+      flex-direction: column;
+      align-self: center;
+      width: 100%;
+    }
+  }
+
+  .actionsRow{
+    overflow: visible !important;
+    order: 4;
+  }
+
+  .optionsContainer{
+    display: flex;
+    justify-content: center;
+    justify-self: flex-end;
+  }
+
+.manageUsersTable{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.searchInput{
+  min-width: 300px;
+}
+
+.selectInput{
+  min-width: 40%;
+}

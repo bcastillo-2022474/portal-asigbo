@@ -10,8 +10,16 @@ import styles from './OptionsButton.module.css';
  * Botón que muestra un menu que aparece/desaparece al hacer click.
  * @param options Arreglo de opciones a mostrar. Las opciones deben ser un objeto:
  * {icon: Nodo, text: string, onClick: func}
+ * @param showMenuAtTop Boolean. Indica si el menu debe mostrarse en la parte superior del botón.
+ * @param onMenuVisibleChange Función. Callback que devuelve como parámetro la visibilidad del menú.
  */
-function OptionsButton({ options }) {
+function OptionsButton({
+  options,
+  showMenuAtTop,
+  onMenuVisibleChange,
+  className,
+  label,
+}) {
   const [isMenuVisible, toogleMenu, setMenuVisible] = useToogle(false);
   const buttonRef = useRef();
 
@@ -25,15 +33,21 @@ function OptionsButton({ options }) {
     return () => document.removeEventListener('click', handleWindowClick);
   }, []);
 
+  useEffect(() => {
+    // llamar al callback con cambio de visibilidad
+    if (onMenuVisibleChange) onMenuVisibleChange(isMenuVisible);
+  }, [isMenuVisible]);
+
   return (
-    <div className={styles.optionsButtonContainer}>
+    <div className={`${styles.optionsButtonContainer} ${className}`}>
       <Button className={styles.optionsButton} buttonRef={buttonRef} onClick={toogleMenu}>
-        <span>Acciones</span>
+        <span>{label}</span>
         <DownArrow />
       </Button>
 
-      <div className={`${styles.dropMenu} ${isMenuVisible ? styles.visible : ''}`}>
+      <div className={`${styles.dropMenu} ${isMenuVisible ? styles.visible : ''} ${showMenuAtTop ? styles.topMenu : ''}`}>
         {options?.map((option) => (
+          option !== null && (
           <div
             className={styles.menuItem}
             key={randomString()}
@@ -45,6 +59,7 @@ function OptionsButton({ options }) {
             {option.icon}
             <span>{option.text}</span>
           </div>
+          )
         ))}
       </div>
     </div>
@@ -61,8 +76,16 @@ OptionsButton.propTypes = {
       onClick: PropTypes.func,
     }),
   ),
+  showMenuAtTop: PropTypes.bool,
+  className: PropTypes.string,
+  label: PropTypes.string,
+  onMenuVisibleChange: PropTypes.func,
 };
 
 OptionsButton.defaultProps = {
   options: null,
+  showMenuAtTop: false,
+  className: '',
+  label: 'Acciones',
+  onMenuVisibleChange: null,
 };

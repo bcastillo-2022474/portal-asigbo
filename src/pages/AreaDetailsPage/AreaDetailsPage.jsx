@@ -6,6 +6,7 @@ import {
 import { BiSolidImage as ImageIcon } from 'react-icons/bi';
 import { serverHost } from '@/config';
 import useFetch from '@hooks/useFetch';
+import Button from '@components/Button/Button';
 import LoadingView from '@components/LoadingView';
 import NotFoundPage from '@pages/NotFoundPage';
 import consts from '@helpers/consts';
@@ -28,6 +29,12 @@ import useActivitiesByArea from '../../hooks/useActivitiesByArea';
 import styles from './AreaDetailsPage.module.css';
 import useToogle from '../../hooks/useToogle';
 
+/**
+ *
+ * @param {Boolean} adminPrivileges: Indica si la página se muestra a un usuario administrador.
+ * Default false.
+ * @returns
+ */
 function AreaDetailsPage({ adminPrivileges }) {
   const {
     callFetch: fetchAreaData, result: area, loading, error,
@@ -69,6 +76,10 @@ function AreaDetailsPage({ adminPrivileges }) {
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [isConfirmatonOpen, openConfirmaton, closeConfirmaton] = usePopUp();
+
+  const handleNewActivityClick = () => {
+    navigate(`/area/${idArea}/newActivity`);
+  };
 
   useEffect(() => {
     fetchAreaData({ uri: `${serverHost}/area/${idArea}`, headers: { authorization: token } });
@@ -206,7 +217,12 @@ function AreaDetailsPage({ adminPrivileges }) {
               path="/actividades"
               element={(
                 <>
-                  <h3 className={styles.sectionTitle}>Listado de Actividades</h3>
+                  <div className={styles.headerContainer}>
+                    <h3 className={styles.sectionTitle}>Listado de Actividades</h3>
+                    <div className={styles.buttonsContainer}>
+                      <Button text="Nueva actividad" className={styles.sendButton} onClick={handleNewActivityClick} type="submit" />
+                    </div>
+                  </div>
                   <ActivityTable data={content} loading={loadingInfo} listingType="byArea" />
                 </>
               )}

@@ -66,3 +66,13 @@
   font-size: 18px;
   color: gray;
 }
+
+.verticalDesign .loadingRow,
+.verticalDesign .noContentRow{
+  display: flex;
+}
+
+.verticalDesign .loadingRow td,
+.verticalDesign .noContentRow td{
+  flex: 1;
+}
