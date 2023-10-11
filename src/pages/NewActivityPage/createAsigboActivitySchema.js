@@ -7,15 +7,33 @@ export default yup.object().shape({
   completionDate: yup
     .date()
     .required('La fecha de realización es obligatoria.'),
+  registrationStartDate: yup
+    .date()
+    .required('La fecha "Disponible desde" es obligatoria.')
+    .when('completionDate', (completionDate, schema) => schema.test({
+      // eslint-disable-next-line max-len
+      test: (registrationStartDate) => new Date(registrationStartDate).getTime() <= new Date(completionDate).getTime(),
+      message: 'La fecha "Disponible desde" no puede ser posterior a la "Fecha de realización".',
+    })),
+  registrationEndDate: yup
+    .date()
+    .required('La fecha "Disponible hasta" es obligatoria.')
+    .when('completionDate', (completionDate, schema) => schema.test({
+      // eslint-disable-next-line max-len
+      test: (registrationEndDate) => new Date(registrationEndDate).getTime() <= new Date(completionDate).getTime(),
+      message: 'La fecha "Disponible hasta" no puede ser posterior a la "Fecha de realización".',
+    }))
+    .when('registrationStartDate', (registrationStartDate, schema) => schema.test({
+      // eslint-disable-next-line max-len
+      test: (registrationEndDate) => new Date(registrationEndDate).getTime() >= new Date(registrationStartDate).getTime(),
+      message: 'La fecha "Disponible hasta" no puede ser anterior a "Disponible desde".',
+    })),
   serviceHours: yup
     .number()
     .required('La cantidad de horas de servicio es obligatoria.'),
   maxParticipants: yup
     .number()
     .required('La cantidad máxima de participantes es obligatoria.'),
-  paymentRequired: yup
-    .number()
-    .required('El monto de pago es obligatorio.'),
   responsible: yup
     .array()
     .typeError("El campo 'responsible' debe ser un arreglo.")

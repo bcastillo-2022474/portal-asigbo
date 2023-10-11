@@ -201,7 +201,7 @@ export default UserSelectTable;
 
 UserSelectTable.propTypes = {
   defaultSelectedUsers: PropTypes.arrayOf(
-    PropTypes.objectOf({
+    PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       lastname: PropTypes.string.isRequired,

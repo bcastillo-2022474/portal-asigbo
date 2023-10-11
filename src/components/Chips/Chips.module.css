@@ -1,0 +1,32 @@
+
+.chip {
+    color: white;
+    padding: 5px 20px;
+    margin: 5px;
+    display: inline-block;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap; 
+    background-color: #748bc8;
+}
+
+.chipSelected {
+    background-color: #16337F;
+}
+
+.chipNotSelected {
+    background-color: #748bc8;
+}
+
+.chipDeleteButton {
+    margin-left: 10px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.chipDeleteButton:hover {
+    color: red;
+}

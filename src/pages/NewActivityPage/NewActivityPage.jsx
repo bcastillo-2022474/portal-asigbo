@@ -4,6 +4,7 @@ import InputText from '@components/InputText';
 import InputNumber from '@components/InputNumber/InputNumber';
 import InputDate from '@components/InputDate/InputDate';
 import CheckBox from '@components/CheckBox/CheckBox';
+import PromotionChips from '@components/Chips/Chips';
 import ImagePicker from '@components/ImagePicker/ImagePicker';
 import useForm from '@hooks/useForm';
 import UserSelectTable from '@components/UserSelectTable';
@@ -56,6 +57,10 @@ function NewActivityPage() {
     setData(name, value);
   };
 
+  // const handlePromotionSelectionChange = (selectedPromotions) => {
+  //   console.log(selectedPromotions);
+  // };
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -71,21 +76,24 @@ function NewActivityPage() {
     // construir form data a enviar
     const data = new FormData();
 
-    console.log(selectedImages);
-
     // guardar imagenes
-    selectedImages.forEach((file) => data.append('files[]', file, file.name));
+    selectedImages.forEach((file) => data.append('banner', file, file.name));
 
     data.append('deletedImages', JSON.stringify(deletedDefaultImages));
 
-    const {
-      // eslint-disable-next-line max-len
-      activityName, completionDate, registrationStartDate, registrationEndDate, serviceHours, description, maxParticipants, paymentRequired, responsible,
+    let {
+      // eslint-disable-next-line max-len, prefer-const
+      activityName, completionDate, registrationStartDate, registrationEndDate, serviceHours, description, maxParticipants, paymentRequired, responsible, participatingPromotions,
     } = form;
+    if (!isCheckboxChecked) {
+      paymentRequired = 0;
+    }
+    if (participantsChecked) {
+      participatingPromotions = [];
+    }
     data.append('name', activityName);
     data.append('date', completionDate);
     data.append('idAsigboArea', idArea);
-    data.append('activityName', activityName);
     data.append('serviceHours', serviceHours);
     data.append('description', description);
     data.append('registrationStartDate', registrationStartDate);
@@ -95,13 +103,12 @@ function NewActivityPage() {
     responsible.forEach((val) => {
       data.append('responsible[]', val);
     });
+    participatingPromotions.forEach((val) => {
+      data.append('participatingPromotions[]', val);
+    });
 
     const uri = idActividad ? `${serverHost}/activity/${idActividad}` : `${serverHost}/activity`;
     const method = idActividad ? 'PATCH' : 'POST';
-
-    console.log(uri);
-    console.log(method);
-    console.log(data);
     callFetch({
       uri,
       headers: { authorization: token },
@@ -112,7 +119,7 @@ function NewActivityPage() {
   };
 
   const redirectOnSuccess = () => {
-    const uri = idArea ? `/area/${idArea}` : '/area';
+    const uri = idArea ? `/area/${idArea}/actividades` : '/area';
     navigate(uri);
   };
 
@@ -141,7 +148,7 @@ function NewActivityPage() {
         <div className={styles.newAreaPage}>
           <BackTitle
             title={idArea ? 'Nueva Actividad' : 'Nuevo eje de ASIGBO'}
-            href={idArea ? `/area/${idArea}` : '/area'}
+            href={idArea ? `/area/${idArea}/actividades` : '/area'}
             className={styles.pageTitle}
           />
 
@@ -227,21 +234,27 @@ function NewActivityPage() {
             <CheckBox
               label="Permitir participación de todos los becados"
               checked={participantsChecked}
-              onChange={() => setParticipantsChecked(!participantsChecked)}
+              onChange={() => {
+                setParticipantsChecked(!participantsChecked);
+              }}
             />
+            {!participantsChecked && (
+              <PromotionChips onSelectionChange={(value) => setData('participatingPromotions', value)} />
+            )}
 
             <h3 className={styles.formSectionTitle}>Pago requerido</h3>
             <CheckBox
               label="La actividad necesita un pago por parte de los becados"
               checked={isCheckboxChecked}
-              onChange={() => setCheckboxChecked(!isCheckboxChecked)}
+              onChange={() => {
+                setCheckboxChecked(!isCheckboxChecked);
+              }}
             />
             {isCheckboxChecked && (
             <InputNumber
               title="Monto del pago"
               className={styles.inputText}
               name="paymentRequired"
-              error={error?.paymentRequired}
               onChange={handleChange}
               value={form?.paymentRequired}
               onBlur={() => validateField('paymentRequired')}
@@ -259,7 +272,7 @@ function NewActivityPage() {
                 className={styles.inputText}
                 name="registrationStartDate"
                 value={form?.registrationStartDate}
-                error={error?.completionDate}
+                error={error?.registrationStartDate}
                 onChange={handleChange}
                 onBlur={() => validateField('registrationStartDate')}
                 onFocus={() => clearFieldError('registrationStartDate')}
@@ -270,7 +283,7 @@ function NewActivityPage() {
                 className={styles.inputText}
                 name="registrationEndDate"
                 value={form?.registrationEndDate}
-                error={error?.completionDate}
+                error={error?.registrationEndDate}
                 onChange={handleChange}
                 onBlur={() => validateField('registrationEndDate')}
                 onFocus={() => clearFieldError('registrationEndDate')}
