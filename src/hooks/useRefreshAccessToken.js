@@ -18,6 +18,7 @@ function useRefreshAccessToken() {
       throw response;
     }
     const { accessToken } = await response.json();
+    setAccessToken(accessToken);
     return accessToken;
   };
 
