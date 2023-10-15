@@ -20,7 +20,7 @@ import styles from './SelectAdminTable.module.css';
 import UserNameLink from '../UserNameLink/UserNameLink';
 
 function SelectAdminTable() {
-  const { callFetch: fetchAdminsList, result: adminsList, loading: loadingAdminsList } = useFetch();
+  const { callFetch: fetchAdminsList, result: adminsList } = useFetch();
   const { callFetch: fetchUsers, result: users, loading: loadingUsers } = useFetch();
   const {
     callFetch: fetchAction,
@@ -31,6 +31,7 @@ function SelectAdminTable() {
 
   const token = useToken();
 
+  const [initialLoading, setInitialLoading] = useState(true);
   const [adminList, setAdminList] = useState();
   const [filter, setFilter] = useState({});
   const [paginationItems, setPaginationItems] = useState();
@@ -74,6 +75,11 @@ function SelectAdminTable() {
     const uri = `${serverHost}/user?${searchParams.toString()}`;
     fetchUsers({ uri, headers: { authorization: token } });
   }, [adminList, filter, currentPage]);
+
+  useEffect(() => {
+    // Cuando se obtiene el listado completo de usuarios, retirar loading inicial
+    if (users) setInitialLoading(false);
+  }, [users]);
 
   useEffect(() => {
     setCurrentPage(0);
@@ -146,7 +152,7 @@ function SelectAdminTable() {
       <Table
         header={['No.', '', 'Nombre', 'Promoción', '']}
         showCheckbox={false}
-        loading={loadingUsers || loadingAdminsList}
+        loading={initialLoading || loadingUsers}
         breakPoint="900px"
       >
         {users?.result.map((user, index) => (
