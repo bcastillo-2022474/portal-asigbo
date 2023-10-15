@@ -48,7 +48,7 @@ function SimpleUserProfilePage({ idUser }) {
 
         <div className={styles.profileHeader}>
 
-          <ProfilePicture uri={`${serverHost}/image/user/${user.id}`} />
+          <ProfilePicture uri={`${serverHost}/image/user/${user.id}`} hasImage={user.hasImage} />
 
           <div className={styles.headerDataContainer}>
             <span className={styles.userName}>{`${user.name} ${user.lastname}`}</span>
