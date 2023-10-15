@@ -14,10 +14,11 @@ import UserInfo from '../UserInfo/UserInfo';
 * @param {string} name: Nombre del becado
 * @param {boolean} showToggler: Booleano dedicado a mostrar el hamburger menu o no
 * @param {string} idUser: Id del becado.
+* @param {boolean} hasImage: Indica si el usuario posee foto de perfil o no.
 *
 */
 function TopBar({
-  toggler, logo, name, showToggler, idUser,
+  toggler, logo, name, showToggler, idUser, hasImage,
 }) {
   return (
     <nav className={styles.TopBar}>
@@ -38,7 +39,7 @@ function TopBar({
       </div>
 
       {/* Nombre e ícono del becado */}
-      <UserInfo className={styles.userInfo} name={name} idUser={idUser} />
+      <UserInfo className={styles.userInfo} name={name} idUser={idUser} hasImage={hasImage} />
 
     </nav>
   );
@@ -51,6 +52,7 @@ TopBar.defaultProps = {
   logo: '',
   name: '',
   idUser: null,
+  hasImage: false,
 };
 
 TopBar.propTypes = {
@@ -59,6 +61,7 @@ TopBar.propTypes = {
   logo: PropTypes.string,
   name: PropTypes.string,
   idUser: PropTypes.string,
+  hasImage: PropTypes.bool,
 };
 
 export default TopBar;

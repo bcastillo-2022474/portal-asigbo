@@ -263,7 +263,7 @@ function ManageUsersTable() {
           <TableRow id={user.id} key={user.id} style={{ position: 'absolute' }}>
             <td>{index + 1}</td>
             <td className={styles.pictureRow}>
-              <UserPicture name={user.name} idUser={user.id} />
+              <UserPicture name={user.name} idUser={user.id} hasImage={user.hasImage ?? false} />
             </td>
             <td className={styles.nameRow}>
               <UserNameLink idUser={user.id} name={`${user.name} ${user.lastname}`} />
