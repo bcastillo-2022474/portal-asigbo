@@ -24,6 +24,7 @@ function ActivityDetailsPage() {
   const [notFound, setNotFound] = useState(false);
   const [isResponsible, setIsResponsible] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [fetchImage, setFetchImage] = useState(false);
   const {
     info: user,
     error: userError,
@@ -61,6 +62,12 @@ function ActivityDetailsPage() {
   }, [userError, activityError]);
 
   useEffect(() => {
+    if (activity) {
+      setFetchImage(activity.hasBanner);
+    }
+  }, [activity]);
+
+  useEffect(() => {
     if ((loadingUser || !user) && !userError) {
       setLoading(true);
     } else if ((loadingActivity || !activity) && !activityError) {
@@ -88,11 +95,12 @@ function ActivityDetailsPage() {
           ''
         )}
       </div>
-      {!imageError ? (
+      {!imageError && fetchImage ? (
         <img
-          src={`${serverHost}/${activity}`}
+          src={`${serverHost}/image/activity/${activity ? activity.id : null}`}
           alt="placeholder"
           className={styles.banner}
+          loading="lazy"
           onError={() => setImageError(true)}
         />
       ) : (
