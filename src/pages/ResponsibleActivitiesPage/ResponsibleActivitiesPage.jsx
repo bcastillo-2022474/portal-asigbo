@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import ActivityTable from '@components/ActivityTable/ActivityTable';
+import ResponsibleActivitiesTable from '@components/ResponsibleActivitiesTable/ResponsibleActivitiesTable';
 import useFetch from '@hooks/useFetch';
 import useToken from '@hooks/useToken';
 import getTokenPayload from '@helpers/getTokenPayload';
 import styles from './ResponsibleActivitiesPage.module.css';
 import { serverHost } from '../../config';
+import NotFoundPage from '../NotFoundPage';
 
 function ResponsibleActivitiesPage() {
   const token = useToken();
@@ -38,11 +39,15 @@ function ResponsibleActivitiesPage() {
 
   return (
     <div className={styles.loggedEnrolledActivitiesPage}>
-      <h1 className={styles.pageTitle}>Actividades a cargo</h1>
-      {!errorActivities
-      && <ActivityTable loading={loadingActivities} data={enrolledActivites} listingType="byArea" />}
       {errorActivities && (
-        <span className={styles.error}>{errorActivities?.message}</span>
+        <NotFoundPage />
+      )}
+      {!errorActivities && (
+        <>
+          <h1 className={styles.pageTitle}>Actividades a cargo</h1>
+          {!errorActivities
+      && <ResponsibleActivitiesTable loading={loadingActivities} data={enrolledActivites} listingType="byArea" />}
+        </>
       )}
     </div>
   );
