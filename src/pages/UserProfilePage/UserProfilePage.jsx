@@ -14,7 +14,7 @@ import useUserInfo from '../../hooks/useUserInfo';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import NotFound from '../NotFoundPage';
 import { serverHost } from '../../config';
-import ActivityTable from '../../components/ActivityTable';
+import ActivityTable from '../../components/ActivityAssignmentTable';
 import AdminButton from '../../components/AdminButton/AdminButton';
 
 /*----------------------------------------------------------------------------------------------*/
@@ -33,7 +33,7 @@ import AdminButton from '../../components/AdminButton/AdminButton';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function UserProfilePage({ userId }) {
+function UserProfilePage({ userId, layoutType }) {
   // Estados de información
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState([[]]);
@@ -156,7 +156,6 @@ function UserProfilePage({ userId }) {
       newData.datasets[0].borderColor.push(value.color ? `${value.color}FF` : '#E18634FF');
     });
     setChartData(newData);
-    console.log(deptDetails);
   }, [deptDetails]);
 
   return notFound ? <NotFound /> : (
@@ -165,12 +164,15 @@ function UserProfilePage({ userId }) {
         <LoadingView />
       ) : (
         <div className={styles.infoBlock}>
-          <div className={styles.pageHeader}>
-            <h1>Información del Becado</h1>
-            <Link to="editar">
-              <AdminButton className={styles.adminButton} />
-            </Link>
-          </div>
+          { layoutType === 'UserProfile'
+            ? (
+              <div className={styles.pageHeader}>
+                <h1>Información del Becado</h1>
+                <Link to="editar">
+                  <AdminButton className={styles.adminButton} />
+                </Link>
+              </div>
+            ) : undefined}
           <div className={styles.holderDetails}>
             <ProfilePicture
               uri={`${serverHost}/image/user/${loggedInfo ? loggedInfo.id : ''}`}
@@ -275,4 +277,9 @@ export default UserProfilePage;
 
 UserProfilePage.propTypes = {
   userId: PropTypes.string.isRequired,
+  layoutType: PropTypes.oneOf(['UserProfile', 'Home']),
+};
+
+UserProfilePage.defaultProps = {
+  layoutType: 'UserProfile',
 };
