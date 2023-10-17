@@ -71,6 +71,7 @@ function ActivityDetailsPage() {
       if (action === 'DISABLE' && enDisActivity) {
         openSuccess();
         setIsAction(!isAction);
+        setDisabled(!isDisabled);
       } else if (action === 'DELETE' && deletedActivity) {
         navigate('/');
       }
@@ -143,7 +144,6 @@ function ActivityDetailsPage() {
       } else {
         setIsAction(true);
         disableActivityByID(isDisabled);
-        setDisabled(!isDisabled);
       }
     }
   };
