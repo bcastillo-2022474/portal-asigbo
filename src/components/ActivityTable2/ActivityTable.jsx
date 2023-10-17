@@ -33,12 +33,11 @@ function ActivityTable({ loading, data, listingType }) {
   const [initialDate, setInitialDate] = useState();
   const [finalDate, setFinalDate] = useState();
 
-  // Si la búsqieda está vacía la información filtrada es igual a la que proviene del parámetro.
+  // Si la búsqueda está vacía la información filtrada es igual a la que proviene del parámetro.
   useEffect(() => {
     if (!search) {
       setFiltrated(data);
     }
-    console.log(data);
   }, [data]);
 
   // Redirección a actividad.
@@ -65,10 +64,6 @@ function ActivityTable({ loading, data, listingType }) {
   const finalDateHandler = (date) => {
     setFinalDate(date);
   };
-
-  useEffect(() => {
-    console.log(filtrated);
-  }, [filtrated]);
 
   /**
    * @function searchValue: Función que indica si al menos un key dentro del objeto y sus objetos
@@ -168,9 +163,9 @@ function ActivityTable({ loading, data, listingType }) {
           {filtrated && filtrated.map((value) => (
             <TableRow
               id={value.id}
-              onClick={() => goToActivity(value.activity.id)}
+              onClick={() => goToActivity(value.id)}
               key={value.id}
-              onMouseDown={() => newTabActivity(value.activity.id)}
+              onMouseDown={() => newTabActivity(value.id)}
             >
               <td>{value.activity.name}</td>
               <td>{value.activity.serviceHours}</td>

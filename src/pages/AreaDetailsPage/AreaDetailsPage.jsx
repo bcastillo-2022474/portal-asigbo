@@ -10,7 +10,7 @@ import LoadingView from '@components/LoadingView';
 import NotFoundPage from '@pages/NotFoundPage';
 import consts from '@helpers/consts';
 import UserTable from '@components/UserTable';
-import ActivityTable from '@components/ActivityTable';
+import ActivityTable from '@components/ActivityTable2';
 import TabMenu from '@components/TabMenu';
 import BackTitle from '@components/BackTitle';
 import {
