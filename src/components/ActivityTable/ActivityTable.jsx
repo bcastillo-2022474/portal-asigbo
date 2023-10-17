@@ -38,7 +38,6 @@ function ActivityTable({ loading, data, listingType }) {
     if (!search) {
       setFiltrated(data);
     }
-    console.log(data);
   }, [data]);
 
   // Redirección a actividad.
@@ -65,10 +64,6 @@ function ActivityTable({ loading, data, listingType }) {
   const finalDateHandler = (date) => {
     setFinalDate(date);
   };
-
-  useEffect(() => {
-    console.log(filtrated);
-  }, [filtrated]);
 
   /**
    * @function searchValue: Función que indica si al menos un key dentro del objeto y sus objetos
