@@ -13,7 +13,6 @@ import ActivityDetailsPage from '../ActivityDetailsPage';
 import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePage';
 import UpdateUserPage from '../UpdateUserPage/UpdateUserPage';
 import UserProfileIndexPage from '../UserProfileIndexPage/UserProfileIndexPage';
-import UpdateUserInRoutePage from '../UpdateUserInRoutePage/UpdateUserInRoutePage';
 import ResponsibleActivitiesPage from '../ResponsibleActivitiesPage';
 
 function UserIndexPage() {
