@@ -173,6 +173,7 @@ function UserProfilePage({ userId }) {
           </div>
           <div className={styles.holderDetails}>
             <ProfilePicture
+              hasImage={loggedInfo?.hasImage ?? false}
               uri={`${serverHost}/image/user/${loggedInfo ? loggedInfo.id : ''}`}
               className={styles.pfp}
             />

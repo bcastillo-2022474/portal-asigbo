@@ -143,7 +143,7 @@ function UpdateUserPage({ userId }) {
           <form onSubmit={handleSubmit}>
             <div className={styles.formContainer}>
               <InputPhoto
-                defaultImage={`${serverHost}/image/user/${userId}`}
+                defaultImage={user.hasImage ? `${serverHost}/image/user/${userId}` : null}
                 onChange={handleImageChange}
               />
 

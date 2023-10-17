@@ -157,7 +157,7 @@ function SelectPromotionResponsibleTable() {
           <TableRow key={user.id}>
             <td>{index + 1}</td>
             <td className={styles.pictureRow}>
-              <UserPicture name={user.name} idUser={user.id} />
+              <UserPicture name={user.name} idUser={user.id} hasImage={user.hasImage ?? false} />
             </td>
             <td className={styles.nameRow}>
               <UserNameLink name={`${user.name} ${user.lastname}`} idUser={user.id} />

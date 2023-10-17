@@ -16,11 +16,14 @@ import styles from './UserPicture.module.css';
  * @param {string} name: Nombre del usuario, en caso de no existir o encontrar la foto, se colocará
  * la inicial como foto. **ESTA PROPIEDAD ES OBLIGATORIA**
  * @param {string} className: Clases aplicadas al elemento padre del componente
+ * @param {boolean} hasImage: Indica si el usuario posee foto de perfil o no.
  *
  * @exports UserPicture
  */
 
-function UserPicture({ idUser, name, className }) {
+function UserPicture({
+  idUser, name, className, hasImage,
+}) {
   const [imageError, setImageError] = useState(false);
 
   const token = useToken();
@@ -32,7 +35,7 @@ function UserPicture({ idUser, name, className }) {
       className={`${styles.userPicture} ${className}`}
       title={name}
     >
-      {!imageError ? (
+      {hasImage && !imageError && idUser ? (
         <img
           src={`${serverHost}/${consts.imageRoute.user}/${idUser}`}
           alt={`Foto de perfil de ${name}`}
@@ -51,6 +54,7 @@ UserPicture.propTypes = {
   className: PropTypes.string,
   idUser: PropTypes.string,
   name: PropTypes.string.isRequired,
+  hasImage: PropTypes.bool.isRequired,
 };
 
 UserPicture.defaultProps = {

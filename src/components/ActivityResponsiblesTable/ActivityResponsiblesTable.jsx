@@ -35,7 +35,7 @@ function ActivityResponsiblesTable({ idActivity }) {
         <TableRow id={value.id} key={value.id}>
           <td>{index + 1}</td>
           <td className={styles.pictureCol}>
-            <UserPicture name={value.name} idUser={value.id} />
+            <UserPicture name={value.name} idUser={value.id} hasImage={value.hasImage ?? false} />
           </td>
           <td className={styles.nameCol}>{value.name}</td>
           <td className={styles.promoCol}>{value.promotion}</td>

@@ -22,10 +22,11 @@ import consts from '../../../helpers/consts';
  * @param {function} toggler: Función que cerrará el sidebar en caso de existir función de apertura
  * y cierre
  * @param {array[strings]} roles: Permisos del usuario en sesión
+ * @param {boolean} hasImage: Indica si el usuario posee foto de perfil o no.
  */
 
 function NavMenu({
-  idUser, name, className, toggler, roles,
+  idUser, name, className, toggler, roles, hasImage,
 }) {
   const logout = useLogout();
 
@@ -39,7 +40,12 @@ function NavMenu({
   return (
     <div className={`${styles.navMenu} ${className}`}>
       <div className={styles.profile}>
-        <UserPicture className={styles.profilePicture} name={name} idUser={idUser} />
+        <UserPicture
+          className={styles.profilePicture}
+          name={name}
+          idUser={idUser}
+          hasImage={hasImage}
+        />
         <span className={styles.profileName}>{name}</span>
       </div>
       <div className={styles.buttons}>
@@ -85,6 +91,7 @@ NavMenu.propTypes = {
   className: PropTypes.string,
   toggler: PropTypes.func,
   roles: PropTypes.arrayOf(PropTypes.string),
+  hasImage: PropTypes.bool,
 };
 
 NavMenu.defaultProps = {
@@ -92,6 +99,7 @@ NavMenu.defaultProps = {
   className: undefined,
   toggler: undefined,
   roles: null,
+  hasImage: false,
 };
 
 export default NavMenu;

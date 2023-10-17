@@ -13,13 +13,15 @@ import styles from './ProfilePicture.module.css';
  * @param {string} uri: URI de dirección de la foto o imagen a mostrar.
  * @param {string} className: Clase(s) que desean agregarse al componente padre, en especial para
  * cambiar su estilo
+ * @param {boolean} hasImage: Indica si el usuario posee foto de perfil o no.
+
  *
  * @exports ProfilePicture
  */
 
 /*----------------------------------------------------------------------------------------------*/
 
-function ProfilePicture({ uri, className }) {
+function ProfilePicture({ uri, hasImage, className }) {
   // Se asume en un inicio que la imagen cargará correctamente
   const [loadError, setLoadError] = useState(false);
 
@@ -32,7 +34,7 @@ function ProfilePicture({ uri, className }) {
     <div className={`${styles.profilePicture} ${className}`}>
 
       {/* Mostrar la imagen, de encontrar un error, utilizar el placeholder */}
-      {!loadError ? (
+      {hasImage && !loadError ? (
 
         <img src={uri} alt="Profile" onError={errorHandler} className={styles.image} />
 
@@ -52,10 +54,12 @@ function ProfilePicture({ uri, className }) {
 ProfilePicture.propTypes = {
   uri: PropTypes.string.isRequired,
   className: PropTypes.string,
+  hasImage: PropTypes.bool,
 };
 
 ProfilePicture.defaultProps = {
   className: '',
+  hasImage: false,
 };
 
 /*----------------------------------------------------------------------------------------------*/

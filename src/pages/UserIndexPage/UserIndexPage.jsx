@@ -43,11 +43,6 @@ function UserIndexPage() {
           )
         }
 
-        {
-          user?.role.includes(consts.roles.promotionResponsible)
-          && <Route path="/usuario/:userId/editar" element={<UpdateUserInRoutePage />} />
-        }
-
       </Routes>
     </PageContainer>
   );

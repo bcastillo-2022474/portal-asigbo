@@ -70,6 +70,7 @@ function PageContainer({ children }) {
           name={`${payload.name} ${payload.lastname}`}
           showToggler={isMobile}
           idUser={payload.id}
+          hasImage={payload.hasImage ?? false}
         />
       ) : (
         false
@@ -77,9 +78,11 @@ function PageContainer({ children }) {
       <div className={`${styles.pageContainer}`}>
         <div className={`${styles.navMenu} ${isToggled ? undefined : styles.retractedMenu}`}>
           <NavMenu
+            idUser={payload.id}
             name={`${payload.name} ${payload.lastname}`}
             toggler={toggleMenu}
             roles={payload.role}
+            hasImage={payload.hasImage ?? false}
           />
         </div>
         <div className={styles.page}>{children}</div>
