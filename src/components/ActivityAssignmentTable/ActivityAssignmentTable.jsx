@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import ActivityTableFilter from '../ActivityTableFilter/ActivityTableFilter';
-import styles from './ActivityTable.module.css';
+import styles from './ActivityAssignmentTable.module.css';
 import Table from '../Table/Table';
 import TableRow from '../TableRow';
 import { serverHost } from '../../config';
@@ -33,7 +33,7 @@ function ActivityTable({ loading, data, listingType }) {
   const [initialDate, setInitialDate] = useState();
   const [finalDate, setFinalDate] = useState();
 
-  // Si la búsqueda está vacía la información filtrada es igual a la que proviene del parámetro.
+  // Si la búsqieda está vacía la información filtrada es igual a la que proviene del parámetro.
   useEffect(() => {
     if (!search) {
       setFiltrated(data);
@@ -163,9 +163,9 @@ function ActivityTable({ loading, data, listingType }) {
           {filtrated && filtrated.map((value) => (
             <TableRow
               id={value.id}
-              onClick={() => goToActivity(value.id)}
+              onClick={() => goToActivity(value.activity.id)}
               key={value.id}
-              onMouseDown={() => newTabActivity(value.id)}
+              onMouseDown={() => newTabActivity(value.activity.id)}
             >
               <td>{value.activity.name}</td>
               <td>{value.activity.serviceHours}</td>
