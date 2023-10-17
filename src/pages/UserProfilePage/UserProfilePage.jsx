@@ -126,6 +126,7 @@ function UserProfilePage({ userId }) {
         area.id = values.activity.asigboArea.id;
         area.name = values.activity.asigboArea.name;
         area.hours = auxObj[valueKeys];
+        area.color = values.activity.asigboArea.color;
         areas.push(area);
       }
     });
@@ -141,12 +142,8 @@ function UserProfilePage({ userId }) {
         {
           label: '# de Horas',
           data: [],
-          backgroundColor: [
-            '#E18634',
-          ],
-          borderColor: [
-            '#7d4a1b',
-          ],
+          backgroundColor: [],
+          borderColor: [],
           borderWidth: 2,
         },
       ],
@@ -155,8 +152,11 @@ function UserProfilePage({ userId }) {
     deptDetails.forEach(async (value) => {
       newData.labels.push(value.name);
       newData.datasets[0].data.push(value.hours);
+      newData.datasets[0].backgroundColor.push(value.color ? `${value.color}BB` : '#E18634BB');
+      newData.datasets[0].borderColor.push(value.color ? `${value.color}FF` : '#E18634FF');
     });
     setChartData(newData);
+    console.log(deptDetails);
   }, [deptDetails]);
 
   return notFound ? <NotFound /> : (
@@ -249,7 +249,7 @@ function UserProfilePage({ userId }) {
                             </li>
                           );
                         })
-                        : 'Hola'}
+                        : 'No se ha completado ninguna actividad aún...'}
                     </ul>
                   </div>
                   <div className={styles.chartContainer}>
