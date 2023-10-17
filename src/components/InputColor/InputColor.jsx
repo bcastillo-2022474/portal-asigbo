@@ -9,7 +9,7 @@ function InputColor({
   const id = randomId(15);
   return (
     <div className={`${styles.inputColorContainer} ${error ? styles.error : ''} ${className}`}>
-      <label className={styles.pickerContainer} htmlFor="colorPicker">
+      <label className={styles.pickerContainer} htmlFor={id}>
         <div className={styles.colorMainContainer}>
           <div className={styles.colorCircle} style={{ backgroundColor: value }} />
           <p className={styles.colorName}>

@@ -146,6 +146,14 @@ function NewAreaPage() {
               onKeyDown={handleKeyDown}
             />
 
+            <h3 className={styles.formSectionTitle}>ícono del eje</h3>
+            <p className={styles.formInstructions}>Se recomienda utilizar un formato .svg</p>
+            <IconPicker
+              onChange={handleIconChange}
+              defaultImage={idArea ? `${serverHost}/image/area/${idArea}` : null}
+            />
+            {error?.icon && <p className={styles.errorMessage}>{error.icon}</p>}
+
             <h3 className={styles.formSectionTitle}>Color del eje</h3>
             <InputColor
               name="color"
@@ -156,13 +164,6 @@ function NewAreaPage() {
               onBlur={() => validateField('color')}
               onFocus={() => clearFieldError('color')}
             />
-            <h3 className={styles.formSectionTitle}>ícono del eje</h3>
-            <p className={styles.formInstructions}>Se recomienda utilizar un formato svg.</p>
-            <IconPicker
-              onChange={handleIconChange}
-              defaultImage={idArea ? `${serverHost}/image/area/${idArea}` : null}
-            />
-            {error?.icon && <p className={styles.errorMessage}>{error.icon}</p>}
 
             <h3 className={styles.formSectionTitle}>Encargados</h3>
             <UserSelectTable

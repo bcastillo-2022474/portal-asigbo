@@ -37,3 +37,7 @@
     font-size: 15px;
     font-weight: normal;
 }
+
+.inputColorContainer :hover{
+    cursor: pointer;
+}
