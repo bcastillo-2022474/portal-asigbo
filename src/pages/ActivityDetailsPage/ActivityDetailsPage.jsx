@@ -57,6 +57,7 @@ function ActivityDetailsPage() {
   const {
     info: enDisActivity,
     error: enDisError,
+    loading: loadingEnDis,
     disableActivityByID,
   } = useActivityByID(activityID);
 
@@ -64,6 +65,7 @@ function ActivityDetailsPage() {
     info: deletedActivity,
     error: deleteError,
     deleteActivityByID,
+    loading: loadingDelete,
   } = useActivityByID(activityID);
 
   useEffect(() => {
@@ -159,6 +161,7 @@ function ActivityDetailsPage() {
     <LoadingView />
   ) : (
     <div className={styles.main}>
+      {loadingEnDis || loadingDelete ? <LoadingView /> : undefined}
       <div className={styles.activityHeader}>
         <h1>{activity ? activity.name : 'Actividad'}</h1>
         {isResponsible ? (
