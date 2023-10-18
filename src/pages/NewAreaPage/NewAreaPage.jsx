@@ -15,6 +15,7 @@ import ErrorNotificationPopUp from '@components/ErrorNotificationPopUp';
 import LoadingView from '@components/LoadingView';
 import NotFoundPage from '@pages/NotFoundPage';
 import BackTitle from '@components/BackTitle';
+import InputColor from '@components/InputColor/InputColor';
 import styles from './NewAreaPage.module.css';
 import createAsigboAreaSchema from './createAsigboAreaSchema';
 import updateAsigboAreaSchema from './updateAsigboAreaSchema';
@@ -74,8 +75,11 @@ function NewAreaPage() {
 
     // construir form data a enviar
     const data = new FormData();
-    const { name, icon, responsible } = form;
+    const {
+      name, icon, responsible, color,
+    } = form;
     data.append('name', name);
+    data.append('color', color);
     if (icon) data.append('icon', icon);
     responsible.forEach((val) => {
       data.append('responsible[]', val);
@@ -115,6 +119,7 @@ function NewAreaPage() {
   useEffect(() => {
     if (!areaData) return;
     setData('name', areaData.name);
+    setData('color', areaData.color);
   }, [areaData]);
 
   return (
@@ -142,12 +147,23 @@ function NewAreaPage() {
             />
 
             <h3 className={styles.formSectionTitle}>ícono del eje</h3>
-            <p className={styles.formInstructions}>Se recomienda utilizar un formato svg.</p>
+            <p className={styles.formInstructions}>Se recomienda utilizar un formato .svg</p>
             <IconPicker
               onChange={handleIconChange}
               defaultImage={idArea ? `${serverHost}/image/area/${idArea}` : null}
             />
             {error?.icon && <p className={styles.errorMessage}>{error.icon}</p>}
+
+            <h3 className={styles.formSectionTitle}>Color del eje</h3>
+            <InputColor
+              name="color"
+              className={styles.inputColor}
+              value={form?.color}
+              error={error?.color}
+              onChange={handleChange}
+              onBlur={() => validateField('color')}
+              onFocus={() => clearFieldError('color')}
+            />
 
             <h3 className={styles.formSectionTitle}>Encargados</h3>
             <UserSelectTable

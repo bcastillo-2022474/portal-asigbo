@@ -43,6 +43,9 @@ function UpdateUserPage({ userId }) {
   const token = useToken();
   const userData = getTokenPayload(token);
 
+  const isAdmin = userData.role.includes(consts.roles.admin);
+  const isPromotionResponsible = userData.role.includes(consts.roles.promotionResponsible);
+
   const {
     form, error, setForm, setData, validateField, clearFieldError, validateForm,
   } = useForm(updateUserSchema);
@@ -106,6 +109,13 @@ function UpdateUserPage({ userId }) {
     const data = new FormData();
     Object.entries(form).forEach((val) => data.append(val[0], val[1]));
 
+    // Eliminar parámetros según permisos
+    if (!isAdmin) data.delete('promotion');
+    if (!(form.password?.length > 0) || userId !== userData.id) {
+      data.delete('password');
+    }
+    data.delete('repeatPassword');
+
     const uri = `${serverHost}/user/${userId}`;
     fetchUpdate({
       uri,
@@ -122,122 +132,153 @@ function UpdateUserPage({ userId }) {
   };
 
   // Valida que sea admin o encargado del año del usuario a editar
-  const validatePagePermissionAccess = () => userData.role.includes(consts.roles.admin)
-    || (
-      userData.role.includes(consts.roles.promotionResponsible)
-      && user?.promotion === userData?.promotion
-    );
+  const validatePagePermissionAccess = () => isAdmin || (isPromotionResponsible
+    && user?.promotion === userData?.promotion);
 
   return (
     <>
       {user && validatePagePermissionAccess() && (
-      <div className={styles.updateUserPage}>
-        <h1 className={styles.pageTitle}>Editar perfil</h1>
-        <form onSubmit={handleSubmit}>
-          <div className={styles.formContainer}>
-            <InputPhoto
-              defaultImage={`${serverHost}/image/user/${userId}`}
-              onChange={handleImageChange}
-            />
+        <div className={styles.updateUserPage}>
+          <h1 className={styles.pageTitle}>Editar perfil</h1>
+          <form onSubmit={handleSubmit}>
+            <div className={styles.formContainer}>
+              <InputPhoto
+                defaultImage={user.hasImage ? `${serverHost}/image/user/${userId}` : null}
+                onChange={handleImageChange}
+              />
 
-            <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
-              Información personal
-            </h3>
+              <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
+                Información personal
+              </h3>
 
-            <InputText
-              title="Nombres"
-              name="name"
-              onChange={handleChange}
-              value={form?.name}
-              error={error?.name}
-              onFocus={() => clearFieldError('name')}
-              onBlur={() => validateField('name')}
-            />
+              <InputText
+                title="Nombres"
+                name="name"
+                onChange={handleChange}
+                value={form?.name}
+                error={error?.name}
+                onFocus={() => clearFieldError('name')}
+                onBlur={() => validateField('name')}
+              />
 
-            <InputText
-              title="Apellidos"
-              name="lastname"
-              onChange={handleChange}
-              value={form?.lastname}
-              error={error?.lastname}
-              onFocus={() => clearFieldError('lastname')}
-              onBlur={() => validateField('lastname')}
-            />
+              <InputText
+                title="Apellidos"
+                name="lastname"
+                onChange={handleChange}
+                value={form?.lastname}
+                error={error?.lastname}
+                onFocus={() => clearFieldError('lastname')}
+                onBlur={() => validateField('lastname')}
+              />
 
-            <InputText
-              title="Correo electrónico"
-              name="email"
-              onChange={handleChange}
-              value={form?.email}
-              error={error?.email}
-              onFocus={() => clearFieldError('email')}
-              onBlur={() => validateField('email')}
-            />
+              <InputText
+                title="Correo electrónico"
+                name="email"
+                onChange={handleChange}
+                value={form?.email}
+                error={error?.email}
+                onFocus={() => clearFieldError('email')}
+                onBlur={() => validateField('email')}
+              />
 
-            <InputSelect
-              placeholder=""
-              className={styles.inputSex}
-              title="Sexo"
-              options={[
-                { value: 'F', title: 'F' },
-                { value: 'M', title: 'M' },
-              ]}
-              name="sex"
-              onChange={handleChange}
-              value={form?.sex}
-              error={error?.sex}
-              onFocus={() => clearFieldError('sex')}
-              onBlur={() => validateField('sex')}
-            />
+              <InputSelect
+                placeholder=""
+                className={styles.inputSex}
+                title="Sexo"
+                options={[
+                  { value: 'F', title: 'F' },
+                  { value: 'M', title: 'M' },
+                ]}
+                name="sex"
+                onChange={handleChange}
+                value={form?.sex}
+                error={error?.sex}
+                onFocus={() => clearFieldError('sex')}
+                onBlur={() => validateField('sex')}
+              />
 
-            <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
-              Información académica
-            </h3>
+              <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
+                Información académica
+              </h3>
 
-            <InputText
-              title="Carrera"
-              name="career"
-              onChange={handleChange}
-              value={form?.career}
-              error={error?.career}
-              onFocus={() => clearFieldError('career')}
-              onBlur={() => validateField('career')}
-            />
+              <InputText
+                title="Carrera"
+                name="career"
+                onChange={handleChange}
+                value={form?.career}
+                error={error?.career}
+                onFocus={() => clearFieldError('career')}
+                onBlur={() => validateField('career')}
+              />
 
-            <InputNumber
-              title="Promoción"
-              min={2000}
-              max={new Date().getFullYear() + 1}
-              name="promotion"
-              onChange={handleChange}
-              value={form?.promotion}
-              error={error?.promotion}
-              onFocus={() => clearFieldError('promotion')}
-              onBlur={() => validateField('promotion')}
-            />
-          </div>
+              {isAdmin && (
+                <InputNumber
+                  title="Promoción"
+                  min={2000}
+                  max={new Date().getFullYear() + 1}
+                  name="promotion"
+                  onChange={handleChange}
+                  value={form?.promotion}
+                  error={error?.promotion}
+                  onFocus={() => clearFieldError('promotion')}
+                  onBlur={() => validateField('promotion')}
+                />
+              )}
 
-          <div className={`${styles.buttonContainer} ${styles.completeRow}`}>
-            {updateLoading && <Spinner />}
-            {!updateResult && !updateLoading && (
-            <Button type="submit" text="Actualizar perfil de usuario" />
-            )}
-          </div>
-        </form>
+              {userId === userData.id && (
+                <>
+                  <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
+                    Información de acceso
+                  </h3>
 
-        <ErrorNotificationPopUp
-          close={closeError}
-          isOpen={isErrorOpen}
-          text={updateError?.message ?? 'Ocurrió un error.'}
-        />
+                  <InputText
+                    title="Contraseña"
+                    name="password"
+                    type="password"
+                    onChange={handleChange}
+                    value={form?.password}
+                    error={error?.repeatPassword && ' '}
+                    onFocus={() => clearFieldError('repeatPassword')}
+                    onBlur={() => {
+                      if (form?.repeatPassword) validateField('repeatPassword');
+                    }}
+                  />
 
-        <SuccessNotificationPopUp
-          close={closeSuccess}
-          isOpen={isSuccessOpen}
-          text="El usuario fue actualizado de exitosamente."
-          callback={handleSuccessUpdate}
-        />
-      </div>
+                  <InputText
+                    title="Repetir contraseña"
+                    name="repeatPassword"
+                    type="password"
+                    onChange={handleChange}
+                    value={form?.repeatPassword}
+                    error={error?.repeatPassword}
+                    onFocus={() => clearFieldError('repeatPassword')}
+                    onBlur={() => validateField('repeatPassword')}
+                  />
+                </>
+              )}
+            </div>
+
+            <div className={`${styles.buttonContainer} ${styles.completeRow}`}>
+              {updateLoading && <Spinner />}
+              {!updateResult && !updateLoading && (
+                <Button type="submit" text="Actualizar perfil de usuario" />
+              )}
+            </div>
+          </form>
+
+          <ErrorNotificationPopUp
+            close={closeError}
+            isOpen={isErrorOpen}
+            text={updateError?.message ?? 'Ocurrió un error.'}
+          />
+
+          <SuccessNotificationPopUp
+            close={closeSuccess}
+            isOpen={isSuccessOpen}
+            text="El usuario fue actualizado de exitosamente."
+            callback={handleSuccessUpdate}
+          />
+        </div>
       )}
 
       {userLoading && <LoadingView />}

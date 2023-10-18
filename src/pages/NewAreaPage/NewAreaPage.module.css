@@ -27,8 +27,12 @@
   max-width: 50%;
 }
 
+.inputColor{
+  max-width: 50%;
+}
+
 @media only screen and (max-width:700px){
-  .inputText{
+  .inputText, .inputColor{
     max-width: 100%;
   }
 }

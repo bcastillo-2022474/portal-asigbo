@@ -10,3 +10,7 @@
 .title {
   margin-block-start: 40px;
 }
+.activityParticipantsPage h2 {
+  font-size: var(--h2-title-size--);
+  margin-top: 40px;
+}

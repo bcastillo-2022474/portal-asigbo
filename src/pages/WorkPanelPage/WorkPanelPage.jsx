@@ -13,22 +13,27 @@ function WorkPanelPage() {
   const token = useToken();
   const user = token ? getTokenPayload(token) : null;
 
+  const isAdmin = user.role.includes(consts.roles.admin);
+  const isAsigboAreaResponsible = user.role.includes(consts.roles.asigboAreaResponsible);
+  const isActivityResponsible = user.role.includes(consts.roles.activityResponsible);
+  const isPromotionResponsible = user.role.includes(consts.roles.promotionResponsible);
+
   return (
     <div className={styles.workPanelPage}>
       <h1 className={styles.pageTitle}>Panel de trabajo</h1>
       <div className={styles.optionsContainer}>
         {user && (
           <>
-            {user.role.includes(consts.roles.admin)
+            { isAdmin
             && <PanelItem icon={<UsersIcon2 />} title="Administración de usuarios" href="/usuario" />}
 
-            {user.role.includes(consts.roles.asigboAreaResponsible)
+            { (isAdmin || isAsigboAreaResponsible)
             && <PanelItem icon={<PuzzleIcon />} title="Encargado de área" href="/area" />}
 
-            {user.role.includes(consts.roles.activityResponsible)
+            {isActivityResponsible
             && <PanelItem icon={<ListIcon />} title="Encargado de actividad" href="/actividad" />}
 
-            {user.role.includes(consts.roles.promotionResponsible)
+            {isPromotionResponsible
             && <PanelItem icon={<UsersIcon />} title="Encargado de promoción" />}
           </>
         )}

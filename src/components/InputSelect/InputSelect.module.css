@@ -1,5 +1,5 @@
 .inputSelectContainer{
-    margin-top: 10px;
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -14,7 +14,6 @@
     border: 2px solid;
     border-radius: 5px;
     font-family: 'Montserrat';
-    font-size: 16px;
     background-color: #ffffff !important;
 }
 
@@ -71,8 +70,8 @@ select:invalid + .inputLabel .labelText{
 .inputSelectContainer.error label{
     color:var(--error-color--);
     position: absolute;
-    top: -20px;
-    bottom: 0;
+    top: 0;
+    bottom: calc(100% - 40px);
     left: 16px;
     display: flex;
     align-items: center;

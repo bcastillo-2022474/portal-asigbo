@@ -19,6 +19,7 @@ import useToken from '../../hooks/useToken';
 import getTokenPayload from '../../helpers/getTokenPayload';
 import UpdateUserInRoutePage from '../UpdateUserInRoutePage/UpdateUserInRoutePage';
 import UserProfileIndexPage from '../UserProfileIndexPage/UserProfileIndexPage';
+import ResponsibleActivitiesPage from '../ResponsibleActivitiesPage';
 
 function AdminIndexPage() {
   const token = useToken();
@@ -27,7 +28,7 @@ function AdminIndexPage() {
     <PageContainer>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/newUser" element={<NewUserPage />} />
+        <Route path="/usuario/nuevo" element={<NewUserPage />} />
         <Route path="/importUsers" element={<ImportUsersPage />} />
         <Route path="/area/:idArea/editar" element={<NewAreaPage />} />
         <Route path="/area/:idArea/*" element={<AreaDetailsPage adminPrivileges />} />
@@ -39,6 +40,7 @@ function AdminIndexPage() {
         <Route path="/usuario" element={<UsersListPage />} />
         <Route path="/actividad/:activityId/asignacion/:userId" element={<ActivityAssignmentDetailsPage />} />
         <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />
+        <Route path="/actividad/encargadas" element={<ResponsibleActivitiesPage />} />
         <Route path="/panel" element={<WorkPanelPage />} />
         <Route path="/perfil" element={<SimpleUserProfilePage idUser={user.id} />} />
         <Route path="/perfil/editar" element={<UpdateUserPage userId={user.id} />} />

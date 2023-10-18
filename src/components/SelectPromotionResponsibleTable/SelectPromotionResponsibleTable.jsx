@@ -16,11 +16,15 @@ import LoadingView from '@components/LoadingView';
 import SuccessNotificationPopUp from '@components/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '@components/ErrorNotificationPopUp';
 import getTokenPayload from '@helpers/getTokenPayload';
-import styles from './SelectAdminTable.module.css';
+import styles from './SelectPromotionResponsibleTable.module.css';
 import UserNameLink from '../UserNameLink/UserNameLink';
 
-function SelectAdminTable() {
-  const { callFetch: fetchAdminsList, result: adminsList } = useFetch();
+function SelectPromotionResponsibleTable() {
+  const {
+    callFetch: fetchPromotionResponsibleUsersList,
+    result: promotionResponsibleUsersList,
+    loading: loadingPromotionResponsibleUsers,
+  } = useFetch();
   const { callFetch: fetchUsers, result: users, loading: loadingUsers } = useFetch();
   const {
     callFetch: fetchAction,
@@ -31,13 +35,12 @@ function SelectAdminTable() {
 
   const token = useToken();
 
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [adminList, setAdminList] = useState();
+  const [promotionResponsibleUsers, setPromotionResponsibleUsers] = useState();
   const [filter, setFilter] = useState({});
   const [paginationItems, setPaginationItems] = useState();
   const [currentPage, setCurrentPage] = useState(0);
 
-  // Variables de control para des/asignar usuarios admin
+  // Variables de control para des/asignar usuarios encargados de año
   const [currentAction, setCurrentAction] = useState(); // remove/assign
   const [currentUser, setCurrentUser] = useState();
 
@@ -46,40 +49,35 @@ function SelectAdminTable() {
   const [isErrorOpen, openError, closeError] = usePopUp();
 
   useEffect(() => {
-    // obtener listado inicial de administradores
-    fetchAdminsList({ uri: `${serverHost}/user/admin`, headers: { authorization: token } });
+    // obtener listado inicial de encargados de año
+    fetchPromotionResponsibleUsersList({ uri: `${serverHost}/user/promotionResponsible`, headers: { authorization: token } });
   }, []);
 
   useEffect(() => {
-    if (!adminsList) return;
+    if (!promotionResponsibleUsersList) return;
 
-    // añadir admins como usuarios prioridad al hacer consultas
-    setAdminList(adminsList.map((user) => user.id));
-  }, [adminsList]);
+    // añadir encargados de año como usuarios prioridad al hacer consultas
+    setPromotionResponsibleUsers(promotionResponsibleUsersList.map((user) => user.id));
+  }, [promotionResponsibleUsersList]);
 
   useEffect(() => {
-    if (!adminList || !filter) return;
+    if (!promotionResponsibleUsers || !filter) return;
     // Realizar la consulta con los filtros
     const filterCopy = { ...filter };
 
     if (filterCopy?.search?.trim() === '') delete filterCopy.search;
     if (filterCopy?.promotion?.trim() === '') delete filterCopy.search;
-    if (filterCopy?.status === '1') filterCopy.role = consts.roles.admin;
+    if (filterCopy?.status === '1') filterCopy.role = consts.roles.promotionResponsible;
     delete filterCopy.status;
 
     filterCopy.page = currentPage;
 
     const searchParams = new URLSearchParams(filterCopy);
-    adminList?.forEach((value) => searchParams.append('priority', value));
+    promotionResponsibleUsers?.forEach((value) => searchParams.append('priority', value));
 
     const uri = `${serverHost}/user?${searchParams.toString()}`;
     fetchUsers({ uri, headers: { authorization: token } });
-  }, [adminList, filter, currentPage]);
-
-  useEffect(() => {
-    // Cuando se obtiene el listado completo de usuarios, retirar loading inicial
-    if (users) setInitialLoading(false);
-  }, [users]);
+  }, [promotionResponsibleUsers, filter, currentPage]);
 
   useEffect(() => {
     setCurrentPage(0);
@@ -128,7 +126,7 @@ function SelectAdminTable() {
 
   const handleConfirmationChange = (value) => {
     if (!value || !currentUser) return;
-    const uri = `${serverHost}/user/${currentUser.id}/role/admin`;
+    const uri = `${serverHost}/user/${currentUser.id}/role/promotionResponsible`;
     const method = currentAction === 'assign' ? 'PATCH' : 'DELETE';
 
     fetchAction({
@@ -140,19 +138,19 @@ function SelectAdminTable() {
   };
 
   const handleFinishAction = () => {
-    // Añadir o retirar usuario de la lista de admins. Esto provoca que la tabla se actualice.
-    if (currentAction === 'assign') setAdminList((list) => [...list, currentUser.id]);
-    else setAdminList((list) => list.filter((id) => id !== currentUser.id));
+    // Añadir o retirar usuario de la lista de encargados. Esto provoca que la tabla se actualice.
+    if (currentAction === 'assign') setPromotionResponsibleUsers((list) => [...list, currentUser.id]);
+    else setPromotionResponsibleUsers((list) => list.filter((id) => id !== currentUser.id));
     setCurrentPage(0);
   };
 
   return (
-    <div className={styles.selectAdminTable}>
+    <div className={styles.selectPromotionResponsibleTable}>
       <UserTableFilter hideActionButtons onChange={handleFilterChange} className={styles.filter} />
       <Table
         header={['No.', '', 'Nombre', 'Promoción', '']}
         showCheckbox={false}
-        loading={initialLoading || loadingUsers}
+        loading={loadingUsers || loadingPromotionResponsibleUsers}
         breakPoint="900px"
       >
         {users?.result.map((user, index) => (
@@ -166,7 +164,7 @@ function SelectAdminTable() {
             </td>
             <td className={styles.promotionRow}>{user.promotion}</td>
             <td className={styles.buttonRow}>
-              {user.role?.includes(consts.roles.admin) ? (
+              {user.role?.includes(consts.roles.promotionResponsible) ? (
                 <Button text="Remover" red onClick={() => handleRemoveUserClick(user)} />
               ) : (
                 <Button text="Agregar" green onClick={() => handleAssignUserClick(user)} />
@@ -200,11 +198,11 @@ function SelectAdminTable() {
             {' '}
             {currentUser?.lastname}
             {' '}
-            como administrador?
+            como encargado de su año?
             <br />
             <br />
             {getTokenPayload(token).id === currentUser?.id
-              ? 'Toma en cuenta que al confirmar esta acción, perderás tus propios privilegios de administrador.'
+              ? 'Toma en cuenta que al confirmar esta acción, perderás tus propios privilegios de encargado de año.'
               : ''}
           </>
         )}
@@ -215,7 +213,7 @@ function SelectAdminTable() {
         close={closeSuccess}
         text={`El usuario ha sido ${
           currentAction === 'assign' ? 'asignado' : 'removido'
-        } como administrador de forma exitosa.`}
+        } como encargado de su año de forma exitosa.`}
         callback={handleFinishAction}
       />
       <ErrorNotificationPopUp isOpen={isErrorOpen} close={closeError} text={actionError?.message} />
@@ -223,8 +221,8 @@ function SelectAdminTable() {
   );
 }
 
-export default SelectAdminTable;
+export default SelectPromotionResponsibleTable;
 
-SelectAdminTable.propTypes = {};
+SelectPromotionResponsibleTable.propTypes = {};
 
-SelectAdminTable.defaultProps = {};
+SelectPromotionResponsibleTable.defaultProps = {};
