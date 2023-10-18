@@ -78,13 +78,13 @@ function UserProfilePage({ userId, layoutType }) {
     let newArr = [];
     const completed = [];
     if (enrolledActivities) {
-      enrolledActivities.forEach((value) => {
+      enrolledActivities.result.forEach((value) => {
         if (value.completed) {
           completed.push(value);
         }
       });
 
-      newArr = enrolledActivities.map((value) => {
+      newArr = enrolledActivities.result.map((value) => {
         const temp = value;
 
         if (value.activity) {

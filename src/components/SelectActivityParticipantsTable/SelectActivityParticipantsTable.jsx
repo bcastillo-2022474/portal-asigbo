@@ -5,7 +5,7 @@ import { FaUserPlus as AddUserIcon, FaUserTimes as RemoveUserIcon, FaClipboardLi
 import { AiFillCheckCircle as CheckIcon, AiFillCloseCircle as RemoveIcon } from 'react-icons/ai';
 
 import { useNavigate } from 'react-router-dom';
-import styles from './ActivityParticipantsTable.module.css';
+import styles from './SelectActivityParticipantsTable.module.css';
 import ActivityParticipantsTableFilter from '../ActivityParticipantsTableFilter/ActivityParticipantsTableFilter';
 import Table from '../Table/Table';
 import useFetch from '../../hooks/useFetch';
