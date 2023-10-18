@@ -42,6 +42,7 @@ function NewActivityPage() {
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [selectedImages, setSelectedImages] = useState([]);
   const [deletedDefaultImages, setDeletedDefaultImages] = useState([]);
+  const [newActivityId, setNewActivityId] = useState('');
   // const [promotionsData, setPromotionsData] = useState(null);
   // setPromotionsData(null);
   const navigate = useNavigate();
@@ -92,6 +93,7 @@ function NewActivityPage() {
     // if (!isCheckboxChecked) {
     //   paymentRequired = 0;
     // }
+    paymentRequired = 0;
     if (participantsChecked) {
       participatingPromotions = [];
     }
@@ -123,12 +125,15 @@ function NewActivityPage() {
   };
 
   const redirectOnSuccess = () => {
-    const uri = idArea ? `/area/${idArea}/actividades` : '/area';
+    const uri = newActivityId ? `/actividad/${newActivityId}` : '/area';
     navigate(uri);
   };
 
   useEffect(() => {
-    if (result) openSuccess();
+    if (result) {
+      setNewActivityId(result.id);
+      openSuccess();
+    }
   }, [result]);
 
   useEffect(() => {
