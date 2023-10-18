@@ -73,13 +73,18 @@ function ActivityDetailsPage() {
         setIsAction(!isAction);
         setDisabled(!isDisabled);
       } else if (action === 'DELETE' && deletedActivity) {
+        setIsAction(!isAction);
         navigate('/');
       }
     }
   }, [enDisActivity, isAction, action, deletedActivity]);
 
   useEffect(() => {
-    if (enDisError || deleteError) openError();
+    if (enDisError || deleteError) {
+      openError();
+      setAction('');
+      setIsAction(false);
+    }
   }, [enDisError, deleteError]);
 
   useEffect(() => {
