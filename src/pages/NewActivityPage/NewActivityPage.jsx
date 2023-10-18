@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import InputText from '@components/InputText';
+import TextArea from '@components/TextArea';
 import InputNumber from '@components/InputNumber/InputNumber';
 import InputDate from '@components/InputDate/InputDate';
 import CheckBox from '@components/CheckBox/CheckBox';
-import PromotionChips from '@components/Chips/Chips';
+// import PromotionChips from '@components/Chips/Chips';
 import ImagePicker from '@components/ImagePicker/ImagePicker';
 import useForm from '@hooks/useForm';
 import UserSelectTable from '@components/UserSelectTable';
@@ -35,14 +36,15 @@ function NewActivityPage() {
   } = useFetch();
 
   const token = useToken();
-  const [isCheckboxChecked, setCheckboxChecked] = useState(false);
+  // const [isCheckboxChecked, setCheckboxChecked] = useState(false);
   const [participantsChecked, setParticipantsChecked] = useState(false);
   const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [selectedImages, setSelectedImages] = useState([]);
   const [deletedDefaultImages, setDeletedDefaultImages] = useState([]);
-
+  // const [promotionsData, setPromotionsData] = useState(null);
+  // setPromotionsData(null);
   const navigate = useNavigate();
 
   const {
@@ -56,10 +58,6 @@ function NewActivityPage() {
     const { name, value } = e.target;
     setData(name, value);
   };
-
-  // const handlePromotionSelectionChange = (selectedPromotions) => {
-  //   console.log(selectedPromotions);
-  // };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -85,9 +83,9 @@ function NewActivityPage() {
       // eslint-disable-next-line max-len, prefer-const
       activityName, completionDate, registrationStartDate, registrationEndDate, serviceHours, description, maxParticipants, paymentRequired, responsible, participatingPromotions,
     } = form;
-    if (!isCheckboxChecked) {
-      paymentRequired = 0;
-    }
+    // if (!isCheckboxChecked) {
+    //   paymentRequired = 0;
+    // }
     if (participantsChecked) {
       participatingPromotions = [];
     }
@@ -141,6 +139,25 @@ function NewActivityPage() {
     if (!areaData) return;
     setData('name', areaData.name);
   }, [areaData]);
+
+  // useEffect(() => {
+  //   const fetchPromotions = async () => {
+  //     try {
+  //       const promotions = await callFetch({
+  //         uri: `${serverHost}/promotion`,
+  //         headers: { authorization: token },
+  //         removeContentType: true,
+  //       });
+  //       setPromotionsData(promotions);
+  //       console.log(promotions);
+  //       console.log(promotionsData);
+  //     // eslint-disable-next-line no-shadow
+  //     } catch (error) {
+  //       console.error('Error fetching promotions:', error);
+  //     }
+  //   };
+  //   fetchPromotions();
+  // }, []);
 
   return (
     <>
@@ -205,7 +222,7 @@ function NewActivityPage() {
                 max={2100}
               />
             </div>
-            <InputText
+            <TextArea
               // style={{ padding: '35px 25px' }}
               title="Descripción"
               className={styles.inputDescription}
@@ -238,11 +255,10 @@ function NewActivityPage() {
                 setParticipantsChecked(!participantsChecked);
               }}
             />
-            {!participantsChecked && (
-              <PromotionChips onSelectionChange={(value) => setData('participatingPromotions', value)} />
-            )}
 
-            <h3 className={styles.formSectionTitle}>Pago requerido</h3>
+            {/* Pagos pendientes */}
+
+            {/* <h3 className={styles.formSectionTitle}>Pago requerido</h3>
             <CheckBox
               label="La actividad necesita un pago por parte de los becados"
               checked={isCheckboxChecked}
@@ -263,7 +279,7 @@ function NewActivityPage() {
               min={0}
               max={2100}
             />
-            )}
+            )} */}
 
             <h3 className={styles.formSectionTitle}>Inscripción</h3>
             <div className={styles.inputRow}>
@@ -308,7 +324,7 @@ function NewActivityPage() {
             />
             <UserSelectTable
               onChange={(value) => setData('responsible', value)}
-              defaultSelectedUsers={areaData ? areaData.responsible : null}
+              defaultSelectedUsers={null}
             />
             {error?.responsible && <p className={styles.errorMessage}>{error.responsible}</p>}
             <div className={styles.sendContainer}>

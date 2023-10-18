@@ -1,0 +1,87 @@
+.inputAreaContainer {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    height: fit-content;
+}
+
+.inputField {
+    padding: 20px;
+    border: 2px solid;
+    border-radius: 5px;
+    font-family: 'Montserrat';
+    background-color: #ffffff !important;
+    resize: vertical; /* Permitir redimensionamiento vertical */
+}
+
+.inputLabel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.inputAreaContainer textarea:focus {
+    outline: none;
+    border: 2px solid #16337F;
+}
+
+.inputAreaContainer textarea:focus + .inputLabel .labelText,
+.inputField:not(:placeholder-shown) + .inputLabel .labelText {
+    font-size: 12px;
+    transform: translate(0, -210%);
+    background-color: white;
+    padding-left: 4px;
+    padding-right: 4px;
+    color: #16337F;
+}
+
+.inputField:not(:focus):not(:valid) + .inputLabel .labelText {
+    transform: none;
+    font-size: 16px;
+}
+
+
+.inputLabel .labelText {
+    transition: all 0.15s ease-out;
+}
+
+.inputAreaContainer.error textarea {
+    border-color: var(--error-color--);
+}
+
+.inputAreaContainer.error label {
+    color: var(--error-color--);
+    position: absolute;
+    top: 0;
+    left: 16px;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+}
+
+.inputAreaContainer .inputError {
+    text-align: left;
+    color: var(--error-color--);
+    font-size: 15px;
+    font-weight: normal;
+}
+
+textarea:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+}
+
+textarea:-webkit-autofill + .inputLabel .labelText {
+    font-size: 12px;
+    transform: translate(0, -210%);
+    background-color: white;
+    padding-left: 4px;
+    padding-right: 4px;
+}
