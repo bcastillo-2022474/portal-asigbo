@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styles from './Chips.module.css';
+import consts from '../../helpers/consts';
 
 function Chip({ label, selected, onToggle }) {
   return (
@@ -40,7 +41,7 @@ function PromotionChips({ data, onSelectionChange }) {
       {data.notStudents.map((promotion) => (
         <Chip
           key={promotion}
-          label={promotion}
+          label={consts.promotionsGroups[promotion]}
           selected={selectedPromotions.includes(promotion)}
           onToggle={() => handleToggle(promotion)}
         />
