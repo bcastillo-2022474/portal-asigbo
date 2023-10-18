@@ -22,9 +22,6 @@ function ActivityParticipantsTable({ idActivity }) {
 
   const token = useToken();
 
-  /*   const [paginationItems, setPaginationItems] = useState();
-  const [currentPage, setCurrentPage] = useState(0); */
-
   useEffect(() => {
     // obtener asignaciones al iniciar la tabla
     fetchAssignmets({
@@ -48,11 +45,6 @@ function ActivityParticipantsTable({ idActivity }) {
       setMappedItems(newItems);
     }
   }, [assignmentsResult]);
-
-  /**
-   * Callback para cuando el estado de visibilidad de los menus de acciones cambia.
-   * Busca resetear el alto de la tabla.
-   */
 
   return (
     <>
