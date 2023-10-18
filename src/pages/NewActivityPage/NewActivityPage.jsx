@@ -5,7 +5,7 @@ import TextArea from '@components/TextArea';
 import InputNumber from '@components/InputNumber/InputNumber';
 import InputDate from '@components/InputDate/InputDate';
 import CheckBox from '@components/CheckBox/CheckBox';
-// import PromotionChips from '@components/Chips/Chips';
+import PromotionChips from '@components/Chips/Chips';
 import ImagePicker from '@components/ImagePicker/ImagePicker';
 import useForm from '@hooks/useForm';
 import UserSelectTable from '@components/UserSelectTable';
@@ -36,7 +36,6 @@ function NewActivityPage() {
   } = useFetch();
 
   const token = useToken();
-  // const [isCheckboxChecked, setCheckboxChecked] = useState(false);
   const [participantsChecked, setParticipantsChecked] = useState(false);
   const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
@@ -52,6 +51,13 @@ function NewActivityPage() {
     result: areaData,
     loading: loadingAreaData,
     error: errorAreaData,
+  } = useFetch();
+
+  const {
+    callFetch: fetchPromotionsData,
+    result: promotionsData,
+    loading: loadingPromotions,
+    error: errorPromotions,
   } = useFetch();
 
   const handleChange = (e) => {
@@ -140,24 +146,24 @@ function NewActivityPage() {
     setData('name', areaData.name);
   }, [areaData]);
 
-  // useEffect(() => {
-  //   const fetchPromotions = async () => {
-  //     try {
-  //       const promotions = await callFetch({
-  //         uri: `${serverHost}/promotion`,
-  //         headers: { authorization: token },
-  //         removeContentType: true,
-  //       });
-  //       setPromotionsData(promotions);
-  //       console.log(promotions);
-  //       console.log(promotionsData);
-  //     // eslint-disable-next-line no-shadow
-  //     } catch (error) {
-  //       console.error('Error fetching promotions:', error);
-  //     }
-  //   };
-  //   fetchPromotions();
-  // }, []);
+  useEffect(() => {
+    const uri = `${serverHost}/promotion`;
+    fetchPromotionsData({
+      uri,
+      headers: { authorization: token },
+      removeContentType: true,
+    });
+  }, []);
+
+  if (loadingPromotions) return <p>Loading...</p>;
+  if (errorPromotions) {
+    return (
+      <p>
+        Error:
+        {errorPromotions.message}
+      </p>
+    );
+  }
 
   return (
     <>
@@ -255,6 +261,9 @@ function NewActivityPage() {
                 setParticipantsChecked(!participantsChecked);
               }}
             />
+            {!participantsChecked && (
+              <PromotionChips data={promotionsData} onSelectionChange={(value) => setData('participatingPromotions', value)} />
+            )}
 
             {/* Pagos pendientes */}
 

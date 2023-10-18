@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { serverHost } from '@/config';
 import PropTypes from 'prop-types';
-// import useToken from '@hooks/useToken';
 import styles from './Chips.module.css';
 
 function Chip({ label, selected, onToggle }) {
@@ -17,21 +15,8 @@ function Chip({ label, selected, onToggle }) {
   );
 }
 
-function PromotionChips({ onSelectionChange, data }) {
-  // eslint-disable-next-line no-empty-pattern
-  // const {
-  // callFetch, result, loading, error: fetchError,
-  // } = useFetch();
-  // const token = useToken();
+function PromotionChips({ data, onSelectionChange }) {
   const [selectedPromotions, setSelectedPromotions] = useState([]);
-  // const uri = `${serverHost}/promotion`;
-  // useEffect(() => {
-  //   callFetch({
-  //     uri,
-  //     headers: { authorization: token },
-  //     removeContentType: true,
-  //   });
-  // }, []);
 
   const handleToggle = (promotion) => {
     setSelectedPromotions((prevPromotions) => {
@@ -48,17 +33,8 @@ function PromotionChips({ onSelectionChange, data }) {
     }
   }, [selectedPromotions]);
 
-  // if (loading) return <p>Loading...</p>;
-  // if (fetchError) {
-  //   return (
-  //     <p>
-  //       Error:
-  //       {fetchError.message}
-  //     </p>
-  //   );
-  // }
+  if (!data) return null;
 
-  // if (!result) return null;
   return (
     <div>
       {data.notStudents.map((promotion) => (
@@ -88,13 +64,8 @@ Chip.propTypes = {
 };
 
 PromotionChips.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.object.isRequired,
   onSelectionChange: PropTypes.func.isRequired,
-  data: PropTypes.shape({
-    notStudents: PropTypes.arrayOf(PropTypes.string).isRequired,
-    students: PropTypes.shape({
-      years: PropTypes.arrayOf(PropTypes.number).isRequired,
-    }).isRequired,
-  }).isRequired,
 };
-
 export default PromotionChips;
