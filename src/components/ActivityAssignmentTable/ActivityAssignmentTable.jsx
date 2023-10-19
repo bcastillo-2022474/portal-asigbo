@@ -79,7 +79,7 @@ function ActivityTable({ loading, data, listingType }) {
         if (searchValue(object[key], searchParam)) {
           return true;
         }
-      } else if (object[key] === searchParam) {
+      } else if (String(object[key]).toLowerCase().includes(String(searchParam).toLowerCase())) {
         return true;
       }
     }

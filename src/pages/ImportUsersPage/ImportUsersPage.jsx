@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Table from '@components/Table';
@@ -142,7 +144,7 @@ function ImportUsersPage() {
                 red
                 text="Cancelar"
                 className={styles.cancelButton}
-                onClick={() => navigate('/newUser', { replace: true })}
+                onClick={() => navigate('/usuario/nuevo', { replace: true })}
               />
               <Button
                 text="Guardar"
@@ -157,7 +159,7 @@ function ImportUsersPage() {
       <SuccessNotificationPopUp
         close={closeSuccess}
         isOpen={isSuccessOpen}
-        callback={() => navigate('/newUser', { replace: true })}
+        callback={() => navigate('/usuario/nuevo', { replace: true })}
         text="La información ha sido ingresada correctamente"
       />
       <ErrorNotificationPopUp

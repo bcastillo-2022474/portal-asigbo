@@ -1,7 +1,14 @@
-.activityParticipantsPage {
+.main {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  row-gap: 30px;
+}
+.main h2 {
+  font-size: var(--h2-title-size--);
+}
+
+.title {
+  margin-block-start: 40px;
 }
 .activityParticipantsPage h2 {
   font-size: var(--h2-title-size--);

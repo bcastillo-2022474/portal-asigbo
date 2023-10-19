@@ -45,7 +45,7 @@ function ImportCSVPopUp({
       acc[header] = row[index];
       return acc;
     }, {}));
-    navigate('/importUsers', {
+    navigate('/usuario/importar', {
       state: {
         data,
       },

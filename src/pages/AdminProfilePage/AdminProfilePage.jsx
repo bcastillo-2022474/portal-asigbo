@@ -11,7 +11,7 @@ function AdminProfilePage() {
     <div className={styles.adminProfilePage}>
       <h1>En desarrollo: Perfil de administrador</h1>
       <button onClick={logout} type="submit">Logout</button>
-      <button onClick={() => navigate('/newUser', { replace: true })} type="submit">Crear usuario</button>
+      <button onClick={() => navigate('/usuario/nuevo', { replace: true })} type="submit">Crear usuario</button>
       <button onClick={() => navigate('/usuarios', { replace: true })} type="submit">Lista de usuarios</button>
     </div>
   );

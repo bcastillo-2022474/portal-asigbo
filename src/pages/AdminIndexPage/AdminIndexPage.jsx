@@ -2,6 +2,7 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import AreasListPage from '@pages/AreasListPage';
 import NewAreaPage from '@pages/NewAreaPage';
+import NewActivityPage from '@pages/NewActivityPage';
 import PageContainer from '@components/PageContainer/PageContainer';
 import NewUserPage from '@pages/NewUserPage';
 import ImportUsersPage from '@pages/ImportUsersPage';
@@ -29,8 +30,9 @@ function AdminIndexPage() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/usuario/nuevo" element={<NewUserPage />} />
-        <Route path="/importUsers" element={<ImportUsersPage />} />
+        <Route path="/usuario/importar" element={<ImportUsersPage />} />
         <Route path="/area/:idArea/editar" element={<NewAreaPage />} />
+        <Route path="/area/:idArea/newActivity" element={<NewActivityPage />} />
         <Route path="/area/:idArea/*" element={<AreaDetailsPage adminPrivileges />} />
         <Route path="/area/nuevo" element={<NewAreaPage />} />
         <Route path="/area" element={<AreasListPage />} />
