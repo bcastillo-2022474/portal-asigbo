@@ -324,7 +324,7 @@ function ActivityParticipantsTable({ idActivity }) {
 
       <Table
         header={['No.', '', 'Nombre', 'Promoción', 'Estado', '']}
-        loading={initialLoading || loadingUsers}
+        loading={(initialLoading || loadingUsers) && !users}
         resetTableHeight={resetTableHeightTrigger}
         breakPoint="1100px"
         onTableStyleChange={handleTableStyleChange}

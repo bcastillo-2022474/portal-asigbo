@@ -152,7 +152,7 @@ function SelectAdminTable() {
       <Table
         header={['No.', '', 'Nombre', 'Promoción', '']}
         showCheckbox={false}
-        loading={initialLoading || loadingUsers}
+        loading={(initialLoading || loadingUsers) && !users}
         breakPoint="900px"
       >
         {users?.result.map((user, index) => (
