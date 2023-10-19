@@ -2,13 +2,17 @@
 /* eslint-disable no-restricted-syntax */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { Pagination } from '@mui/material';
 import ActivityTableFilter from '../ActivityTableFilter/ActivityTableFilter';
 import styles from './ResponsibleActivitiesTable.module.css';
 import Table from '../Table/Table';
 import TableRow from '../TableRow';
 import { serverHost } from '../../config';
+import useToken from '../../hooks/useToken';
+import getTokenPayload from '../../helpers/getTokenPayload';
+import useFetch from '../../hooks/useFetch';
 
 /*----------------------------------------------------------------------------------------------*/
 /**
@@ -25,20 +29,22 @@ import { serverHost } from '../../config';
 
 /*----------------------------------------------------------------------------------------------*/
 
-function ResponsibleActivitiesTable({ loading, data, listingType }) {
+function ResponsibleActivitiesTable({ onError }) {
+  // Constantes
+  const token = useToken();
+  const sessionUser = getTokenPayload(token);
+  const {
+    callFetch: fetchResponsibleActivities,
+    result: resultActivities,
+    error: errorActivities,
+    loading: loadingActivities,
+  } = useFetch();
+
   // Estados
   const navigate = useNavigate();
-  const [search, setSearch] = useState();
-  const [filtrated, setFiltrated] = useState();
-  const [initialDate, setInitialDate] = useState();
-  const [finalDate, setFinalDate] = useState();
-
-  // Si la búsqueda está vacía la información filtrada es igual a la que proviene del parámetro.
-  useEffect(() => {
-    if (!search) {
-      setFiltrated(data);
-    }
-  }, [data]);
+  const [filters, setFilters] = useState({});
+  const [paginationItems, setPaginationItems] = useState();
+  const [currentPage, setCurrentPage] = useState(0);
 
   // Redirección a actividad.
   const goToActivity = (id) => {
@@ -50,151 +56,89 @@ function ResponsibleActivitiesTable({ loading, data, listingType }) {
     navigate(`/actividad/${id}`);
   };
 
-  // Uso de parámetro de búsqueda con estado.
-  const searchHandler = (query) => {
-    setSearch(query);
+  // Manejar filtros
+  const handleChange = (name, value) => {
+    setFilters((lastVal) => ({ ...lastVal, [name]: value }));
   };
 
-  // Uso de fecha "cota inferior" para filtrado de fechas.
-  const initialDateHandler = (date) => {
-    setInitialDate(date);
+  // Manejar paginación
+  const handlePageChange = (e, page) => {
+    setCurrentPage(page - 1);
   };
 
-  // Uso de fecha "cota superior" para filtrado de fechas.
-  const finalDateHandler = (date) => {
-    setFinalDate(date);
-  };
+  // Obtener actividades
+  const getResponsibleActivities = () => {
+    const { search, lowerDate, upperDate } = filters;
+    const paramsObj = { page: currentPage };
 
-  /**
-   * @function searchValue: Función que indica si al menos un key dentro del objeto y sus objetos
-   * internos posee el parámetro de búsqueda esperado.
-   *
-   * @param {Object} object: Objeto en el que se buscará
-   * @param {string} searchParam Parámetro de búsqueda
-   * @returns {boolean} Si encontró que el objeto posee el parámetro de búsqueda
-   */
-  const searchValue = (object, searchParam) => {
-    for (const key in object) {
-      if (typeof object[key] === 'object') {
-        if (searchValue(object[key], searchParam)) {
-          return true;
-        }
-      } else if (object[key] === searchParam) {
-        return true;
-      }
+    if (lowerDate !== undefined && lowerDate !== null) {
+      const moment = new Date(lowerDate);
+      paramsObj.lowerDate = moment.toISOString().slice(0, 10);
     }
-    return false;
+    if (upperDate !== undefined && upperDate !== null) {
+      const moment = new Date(upperDate);
+      paramsObj.upperDate = moment.toISOString(upperDate).slice(0, 10);
+    }
+    if (search !== undefined && search !== '') paramsObj.search = search;
+
+    const searchParams = new URLSearchParams(paramsObj);
+    fetchResponsibleActivities({
+      uri: `${serverHost}/activity/responsible/${sessionUser.id}?${searchParams.toString()}`,
+      headers: { authorization: token },
+    });
   };
-  /**
- * @function filterBetweenDates: Función que filtra entre las fechas establecidas o dadas,
- * si alguna de ellas se omite, se hará en base a la cota superior o inferior establecida,
- * si se envían las dos cotas, se filtrará entre ambas fechas. Y si no se proporciona ninguna
- * se devolverá el objeto o arreglo exactamente igual al parámetro dado.
- *
- * @param {Object[]} dataArr: Objeto sobre el que se filtrará
- * @param {string} lowerDate: Cota inferior de fecha.
- * @param {string} upperDate: Cota superior de fecha.
- * @param {string} activityType: Tipo de actividad ('enrolled' o 'byArea').
- * @returns {Object[]} Objeto filtrado entre fechas dadas.
- */
-  const filterBetweenDates = (dataArr, lowerDate, upperDate, activityType = 'enrolled') => {
-    const getDateFromValue = (value) => {
-      if (activityType === 'enrolled') {
-        return dayjs(value.activity.date);
-      } if (activityType === 'byArea') {
-        return dayjs(value.registrationEndDate);
-      }
-      return null;
+
+  useEffect(() => {
+    getResponsibleActivities();
+  }, [filters, currentPage]);
+
+  useEffect(() => {
+    if (errorActivities) onError();
+  }, [errorActivities]);
+
+  useEffect(() => {
+    // cambiar número en la paginación
+    const media = matchMedia('(max-width:700px)');
+
+    const handleMediaChange = (e) => {
+      if (e.matches) setPaginationItems(0);
+      else setPaginationItems(2);
     };
 
-    let filtered;
-
-    if (lowerDate && upperDate) {
-      filtered = dataArr.filter(
-        (value) => {
-          const fecha = getDateFromValue(value);
-          return ((dayjs(lowerDate).startOf('day') <= fecha) && (dayjs(upperDate).endOf('day') >= fecha));
-        },
-      );
-    } else if (lowerDate) {
-      filtered = dataArr.filter(
-        (value) => {
-          const fecha = getDateFromValue(value);
-          return (dayjs(lowerDate).startOf('day') <= fecha);
-        },
-      );
-    } else if (upperDate) {
-      filtered = dataArr.filter(
-        (value) => {
-          const fecha = getDateFromValue(value);
-          return (dayjs(upperDate).endOf('day') >= fecha);
-        },
-      );
-    } else {
-      return dataArr;
-    }
-
-    return filtered;
-  };
-
-  // Cuando un parámetro de filtro cambie, filtrar sobre ellos.
-  useEffect(() => {
-    let filtered;
-    if (search) {
-      filtered = data.filter(
-        (value) => searchValue(value, search),
-      );
-    } else {
-      filtered = data;
-    }
-    filtered = filterBetweenDates(filtered, initialDate, finalDate, listingType);
-    setFiltrated(filtered);
-  }, [search, initialDate, finalDate]);
+    media.onchange = handleMediaChange;
+    handleMediaChange(media);
+  }, []);
 
   return (
     <div className={styles.activityTable}>
       <ActivityTableFilter
-        searchHandler={searchHandler}
-        initialDateHandler={initialDateHandler}
-        finalDateHandler={finalDateHandler}
+        searchHandler={(value) => handleChange('search', value)}
+        initialDateHandler={(date) => handleChange('lowerDate', date)}
+        finalDateHandler={(date) => handleChange('upperDate', date)}
       />
-      {listingType === 'enrolled' && (
-        <Table header={['Actividad', 'Horas de servicio', 'Completado', 'Fecha', 'Eje']} loading={loading} breakPoint="1110px" showCheckbox={false}>
-          {filtrated && filtrated.map((value) => (
-            <TableRow
-              id={value.id}
-              onClick={() => goToActivity(value.id)}
-              key={value.id}
-              onMouseDown={() => newTabActivity(value.id)}
-            >
-              <td>{value.activity.name}</td>
-              <td>{value.activity.serviceHours}</td>
-              <td>{value.completed ? 'Si' : 'No'}</td>
-              <td>{value.activity.date}</td>
-              <td>
-                <img src={`${serverHost}/image/area/${value.activity.asigboArea.id}`} alt="AreaLogo" className={styles.areaLogo} title={value.activity.asigboArea.name} />
-              </td>
-            </TableRow>
-          ))}
-        </Table>
-      )}
 
-      {listingType === 'byArea' && (
-        <Table header={['Actividad', 'Horas de servicio', 'Fecha']} loading={loading} breakPoint="1110px" showCheckbox={false}>
-          {filtrated && filtrated.map((value) => (
-            <TableRow
-              id={value.id}
-              onClick={() => goToActivity(value.id)}
-              key={value.id}
-              onMouseDown={() => newTabActivity(value.id)}
-            >
-              <td>{value.name}</td>
-              <td>{value.serviceHours}</td>
-              <td>{value.registrationEndDate}</td>
-            </TableRow>
-          ))}
-        </Table>
-      )}
+      <Table header={['Actividad', 'Horas de servicio', 'Fecha']} loading={loadingActivities} breakPoint="1110px" showCheckbox={false}>
+        {resultActivities?.result.map((value) => (
+          <TableRow
+            id={value.id}
+            onClick={() => goToActivity(value.id)}
+            key={value.id}
+            onMouseDown={() => newTabActivity(value.id)}
+          >
+            <td>{value.name}</td>
+            <td>{value.serviceHours}</td>
+            <td>{`${value.date.slice(8, 10)}-${value.date.slice(5, 7)}-${value.date.slice(0, 4)}`}</td>
+          </TableRow>
+        ))}
+      </Table>
+
+      <Pagination
+        count={resultActivities?.pages ?? 0}
+        siblingCount={paginationItems}
+        className={styles.pagination}
+        onChange={handlePageChange}
+        page={currentPage + 1}
+      />
     </div>
   );
 }
@@ -202,15 +146,7 @@ function ResponsibleActivitiesTable({ loading, data, listingType }) {
 /*----------------------------------------------------------------------------------------------*/
 
 ResponsibleActivitiesTable.propTypes = {
-  loading: PropTypes.bool,
-  data: PropTypes.instanceOf(Object),
-  listingType: PropTypes.oneOf(['enrolled', 'byArea']),
-};
-
-ResponsibleActivitiesTable.defaultProps = {
-  loading: false,
-  data: undefined,
-  listingType: 'enrolled',
+  onError: PropTypes.func.isRequired,
 };
 
 /*----------------------------------------------------------------------------------------------*/

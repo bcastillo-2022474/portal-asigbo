@@ -1,41 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ResponsibleActivitiesTable from '@components/ResponsibleActivitiesTable/ResponsibleActivitiesTable';
-import useFetch from '@hooks/useFetch';
-import useToken from '@hooks/useToken';
-import getTokenPayload from '@helpers/getTokenPayload';
 import styles from './ResponsibleActivitiesPage.module.css';
-import { serverHost } from '../../config';
 import NotFoundPage from '../NotFoundPage';
 
 function ResponsibleActivitiesPage() {
-  const token = useToken();
-  const sessionUser = getTokenPayload(token);
-  const {
-    callFetch: getResponsibleActivities,
-    result: resultActivities,
-    error: errorActivities,
-    loading: loadingActivities,
-  } = useFetch();
+  const [errorActivities] = useState(false);
 
-  const [enrolledActivites, setEnrolledActivities] = useState([]);
-
-  useEffect(() => {
-    if (!resultActivities) return;
-    let data = [];
-    data = resultActivities.map((value) => {
-      const temp = value;
-      temp.registrationEndDate = value.date.slice(0, 10);
-      return temp;
-    });
-    setEnrolledActivities(data);
-  }, [resultActivities]);
-
-  useEffect(() => {
-    getResponsibleActivities({
-      uri: `${serverHost}/activity/responsible/${sessionUser.id}`,
-      headers: { authorization: token },
-    });
-  }, []);
+  const handleError = () => {
+    // setErrorActivities(true);
+  };
 
   return (
     <div className={styles.loggedEnrolledActivitiesPage}>
@@ -46,7 +19,7 @@ function ResponsibleActivitiesPage() {
         <>
           <h1 className={styles.pageTitle}>Actividades a cargo</h1>
           {!errorActivities
-      && <ResponsibleActivitiesTable loading={loadingActivities} data={enrolledActivites} listingType="byArea" />}
+      && <ResponsibleActivitiesTable onError={handleError} />}
         </>
       )}
     </div>
