@@ -258,6 +258,7 @@ function ManageUsersTable() {
         header={['No.', '', 'Nombre', 'Promoción', '']}
         breakPoint="700px"
         resetTableHeight={resetTableHeightTrigger}
+        loading={loadingUsers}
       >
         {users?.map((user, index) => (
           <TableRow id={user.id} key={user.id} style={{ position: 'absolute' }}>
@@ -328,7 +329,7 @@ function ManageUsersTable() {
         isOpen={isErrorOpen}
         text={notificationText}
       />
-      {(loadingUsers || loadingDisable || loadingEnable || loadingDelete) && <LoadingView />}
+      {(loadingDisable || loadingEnable || loadingDelete) && <LoadingView />}
     </div>
   );
 }
