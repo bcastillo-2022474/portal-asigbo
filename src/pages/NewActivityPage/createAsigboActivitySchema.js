@@ -30,13 +30,16 @@ export default yup.object().shape({
     })),
   serviceHours: yup
     .number()
+    .positive('Las horas de servicio deben ser un número positivo.')
+    .integer('Las horas de servicio deben ser un número entero.')
     .required('La cantidad de horas de servicio es obligatoria.'),
   maxParticipants: yup
     .number()
+    .positive('El número de personas debe ser un número positivo.')
     .required('La cantidad máxima de participantes es obligatoria.'),
   responsible: yup
     .array()
     .typeError("El campo 'responsible' debe ser un arreglo.")
-    .min(1, 'Debe especificar al menos un responsable del área.')
-    .required('Debe especificar a los encargados de esta área.'),
+    .min(1, 'Debe especificar al menos un responsable de actividad.')
+    .required('Debe especificar a los encargados de esta actividad.'),
 });

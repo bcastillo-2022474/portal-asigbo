@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import InputText from '@components/InputText';
+import TextArea from '@components/TextArea';
 import InputNumber from '@components/InputNumber/InputNumber';
 import InputDate from '@components/InputDate/InputDate';
 import CheckBox from '@components/CheckBox/CheckBox';
@@ -35,14 +36,15 @@ function NewActivityPage() {
   } = useFetch();
 
   const token = useToken();
-  const [isCheckboxChecked, setCheckboxChecked] = useState(false);
   const [participantsChecked, setParticipantsChecked] = useState(false);
   const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [selectedImages, setSelectedImages] = useState([]);
   const [deletedDefaultImages, setDeletedDefaultImages] = useState([]);
-
+  const [newActivityId, setNewActivityId] = useState('');
+  // const [promotionsData, setPromotionsData] = useState(null);
+  // setPromotionsData(null);
   const navigate = useNavigate();
 
   const {
@@ -52,14 +54,17 @@ function NewActivityPage() {
     error: errorAreaData,
   } = useFetch();
 
+  const {
+    callFetch: fetchPromotionsData,
+    result: promotionsData,
+    loading: loadingPromotions,
+    error: errorPromotions,
+  } = useFetch();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData(name, value);
   };
-
-  // const handlePromotionSelectionChange = (selectedPromotions) => {
-  //   console.log(selectedPromotions);
-  // };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -85,9 +90,10 @@ function NewActivityPage() {
       // eslint-disable-next-line max-len, prefer-const
       activityName, completionDate, registrationStartDate, registrationEndDate, serviceHours, description, maxParticipants, paymentRequired, responsible, participatingPromotions,
     } = form;
-    if (!isCheckboxChecked) {
-      paymentRequired = 0;
-    }
+    // if (!isCheckboxChecked) {
+    //   paymentRequired = 0;
+    // }
+    paymentRequired = 0;
     if (participantsChecked) {
       participatingPromotions = [];
     }
@@ -119,12 +125,15 @@ function NewActivityPage() {
   };
 
   const redirectOnSuccess = () => {
-    const uri = idArea ? `/area/${idArea}/actividades` : '/area';
+    const uri = newActivityId ? `/actividad/${newActivityId}` : '/area';
     navigate(uri);
   };
 
   useEffect(() => {
-    if (result) openSuccess();
+    if (result) {
+      setNewActivityId(result.id);
+      openSuccess();
+    }
   }, [result]);
 
   useEffect(() => {
@@ -141,6 +150,25 @@ function NewActivityPage() {
     if (!areaData) return;
     setData('name', areaData.name);
   }, [areaData]);
+
+  useEffect(() => {
+    const uri = `${serverHost}/promotion`;
+    fetchPromotionsData({
+      uri,
+      headers: { authorization: token },
+      removeContentType: true,
+    });
+  }, []);
+
+  if (loadingPromotions) return <p>Loading...</p>;
+  if (errorPromotions) {
+    return (
+      <p>
+        Error:
+        {errorPromotions.message}
+      </p>
+    );
+  }
 
   return (
     <>
@@ -205,7 +233,7 @@ function NewActivityPage() {
                 max={2100}
               />
             </div>
-            <InputText
+            <TextArea
               // style={{ padding: '35px 25px' }}
               title="Descripción"
               className={styles.inputDescription}
@@ -239,10 +267,12 @@ function NewActivityPage() {
               }}
             />
             {!participantsChecked && (
-              <PromotionChips onSelectionChange={(value) => setData('participatingPromotions', value)} />
+              <PromotionChips data={promotionsData} onSelectionChange={(value) => setData('participatingPromotions', value)} />
             )}
 
-            <h3 className={styles.formSectionTitle}>Pago requerido</h3>
+            {/* Pagos pendientes */}
+
+            {/* <h3 className={styles.formSectionTitle}>Pago requerido</h3>
             <CheckBox
               label="La actividad necesita un pago por parte de los becados"
               checked={isCheckboxChecked}
@@ -263,7 +293,7 @@ function NewActivityPage() {
               min={0}
               max={2100}
             />
-            )}
+            )} */}
 
             <h3 className={styles.formSectionTitle}>Inscripción</h3>
             <div className={styles.inputRow}>
@@ -308,7 +338,7 @@ function NewActivityPage() {
             />
             <UserSelectTable
               onChange={(value) => setData('responsible', value)}
-              defaultSelectedUsers={areaData ? areaData.responsible : null}
+              defaultSelectedUsers={null}
             />
             {error?.responsible && <p className={styles.errorMessage}>{error.responsible}</p>}
             <div className={styles.sendContainer}>
