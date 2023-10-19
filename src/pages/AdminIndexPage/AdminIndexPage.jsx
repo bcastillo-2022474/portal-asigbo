@@ -30,7 +30,7 @@ function AdminIndexPage() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/usuario/nuevo" element={<NewUserPage />} />
-        <Route path="/importUsers" element={<ImportUsersPage />} />
+        <Route path="/usuario/importar" element={<ImportUsersPage />} />
         <Route path="/area/:idArea/editar" element={<NewAreaPage />} />
         <Route path="/area/:idArea/newActivity" element={<NewActivityPage />} />
         <Route path="/area/:idArea/*" element={<AreaDetailsPage adminPrivileges />} />
