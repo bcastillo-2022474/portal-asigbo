@@ -1,4 +1,4 @@
-.inputTextContainer{
+.inputAreaContainer {
     margin-top: 25px;
     display: flex;
     flex-direction: column;
@@ -10,18 +10,13 @@
 }
 
 .inputField {
-    padding: 10px;
+    padding: 20px;
     border: 2px solid;
     border-radius: 5px;
     font-family: 'Montserrat';
     background-color: #ffffff !important;
+    resize: vertical; /* Permitir redimensionamiento vertical */
 }
-
-.inputField:disabled {
-    background-color: #e0e0e0;
-    cursor: not-allowed; 
-}
-
 
 .inputLabel {
     position: absolute;
@@ -33,66 +28,59 @@
     pointer-events: none;
 }
 
-.inputTextContainer input:focus {
+.inputAreaContainer textarea:focus {
     outline: none;
     border: 2px solid #16337F;
 }
 
-.inputTextContainer input:focus + .inputLabel .labelText {
+.inputAreaContainer textarea:focus + .inputLabel .labelText,
+.inputField:not(:placeholder-shown) + .inputLabel .labelText {
     font-size: 12px;
-    transform: translate(0, -120%);
+    transform: translate(0, -210%);
     background-color: white;
     padding-left: 4px;
     padding-right: 4px;
     color: #16337F;
 }
 
-.inputLabel .labelText{
+.inputField:not(:focus):not(:valid) + .inputLabel .labelText {
+    transform: none;
+    font-size: 16px;
+}
+
+
+.inputLabel .labelText {
     transition: all 0.15s ease-out;
 }
 
-input:focus + .inputLabel .labelText, :not(input[value=""]) + .inputLabel .labelText {
-    font-size: 12px;
-    transform: translate(0, -120%);
-    background-color: white;
-    padding-left: 4px;
-    padding-right: 4px;
-}
-  
-  input:focus + .label .text {
-    color: #16337F;
-}
-
-  .inputTextContainer.error input{
+.inputAreaContainer.error textarea {
     border-color: var(--error-color--);
 }
 
-.inputTextContainer.error label{
-    color:var(--error-color--);
+.inputAreaContainer.error label {
+    color: var(--error-color--);
     position: absolute;
     top: 0;
-    bottom: calc(100% - 40px);
     left: 16px;
     display: flex;
     align-items: center;
     pointer-events: none;
 }
 
-.inputTextContainer .inputError{
+.inputAreaContainer .inputError {
     text-align: left;
     color: var(--error-color--);
     font-size: 15px;
     font-weight: normal;
-    display: flex;
 }
 
-input:-webkit-autofill {
+textarea:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
 }
 
-input:-webkit-autofill + .inputLabel .labelText {
+textarea:-webkit-autofill + .inputLabel .labelText {
     font-size: 12px;
-    transform: translate(0, -120%);
+    transform: translate(0, -210%);
     background-color: white;
     padding-left: 4px;
     padding-right: 4px;

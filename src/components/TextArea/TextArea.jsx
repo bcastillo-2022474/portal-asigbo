@@ -1,25 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import randomId from '@helpers/randomString';
-import styles from './InputText.module.css';
+import styles from './TextArea.module.css';
 
-function InputText({
-  title, error, value, onChange, onBlur, onFocus, name, className, disabled, ...props
+function TextArea({
+  title, error, className, onChange, name, onBlur, onFocus, value, ...props
 }) {
   const id = randomId(15);
   return (
-    <div className={`${styles.inputTextContainer} ${error ? styles.error : ''} ${className}`}>
-      <input
+    <div className={`${styles.inputAreaContainer} ${error ? styles.error : ''} ${className}`}>
+      <textarea
         className={styles.inputField}
-        type="text"
         {...props}
         id={id}
         name={name}
-        defaultValue={value}
+        value={value}
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}
-        disabled={disabled}
       />
       <label className={styles.inputLabel} htmlFor={id}>
         <div className={styles.labelText}>{title}</div>
@@ -29,28 +27,27 @@ function InputText({
   );
 }
 
-InputText.propTypes = {
+TextArea.propTypes = {
   title: PropTypes.string,
+  value: PropTypes.string,
   error: PropTypes.string,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func,
   onFocus: PropTypes.func,
-  value: PropTypes.string,
   name: PropTypes.string,
   className: PropTypes.string,
-  disabled: PropTypes.bool,
+  placeholder: PropTypes.string,
 };
 
-InputText.defaultProps = {
+TextArea.defaultProps = {
   error: null,
   value: '',
-  name: randomId(15),
-  onChange: null,
   onBlur: null,
   onFocus: null,
-  title: null,
+  name: randomId(15),
   className: '',
-  disabled: false,
+  title: '',
+  placeholder: '',
 };
 
-export default InputText;
+export default TextArea;
