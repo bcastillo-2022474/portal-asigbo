@@ -14,7 +14,7 @@ import useUserInfo from '../../hooks/useUserInfo';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import NotFound from '../NotFoundPage';
 import { serverHost } from '../../config';
-import ActivityTable from '../../components/ActivityTable';
+import ActivityTable from '../../components/ActivityAssignmentTable';
 import AdminButton from '../../components/AdminButton/AdminButton';
 
 /*----------------------------------------------------------------------------------------------*/
@@ -33,7 +33,7 @@ import AdminButton from '../../components/AdminButton/AdminButton';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function UserProfilePage({ userId }) {
+function UserProfilePage({ userId, layoutType }) {
   // Estados de información
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState([[]]);
@@ -78,13 +78,13 @@ function UserProfilePage({ userId }) {
     let newArr = [];
     const completed = [];
     if (enrolledActivities) {
-      enrolledActivities.forEach((value) => {
+      enrolledActivities.result.forEach((value) => {
         if (value.completed) {
           completed.push(value);
         }
       });
 
-      newArr = enrolledActivities.map((value) => {
+      newArr = enrolledActivities.result.map((value) => {
         const temp = value;
 
         if (value.activity) {
@@ -156,7 +156,6 @@ function UserProfilePage({ userId }) {
       newData.datasets[0].borderColor.push(value.color ? `${value.color}FF` : '#E18634FF');
     });
     setChartData(newData);
-    console.log(deptDetails);
   }, [deptDetails]);
 
   return notFound ? <NotFound /> : (
@@ -165,41 +164,46 @@ function UserProfilePage({ userId }) {
         <LoadingView />
       ) : (
         <div className={styles.infoBlock}>
-          <div className={styles.pageHeader}>
-            <h1>Información del Becado</h1>
-            <Link to="editar">
-              <AdminButton className={styles.adminButton} />
-            </Link>
-          </div>
-          <div className={styles.holderDetails}>
-            <ProfilePicture
-              hasImage={loggedInfo?.hasImage ?? false}
-              uri={`${serverHost}/image/user/${loggedInfo ? loggedInfo.id : ''}`}
-              className={styles.pfp}
-            />
-            <div className={styles.holderInfo}>
-              <h2>
-                {`${loggedInfo ? loggedInfo.name : ''} ${
-                  loggedInfo ? loggedInfo.lastname : ''
-                }`}
+          {layoutType === 'UserProfile'
+            ? (
+              <>
+                <div className={styles.pageHeader}>
+                  <h1>Información del Becado</h1>
+                  <Link to="editar">
+                    <AdminButton className={styles.adminButton} />
+                  </Link>
+                </div>
+                <div className={styles.holderDetails}>
+                  <ProfilePicture
+                    uri={`${serverHost}/image/user/${loggedInfo ? loggedInfo.id : ''}`}
+                    className={styles.pfp}
+                  />
+                  <div className={styles.holderInfo}>
+                    <h2>
+                      {`${loggedInfo ? loggedInfo.name : ''} ${
+                        loggedInfo ? loggedInfo.lastname : ''
+                      }`}
 
-              </h2>
-              <span>
-                <b>Código: </b>
-                <b>{loggedInfo ? loggedInfo.code : ''}</b>
-              </span>
-              <span>
-                <b>Promoción: </b>
-                {loggedInfo ? loggedInfo.promotion : ''}
-              </span>
-              <span>
-                <b>Carrera: </b>
-                {loggedInfo ? loggedInfo.career : ''}
-              </span>
-            </div>
-          </div>
+                    </h2>
+                    <span>
+                      <b>Código: </b>
+                      <b>{loggedInfo ? loggedInfo.code : ''}</b>
+                    </span>
+                    <span>
+                      <b>Promoción: </b>
+                      {loggedInfo ? loggedInfo.promotion : ''}
+                    </span>
+                    <span>
+                      <b>Carrera: </b>
+                      {loggedInfo ? loggedInfo.career : ''}
+                    </span>
+                  </div>
+                </div>
+
+              </>
+            ) : undefined}
           <div className={styles.serviceBlock}>
-            <h1>Horas de servicio</h1>
+            {layoutType === 'UserProfile' ? <h1>Horas de servicio</h1> : undefined}
             <div className={styles.serviceDetails}>
               <div className={styles.totalHours}>
                 <span>Total de horas de servicio</span>
@@ -276,4 +280,9 @@ export default UserProfilePage;
 
 UserProfilePage.propTypes = {
   userId: PropTypes.string.isRequired,
+  layoutType: PropTypes.oneOf(['UserProfile', 'Home']),
+};
+
+UserProfilePage.defaultProps = {
+  layoutType: 'UserProfile',
 };

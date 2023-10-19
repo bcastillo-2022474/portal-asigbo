@@ -1,3 +1,3 @@
-import ActivityParticipantsTable from './ActivityParticipantsTable';
+import SelectActivityParticipantsTable from './SelectActivityParticipantsTable';
 
-export default ActivityParticipantsTable;
+export default SelectActivityParticipantsTable;
