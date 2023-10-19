@@ -34,6 +34,7 @@ UserTable.propTypes = {
     name: PropTypes.string.isRequired,
     lastname: PropTypes.string.isRequired,
     promotion: PropTypes.number.isRequired,
+    hasImage: PropTypes.bool,
   })),
 };
 
