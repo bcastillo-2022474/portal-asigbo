@@ -23,7 +23,7 @@ function SelectPromotionResponsibleTable() {
   const {
     callFetch: fetchPromotionResponsibleUsersList,
     result: promotionResponsibleUsersList,
-    loading: loadingPromotionResponsibleUsers,
+    error: promotionResponsibleUsersError,
   } = useFetch();
   const { callFetch: fetchUsers, result: users, loading: loadingUsers } = useFetch();
   const {
@@ -35,6 +35,7 @@ function SelectPromotionResponsibleTable() {
 
   const token = useToken();
 
+  const [initialLoading, setInitialLoading] = useState(true);
   const [promotionResponsibleUsers, setPromotionResponsibleUsers] = useState();
   const [filter, setFilter] = useState({});
   const [paginationItems, setPaginationItems] = useState();
@@ -61,6 +62,12 @@ function SelectPromotionResponsibleTable() {
   }, [promotionResponsibleUsersList]);
 
   useEffect(() => {
+    if (!promotionResponsibleUsersError) return;
+    // Error al consultar responsables de año en api, lista vacía
+    setPromotionResponsibleUsers([]);
+  }, [promotionResponsibleUsersError]);
+
+  useEffect(() => {
     if (!promotionResponsibleUsers || !filter) return;
     // Realizar la consulta con los filtros
     const filterCopy = { ...filter };
@@ -78,6 +85,10 @@ function SelectPromotionResponsibleTable() {
     const uri = `${serverHost}/user?${searchParams.toString()}`;
     fetchUsers({ uri, headers: { authorization: token } });
   }, [promotionResponsibleUsers, filter, currentPage]);
+
+  useEffect(() => {
+    if (users) setInitialLoading(false); // Al obtener usuarios, parar loading inicial
+  }, [users]);
 
   useEffect(() => {
     setCurrentPage(0);
@@ -150,7 +161,7 @@ function SelectPromotionResponsibleTable() {
       <Table
         header={['No.', '', 'Nombre', 'Promoción', '']}
         showCheckbox={false}
-        loading={loadingUsers || loadingPromotionResponsibleUsers}
+        loading={(initialLoading || loadingUsers) && !users}
         breakPoint="900px"
       >
         {users?.result.map((user, index) => (
