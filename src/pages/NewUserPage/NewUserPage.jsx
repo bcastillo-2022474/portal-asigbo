@@ -147,6 +147,24 @@ function NewUserPage() {
           onFocus={() => clearFieldError('career')}
           onBlur={() => validateField('career')}
         />
+        <InputText
+          title="Universidad"
+          name="university"
+          value={form?.university}
+          error={error?.university}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('university')}
+          onBlur={() => validateField('university')}
+        />
+        <InputText
+          title="Campus"
+          name="campus"
+          value={form?.campus}
+          error={error?.campus}
+          onChange={handleFormChange}
+          onFocus={() => clearFieldError('campus')}
+          onBlur={() => validateField('campus')}
+        />
         <InputNumber
           name="promotion"
           value={form?.promotion}

@@ -37,7 +37,7 @@ function ImportCSVPopUp({
     const headers = content[0].trim().split(',');
     if (headers.toString() !== consts.csvHeaders.toString()) {
       setError(true);
-      setErrorMessage('Formato incorrecto. Se espera que los encabezados sean: "Código, Nombres, Apellidos, Correo, Promoción, Carrera y Sexo"');
+      setErrorMessage('Formato incorrecto. Se espera que los encabezados sean: "Código, Nombres, Apellidos, Correo, Promoción, Carrera, Universidad, Campus y Sexo"');
       return;
     }
     const rows = content.slice(1).map((row) => row.trim().split(','));

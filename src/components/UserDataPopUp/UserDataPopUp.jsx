@@ -26,6 +26,8 @@ function UserDataPopUp({
     setData('lastname', info.lastname);
     setData('email', info.email);
     setData('career', info.career);
+    setData('university', info.university);
+    setData('campus', info.campus);
     setData('promotion', info.promotion);
     setData('sex', info.sex);
   }, []);
@@ -123,6 +125,26 @@ function UserDataPopUp({
             onChange={handleFormChange}
             onFocus={() => clearFieldError('career')}
             onBlur={() => validateField('career')}
+            disabled={disabledForm}
+          />
+          <InputText
+            title="Universidad"
+            name="university"
+            value={form?.university}
+            error={error?.university}
+            onChange={handleFormChange}
+            onFocus={() => clearFieldError('university')}
+            onBlur={() => validateField('university')}
+            disabled={disabledForm}
+          />
+          <InputText
+            title="Campus"
+            name="campus"
+            value={form?.campus}
+            error={error?.campus}
+            onChange={handleFormChange}
+            onFocus={() => clearFieldError('campus')}
+            onBlur={() => validateField('campus')}
             disabled={disabledForm}
           />
           <InputSelect

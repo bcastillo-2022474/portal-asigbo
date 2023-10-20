@@ -28,6 +28,8 @@ function ImportUsersPage() {
       code: info['Código'],
       name: info.Nombres,
       lastname: info.Apellidos,
+      university: info.Universidad,
+      campus: info.Campus,
       email: info.Correo,
       career: info.Carrera,
       promotion: info['Promoción'],
