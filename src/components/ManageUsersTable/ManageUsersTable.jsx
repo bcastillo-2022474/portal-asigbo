@@ -29,11 +29,12 @@ import useCount from '../../hooks/useCount';
 
 function ManageUsersTable() {
   const token = useToken();
-  const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [paginationItems, setPaginationItems] = useState();
   const [filter, setFilter] = useState({});
   const { count: resetTableHeightTrigger, next: fireTableHeightTrigger } = useCount();
+
+  const [users, setUsers] = useState([]);
 
   const [userId, setUserId] = useState('');
 
@@ -44,7 +45,6 @@ function ManageUsersTable() {
   const {
     callFetch: getUsers,
     result: resultUsers,
-    error: errorUsers,
     loading: loadingUsers,
   } = useFetch();
 
@@ -116,7 +116,6 @@ function ManageUsersTable() {
       method: 'PATCH',
       parse: false,
     });
-    fetchUsers();
   };
 
   const handleUnblockOptionClick = async (currentUserId) => {
@@ -126,7 +125,6 @@ function ManageUsersTable() {
       method: 'PATCH',
       parse: false,
     });
-    fetchUsers();
   };
 
   const handleReSendEmailOptionClick = () => {
@@ -150,6 +148,7 @@ function ManageUsersTable() {
   };
 
   const handlePageChange = (e, page) => {
+    setUsers([]);
     setCurrentPage(page - 1);
   };
 
@@ -173,23 +172,26 @@ function ManageUsersTable() {
   }, []);
 
   useEffect(() => {
+    setUsers([]);
     fetchUsers();
   }, [currentPage, filter]);
-
-  useEffect(() => {
-    if (resultUsers) setUsers(resultUsers.result);
-  }, [resultUsers]);
-
-  useEffect(() => {
-    if (errorUsers) setUsers([]);
-  }, [errorUsers]);
 
   useEffect(() => {
     setCurrentPage(0);
   }, []);
 
   useEffect(() => {
+    if (resultUsers) setUsers(resultUsers.result);
+  }, [resultUsers]);
+
+  useEffect(() => {
     if (!resultDisable) return;
+    const prevUsers = [...users];
+    const currentUser = prevUsers.find((user) => user.id === userId);
+
+    currentUser.blocked = true;
+    setUsers(prevUsers);
+
     setNotificationText('El usuario del becado ha sido deshabilitado de forma exitosa.');
     openSuccess();
   }, [resultDisable]);
@@ -202,6 +204,12 @@ function ManageUsersTable() {
 
   useEffect(() => {
     if (!resultEnable) return;
+
+    const prevUsers = [...users];
+    const currentUser = prevUsers.find((user) => user.id === userId);
+
+    currentUser.blocked = false;
+    setUsers(prevUsers);
     setNotificationText('El usuario del becado ha sido habilitado de forma exitosa.');
     openSuccess();
   }, [resultEnable]);
@@ -214,6 +222,11 @@ function ManageUsersTable() {
 
   useEffect(() => {
     if (!resultDelete) return;
+
+    const prevUsers = [...users];
+    const newUsers = prevUsers.filter((user) => user.id !== userId);
+
+    setUsers(newUsers);
     setNotificationText('El usuario del becado ha sido eliminado de forma exitosa.');
     openSuccess();
   }, [resultDelete]);
@@ -280,7 +293,8 @@ function ManageUsersTable() {
                     { icon: <DeleteIcon />, text: 'Eliminar usuario', onClick: () => handleAction(user.id, 'deleting') },
                   ]}
                   showMenuAtTop={(index === (users.length - 1) && index > 2)
-                    || (index === (users.length - 2) && index > 1 && user.completeRegistration)}
+                    || (index === (users.length - 2)
+                    && index > 1 && user.completeRegistration)}
                 />
               </div>
             </td>
