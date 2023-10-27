@@ -21,6 +21,12 @@ export default yup.object().shape({
   career: yup
     .string()
     .required('Se requiere la carrera del becado.'),
+  university: yup
+    .string()
+    .required('Se requiere la universidad del becado.'),
+  campus: yup
+    .string()
+    .required('Se requiere el campus del becado.'),
   email: yup
     .string()
     .nullable()
