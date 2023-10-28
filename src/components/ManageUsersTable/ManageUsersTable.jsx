@@ -69,6 +69,13 @@ function ManageUsersTable() {
     loading: loadingDelete,
   } = useFetch();
 
+  const {
+    callFetch: resendEmail,
+    result: resultResend,
+    error: errorResend,
+    loading: loadingResend,
+  } = useFetch();
+
   // Mensajes a mostrar
   const [notificationText, setNotificationText] = useState('');
 
@@ -127,8 +134,15 @@ function ManageUsersTable() {
     });
   };
 
-  const handleReSendEmailOptionClick = () => {
-    /* Reenviar correo de registro */
+  const handleReSendEmailOptionClick = async (currentUserId) => {
+    const body = { idUser: currentUserId };
+    await resendEmail({
+      uri: `${serverHost}/user/renewRegisterToken`,
+      headers: { authorization: token },
+      method: 'POST',
+      body: JSON.stringify(body),
+      parse: false,
+    });
   };
 
   const handleDeleteUserOptionClick = async (currentUserId) => {
@@ -221,6 +235,19 @@ function ManageUsersTable() {
   }, [errorEnable]);
 
   useEffect(() => {
+    if (!resultResend) return;
+
+    setNotificationText('El correo de registro ha sido reenviado de forma exitosa');
+    openSuccess();
+  }, [resultResend]);
+
+  useEffect(() => {
+    if (!errorResend) return;
+    setNotificationText(errorResend?.message);
+    openError();
+  }, [errorResend]);
+
+  useEffect(() => {
     if (!resultDelete) return;
 
     const prevUsers = [...users];
@@ -289,7 +316,7 @@ function ManageUsersTable() {
                   onMenuVisibleChange={fireTableHeightTrigger}
                   options={[
                     user.blocked ? { icon: <UnblockIcon />, text: 'Desbloquear', onClick: () => handleAction(user.id, 'enabling') } : { icon: <BlockIcon />, text: 'Bloquear', onClick: () => handleAction(user.id, 'disabling') },
-                    !user.completeRegistration ? { icon: <EmailIcon />, text: 'Reenviar correo de registro', onClick: handleReSendEmailOptionClick } : null, // Placeholder object with no-op function
+                    !user.completeRegistration ? { icon: <EmailIcon />, text: 'Reenviar correo de registro', onClick: () => handleReSendEmailOptionClick(user.id) } : null, // Placeholder object with no-op function
                     { icon: <DeleteIcon />, text: 'Eliminar usuario', onClick: () => handleAction(user.id, 'deleting') },
                   ]}
                   showMenuAtTop={(index === (users.length - 1) && index > 2)
@@ -343,7 +370,7 @@ function ManageUsersTable() {
         isOpen={isErrorOpen}
         text={notificationText}
       />
-      {(loadingDisable || loadingEnable || loadingDelete) && <LoadingView />}
+      {(loadingDisable || loadingEnable || loadingDelete || loadingResend) && <LoadingView />}
     </div>
   );
 }
