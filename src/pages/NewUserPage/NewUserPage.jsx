@@ -188,7 +188,11 @@ function NewUserPage() {
             </div>
           </div>
         )}
-        {loadingPostUser && <Spinner />}
+        {loadingPostUser && (
+          <div className={styles.spinnerWrapper}>
+            <Spinner />
+          </div>
+        )}
 
       </form>
 

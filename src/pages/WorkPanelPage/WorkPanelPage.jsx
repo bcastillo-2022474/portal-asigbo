@@ -31,7 +31,7 @@ function WorkPanelPage() {
             && <PanelItem icon={<PuzzleIcon />} title="Encargado de área" href="/area" />}
 
             {isActivityResponsible
-            && <PanelItem icon={<ListIcon />} title="Encargado de actividad" href="/actividad" />}
+            && <PanelItem icon={<ListIcon />} title="Encargado de actividad" href="/actividad/encargadas" />}
 
             {isPromotionResponsible
             && <PanelItem icon={<UsersIcon />} title="Encargado de promoción" />}

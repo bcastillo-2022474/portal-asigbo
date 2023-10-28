@@ -8,13 +8,33 @@
     text-align: left;
     width: 65%;
     align-self: flex-start;
-    margin-bottom: 40px;
 }
 
-@media only screen and (max-width: 765px){
+.header{
+    display: flex;
+    margin-bottom: 40px;
+    align-items: center;
+}
+
+.newUserButton{
+    margin-left: auto;
+}
+
+@media only screen and (max-width: 700px){
+
+    .header{
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .newUserButton{
+        margin: 0;
+    }
     
     .pageTitle{
         text-align: center;
-        align-self: center;
+        align-self: auto;
+        width: 100%;
     }
 }
