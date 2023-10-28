@@ -48,10 +48,17 @@ function NewActivityPage() {
   const navigate = useNavigate();
 
   const {
+    callFetch: fetchActivityData,
+    result: activityData,
+    loading: loadingActivityData,
+    error: errorActivityData,
+  } = useFetch();
+
+  const {
     callFetch: fetchAreaData,
     result: areaData,
-    loading: loadingAreaData,
-    error: errorAreaData,
+    // loading: loadingAreaData,
+    // error: errorAreaData,
   } = useFetch();
 
   const {
@@ -141,15 +148,23 @@ function NewActivityPage() {
   }, [fetchError]);
 
   useEffect(() => {
-    if (!idArea) return;
+    if (!idActividad) return;
     // Si es para editar, obtener datos de la actividad
-    fetchAreaData({ uri: `${serverHost}/area/${idArea}`, authorization: { headers: token } });
-  }, [idArea]);
+    console.log(`${serverHost}/activity/${idActividad}`);
+    console.log(token);
+    fetchActivityData({ uri: `${serverHost}/activity/${idActividad}`, authorization: { headers: token } });
+  }, [idActividad]);
 
   useEffect(() => {
     if (!areaData) return;
     setData('name', areaData.name);
   }, [areaData]);
+
+  useEffect(() => {
+    if (!idArea) return;
+    // Si es para editar, obtener datos del area
+    fetchAreaData({ uri: `${serverHost}/area/${idArea}`, authorization: { headers: token } });
+  }, [idArea]);
 
   useEffect(() => {
     const uri = `${serverHost}/promotion`;
@@ -158,7 +173,26 @@ function NewActivityPage() {
       headers: { authorization: token },
       removeContentType: true,
     });
+    console.log(promotionsData);
   }, []);
+
+  useEffect(() => {
+    if (!activityData) return;
+    console.log(activityData);
+    // const completionDate = new Date(activityData.date);
+    const registrationStartDate = new Date(activityData.registrationStartDate).toISOString().split('T')[0];
+    const registrationEndDate = new Date(activityData.registrationEndDate).toISOString().split('T')[0];
+    const completionDate = new Date(activityData.registrationStartDate).toISOString().split('T')[0];
+    setData('activityName', activityData.name);
+    setData('name', activityData.asigboArea.name);
+    setData('completionDate', completionDate);
+    setData('serviceHours', String(activityData.serviceHours));
+    setData('description', activityData.description);
+    setData('registrationStartDate', registrationStartDate);
+    setData('registrationEndDate', registrationEndDate);
+    setData('responsible', activityData.responsible);
+    setData('maxParticipants', String(activityData.availableSpaces));
+  }, [activityData]);
 
   if (loadingPromotions) return <p>Loading...</p>;
   if (errorPromotions) {
@@ -172,7 +206,7 @@ function NewActivityPage() {
 
   return (
     <>
-      {(!idArea || areaData) && (
+      {(!idArea || activityData) && (
         <div className={styles.newAreaPage}>
           <BackTitle
             title={idArea ? 'Nueva Actividad' : 'Nuevo eje de ASIGBO'}
@@ -370,8 +404,8 @@ function NewActivityPage() {
           />
         </div>
       )}
-      {idArea && loadingAreaData && <LoadingView />}
-      {idArea && errorAreaData && <NotFoundPage />}
+      {idArea && loadingActivityData && <LoadingView />}
+      {idArea && errorActivityData && <NotFoundPage />}
     </>
   );
 }
