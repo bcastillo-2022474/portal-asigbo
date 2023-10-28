@@ -57,8 +57,9 @@ function SimpleUserProfilePage({ idUser }) {
         </div>
 
         <div className={styles.mainDataContainer}>
-          <DataField className={styles.dataField} label="Código del becado">{user.code}</DataField>
           {user.email && <DataField className={styles.dataField} label="Email">{user.email}</DataField>}
+          <DataField className={styles.dataField} label="Universidad">{user.university}</DataField>
+          <DataField className={styles.dataField} label="Campus">{user.campus}</DataField>
           <DataField className={styles.dataField} label="Carrera">{user.career}</DataField>
           <DataField className={styles.dataField} label="Sexo">{user.sex}</DataField>
         </div>
