@@ -64,7 +64,7 @@ function UpdateUserPage({ userId }) {
     if (!user) return;
     // agregar los datos al hook form
     const {
-      name, lastname, email, promotion, career, sex,
+      name, lastname, email, promotion, career, sex, university, campus,
     } = user;
 
     setForm({
@@ -74,6 +74,8 @@ function UpdateUserPage({ userId }) {
       promotion,
       career,
       sex,
+      university,
+      campus,
     });
   }, [user]);
 
@@ -200,6 +202,26 @@ function UpdateUserPage({ userId }) {
               <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
                 Información académica
               </h3>
+
+              <InputText
+                title="Universidad"
+                name="university"
+                onChange={handleChange}
+                value={form?.university}
+                error={error?.university}
+                onFocus={() => clearFieldError('university')}
+                onBlur={() => validateField('university')}
+              />
+
+              <InputText
+                title="Campus"
+                name="campus"
+                onChange={handleChange}
+                value={form?.campus}
+                error={error?.campus}
+                onFocus={() => clearFieldError('campus')}
+                onBlur={() => validateField('campus')}
+              />
 
               <InputText
                 title="Carrera"
