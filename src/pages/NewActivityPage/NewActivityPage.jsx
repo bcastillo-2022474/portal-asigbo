@@ -43,6 +43,7 @@ function NewActivityPage() {
   const [selectedImages, setSelectedImages] = useState([]);
   const [deletedDefaultImages, setDeletedDefaultImages] = useState([]);
   const [newActivityId, setNewActivityId] = useState('');
+  const [selectedUsers, setSelectedUsers] = useState([]);
   // const [promotionsData, setPromotionsData] = useState(null);
   // setPromotionsData(null);
   const navigate = useNavigate();
@@ -149,9 +150,6 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!idActividad) return;
-    // Si es para editar, obtener datos de la actividad
-    console.log(`${serverHost}/activity/${idActividad}`);
-    console.log(token);
     fetchActivityData({ uri: `${serverHost}/activity/${idActividad}`, authorization: { headers: token } });
   }, [idActividad]);
 
@@ -162,7 +160,7 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!idArea) return;
-    // Si es para editar, obtener datos del area
+    console.log(token);
     fetchAreaData({ uri: `${serverHost}/area/${idArea}`, authorization: { headers: token } });
   }, [idArea]);
 
@@ -190,9 +188,18 @@ function NewActivityPage() {
     setData('description', activityData.description);
     setData('registrationStartDate', registrationStartDate);
     setData('registrationEndDate', registrationEndDate);
+    // console.log(activityData.responsible);
+    setSelectedUsers(activityData.responsible);
     setData('responsible', activityData.responsible);
     setData('maxParticipants', String(activityData.availableSpaces));
+    setData('participatingPromotions', activityData.participatingPromotions);
   }, [activityData]);
+
+  // useEffect(() => {
+  //   if (!activityData.responsible) return;
+  //   // setSelectedUsers(activityData.responsible);
+  //   console.log(activityData.responsible);
+  // }, [activityData.responsible]);
 
   if (loadingPromotions) return <p>Loading...</p>;
   if (errorPromotions) {
@@ -372,7 +379,7 @@ function NewActivityPage() {
             />
             <UserSelectTable
               onChange={(value) => setData('responsible', value)}
-              defaultSelectedUsers={null}
+              defaultSelectedUsers={selectedUsers}
             />
             {error?.responsible && <p className={styles.errorMessage}>{error.responsible}</p>}
             <div className={styles.sendContainer}>
