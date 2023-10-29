@@ -32,6 +32,7 @@ function InputSearchDateBetween({
   const onChange = (newDate) => {
     if (newDate) {
       setDate(newDate.$d);
+      /* setDate(`${newDate.$D}/${newDate.$M + 1}/${newDate.$y}`); */
     } else {
       setDate(null);
     }
@@ -69,6 +70,7 @@ function InputSearchDateBetween({
           className={styles.inputDate}
           placeholder={placeholder}
           disabledDate={disabledDate}
+          format="DD-MM-YYYY"
         />
       </div>
     </ConfigProvider>

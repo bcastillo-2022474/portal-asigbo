@@ -7,3 +7,17 @@
   aspect-ratio: 1/1;
   object-fit: cover;
 }
+
+.activityTable {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.actName:hover {
+  text-decoration: underline;
+}
+
+.pagination {
+  margin-block: 15px;
+}
