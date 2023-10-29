@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-restricted-syntax */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Pagination } from '@mui/material';
 import ActivityTableFilter from '../ActivityTableFilter/ActivityTableFilter';
 import styles from './ActivityAssignmentTable.module.css';
@@ -34,7 +33,6 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
   // Estados
   const token = useToken();
   const userInfo = getTokenPayload(token);
-  const navigate = useNavigate();
   const [search, setSearch] = useState();
   const [filtrated, setFiltrated] = useState();
   const [initialDate, setInitialDate] = useState();
@@ -74,7 +72,6 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
     if (info) {
       setFiltrated(info.result);
     }
-    console.log(info);
   }, [info]);
 
   useEffect(() => {
@@ -82,16 +79,6 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
       setFiltrated(undefined);
     }
   }, [error]);
-
-  // Redirección a actividad.
-  const goToActivity = (idPar) => {
-    navigate(`/actividad/${idPar}`);
-  };
-
-  // Redirección a actividad.
-  const newTabActivity = (idPar) => {
-    navigate(`/actividad/${idPar}`);
-  };
 
   // Uso de parámetro de búsqueda con estado.
   const searchHandler = (query) => {

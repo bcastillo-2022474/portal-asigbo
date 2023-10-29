@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 import styles from './ActivityDetails.module.css';
 import DataField from '../DataField';
@@ -21,6 +22,7 @@ function ActivityDetails({ className, data }) {
       setIsCompleted(false);
       setIsEnrolled(false);
     }
+    console.log(data);
   }, [data]);
 
   return (
@@ -51,7 +53,7 @@ function ActivityDetails({ className, data }) {
           {data ? data.asigboArea.name : ''}
         </DataField>
         <DataField label="Fecha de realización" className={styles.dataField}>
-          {data ? data.date.slice(0, 10) : ''}
+          {data ? dayjs(data.date.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY') : ''}
         </DataField>
         <DataField label="Horas de servicio" className={styles.dataField}>
           {data ? (data.serviceHours > 1 ? `${data.serviceHours} horas` : `${data.serviceHours} hora`) : ''}
@@ -70,16 +72,20 @@ function ActivityDetails({ className, data }) {
         </DataField>
         <DataField label="Disponibilidad de inscripción" className={styles.disponField}>
           De
-          <span className={styles.date}>{data ? data.registrationStartDate.slice(0, 10) : '00/00/0000'}</span>
+          <span className={styles.date}>{data ? dayjs(data.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY') : '00/00/0000'}</span>
           hasta
-          <span className={styles.date}>{data ? data.registrationEndDate.slice(0, 10) : '00/00/0000'}</span>
+          <span className={styles.date}>{data ? dayjs(data.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY') : '00/00/0000'}</span>
         </DataField>
-        <b className={styles.promoLabel}>Promociones Participantes</b>
-        <div className={styles.promosContainer}>
-          {/* Acá deben de ir las promociones provinientes de la data, aún no hay */}
-          <span className={styles.promo}>2019</span>
-          <span className={styles.promo}>2020</span>
-        </div>
+        {data?.participatingPromotions ? (
+          <>
+            <b className={styles.promoLabel}>Promociones Participantes</b>
+            <div className={styles.promosContainer}>
+              {/* Acá deben de ir las promociones provinientes de la data, aún no hay */}
+              <span className={styles.promo}>2019</span>
+              <span className={styles.promo}>2020</span>
+            </div>
+          </>
+        ) : ''}
       </div>
     </div>
   );
