@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import getTokenPayload from '../../helpers/getTokenPayload';
 import consts from '../../helpers/consts';
 import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePage';
-import UserServiceHoursSummaryPage from '../UserServiceHoursSummaryPage/UserServiceHoursSummaryPage';
 import useToken from '../../hooks/useToken';
+import UserProfilePage from '../UserProfilePage/UserProfilePage';
 
 /**
  * Componente que se encarga de decidir cuál página de perfil de usuario va a desplegar.
@@ -22,7 +22,7 @@ function UserProfileIndexPage() {
       {
         (() => {
           if (sessionUser.role.includes(consts.roles.admin) && userId !== sessionUser.id) {
-            return <UserServiceHoursSummaryPage userId={userId} />;
+            return <UserProfilePage idUser={userId} />;
           }
           return <SimpleUserProfilePage idUser={userId} />;
         })()

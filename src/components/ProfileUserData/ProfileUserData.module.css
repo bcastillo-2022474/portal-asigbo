@@ -1,0 +1,17 @@
+
+.mainDataContainer{
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: fit-content;
+
+}
+
+
+@media only screen and (max-width: 600px){
+  .mainDataContainer{
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

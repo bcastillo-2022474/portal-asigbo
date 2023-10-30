@@ -13,6 +13,10 @@
   font-size: var(--h1-title-size--);
 }
 
+.tabMenu{
+  margin: 25px 0;
+}
+
 @media only screen and (max-width: 600px){
   .pageHeader{
     display: flex;

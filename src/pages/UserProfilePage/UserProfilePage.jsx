@@ -1,29 +1,30 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import styles from './SimpleUserProfilePage.module.css';
+import { Link, Routes, Route } from 'react-router-dom';
+import styles from './UserProfilePage.module.css';
 import useFetch from '../../hooks/useFetch';
 import useToken from '../../hooks/useToken';
 import { serverHost } from '../../config';
 import LoadingView from '../../components/LoadingView';
 import NotFoundPage from '../NotFoundPage';
 import AdminButton from '../../components/AdminButton/AdminButton';
-import getTokenPayload from '../../helpers/getTokenPayload';
 import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
 import ProfileUserData from '../../components/ProfileUserData/ProfileUserData';
+import TabMenu from '../../components/TabMenu/TabMenu';
+
+import UserServiceHoursSummaryPage from '../UserServiceHoursSummaryPage/UserServiceHoursSummaryPage';
 
 /**
  *
  * @param {String} idUser: id del usuario a mostrar.
  * @returns
  */
-function SimpleUserProfilePage({ idUser }) {
+function UserProfilePage({ idUser }) {
   const {
     callFetch: fetchUserData, result: user, loading, error,
   } = useFetch();
 
   const token = useToken();
-  const sessionUser = token ? getTokenPayload(token) : null;
 
   useEffect(() => {
     fetchUserData({ uri: `${serverHost}/user/${idUser}`, headers: { authorization: token } });
@@ -36,14 +37,9 @@ function SimpleUserProfilePage({ idUser }) {
 
         <header className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Perfil del becado</h1>
-          {
-            // Validar privilegio de usuario para editar su propio perfil
-           sessionUser?.id === user?.id && (
-           <Link to="editar">
-             <AdminButton />
-           </Link>
-           )
-          }
+          <Link to="editar">
+            <AdminButton />
+          </Link>
         </header>
 
         <ProfileHeader
@@ -54,13 +50,30 @@ function SimpleUserProfilePage({ idUser }) {
           promotion={user.promotion}
         />
 
-        <ProfileUserData
-          email={user.email}
-          campus={user.campus}
-          career={user.career}
-          sex={user.sex}
-          university={user.university}
+        <TabMenu
+          options={[{ text: 'Datos de usuario', href: '' },
+            { text: 'Horas de servicio', href: 'horas' }]}
+          className={styles.tabMenu}
         />
+
+        <Routes>
+
+          <Route
+            path="/"
+            element={(
+              <ProfileUserData
+                email={user.email}
+                campus={user.campus}
+                career={user.career}
+                sex={user.sex}
+                university={user.university}
+              />
+          )}
+          />
+
+          <Route path="/horas" element={<UserServiceHoursSummaryPage userId={idUser} />} />
+        </Routes>
+
       </div>
       )}
       {loading && <LoadingView />}
@@ -69,11 +82,11 @@ function SimpleUserProfilePage({ idUser }) {
   );
 }
 
-export default SimpleUserProfilePage;
+export default UserProfilePage;
 
-SimpleUserProfilePage.propTypes = {
+UserProfilePage.propTypes = {
   idUser: PropTypes.string.isRequired,
 };
 
-SimpleUserProfilePage.defaultProps = {
+UserProfilePage.defaultProps = {
 };

@@ -2,6 +2,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    
 }
 
 .page h1{
@@ -11,5 +12,9 @@
 }
 
 .helloName{
-    margin-block-start: 25px;
+    margin-top: 50px;
+}
+
+.mainContent{
+    margin: 40px var(--page-horizontal-padding--);
 }

@@ -1,0 +1,28 @@
+.profileHeader{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.userName{
+  font-size: 25px;
+}
+
+.profileHeader .headerDataContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+
+@media only screen and (max-width: 600px){
+  .profileHeader{
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .headerDataContainer{
+    align-items: center;
+  }
+
+}

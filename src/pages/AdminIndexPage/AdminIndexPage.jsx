@@ -39,6 +39,7 @@ function AdminIndexPage() {
         <Route path="/config/*" element={<AdminConfiguration />} />
         <Route path="/usuario/:userId" element={<UserProfileIndexPage />} />
         <Route path="/usuario/:userId/editar" element={<UpdateUserInRoutePage />} />
+        <Route path="/usuario/:userId/*" element={<UserProfileIndexPage />} />
         <Route path="/usuario" element={<UsersListPage />} />
         <Route path="/actividad/:activityId/asignacion/:userId" element={<ActivityAssignmentDetailsPage />} />
         <Route path="/actividad/:idActividad/*" element={<ActivityDetailsPage />} />

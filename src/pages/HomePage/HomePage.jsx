@@ -24,7 +24,10 @@ function HomePage() {
           {`${user ? (user.sex === 'M' ? 'Bienvenido' : 'Bienvenida') : 'Bienvenido'} ${user ? user.name : ''}`}
           !
         </h1>
-        <UserServiceHoursSummaryPage userId={user.id} layoutType="Home" />
+
+        <div className={styles.mainContent}>
+          <UserServiceHoursSummaryPage userId={user.id} layoutType="Home" />
+        </div>
       </div>
     </div>
   );
