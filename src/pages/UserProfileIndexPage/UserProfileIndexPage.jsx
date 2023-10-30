@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import getTokenPayload from '../../helpers/getTokenPayload';
 import consts from '../../helpers/consts';
 import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePage';
-import UserProfilePage from '../UserProfilePage/UserProfilePage';
+import UserServiceHoursSummaryPage from '../UserServiceHoursSummaryPage/UserServiceHoursSummaryPage';
 import useToken from '../../hooks/useToken';
 
 /**
@@ -22,7 +22,7 @@ function UserProfileIndexPage() {
       {
         (() => {
           if (sessionUser.role.includes(consts.roles.admin) && userId !== sessionUser.id) {
-            return <UserProfilePage userId={userId} />;
+            return <UserServiceHoursSummaryPage userId={userId} />;
           }
           return <SimpleUserProfilePage idUser={userId} />;
         })()

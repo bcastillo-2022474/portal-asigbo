@@ -1,28 +1,23 @@
 /* eslint-disable arrow-body-style */
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   Chart as ChartJS, ArcElement, Tooltip, Legend,
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
-import styles from './UserProfilePage.module.css';
-import useEnrolledActivities from '../../hooks/useEnrolledActivities';
+import styles from './UserServiceHoursSummaryPage.module.css';
 import LoadingView from '../../components/LoadingView';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import useUserInfo from '../../hooks/useUserInfo';
-import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import NotFound from '../NotFoundPage';
 import { serverHost } from '../../config';
 import ActivityTable from '../../components/ActivityAssignmentTable';
-import AdminButton from '../../components/AdminButton/AdminButton';
 
 /*----------------------------------------------------------------------------------------------*/
 
 /**
- * @module UserProfilePage: Genera una página en la que se mostrará la información básica
- * de un becado.
- *
+ * @module UserServiceHoursSummaryPage: Genera una página en la que se mostrará el resumen de las
+ * horas de servicio de un becado.
  * @todo Colocar un color adecuado para cada cada sección del chart, es decir, ver el color
  * predominante del ícono que al que pertenece el área, es preferible que esto pueda venir
  * del backend, puesto que es complicado hacerlo en frontend, debido a que está sujeto a procesos
@@ -33,11 +28,9 @@ import AdminButton from '../../components/AdminButton/AdminButton';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function UserProfilePage({ userId, layoutType }) {
+function UserServiceHoursSummaryPage({ userId }) {
   // Estados de información
   const [loading, setLoading] = useState(true);
-  const [content, setContent] = useState([[]]);
-  const [completedAct, setCompletedAct] = useState([]);
   const [deptDetails, setDeptDetails] = useState([]);
   const [chartData, setChartData] = useState({});
   const [notFound, setNotFound] = useState(false);
@@ -48,11 +41,8 @@ function UserProfilePage({ userId, layoutType }) {
     error: errorInfo,
     loading: loadingInfo,
   } = useUserInfo(userId);
-  const {
-    info: enrolledActivities,
-    loading: loadingActivities,
-    error: errorActivities,
-  } = useEnrolledActivities(userId);
+
+  const activitiesCompleted = loggedInfo?.serviceHours.activitiesCompleted ?? 0;
 
   // Si no encuentra al usuario o hay algún error relacionado con la información
   // se tomará como datos no encontrados
@@ -60,82 +50,32 @@ function UserProfilePage({ userId, layoutType }) {
     if (errorInfo) {
       setNotFound(true);
     }
-  }, [errorInfo, errorActivities]);
+  }, [errorInfo]);
 
   // Efecto de animación de carga
   useEffect(() => {
     if ((loadingInfo || !loggedInfo) && !errorInfo) {
       setLoading(true);
-    } else if ((loadingActivities || !enrolledActivities) && !errorActivities) {
-      setLoading(true);
     } else {
       setLoading(false);
     }
-  }, [loadingInfo, loadingActivities]);
+  }, [loadingInfo]);
 
-  // Efecto que maneja las actividades comunes y completadas.
+  // Obtiene las horas de servicio por area del usuario, las formatea y filtra
   useEffect(() => {
-    let newArr = [];
-    const completed = [];
-    if (enrolledActivities) {
-      enrolledActivities.result.forEach((value) => {
-        if (value.completed) {
-          completed.push(value);
-        }
-      });
-
-      newArr = enrolledActivities.result.map((value) => {
-        const temp = value;
-
-        if (value.activity) {
-          temp.activity.date = value.activity.date.slice(0, 10);
-        }
-        return temp;
-      });
-    }
-    setCompletedAct(completed);
-    setContent(newArr);
-  }, [enrolledActivities]);
-
-  // Efecto que maneja las areas en las que únicamente se han completado actividades,
-  // guarda en el estado un arreglo de objetos donde cada objeto posee el ID del área,
-  // su nombre, y cuántas horas totales completadas posee por el perfil.
-  useEffect(() => {
-    const auxObj = {};
-    const areas = [];
-    if (completedAct) {
-      completedAct.forEach((value) => {
-        const temp = {};
-        temp.areaId = value.activity.asigboArea.id;
-        temp.areaName = value.activity.asigboArea.name;
-
-        if (auxObj[temp.areaId]) {
-          auxObj[temp.areaId] += value.activity.serviceHours;
-        } else {
-          auxObj[temp.areaId] = value.activity.serviceHours;
-        }
-      });
-    }
-    Object.keys(auxObj).forEach((valueKeys) => {
-      const values = completedAct.find(
-        (object) => object.activity.asigboArea.id === valueKeys,
-      );
-
-      if (values) {
-        const area = {};
-        area.id = values.activity.asigboArea.id;
-        area.name = values.activity.asigboArea.name;
-        area.hours = auxObj[valueKeys];
-        area.color = values.activity.asigboArea.color;
-        areas.push(area);
-      }
-    });
-    setDeptDetails(areas);
-  }, [completedAct]);
+    const areas = loggedInfo?.serviceHours.areas.map((area) => ({
+      id: area.asigboArea.id,
+      name: area.asigboArea.name,
+      hours: area.total,
+      color: area.asigboArea.color,
+    }));
+    setDeptDetails(areas?.filter((area) => area.hours > 0));
+  }, [loggedInfo]);
 
   // Manejo de datos del chart, utiliza la misma información que las áreas, sin
   // embargo posee una sintaxis especial que hay que mapear.
   useEffect(() => {
+    if (!deptDetails) return;
     const newData = {
       labels: [],
       datasets: [
@@ -164,46 +104,7 @@ function UserProfilePage({ userId, layoutType }) {
         <LoadingView />
       ) : (
         <div className={styles.infoBlock}>
-          {layoutType === 'UserProfile'
-            ? (
-              <>
-                <div className={styles.pageHeader}>
-                  <h1>Información del Becado</h1>
-                  <Link to="editar">
-                    <AdminButton className={styles.adminButton} />
-                  </Link>
-                </div>
-                <div className={styles.holderDetails}>
-                  <ProfilePicture
-                    uri={`${serverHost}/image/user/${loggedInfo ? loggedInfo.id : ''}`}
-                    className={styles.pfp}
-                  />
-                  <div className={styles.holderInfo}>
-                    <h2>
-                      {`${loggedInfo ? loggedInfo.name : ''} ${
-                        loggedInfo ? loggedInfo.lastname : ''
-                      }`}
-
-                    </h2>
-                    <span>
-                      <b>Código: </b>
-                      <b>{loggedInfo ? loggedInfo.code : ''}</b>
-                    </span>
-                    <span>
-                      <b>Promoción: </b>
-                      {loggedInfo ? loggedInfo.promotion : ''}
-                    </span>
-                    <span>
-                      <b>Carrera: </b>
-                      {loggedInfo ? loggedInfo.career : ''}
-                    </span>
-                  </div>
-                </div>
-
-              </>
-            ) : undefined}
           <div className={styles.serviceBlock}>
-            {layoutType === 'UserProfile' ? <h1>Horas de servicio</h1> : undefined}
             <div className={styles.serviceDetails}>
               <div className={styles.totalHours}>
                 <span>Total de horas de servicio</span>
@@ -222,10 +123,7 @@ function UserProfilePage({ userId, layoutType }) {
               <div className={styles.totalHours}>
                 <span>Actividades participadas</span>
                 <h2>
-                  {`${
-                    enrolledActivities ? Object.keys(enrolledActivities).length : '0'
-                  } actividades`}
-
+                  {`${activitiesCompleted} ${activitiesCompleted !== 1 ? 'actividades' : 'actividad'}`}
                 </h2>
               </div>
               <div className={styles.progressContainer}>
@@ -265,7 +163,7 @@ function UserProfilePage({ userId, layoutType }) {
           </div>
           <div className={styles.allActivities}>
             <h3>Actividades Realizadas</h3>
-            <ActivityTable data={content} loading={loading} />
+            <ActivityTable id={userId} />
           </div>
         </div>
       )}
@@ -276,13 +174,11 @@ function UserProfilePage({ userId, layoutType }) {
 
 /*----------------------------------------------------------------------------------------------*/
 
-export default UserProfilePage;
+export default UserServiceHoursSummaryPage;
 
-UserProfilePage.propTypes = {
+UserServiceHoursSummaryPage.propTypes = {
   userId: PropTypes.string.isRequired,
-  layoutType: PropTypes.oneOf(['UserProfile', 'Home']),
 };
 
-UserProfilePage.defaultProps = {
-  layoutType: 'UserProfile',
+UserServiceHoursSummaryPage.defaultProps = {
 };

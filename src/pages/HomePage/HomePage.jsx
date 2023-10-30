@@ -6,7 +6,7 @@ import Banner from '@components/Banner/Banner';
 import styles from './HomePage.module.css';
 import useToken from '../../hooks/useToken';
 import getTokenPayload from '../../helpers/getTokenPayload';
-import UserProfilePage from '../UserProfilePage/UserProfilePage';
+import UserServiceHoursSummaryPage from '../UserServiceHoursSummaryPage/UserServiceHoursSummaryPage';
 
 function HomePage() {
   const token = useToken();
@@ -24,7 +24,7 @@ function HomePage() {
           {`${user ? (user.sex === 'M' ? 'Bienvenido' : 'Bienvenida') : 'Bienvenido'} ${user ? user.name : ''}`}
           !
         </h1>
-        <UserProfilePage userId={user.id} layoutType="Home" />
+        <UserServiceHoursSummaryPage userId={user.id} layoutType="Home" />
       </div>
     </div>
   );
