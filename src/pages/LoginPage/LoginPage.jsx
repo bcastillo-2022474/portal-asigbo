@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import InputText from '@components/InputText/InputText';
 import Spinner from '@components/Spinner/Spinner';
 import waves from '@assets/wave-haikei.svg';
-import logo from '@assets/asigboazul.png';
+import logo from '@assets//logo/logo_azul.png';
 import { button, blue } from '@styles/buttons.module.css';
 import useLogin from '@hooks/useLogin';
 import { Link } from 'react-router-dom';

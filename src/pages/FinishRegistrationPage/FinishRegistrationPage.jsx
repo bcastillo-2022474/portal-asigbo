@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import asigboLogo from '@assets/asigboazul.png';
+import asigboLogo from '@assets//logo/logo_azul.png';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import UnloggedPageContainer from '../UnloggedPageContainer/UnloggedPageContainer';
 // import PropTypes from 'prop-types';
