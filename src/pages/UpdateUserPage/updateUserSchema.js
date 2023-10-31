@@ -23,6 +23,8 @@ const updateUserSchema = yup.object().shape({
     .max(2100, 'La promoción debe ser menor o igual a 2100')
     .required('Debes ingresar la promoción del usuario.'),
   career: yup.string().required('Debes ingresar la carrera.'),
+  campus: yup.string().required('Debes ingresar el campus de la universidad.'),
+  university: yup.string().required('Debes ingresar la universidad.'),
   email: yup
     .string()
     .nullable()

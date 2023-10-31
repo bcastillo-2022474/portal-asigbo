@@ -29,11 +29,12 @@ import useCount from '../../hooks/useCount';
 
 function ManageUsersTable() {
   const token = useToken();
-  const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [paginationItems, setPaginationItems] = useState();
   const [filter, setFilter] = useState({});
   const { count: resetTableHeightTrigger, next: fireTableHeightTrigger } = useCount();
+
+  const [users, setUsers] = useState([]);
 
   const [userId, setUserId] = useState('');
 
@@ -44,7 +45,6 @@ function ManageUsersTable() {
   const {
     callFetch: getUsers,
     result: resultUsers,
-    error: errorUsers,
     loading: loadingUsers,
   } = useFetch();
 
@@ -67,6 +67,13 @@ function ManageUsersTable() {
     result: resultDelete,
     error: errorDelete,
     loading: loadingDelete,
+  } = useFetch();
+
+  const {
+    callFetch: resendEmail,
+    result: resultResend,
+    error: errorResend,
+    loading: loadingResend,
   } = useFetch();
 
   // Mensajes a mostrar
@@ -116,7 +123,6 @@ function ManageUsersTable() {
       method: 'PATCH',
       parse: false,
     });
-    fetchUsers();
   };
 
   const handleUnblockOptionClick = async (currentUserId) => {
@@ -126,11 +132,17 @@ function ManageUsersTable() {
       method: 'PATCH',
       parse: false,
     });
-    fetchUsers();
   };
 
-  const handleReSendEmailOptionClick = () => {
-    /* Reenviar correo de registro */
+  const handleReSendEmailOptionClick = async (currentUserId) => {
+    const body = { idUser: currentUserId };
+    await resendEmail({
+      uri: `${serverHost}/user/renewRegisterToken`,
+      headers: { authorization: token },
+      method: 'POST',
+      body: JSON.stringify(body),
+      parse: false,
+    });
   };
 
   const handleDeleteUserOptionClick = async (currentUserId) => {
@@ -150,6 +162,7 @@ function ManageUsersTable() {
   };
 
   const handlePageChange = (e, page) => {
+    setUsers([]);
     setCurrentPage(page - 1);
   };
 
@@ -173,23 +186,26 @@ function ManageUsersTable() {
   }, []);
 
   useEffect(() => {
+    setUsers([]);
     fetchUsers();
   }, [currentPage, filter]);
-
-  useEffect(() => {
-    if (resultUsers) setUsers(resultUsers.result);
-  }, [resultUsers]);
-
-  useEffect(() => {
-    if (errorUsers) setUsers([]);
-  }, [errorUsers]);
 
   useEffect(() => {
     setCurrentPage(0);
   }, []);
 
   useEffect(() => {
+    if (resultUsers) setUsers(resultUsers.result);
+  }, [resultUsers]);
+
+  useEffect(() => {
     if (!resultDisable) return;
+    const prevUsers = [...users];
+    const currentUser = prevUsers.find((user) => user.id === userId);
+
+    currentUser.blocked = true;
+    setUsers(prevUsers);
+
     setNotificationText('El usuario del becado ha sido deshabilitado de forma exitosa.');
     openSuccess();
   }, [resultDisable]);
@@ -202,6 +218,12 @@ function ManageUsersTable() {
 
   useEffect(() => {
     if (!resultEnable) return;
+
+    const prevUsers = [...users];
+    const currentUser = prevUsers.find((user) => user.id === userId);
+
+    currentUser.blocked = false;
+    setUsers(prevUsers);
     setNotificationText('El usuario del becado ha sido habilitado de forma exitosa.');
     openSuccess();
   }, [resultEnable]);
@@ -213,7 +235,25 @@ function ManageUsersTable() {
   }, [errorEnable]);
 
   useEffect(() => {
+    if (!resultResend) return;
+
+    setNotificationText('El correo de registro ha sido reenviado de forma exitosa');
+    openSuccess();
+  }, [resultResend]);
+
+  useEffect(() => {
+    if (!errorResend) return;
+    setNotificationText(errorResend?.message);
+    openError();
+  }, [errorResend]);
+
+  useEffect(() => {
     if (!resultDelete) return;
+
+    const prevUsers = [...users];
+    const newUsers = prevUsers.filter((user) => user.id !== userId);
+
+    setUsers(newUsers);
     setNotificationText('El usuario del becado ha sido eliminado de forma exitosa.');
     openSuccess();
   }, [resultDelete]);
@@ -258,12 +298,13 @@ function ManageUsersTable() {
         header={['No.', '', 'Nombre', 'Promoción', '']}
         breakPoint="700px"
         resetTableHeight={resetTableHeightTrigger}
+        loading={loadingUsers}
       >
         {users?.map((user, index) => (
           <TableRow id={user.id} key={user.id} style={{ position: 'absolute' }}>
             <td>{index + 1}</td>
             <td className={styles.pictureRow}>
-              <UserPicture name={user.name} idUser={user.id} />
+              <UserPicture name={user.name} idUser={user.id} hasImage={user.hasImage ?? false} />
             </td>
             <td className={styles.nameRow}>
               <UserNameLink idUser={user.id} name={`${user.name} ${user.lastname}`} />
@@ -275,11 +316,12 @@ function ManageUsersTable() {
                   onMenuVisibleChange={fireTableHeightTrigger}
                   options={[
                     user.blocked ? { icon: <UnblockIcon />, text: 'Desbloquear', onClick: () => handleAction(user.id, 'enabling') } : { icon: <BlockIcon />, text: 'Bloquear', onClick: () => handleAction(user.id, 'disabling') },
-                    !user.completeRegistration ? { icon: <EmailIcon />, text: 'Reenviar correo de registro', onClick: handleReSendEmailOptionClick } : null, // Placeholder object with no-op function
+                    !user.completeRegistration ? { icon: <EmailIcon />, text: 'Reenviar correo de registro', onClick: () => handleReSendEmailOptionClick(user.id) } : null, // Placeholder object with no-op function
                     { icon: <DeleteIcon />, text: 'Eliminar usuario', onClick: () => handleAction(user.id, 'deleting') },
                   ]}
                   showMenuAtTop={(index === (users.length - 1) && index > 2)
-                    || (index === (users.length - 2) && index > 1 && user.completeRegistration)}
+                    || (index === (users.length - 2)
+                    && index > 1 && user.completeRegistration)}
                 />
               </div>
             </td>
@@ -328,7 +370,7 @@ function ManageUsersTable() {
         isOpen={isErrorOpen}
         text={notificationText}
       />
-      {(loadingUsers || loadingDisable || loadingEnable || loadingDelete) && <LoadingView />}
+      {(loadingDisable || loadingEnable || loadingDelete || loadingResend) && <LoadingView />}
     </div>
   );
 }

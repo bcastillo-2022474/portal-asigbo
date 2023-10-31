@@ -205,7 +205,11 @@ function ActivityAssignmentDetailsPage() {
 
           <div className={styles.dataContainer}>
             <div className={styles.userContainer}>
-              <UserPicture idUser={assignmentData.user.id} name={assignmentData.user.name} />
+              <UserPicture
+                idUser={assignmentData.user.id}
+                name={assignmentData.user.name}
+                hasImage={assignmentData.user.hasImage ?? false}
+              />
 
               <DataField label="Nombre">
                 <UserNameLink

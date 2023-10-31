@@ -13,7 +13,7 @@ import ActivityDetailsPage from '../ActivityDetailsPage';
 import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePage';
 import UpdateUserPage from '../UpdateUserPage/UpdateUserPage';
 import UserProfileIndexPage from '../UserProfileIndexPage/UserProfileIndexPage';
-import UpdateUserInRoutePage from '../UpdateUserInRoutePage/UpdateUserInRoutePage';
+import ResponsibleActivitiesPage from '../ResponsibleActivitiesPage';
 
 function UserIndexPage() {
   const token = useToken();
@@ -30,6 +30,7 @@ function UserIndexPage() {
         <Route path="/perfil" element={<SimpleUserProfilePage idUser={user.id} />} />
         <Route path="/perfil/editar" element={<UpdateUserPage userId={user.id} />} />
         <Route path="/usuario/:userId" element={<UserProfileIndexPage />} />
+        <Route path="actividad/encargadas" element={<ResponsibleActivitiesPage />} />
 
         {
           user?.role.includes(consts.roles.asigboAreaResponsible)
@@ -39,11 +40,6 @@ function UserIndexPage() {
             <Route path="/area/:idArea/*" element={<AreaDetailsPage />} />
           </>
           )
-        }
-
-        {
-          user?.role.includes(consts.roles.promotionResponsible)
-          && <Route path="/usuario/:userId/editar" element={<UpdateUserInRoutePage />} />
         }
 
       </Routes>

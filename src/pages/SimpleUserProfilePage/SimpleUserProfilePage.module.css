@@ -13,32 +13,6 @@
   font-size: var(--h1-title-size--);
 }
 
-.profileHeader{
-  display: flex;
-  gap: 20px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.userName{
-  font-size: 25px;
-}
-
-.profileHeader .headerDataContainer{
-  display: flex;
-  flex-direction: column;
-}
-
-.mainDataContainer{
-  margin-top: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: fit-content;
-
-}
-
-
 @media only screen and (max-width: 600px){
   .pageHeader{
     display: flex;
@@ -52,17 +26,4 @@
     text-align: center;
   }
 
-  .profileHeader{
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .headerDataContainer{
-    align-items: center;
-  }
-
-  .mainDataContainer{
-    margin-left: auto;
-    margin-right: auto;
-  }
 }

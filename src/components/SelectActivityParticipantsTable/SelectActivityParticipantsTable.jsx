@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Pagination } from '@mui/material';
-import { FaUserPlus as AddUserIcon, FaUserTimes as RemoveUserIcon, FaClipboardList as ListIcon } from 'react-icons/fa';
+import {
+  FaUserPlus as AddUserIcon,
+  FaUserTimes as RemoveUserIcon,
+  FaClipboardList as ListIcon,
+} from 'react-icons/fa';
 import { AiFillCheckCircle as CheckIcon, AiFillCloseCircle as RemoveIcon } from 'react-icons/ai';
 
 import { useNavigate } from 'react-router-dom';
-import styles from './ActivityParticipantsTable.module.css';
+import styles from './SelectActivityParticipantsTable.module.css';
 import ActivityParticipantsTableFilter from '../ActivityParticipantsTableFilter/ActivityParticipantsTableFilter';
 import Table from '../Table/Table';
 import useFetch from '../../hooks/useFetch';
@@ -38,11 +42,15 @@ function ActivityParticipantsTable({ idActivity }) {
   const {
     callFetch: fetchAssignmets,
     result: assignmentsResult,
-    loading: assignmetsLoading,
     error: assignmentsError,
   } = useFetch();
 
-  const { callFetch: fetchUsers, result: users, loading: loadingUsers } = useFetch();
+  const {
+    callFetch: fetchUsers,
+    result: users,
+    error: usersError,
+    loading: loadingUsers,
+  } = useFetch();
 
   const {
     callFetch: fetchAssignmentAction,
@@ -53,6 +61,7 @@ function ActivityParticipantsTable({ idActivity }) {
 
   const token = useToken();
 
+  const [initialLoading, setInitialLoading] = useState(true);
   const [assignedUsers, setAssignedUsers] = useState(null);
   const [assignmentCompletedUsers, setAssignmentCompletedUsers] = useState(null);
   const [userFilters, setUserFilters] = useState({});
@@ -110,7 +119,7 @@ function ActivityParticipantsTable({ idActivity }) {
   useEffect(() => {
     if (!assignedUsers || !assignmentCompletedUsers) return;
 
-    if (userFilters.status === '1' || userFilters.status === '2' || userFilters.status === '3') return; // Búsqueda local
+    if (userFilters.status === '1' || userFilters.status === '2' || userFilters.status === '3') { return; } // Búsqueda local
 
     // Realizar búsqueda de usuarios
     const searchParams = new URLSearchParams({});
@@ -133,6 +142,11 @@ function ActivityParticipantsTable({ idActivity }) {
     const uri = `${serverHost}/user?${searchParams.toString()}`;
     fetchUsers({ uri, headers: { authorization: token } });
   }, [assignedUsers, assignmentCompletedUsers, userFilters, currentPage]);
+
+  useEffect(() => {
+    // Desactiviar loading inicial al obtener listado completo de usuarios (o error)
+    if (users || usersError) setInitialLoading(false);
+  }, [users, usersError]);
 
   useEffect(() => {
     // cambiar número en la paginación
@@ -310,7 +324,7 @@ function ActivityParticipantsTable({ idActivity }) {
 
       <Table
         header={['No.', '', 'Nombre', 'Promoción', 'Estado', '']}
-        loading={assignmetsLoading || loadingUsers}
+        loading={(initialLoading || loadingUsers) && !users}
         resetTableHeight={resetTableHeightTrigger}
         breakPoint="1100px"
         onTableStyleChange={handleTableStyleChange}
@@ -322,7 +336,7 @@ function ActivityParticipantsTable({ idActivity }) {
             <TableRow id={user.id} key={user.id}>
               <td>{(users ? users.resultsPerPage * currentPage : 0) + index + 1}</td>
               <td className={styles.pictureRow}>
-                <UserPicture name={user.name} idUser={user.id} />
+                <UserPicture name={user.name} idUser={user.id} hasImage={user.hasImage ?? false} />
               </td>
               <td className={styles.nameRow}>
                 <UserNameLink idUser={user.id} name={`${user.name} ${user.lastname}`} />

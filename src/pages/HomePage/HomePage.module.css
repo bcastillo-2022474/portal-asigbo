@@ -1,0 +1,20 @@
+.page{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.page h1{
+    display: block;
+    text-align: center;
+    font-size: var(--h1-title-size--);
+}
+
+.helloName{
+    margin-top: 50px;
+}
+
+.mainContent{
+    margin: 40px var(--page-horizontal-padding--);
+}

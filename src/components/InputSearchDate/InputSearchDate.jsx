@@ -30,7 +30,12 @@ function InputSearchDateBetween({
 }) {
   // Función que maneja el cambio en la fecha.
   const onChange = (newDate) => {
-    setDate(newDate.$d);
+    if (newDate) {
+      setDate(newDate.$d);
+      /* setDate(`${newDate.$D}/${newDate.$M + 1}/${newDate.$y}`); */
+    } else {
+      setDate(null);
+    }
   };
 
   // eslint-disable-next-line arrow-body-style
@@ -40,10 +45,10 @@ function InputSearchDateBetween({
       let disabledDown;
       let disableUp;
       if (disabledBefore) {
-        disabledDown = (current < dayjs(disabledBefore).startOf('day'));
+        disabledDown = current < dayjs(disabledBefore).startOf('day');
       }
       if (disabledAfter) {
-        disableUp = (current > dayjs(disabledAfter).endOf('day'));
+        disableUp = current > dayjs(disabledAfter).endOf('day');
       }
       return disableUp || disabledDown;
     }
@@ -65,6 +70,7 @@ function InputSearchDateBetween({
           className={styles.inputDate}
           placeholder={placeholder}
           disabledDate={disabledDate}
+          format="DD-MM-YYYY"
         />
       </div>
     </ConfigProvider>

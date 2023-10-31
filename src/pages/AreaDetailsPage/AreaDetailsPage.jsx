@@ -105,13 +105,13 @@ function AreaDetailsPage({ adminPrivileges }) {
     let newArr = [];
     const completed = [];
     if (activitiesByArea) {
-      activitiesByArea.forEach((value) => {
+      activitiesByArea.result.forEach((value) => {
         if (value.completed) {
           completed.push(value);
         }
       });
 
-      newArr = activitiesByArea.map((value) => {
+      newArr = activitiesByArea.result.map((value) => {
         const temp = value;
 
         if (value && value.date) {

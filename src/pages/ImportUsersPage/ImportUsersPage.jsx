@@ -28,6 +28,8 @@ function ImportUsersPage() {
       code: info['Código'],
       name: info.Nombres,
       lastname: info.Apellidos,
+      university: info.Universidad,
+      campus: info.Campus,
       email: info.Correo,
       career: info.Carrera,
       promotion: info['Promoción'],
@@ -144,7 +146,7 @@ function ImportUsersPage() {
                 red
                 text="Cancelar"
                 className={styles.cancelButton}
-                onClick={() => navigate('/newUser', { replace: true })}
+                onClick={() => navigate('/usuario/nuevo', { replace: true })}
               />
               <Button
                 text="Guardar"
@@ -159,7 +161,7 @@ function ImportUsersPage() {
       <SuccessNotificationPopUp
         close={closeSuccess}
         isOpen={isSuccessOpen}
-        callback={() => navigate('/newUser', { replace: true })}
+        callback={() => navigate('/usuario/nuevo', { replace: true })}
         text="La información ha sido ingresada correctamente"
       />
       <ErrorNotificationPopUp

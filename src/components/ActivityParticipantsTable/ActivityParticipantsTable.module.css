@@ -1,0 +1,19 @@
+.pagination {
+  margin: auto;
+}
+
+.pictureRow {
+  display: flex !important;
+  justify-content: end;
+  order: 1;
+}
+
+.nameRow {
+  text-align: left;
+  order: 0;
+  border-bottom: 0 !important;
+}
+
+.promotionRow {
+  order: 2;
+}

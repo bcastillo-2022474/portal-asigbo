@@ -11,7 +11,7 @@ function useLoggedEnrolledActivities() {
   } = useFetch();
 
   const getLoggedEnrolledActivities = async () => {
-    const uri = `${serverHost}/activity/logged`;
+    const uri = `${serverHost}/activity/assignment/logged`;
     await callFetch({ uri });
   };
 

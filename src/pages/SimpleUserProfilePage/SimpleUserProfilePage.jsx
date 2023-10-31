@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import styles from './SimpleUserProfilePage.module.css';
-import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import useFetch from '../../hooks/useFetch';
 import useToken from '../../hooks/useToken';
 import { serverHost } from '../../config';
 import LoadingView from '../../components/LoadingView';
 import NotFoundPage from '../NotFoundPage';
-import DataField from '../../components/DataField/DataField';
 import AdminButton from '../../components/AdminButton/AdminButton';
 import getTokenPayload from '../../helpers/getTokenPayload';
+import ProfileHeader from '../../components/ProfileHeader/ProfileHeader';
+import ProfileUserData from '../../components/ProfileUserData/ProfileUserData';
 
 /**
  *
@@ -46,22 +46,21 @@ function SimpleUserProfilePage({ idUser }) {
           }
         </header>
 
-        <div className={styles.profileHeader}>
+        <ProfileHeader
+          idUser={user.id}
+          name={user.name}
+          lastname={user.lastname}
+          hasImage={user.hasImage}
+          promotion={user.promotion}
+        />
 
-          <ProfilePicture uri={`${serverHost}/image/user/${user.id}`} />
-
-          <div className={styles.headerDataContainer}>
-            <span className={styles.userName}>{`${user.name} ${user.lastname}`}</span>
-            <span className={styles.userPromotion}>{`Promoción ${user.promotion}`}</span>
-          </div>
-        </div>
-
-        <div className={styles.mainDataContainer}>
-          <DataField className={styles.dataField} label="Código del becado">{user.code}</DataField>
-          {user.email && <DataField className={styles.dataField} label="Email">{user.email}</DataField>}
-          <DataField className={styles.dataField} label="Carrera">{user.career}</DataField>
-          <DataField className={styles.dataField} label="Sexo">{user.sex}</DataField>
-        </div>
+        <ProfileUserData
+          email={user.email}
+          campus={user.campus}
+          career={user.career}
+          sex={user.sex}
+          university={user.university}
+        />
       </div>
       )}
       {loading && <LoadingView />}

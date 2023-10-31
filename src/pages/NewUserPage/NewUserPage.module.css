@@ -68,6 +68,16 @@
     justify-self: center;
 }
 
+.spinnerWrapper{
+    margin-top: 50px;
+    grid-column: -1/1;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    justify-self: center;
+    align-items: center;
+}
+
 @media only screen and (max-width: 765px) {
     .newUserPage {
         align-items: center;
