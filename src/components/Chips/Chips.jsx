@@ -16,7 +16,7 @@ function Chip({ label, selected, onToggle }) {
   );
 }
 
-function PromotionChips({ data, onSelectionChange }) {
+function PromotionChips({ data, onSelectionChange, defaultSelectedPromotions }) {
   const [selectedPromotions, setSelectedPromotions] = useState([]);
 
   const handleToggle = (promotion) => {
@@ -33,6 +33,12 @@ function PromotionChips({ data, onSelectionChange }) {
       onSelectionChange(selectedPromotions);
     }
   }, [selectedPromotions]);
+
+  useEffect(() => {
+    if (defaultSelectedPromotions) {
+      setSelectedPromotions(defaultSelectedPromotions);
+    }
+  }, [defaultSelectedPromotions]);
 
   if (!data) return null;
 
@@ -68,5 +74,11 @@ PromotionChips.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.object.isRequired,
   onSelectionChange: PropTypes.func.isRequired,
+  defaultSelectedPromotions: PropTypes.arrayOf(PropTypes.string),
+
+};
+
+PromotionChips.defaultProps = {
+  defaultSelectedPromotions: [],
 };
 export default PromotionChips;

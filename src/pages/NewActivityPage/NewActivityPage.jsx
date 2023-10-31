@@ -42,9 +42,10 @@ function NewActivityPage() {
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [selectedImages, setSelectedImages] = useState([]);
   const [deletedDefaultImages, setDeletedDefaultImages] = useState([]);
+  const [defaultImages, setDefaultImages] = useState([]);
   const [newActivityId, setNewActivityId] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
-  // const [promotionsData, setPromotionsData] = useState(null);
+  const [selectedPromotions, setSelectedPromotions] = useState(null);
   // setPromotionsData(null);
   const navigate = useNavigate();
 
@@ -82,6 +83,8 @@ function NewActivityPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const method = idActividad ? 'PATCH' : 'POST';
+    const uri = idActividad && method === 'POST' ? `${serverHost}/activity/${idActividad}` : `${serverHost}/activity/`;
 
     const formErrors = await validateForm();
     if (formErrors) return;
@@ -105,6 +108,11 @@ function NewActivityPage() {
     if (participantsChecked) {
       participatingPromotions = [];
     }
+    // if (method === 'PATCH') {
+    //   console.log(uri);
+    //   console.log(typeof (idActividad));
+    //   data.append('id', idActividad);
+    // }
     data.append('name', activityName);
     data.append('date', completionDate);
     data.append('idAsigboArea', idArea);
@@ -120,16 +128,31 @@ function NewActivityPage() {
     participatingPromotions.forEach((val) => {
       data.append('participatingPromotions[]', val);
     });
-
-    const uri = idActividad ? `${serverHost}/activity/${idActividad}` : `${serverHost}/activity`;
-    const method = idActividad ? 'PATCH' : 'POST';
-    callFetch({
-      uri,
-      headers: { authorization: token },
-      method,
-      body: data,
-      removeContentType: true,
-    });
+    if (method === 'PATCH') {
+      data.append('id', idActividad);
+      callFetch({
+        uri,
+        headers: { authorization: token },
+        method,
+        body: data,
+        removeContentType: true,
+      });
+      // callFetch({
+      //   uri,
+      //   headers: { 'Content-Type': 'application/json', authorization: token },
+      //   method,
+      //   body: JSON.stringify(data),
+      //   removeContentType: true,
+      // });
+    } else {
+      callFetch({
+        uri,
+        headers: { authorization: token },
+        method,
+        body: data,
+        removeContentType: true,
+      });
+    }
   };
 
   const redirectOnSuccess = () => {
@@ -150,7 +173,7 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!idActividad) return;
-    fetchActivityData({ uri: `${serverHost}/activity/${idActividad}`, authorization: { headers: token } });
+    fetchActivityData({ uri: `${serverHost}/activity/${idActividad}`, headers: { authorization: token } });
   }, [idActividad]);
 
   useEffect(() => {
@@ -161,14 +184,15 @@ function NewActivityPage() {
   useEffect(() => {
     if (!idArea) return;
     console.log(token);
-    fetchAreaData({ uri: `${serverHost}/area/${idArea}`, authorization: { headers: token } });
+    fetchAreaData({ uri: `${serverHost}/area/${idArea}`, headers: { Authorization: token } });
   }, [idArea]);
 
   useEffect(() => {
     const uri = `${serverHost}/promotion`;
+    console.log(token);
     fetchPromotionsData({
       uri,
-      headers: { authorization: token },
+      headers: { Authorization: token },
       removeContentType: true,
     });
     console.log(promotionsData);
@@ -176,11 +200,11 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!activityData) return;
-    console.log(activityData);
+    // console.log(activityData);
     // const completionDate = new Date(activityData.date);
     const registrationStartDate = new Date(activityData.registrationStartDate).toISOString().split('T')[0];
     const registrationEndDate = new Date(activityData.registrationEndDate).toISOString().split('T')[0];
-    const completionDate = new Date(activityData.registrationStartDate).toISOString().split('T')[0];
+    const completionDate = new Date(activityData.date).toISOString().split('T')[0];
     setData('activityName', activityData.name);
     setData('name', activityData.asigboArea.name);
     setData('completionDate', completionDate);
@@ -190,9 +214,24 @@ function NewActivityPage() {
     setData('registrationEndDate', registrationEndDate);
     // console.log(activityData.responsible);
     setSelectedUsers(activityData.responsible);
+    setSelectedPromotions(activityData.participatingPromotions);
     setData('responsible', activityData.responsible);
     setData('maxParticipants', String(activityData.availableSpaces));
     setData('participatingPromotions', activityData.participatingPromotions);
+    if (activityData.hasBanner) {
+      fetchAreaData(`${serverHost}/image/activity/${idActividad}`).then((response) => {
+        console.log(`${serverHost}/image/activity/${idActividad}`);
+        if (response.ok) {
+          response.json().then((images) => {
+            setData('defaultImages', images);
+            setDefaultImages(images);
+          });
+        } else {
+          console.error('Failed to fetch images');
+        }
+      });
+    }
+    // setData('id', idActividad);
   }, [activityData]);
 
   // useEffect(() => {
@@ -308,7 +347,7 @@ function NewActivityPage() {
               }}
             />
             {!participantsChecked && (
-              <PromotionChips data={promotionsData} onSelectionChange={(value) => setData('participatingPromotions', value)} />
+              <PromotionChips data={promotionsData} onSelectionChange={(value) => setData('participatingPromotions', value)} defaultSelectedPromotions={selectedPromotions} />
             )}
 
             {/* Pagos pendientes */}
@@ -368,8 +407,8 @@ function NewActivityPage() {
                 setSelectedImages(images);
                 setDeletedDefaultImages(deletedDefault);
               }}
-              maxFiles={5} // Por ejemplo, puedes modificar según tus necesidades.
-              defaultImages={form?.defaultImages}
+              maxFiles={5}
+              defaultImages={defaultImages}
             />
             <h3 className={styles.formSectionTitle}>Encargados</h3>
             <CheckBox
