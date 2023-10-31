@@ -37,7 +37,6 @@ function AdminIndexPage() {
         <Route path="/area/nuevo" element={<NewAreaPage />} />
         <Route path="/area" element={<AreasListPage />} />
         <Route path="/config/*" element={<AdminConfiguration />} />
-        <Route path="/usuario/:userId" element={<UserProfileIndexPage />} />
         <Route path="/usuario/:userId/editar" element={<UpdateUserInRoutePage />} />
         <Route path="/usuario/:userId/*" element={<UserProfileIndexPage />} />
         <Route path="/usuario" element={<UsersListPage />} />
