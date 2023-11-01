@@ -38,7 +38,7 @@ function WelcomeMessage({ isOpen, close }) {
 
     // eslint-disable-next-line consistent-return
     return () => confetti.clear();
-  }, [canvasRef.current]);
+  }, [canvasRef.current, isOpen]);
 
   return (
     isOpen && (

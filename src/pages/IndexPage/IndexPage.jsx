@@ -6,7 +6,7 @@ import consts from '@helpers/consts';
 import UnloggedIndexPage from '../UnloggedIndexPage/UnloggedIndexPage';
 import AdminIndexPage from '../AdminIndexPage/AdminIndexPage';
 import UserIndexPage from '../UserIndexPage/UserIndexPage';
-import WelcomeMessage from '../../components/WelcomeMessage/WelcomeMessage';
+import WelcomeMessage from '../../components/WelcomeMessage';
 import usePopUp from '../../hooks/usePopUp';
 
 function IndexPage() {
