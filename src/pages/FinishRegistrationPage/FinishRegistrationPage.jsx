@@ -141,10 +141,7 @@ function FinishRegistrationPage() {
           <img className={styles.logo} src={asigboLogo} alt="Logo de Asigbo" />
 
           <h1 className={styles.title}>
-            ¡Bienvenido
-            {' '}
-            {userData?.name}
-            !
+            {`¡${userData?.sex === consts.sex.masculine ? 'Bienvenido' : 'Bienvenida'} ${userData?.name}!`}
           </h1>
           <p className={styles.instructions}>
             Ayudanos a completar tu perfíl para poder acceder a tu cuenta del portal de Asigbo.
