@@ -6,9 +6,11 @@ function useAssignment() {
     callFetch, result, error, loading,
   } = useFetch();
 
-  const getAssignment = async (user, lowerDate, upperDate, searchParam, page) => {
+  const getAssignment = async ({
+    user, lowerDate, upperDate, searchParam, page, token,
+  }) => {
     const uri = `${serverHost}/activity/assignment/?idUser=${user}${lowerDate ? `&lowerDate=${lowerDate}` : ''}${upperDate ? `&upperDate=${upperDate}` : ''}${searchParam ? `&search=${searchParam}` : ''}${page >= 0 ? `&page=${page}` : ''}`;
-    await callFetch({ uri });
+    await callFetch({ uri, headers: { authorization: token } });
   };
 
   return {
