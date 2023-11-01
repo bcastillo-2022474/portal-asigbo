@@ -48,6 +48,8 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
   // Si la búsqieda está vacía la información filtrada es igual a la que proviene del parámetro.
 
   useEffect(() => {
+    if (!token) return;
+
     dayjs.locale('es');
     if (id) {
       getAssignment(id, null, null, null, currentPage);
@@ -62,7 +64,7 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
 
     media.onchange = handleMediaChange;
     handleMediaChange(media);
-  }, []);
+  }, [token]);
 
   const handlePageChange = (e, page) => {
     setCurrentPage(page - 1);
@@ -129,6 +131,7 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
 
   // Cuando un parámetro de filtro cambie, filtrar sobre ellos.
   useEffect(() => {
+    if (!token) return;
     if (id) {
       getAssignment(id, initialDate, finalDate, search, currentPage);
     } else if (userInfo?.id) {

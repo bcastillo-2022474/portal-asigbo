@@ -18,6 +18,7 @@ import useLogin from '../../hooks/useLogin';
 import usePopUp from '../../hooks/usePopUp';
 import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
 import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp';
+import consts from '../../helpers/consts';
 
 function FinishRegistrationPage() {
   const {
@@ -79,7 +80,15 @@ function FinishRegistrationPage() {
 
   const navigateToHome = () => navigate('/');
 
-  const forceLogin = () => login({ user: userData.email, password: form.password });
+  const forceLogin = () => {
+    login({
+      user: userData.email,
+      password: form.password,
+    });
+
+    // Añadir bandera para mostrar el mensaje de bienvenida
+    sessionStorage.setItem(consts.firstAccessKey, '');
+  };
 
   useEffect(() => {
     if (!validateAccessError) return;
