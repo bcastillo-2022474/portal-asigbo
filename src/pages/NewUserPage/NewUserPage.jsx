@@ -42,7 +42,8 @@ function NewUserPage() {
 
   const [isHoveringInfo, setIsHoveringInfo] = useState(false);
 
-  const redirectOnSuccess = () => navigate('/');
+  // eslint-disable-next-line no-underscore-dangle
+  const redirectOnSuccess = () => navigate(`/usuario/${resultPostUser?._id}`);
 
   const handleSubmitUser = async (e) => {
     e.preventDefault();
@@ -70,7 +71,8 @@ function NewUserPage() {
   }, [errorPostUser]);
 
   useEffect(() => {
-    if (resultPostUser) openSuccess();
+    if (!resultPostUser) return;
+    openSuccess();
   }, [resultPostUser]);
 
   return (

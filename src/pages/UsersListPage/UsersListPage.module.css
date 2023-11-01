@@ -16,7 +16,7 @@
     align-items: center;
 }
 
-.newUserButton{
+.newUserLink{
     margin-left: auto;
 }
 
@@ -28,7 +28,7 @@
         gap: 10px;
     }
 
-    .newUserButton{
+    .newUserLink{
         margin: 0;
     }
     
