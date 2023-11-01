@@ -22,7 +22,6 @@ function ActivityDetails({ className, data }) {
       setIsCompleted(false);
       setIsEnrolled(false);
     }
-    console.log(data);
   }, [data]);
 
   return (

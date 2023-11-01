@@ -61,7 +61,6 @@ function NewUserPage() {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    // console.log(name, value);
     setData(name, value);
     setData('code', Math.floor(Math.random() * (15001 - 0) + 0));
   };
