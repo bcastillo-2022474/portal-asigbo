@@ -150,7 +150,7 @@ function FinishRegistrationPage() {
             Ayudanos a completar tu perfíl para poder acceder a tu cuenta del portal de Asigbo.
           </p>
 
-          <form onSubmit={handleSubmit}>
+          <form className={styles.formContainer} onSubmit={handleSubmit}>
             <InputPhoto onChange={onPhotoChange} className={styles.inputPhoto} />
             <InputText
               title="Ingresar contraseña."
