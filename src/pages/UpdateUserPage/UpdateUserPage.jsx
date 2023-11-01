@@ -18,8 +18,8 @@ import useToken from '@hooks/useToken';
 import usePopUp from '@hooks/usePopUp';
 import updateUserSchema from './updateUserSchema';
 import styles from './UpdateUserPage.module.css';
-import getTokenPayload from '../../helpers/getTokenPayload';
 import consts from '../../helpers/consts';
+import useSessionData from '../../hooks/useSessionData';
 
 /**
  * Página para editar el perfil de un usuario.
@@ -41,10 +41,9 @@ function UpdateUserPage({ userId }) {
   } = useFetch();
 
   const token = useToken();
-  const userData = getTokenPayload(token);
+  const sessionData = useSessionData();
 
-  const isAdmin = userData.role.includes(consts.roles.admin);
-  const isPromotionResponsible = userData.role.includes(consts.roles.promotionResponsible);
+  const isAdmin = sessionData?.role.includes(consts.roles.admin);
 
   const {
     form, error, setForm, setData, validateField, clearFieldError, validateForm,
@@ -113,7 +112,7 @@ function UpdateUserPage({ userId }) {
 
     // Eliminar parámetros según permisos
     if (!isAdmin) data.delete('promotion');
-    if (!(form.password?.length > 0) || userId !== userData.id) {
+    if (!(form.password?.length > 0) || userId !== sessionData?.id) {
       data.delete('password');
     }
     data.delete('repeatPassword');
@@ -130,12 +129,11 @@ function UpdateUserPage({ userId }) {
   };
 
   const handleSuccessUpdate = () => {
-    navigate(userData.id === userId ? '/perfil' : `/usuario/${userId}`);
+    navigate(sessionData.id === userId ? '/perfil' : `/usuario/${userId}`);
   };
 
   // Valida que sea admin o encargado del año del usuario a editar
-  const validatePagePermissionAccess = () => isAdmin || (isPromotionResponsible
-    && user?.promotion === userData?.promotion);
+  const validatePagePermissionAccess = () => isAdmin || (userId === sessionData?.id);
 
   return (
     <>
@@ -247,7 +245,7 @@ function UpdateUserPage({ userId }) {
                 />
               )}
 
-              {userId === userData.id && (
+              {userId === sessionData?.id && (
                 <>
                   <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>
                     Información de acceso
