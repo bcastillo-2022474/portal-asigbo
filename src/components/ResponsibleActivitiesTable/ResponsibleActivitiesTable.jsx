@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // import dayjs from 'dayjs';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Pagination } from '@mui/material';
+import { BiSolidImage as ImageIcon } from 'react-icons/bi';
 import ActivityTableFilter from '../ActivityTableFilter/ActivityTableFilter';
 import styles from './ResponsibleActivitiesTable.module.css';
 import Table from '../Table/Table';
@@ -13,6 +14,7 @@ import { serverHost } from '../../config';
 import useToken from '../../hooks/useToken';
 import getTokenPayload from '../../helpers/getTokenPayload';
 import useFetch from '../../hooks/useFetch';
+import consts from '../../helpers/consts';
 
 /*----------------------------------------------------------------------------------------------*/
 /**
@@ -41,20 +43,13 @@ function ResponsibleActivitiesTable({ onError }) {
   } = useFetch();
 
   // Estados
-  const navigate = useNavigate();
   const [filters, setFilters] = useState({});
   const [paginationItems, setPaginationItems] = useState();
   const [currentPage, setCurrentPage] = useState(0);
+  const [imageErrors, setImageErrors] = useState({});
 
-  // Redirección a actividad.
-  const goToActivity = (id) => {
-    navigate(`/actividad/${id}`);
-  };
-
-  // Redirección a actividad.
-  const newTabActivity = (id) => {
-    navigate(`/actividad/${id}`);
-  };
+  // Manejar imagenes
+  const handleImageError = (id) => setImageErrors((val) => ({ ...val, [id]: true }));
 
   // Manejar filtros
   const handleChange = (name, value) => {
@@ -117,17 +112,32 @@ function ResponsibleActivitiesTable({ onError }) {
         finalDateHandler={(date) => handleChange('upperDate', date)}
       />
 
-      <Table header={['Actividad', 'Horas de servicio', 'Fecha']} loading={loadingActivities} breakPoint="1110px" showCheckbox={false}>
+      <Table header={['Actividad', 'Horas de servicio', 'Fecha', 'Eje']} loading={loadingActivities} breakPoint="1110px" showCheckbox={false}>
         {resultActivities?.result.map((value) => (
           <TableRow
             id={value.id}
-            onClick={() => goToActivity(value.id)}
             key={value.id}
-            onMouseDown={() => newTabActivity(value.id)}
           >
-            <td>{value.name}</td>
+            <td><Link to={`/actividad/${value.id}`} className={styles.activityLink}>{value.name}</Link></td>
             <td>{value.serviceHours}</td>
             <td>{`${value.date.slice(8, 10)}-${value.date.slice(5, 7)}-${value.date.slice(0, 4)}`}</td>
+            <td>
+              <div className={styles.cellContainer}>
+
+                <Link to={`/area/${value.asigboArea.id}`}>
+                  {!imageErrors[value.asigboArea.id] ? (
+                    <img
+                      className={styles.areaIcon}
+                      title={value.asigboArea.name}
+                      src={`${serverHost}/${consts.imageRoute.area}/${value.asigboArea.id}`}
+                      alt={value.asigboArea.name}
+                      onError={() => handleImageError(value.asigboArea.id)}
+                    />
+                  ) : <ImageIcon className={styles.defaultIcon} title={value.asigboArea.name} />}
+                </Link>
+
+              </div>
+            </td>
           </TableRow>
         ))}
       </Table>
