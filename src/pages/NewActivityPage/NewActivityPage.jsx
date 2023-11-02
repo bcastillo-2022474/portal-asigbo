@@ -84,7 +84,7 @@ function NewActivityPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const method = idActividad ? 'PATCH' : 'POST';
-    const uri = `${serverHost}/activity/${idActividad}`;
+    const uri = idActividad ? `${serverHost}/activity/${idActividad}` : `${serverHost}/activity/`;
 
     const formErrors = await validateForm();
     if (formErrors) return;
