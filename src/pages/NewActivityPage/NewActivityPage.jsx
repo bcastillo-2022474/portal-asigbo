@@ -24,7 +24,7 @@ import styles from './NewActivityPage.module.css';
 import createAsigboActivitySchema from './createAsigboActivitySchema';
 
 function NewActivityPage() {
-  // Si el idArea no es null, el formulario es para editar
+  // Si el idActividad no es null, el formulario es para editar
   const { idArea, idActividad } = useParams();
 
   const {
@@ -84,7 +84,7 @@ function NewActivityPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const method = idActividad ? 'PATCH' : 'POST';
-    const uri = idActividad && method === 'POST' ? `${serverHost}/activity/${idActividad}` : `${serverHost}/activity/`;
+    const uri = `${serverHost}/activity/${idActividad}`;
 
     const formErrors = await validateForm();
     if (formErrors) return;
@@ -108,11 +108,6 @@ function NewActivityPage() {
     if (participantsChecked) {
       participatingPromotions = [];
     }
-    // if (method === 'PATCH') {
-    //   console.log(uri);
-    //   console.log(typeof (idActividad));
-    //   data.append('id', idActividad);
-    // }
     data.append('name', activityName);
     data.append('date', completionDate);
     data.append('idAsigboArea', idArea);
@@ -128,31 +123,13 @@ function NewActivityPage() {
     participatingPromotions.forEach((val) => {
       data.append('participatingPromotions[]', val);
     });
-    if (method === 'PATCH') {
-      data.append('id', idActividad);
-      callFetch({
-        uri,
-        headers: { authorization: token },
-        method,
-        body: data,
-        removeContentType: true,
-      });
-      // callFetch({
-      //   uri,
-      //   headers: { 'Content-Type': 'application/json', authorization: token },
-      //   method,
-      //   body: JSON.stringify(data),
-      //   removeContentType: true,
-      // });
-    } else {
-      callFetch({
-        uri,
-        headers: { authorization: token },
-        method,
-        body: data,
-        removeContentType: true,
-      });
-    }
+    callFetch({
+      uri,
+      headers: { authorization: token },
+      method,
+      body: data,
+      removeContentType: true,
+    });
   };
 
   const redirectOnSuccess = () => {
@@ -177,31 +154,27 @@ function NewActivityPage() {
   }, [idActividad]);
 
   useEffect(() => {
+    if (!idArea) return;
+    fetchAreaData({ uri: `${serverHost}/area/${idArea}`, headers: { Authorization: token } });
+  }, [idArea]);
+
+  useEffect(() => {
     if (!areaData) return;
     setData('name', areaData.name);
   }, [areaData]);
 
   useEffect(() => {
-    if (!idArea) return;
-    console.log(token);
-    fetchAreaData({ uri: `${serverHost}/area/${idArea}`, headers: { Authorization: token } });
-  }, [idArea]);
-
-  useEffect(() => {
     const uri = `${serverHost}/promotion`;
-    console.log(token);
     fetchPromotionsData({
       uri,
-      headers: { Authorization: token },
+      headers: { authorization: token },
       removeContentType: true,
     });
-    console.log(promotionsData);
   }, []);
 
   useEffect(() => {
     if (!activityData) return;
-    // console.log(activityData);
-    // const completionDate = new Date(activityData.date);
+    console.log('a');
     const registrationStartDate = new Date(activityData.registrationStartDate).toISOString().split('T')[0];
     const registrationEndDate = new Date(activityData.registrationEndDate).toISOString().split('T')[0];
     const completionDate = new Date(activityData.date).toISOString().split('T')[0];
@@ -212,13 +185,13 @@ function NewActivityPage() {
     setData('description', activityData.description);
     setData('registrationStartDate', registrationStartDate);
     setData('registrationEndDate', registrationEndDate);
-    // console.log(activityData.responsible);
     setSelectedUsers(activityData.responsible);
     setSelectedPromotions(activityData.participatingPromotions);
     setData('responsible', activityData.responsible);
     setData('maxParticipants', String(activityData.availableSpaces));
     setData('participatingPromotions', activityData.participatingPromotions);
     if (activityData.hasBanner) {
+      // setDefaultImages(`${serverHost}/image/activity/${idActividad}`);
       fetchAreaData(`${serverHost}/image/activity/${idActividad}`).then((response) => {
         console.log(`${serverHost}/image/activity/${idActividad}`);
         if (response.ok) {
@@ -231,16 +204,9 @@ function NewActivityPage() {
         }
       });
     }
-    // setData('id', idActividad);
   }, [activityData]);
 
-  // useEffect(() => {
-  //   if (!activityData.responsible) return;
-  //   // setSelectedUsers(activityData.responsible);
-  //   console.log(activityData.responsible);
-  // }, [activityData.responsible]);
-
-  if (loadingPromotions) return <p>Loading...</p>;
+  if (loadingPromotions) return <LoadingView />;
   if (errorPromotions) {
     return (
       <p>
@@ -252,10 +218,11 @@ function NewActivityPage() {
 
   return (
     <>
-      {(!idArea || activityData) && (
+      {loadingActivityData && <LoadingView />}
+      {(!idArea || areaData) && (
         <div className={styles.newAreaPage}>
           <BackTitle
-            title={idArea ? 'Nueva Actividad' : 'Nuevo eje de ASIGBO'}
+            title={idArea ? 'Nueva Actividad' : 'Editar Actividad'}
             href={idArea ? `/area/${idArea}/actividades` : '/area'}
             className={styles.pageTitle}
           />
@@ -450,7 +417,6 @@ function NewActivityPage() {
           />
         </div>
       )}
-      {idArea && loadingActivityData && <LoadingView />}
       {idArea && errorActivityData && <NotFoundPage />}
     </>
   );
