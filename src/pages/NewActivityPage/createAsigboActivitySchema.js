@@ -30,7 +30,7 @@ export default yup.object().shape({
     })),
   serviceHours: yup
     .number()
-    .positive('Las horas de servicio deben ser un número positivo.')
+    .min(0, 'Las horas de servicio deben ser un número positivo o cero.')
     .integer('Las horas de servicio deben ser un número entero.')
     .required('La cantidad de horas de servicio es obligatoria.'),
   maxParticipants: yup

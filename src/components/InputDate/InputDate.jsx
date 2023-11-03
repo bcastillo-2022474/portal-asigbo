@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import randomId from '@helpers/randomString';
-import styles from './InputDate.module.css'; // Consider renaming this CSS file if you want to make it more generic.
+import styles from './InputDate.module.css';
 
 function InputDate({
   title, error, value, onChange, onBlur, onFocus, name, className, disabled, ...props
 }) {
-  const id = randomId(15);
+  const id = `input-date-${name}`;
   return (
     <div className={`${styles.inputTextContainer} ${error ? styles.error : ''} ${className}`}>
       <input
@@ -43,7 +43,7 @@ InputDate.propTypes = {
 
 InputDate.defaultProps = {
   error: null,
-  value: ' ',
+  value: '',
   name: randomId(15),
   onChange: null,
   onBlur: null,

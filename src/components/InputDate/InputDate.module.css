@@ -51,7 +51,7 @@
     transition: all 0.15s ease-out;
 }
 
-input:focus + .inputLabel .labelText, :not(input[value=""]) + .inputLabel .labelText {
+input:focus + .inputLabel .labelText, :not(input[value=' ']) + .inputLabel .labelText {
     font-size: 12px;
     transform: translate(0, -120%);
     background-color: white;

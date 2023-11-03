@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import InputText from '@components/InputText';
 import TextArea from '@components/TextArea';
+import dayjs from 'dayjs';
 import InputNumber from '@components/InputNumber/InputNumber';
 import InputDate from '@components/InputDate/InputDate';
 import CheckBox from '@components/CheckBox/CheckBox';
@@ -37,7 +38,7 @@ function NewActivityPage() {
 
   const token = useToken();
   const [participantsChecked, setParticipantsChecked] = useState(false);
-  const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
+  // const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [selectedImages, setSelectedImages] = useState([]);
@@ -46,7 +47,6 @@ function NewActivityPage() {
   const [newActivityId, setNewActivityId] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedPromotions, setSelectedPromotions] = useState(null);
-  // setPromotionsData(null);
   const navigate = useNavigate();
 
   const {
@@ -59,7 +59,7 @@ function NewActivityPage() {
   const {
     callFetch: fetchAreaData,
     result: areaData,
-    // loading: loadingAreaData,
+    loading: loadingAreaData,
     // error: errorAreaData,
   } = useFetch();
 
@@ -176,7 +176,8 @@ function NewActivityPage() {
     if (!activityData) return;
     const registrationStartDate = new Date(activityData.registrationStartDate).toISOString().split('T')[0];
     const registrationEndDate = new Date(activityData.registrationEndDate).toISOString().split('T')[0];
-    const completionDate = new Date(activityData.date).toISOString().split('T')[0];
+    const completionDate = dayjs(activityData.date.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
+    console.log(completionDate);
     setData('activityName', activityData.name);
     setData('name', activityData.asigboArea.name);
     setData('completionDate', completionDate);
@@ -192,9 +193,11 @@ function NewActivityPage() {
     if (activityData.hasBanner) {
       setDefaultImages([`${serverHost}/image/activity/${idActividad ?? null}`]);
     }
+    console.log(activityData);
+    console.log(activityData.date);
+    console.log(form.completionDate);
   }, [activityData]);
 
-  if (loadingPromotions) return <LoadingView />;
   if (errorPromotions) {
     return (
       <NotFoundPage />
@@ -203,7 +206,7 @@ function NewActivityPage() {
 
   return (
     <>
-      {loadingActivityData && <LoadingView />}
+      {(loadingActivityData || loadingPromotions || loadingAreaData) && <LoadingView />}
       {(!idArea || areaData) && (
         <div className={styles.newAreaPage}>
           <BackTitle
@@ -363,11 +366,11 @@ function NewActivityPage() {
               defaultImages={defaultImages}
             />
             <h3 className={styles.formSectionTitle}>Encargados</h3>
-            <CheckBox
+            {/* <CheckBox
               label="Inscribir a los encargados como participantes de la actividad"
               checked={delegateAsParticipant}
               onChange={() => setDelegateAsParticipant(!delegateAsParticipant)}
-            />
+            /> */}
             <UserSelectTable
               onChange={(value) => setData('responsible', value)}
               defaultSelectedUsers={selectedUsers}
