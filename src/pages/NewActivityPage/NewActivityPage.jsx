@@ -174,7 +174,6 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!activityData) return;
-    console.log('a');
     const registrationStartDate = new Date(activityData.registrationStartDate).toISOString().split('T')[0];
     const registrationEndDate = new Date(activityData.registrationEndDate).toISOString().split('T')[0];
     const completionDate = new Date(activityData.date).toISOString().split('T')[0];
@@ -191,28 +190,14 @@ function NewActivityPage() {
     setData('maxParticipants', String(activityData.availableSpaces));
     setData('participatingPromotions', activityData.participatingPromotions);
     if (activityData.hasBanner) {
-      // setDefaultImages(`${serverHost}/image/activity/${idActividad}`);
-      fetchAreaData(`${serverHost}/image/activity/${idActividad}`).then((response) => {
-        console.log(`${serverHost}/image/activity/${idActividad}`);
-        if (response.ok) {
-          response.json().then((images) => {
-            setData('defaultImages', images);
-            setDefaultImages(images);
-          });
-        } else {
-          console.error('Failed to fetch images');
-        }
-      });
+      setDefaultImages([`${serverHost}/image/activity/${idActividad ?? null}`]);
     }
   }, [activityData]);
 
   if (loadingPromotions) return <LoadingView />;
   if (errorPromotions) {
     return (
-      <p>
-        Error:
-        {errorPromotions.message}
-      </p>
+      <NotFoundPage />
     );
   }
 
