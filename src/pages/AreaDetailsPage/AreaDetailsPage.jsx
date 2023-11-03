@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Route, Routes, useNavigate, useParams,
+  Route, Routes, useNavigate, useParams, NavLink,
 } from 'react-router-dom';
 import { BiSolidImage as ImageIcon } from 'react-icons/bi';
 import { serverHost } from '@/config';
@@ -28,6 +28,7 @@ import usePopUp from '@hooks/usePopUp';
 import useActivitiesByArea from '../../hooks/useActivitiesByArea';
 import styles from './AreaDetailsPage.module.css';
 import useToogle from '../../hooks/useToogle';
+import useSessionData from '../../hooks/useSessionData';
 
 /**
  *
@@ -41,6 +42,7 @@ function AreaDetailsPage({ adminPrivileges }) {
   } = useFetch();
   const [content, setContent] = useState([[]]);
   const [loadingInfo, setLoadingInfo] = useState(true);
+  const sessionUser = useSessionData();
 
   // Fetch utilizado para eliminar, habilitar o deshabilitar eje
   const {
@@ -77,9 +79,9 @@ function AreaDetailsPage({ adminPrivileges }) {
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [isConfirmatonOpen, openConfirmaton, closeConfirmaton] = usePopUp();
 
-  const handleNewActivityClick = () => {
-    navigate(`/area/${idArea}/newActivity`);
-  };
+  // const handleNewActivityClick = () => {
+  //   navigate(`/area/${idArea}/newActivity`);
+  // };
 
   useEffect(() => {
     fetchAreaData({ uri: `${serverHost}/area/${idArea}`, headers: { authorization: token } });
@@ -219,9 +221,15 @@ function AreaDetailsPage({ adminPrivileges }) {
                 <>
                   <div className={styles.headerContainer}>
                     <h3 className={styles.sectionTitle}>Listado de Actividades</h3>
-                    <div className={styles.buttonsContainer}>
-                      <Button text="Nueva actividad" className={styles.sendButton} onClick={handleNewActivityClick} type="submit" />
-                    </div>
+                    {sessionUser?.role.includes(consts.roles.admin) && (
+                    <NavLink to={`/area/${idArea}/newActivity`} className={styles.newLink}>
+                      <Button text="Nueva actividad" />
+                    </NavLink>
+                    )}
+                    {/* <div className={styles.buttonsContainer}>
+                      <Button text="Nueva actividad" className={styles.sendButton}
+                      onClick={handleNewActivityClick} type="submit" />
+                    </div> */}
                   </div>
                   <ActivityTable data={content} loading={loadingInfo} listingType="byArea" />
                 </>
