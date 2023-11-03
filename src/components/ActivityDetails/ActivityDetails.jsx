@@ -29,17 +29,19 @@ function ActivityDetails({ className, data }) {
       <div className={styles.detailsHeader}>
         <h2 className={styles.dataHeader}>Datos de la actividad</h2>
         <div className={styles.status}>
-          {isEnrolled ? (isCompleted ? (
-            <>
-              <b>COMPLETADO</b>
-              <CheckIcon className={styles.statusIcon} />
-            </>
+          {isEnrolled ? (
+            isCompleted ? (
+              <>
+                <b>COMPLETADO</b>
+                <CheckIcon className={styles.statusIcon} />
+              </>
+            ) : (
+              <>
+                <b>INSCRITO</b>
+                <EnrolledIcon className={styles.statusIcon} />
+              </>
+            )
           ) : (
-            <>
-              <b>INSCRITO</b>
-              <EnrolledIcon className={styles.statusIcon} />
-            </>
-          )) : (
             ''
           )}
         </div>
@@ -55,7 +57,16 @@ function ActivityDetails({ className, data }) {
           {data ? dayjs(data.date.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY') : ''}
         </DataField>
         <DataField label="Horas de servicio" className={styles.dataField}>
-          {data ? (data.serviceHours > 1 ? `${data.serviceHours} horas` : `${data.serviceHours} hora`) : ''}
+          {data
+            ? data.serviceHours > 1
+              ? `${data.serviceHours} horas`
+              : `${data.serviceHours} hora`
+            : ''}
+          {data?.userAssignment?.aditionalServiceHours > 0
+            ? ` (+ ${data?.userAssignment?.aditionalServiceHours} ${
+              data?.userAssignment?.aditionalServiceHours > 1 ? 'adicionales' : 'adicional'
+            })`
+            : ''}
         </DataField>
         <DataField label="Descripción" className={styles.desc}>
           Descripción
@@ -71,9 +82,17 @@ function ActivityDetails({ className, data }) {
         </DataField>
         <DataField label="Disponibilidad de inscripción" className={styles.disponField}>
           De
-          <span className={styles.date}>{data ? dayjs(data.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY') : '00/00/0000'}</span>
+          <span className={styles.date}>
+            {data
+              ? dayjs(data.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+              : '00/00/0000'}
+          </span>
           hasta
-          <span className={styles.date}>{data ? dayjs(data.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY') : '00/00/0000'}</span>
+          <span className={styles.date}>
+            {data
+              ? dayjs(data.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+              : '00/00/0000'}
+          </span>
         </DataField>
         {data?.participatingPromotions ? (
           <>
@@ -84,7 +103,9 @@ function ActivityDetails({ className, data }) {
               <span className={styles.promo}>2020</span>
             </div>
           </>
-        ) : ''}
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );

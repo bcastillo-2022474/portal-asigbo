@@ -175,7 +175,7 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
                     {value.activity.name}
                   </NavLink>
                 </td>
-                <td>{value.activity.serviceHours}</td>
+                <td>{value.activity.serviceHours + (value.aditionalServiceHours ?? 0)}</td>
                 <td>{value.completed ? 'Si' : 'No'}</td>
                 <td>
                   {dayjs(
