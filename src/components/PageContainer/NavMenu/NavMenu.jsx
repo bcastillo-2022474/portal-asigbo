@@ -26,7 +26,7 @@ import consts from '../../../helpers/consts';
  */
 
 function NavMenu({
-  idUser, name, className, toggler, roles, hasImage,
+  idUser, name, className, toggler, roles, hasImage, menuRef,
 }) {
   const logout = useLogout();
 
@@ -38,13 +38,14 @@ function NavMenu({
   ];
 
   return (
-    <div className={`${styles.navMenu} ${className}`}>
+    <div className={`${styles.navMenu} ${className}`} ref={menuRef}>
       <div className={styles.profile}>
         <UserPicture
           className={styles.profilePicture}
           name={name}
           idUser={idUser}
           hasImage={hasImage}
+          onClick={toggler}
         />
         <span className={styles.profileName}>{name}</span>
       </div>
@@ -92,6 +93,8 @@ NavMenu.propTypes = {
   toggler: PropTypes.func,
   roles: PropTypes.arrayOf(PropTypes.string),
   hasImage: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  menuRef: PropTypes.any,
 };
 
 NavMenu.defaultProps = {
@@ -100,6 +103,7 @@ NavMenu.defaultProps = {
   toggler: undefined,
   roles: null,
   hasImage: false,
+  menuRef: null,
 };
 
 export default NavMenu;

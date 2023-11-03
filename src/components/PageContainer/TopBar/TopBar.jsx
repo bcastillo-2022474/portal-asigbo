@@ -18,7 +18,7 @@ import UserInfo from '../UserInfo/UserInfo';
 *
 */
 function TopBar({
-  toggler, logo, name, showToggler, idUser, hasImage,
+  toggler, logo, name, showToggler, idUser, hasImage, menuButtonRef,
 }) {
   return (
     <nav className={styles.TopBar}>
@@ -26,7 +26,7 @@ function TopBar({
 
         {/* Botón toggle */}
         {showToggler ? (
-          <button className={styles.icon} onClick={toggler} type="button">
+          <button className={styles.icon} onClick={toggler} type="button" ref={menuButtonRef}>
             <MenuIcon fill="none" stroke="#ffffff" />
           </button>
         ) : undefined}
@@ -53,6 +53,7 @@ TopBar.defaultProps = {
   name: '',
   idUser: null,
   hasImage: false,
+  menuButtonRef: null,
 };
 
 TopBar.propTypes = {
@@ -62,6 +63,8 @@ TopBar.propTypes = {
   name: PropTypes.string,
   idUser: PropTypes.string,
   hasImage: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  menuButtonRef: PropTypes.any,
 };
 
 export default TopBar;
