@@ -174,10 +174,9 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!activityData) return;
-    const registrationStartDate = new Date(activityData.registrationStartDate).toISOString().split('T')[0];
-    const registrationEndDate = new Date(activityData.registrationEndDate).toISOString().split('T')[0];
+    const registrationStartDate = dayjs(activityData.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
+    const registrationEndDate = dayjs(activityData.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
     const completionDate = dayjs(activityData.date.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
-    console.log(completionDate);
     setData('activityName', activityData.name);
     setData('name', activityData.asigboArea.name);
     setData('completionDate', completionDate);
