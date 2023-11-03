@@ -1,26 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-  font-family: 'Montserrat','Inter', sans-serif;
+  font-family: 'Montserrat', 'Inter', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  --global-font-family--:  'Montserrat','Inter', sans-serif;
+  --global-font-family--: 'Montserrat', 'Inter', sans-serif;
 
-  --error-color--:#df0303;
-  --blue-theme-color--:#16337f; 
-  --blue-theme-color-hover--:#2e4d9c; 
+  --error-color--: #df0303;
+  --blue-theme-color--: #16337f;
+  --blue-theme-color-hover--: #2e4d9c;
   --page-background-color--: white;
 
-  --text-font-size--:16px;
-  --h1-title-size--:35px;
+  --text-font-size--: 16px;
+  --h1-title-size--: 35px;
   --h2-title-size--: 25px;
   --h3-title-size--: 20px;
   --h4-title-size--: 17px;
 
   --navbar-height--: 70px;
 
-  --sidebar-width--: 135px; 
+  --sidebar-width--: 135px;
   --sidebar-mobile-width--: 250px;
 
   --page-horizontal-padding--: 50px;
@@ -42,13 +42,13 @@
   -webkit-text-size-adjust: 100%;
 }
 
-*{
-  margin:0;
+* {
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body, #root{
+html, body, #root {
   width: 100%;
   height: 100%;
 }
@@ -58,14 +58,15 @@ html, body, #root{
   overflow-x: hidden;
 }
 
-a{
+a {
   color: black;
   text-decoration: none;
 }
 
-@media only screen and (max-width: 400px){
-  :root{
+@media only screen and (max-width: 500px) {
+  :root {
     --page-horizontal-padding--: 25px;
-  --page-vertical-padding--: 50px;
+    --page-vertical-padding--: 50px;
   }
+
 }

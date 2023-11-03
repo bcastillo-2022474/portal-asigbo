@@ -145,6 +145,7 @@ function UpdateUserPage({ userId }) {
               <InputPhoto
                 defaultImage={user.hasImage ? `${serverHost}/image/user/${userId}` : null}
                 onChange={handleImageChange}
+                className={styles.inputPhoto}
               />
 
               <h3 className={`${styles.sectionTitle} ${styles.completeRow}`}>

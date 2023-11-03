@@ -170,6 +170,10 @@
     max-width: 225px !important;
     max-height: 225px !important;
   }
+
+  .main h3{
+    text-align: center;
+  }
 }
 @media only screen and (max-width: 435px) {
   .chart {

@@ -27,3 +27,11 @@
   font-weight: 400;
   text-align: center;
 }
+
+@media only screen and (max-width: 500px){
+
+  .panelItem{
+    max-width: unset;
+    min-width: unset;
+  }
+}
