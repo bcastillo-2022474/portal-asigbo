@@ -10,6 +10,7 @@ import UserPicture from '../../UserPicture';
 import useLogout from '../../../hooks/useLogout';
 import NavMenuButton from '../NavMenuButton/NavMenuButton';
 import consts from '../../../helpers/consts';
+import LoadingView from '../../LoadingView/LoadingView';
 
 /**
  *
@@ -28,7 +29,7 @@ import consts from '../../../helpers/consts';
 function NavMenu({
   idUser, name, className, toggler, roles, hasImage, menuRef,
 }) {
-  const logout = useLogout();
+  const { logout, loading } = useLogout();
 
   const responsibleRoles = [
     consts.roles.admin,
@@ -82,6 +83,8 @@ function NavMenu({
           />
         </div>
       </div>
+
+      {loading && <LoadingView />}
     </div>
   );
 }
