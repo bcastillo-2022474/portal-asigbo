@@ -58,7 +58,7 @@ function ActivityDetails({ className, data }) {
         </DataField>
         <DataField label="Horas de servicio" className={styles.dataField}>
           {data
-            ? data.serviceHours > 1
+            ? data.serviceHours !== 1
               ? `${data.serviceHours} horas`
               : `${data.serviceHours} hora`
             : ''}
