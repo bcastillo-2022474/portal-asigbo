@@ -54,6 +54,7 @@ function UserProfilePage({ idUser }) {
           options={[{ text: 'Datos de usuario', href: '' },
             { text: 'Horas de servicio', href: 'horas' }]}
           className={styles.tabMenu}
+          breakpoint="600px"
         />
 
         <Routes>
