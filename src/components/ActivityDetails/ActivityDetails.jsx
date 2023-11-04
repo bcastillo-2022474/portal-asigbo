@@ -68,31 +68,25 @@ function ActivityDetails({ className, data }) {
             })`
             : ''}
         </DataField>
-        <DataField label="Descripción" className={styles.desc}>
+        <DataField label="Descripción" className={`${styles.desc} ${styles.dataField}`}>
           Descripción
         </DataField>
         <DataField label="Pago requerido" className={styles.dataField}>
           N/A
         </DataField>
       </div>
-      <h3 className={styles.disponibility}>Disponibilidad</h3>
+      <h3 className={`${styles.disponibility} ${styles.dataField}`}>Disponibilidad</h3>
       <div className={styles.disponData}>
-        <DataField label="Espacios disponibles" className={styles.disponField}>
+        <DataField label="Espacios disponibles" className={`${styles.disponField} ${styles.dataField}`}>
           {data ? data.availableSpaces : '0'}
         </DataField>
-        <DataField label="Disponibilidad de inscripción" className={styles.disponField}>
-          De
-          <span className={styles.date}>
-            {data
-              ? dayjs(data.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
-              : '00/00/0000'}
-          </span>
-          hasta
-          <span className={styles.date}>
-            {data
-              ? dayjs(data.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
-              : '00/00/0000'}
-          </span>
+        <DataField label="Disponibilidad de inscripción" className={`${styles.disponField} ${styles.dataField}`}>
+          {`De ${data
+            ? dayjs(data.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+            : '00/00/0000'} hasta ${data
+            ? dayjs(data.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+            : '00/00/0000'}
+          `}
         </DataField>
         {data?.participatingPromotions ? (
           <>

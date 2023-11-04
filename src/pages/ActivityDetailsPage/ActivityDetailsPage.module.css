@@ -1,6 +1,5 @@
-.main {
-  padding-inline: var(--page-inline-padding--);
-  padding-block: var(--page-block-padding--);
+.main { 
+  padding: var(--page-vertical-padding--) var(--page-horizontal-padding--)
 }
 .main h1 {
   font-size: var(--h1-title-size--);
@@ -14,6 +13,12 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+.activityHeader h1{
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow: hidden;
 }
 
 .banner {

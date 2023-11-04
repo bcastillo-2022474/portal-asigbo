@@ -14,3 +14,9 @@
   font-size: var(--h2-title-size--);
   margin-top: 40px;
 }
+
+@media only screen and (max-width: 500px) {
+  .title {
+    text-align: center;
+  }
+}
