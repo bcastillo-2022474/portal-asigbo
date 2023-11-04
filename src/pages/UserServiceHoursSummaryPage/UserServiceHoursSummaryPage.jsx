@@ -5,6 +5,7 @@ import {
 } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import PropTypes from 'prop-types';
+import NoActivitiesBanner from '@assets/banner/rest-banner.svg';
 import styles from './UserServiceHoursSummaryPage.module.css';
 import LoadingView from '../../components/LoadingView';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
@@ -158,7 +159,12 @@ function UserServiceHoursSummaryPage({ userId }) {
                     <Doughnut data={chartData} className={styles.chart} key={`chartID ${userId}`} />
                   </div>
                 </>
-              ) : <span>No se ha completado ninguna actividad aún...</span>}
+              ) : (
+                <div className={styles.noActivityContent}>
+                  <img src={NoActivitiesBanner} alt="sin actividades" />
+                  <span>Aún no se han completado actividades</span>
+                </div>
+              )}
             </div>
           </div>
           <div className={styles.allActivities}>

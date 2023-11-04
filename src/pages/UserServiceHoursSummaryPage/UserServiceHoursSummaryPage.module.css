@@ -148,6 +148,27 @@
   margin-block: 40px;
 }
 
+.noActivityContent{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.noActivityContent img{
+  max-width: 200px;
+  width: 70%;
+  aspect-ratio: 1/1;
+}
+
+.noActivityContent span{
+  font-size: 18px;
+  color: #808080;
+  text-align: center;
+  padding: 0 10px;
+}
+
 @media only screen and (max-width: 545px) {
   .pageHeader {
     display: flex;
