@@ -12,6 +12,15 @@
 .profileHeader .headerDataContainer{
   display: flex;
   flex-direction: column;
+  flex: 1;
+  max-width: 100%;
+}
+
+.headerDataContainer span{
+  word-wrap: break-word;
+  width: 100%;
+  overflow: hidden;
+  display: block;
 }
 
 
@@ -23,6 +32,14 @@
 
   .headerDataContainer{
     align-items: center;
+    width: 100%;
+  }
+
+  .headerDataContainer span{
+    display: block;
+    word-wrap: break-word;
+    width: 100%;
+    text-align: center;
   }
 
 }
