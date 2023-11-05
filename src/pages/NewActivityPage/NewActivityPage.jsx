@@ -42,7 +42,7 @@ function NewActivityPage() {
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [selectedImages, setSelectedImages] = useState([]);
-  const [deletedDefaultImages, setDeletedDefaultImages] = useState([]);
+  const [deletedDefaultImages, setDeletedDefaultImages] = useState(false);
   const [defaultImages, setDefaultImages] = useState([]);
   const [newActivityId, setNewActivityId] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -95,7 +95,7 @@ function NewActivityPage() {
     // guardar imagenes
     selectedImages.forEach((file) => data.append('banner', file, file.name));
 
-    data.append('deletedImages', JSON.stringify(deletedDefaultImages));
+    // data.append('deletedImages', JSON.stringify(deletedDefaultImages));
 
     let {
       // eslint-disable-next-line max-len, prefer-const
@@ -123,6 +123,12 @@ function NewActivityPage() {
     participatingPromotions.forEach((val) => {
       data.append('participatingPromotions[]', val);
     });
+    console.log(deletedDefaultImages);
+    if (deletedDefaultImages) {
+      console.log('deletedDefaultImages');
+      // data.append('removeBanner', 'true');
+    }
+    console.log(data);
     callFetch({
       uri,
       headers: { authorization: token },
@@ -174,6 +180,7 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!activityData) return;
+    console.log(activityData);
     const registrationStartDate = dayjs(activityData.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
     const registrationEndDate = dayjs(activityData.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
     const completionDate = dayjs(activityData.date.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
@@ -192,9 +199,6 @@ function NewActivityPage() {
     if (activityData.hasBanner) {
       setDefaultImages([`${serverHost}/image/activity/${idActividad ?? null}`]);
     }
-    console.log(activityData);
-    console.log(activityData.date);
-    console.log(form.completionDate);
   }, [activityData]);
 
   if (errorPromotions) {
@@ -361,7 +365,7 @@ function NewActivityPage() {
                 setSelectedImages(images);
                 setDeletedDefaultImages(deletedDefault);
               }}
-              maxFiles={5}
+              maxFiles={1}
               defaultImages={defaultImages}
             />
             <h3 className={styles.formSectionTitle}>Encargados</h3>
