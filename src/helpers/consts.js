@@ -16,4 +16,9 @@ export default {
     area: 'image/area',
   },
   csvHeaders: ['Código', 'Nombres', 'Apellidos', 'Correo', 'Promoción', 'Carrera', 'Universidad', 'Campus', 'Sexo'],
+  sex: {
+    masculine: 'M',
+    femenine: 'F',
+  },
+  firstAccessKey: 'firstAccess',
 };

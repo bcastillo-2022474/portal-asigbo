@@ -52,7 +52,6 @@ function UserDataPopUp({
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    // console.log(name, value);
     setData(name, value);
   };
 

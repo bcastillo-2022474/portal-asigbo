@@ -44,9 +44,16 @@ function useFetch() {
 
       setResult(res ?? true);
     } catch (ex) {
+      let parsedError = null;
+
+      try {
+        parsedError = await ex.json();
+      } catch (ex2) {
+        // No se pudo convertir el error a json
+      }
       setError({
         status: ex?.status,
-        message: ex?.statusMessage ?? ex?.statusText ?? 'Ocurrió un error.',
+        message: parsedError?.err?.trim() || ex?.statusMessage?.trim() || ex?.statusText?.trim() || 'Ocurrió un error.',
       });
     } finally {
       setLoading(false);

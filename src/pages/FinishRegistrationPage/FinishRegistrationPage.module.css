@@ -6,7 +6,9 @@
 }
 
 .logo{
-  width: 400px;
+  width: 250px;
+  height: 77.65px;
+  margin: 35px;
 }
 
 .title{
@@ -48,9 +50,8 @@
 }
 
 @media only screen and (max-width: 530px){
-  form{
+  .finishRegistrationPage form{
     grid-template-columns: 1fr;
-    gap: 30px;
   }
   
 .inputPhoto{
@@ -60,7 +61,6 @@
 
 .buttonItem, .globalError{
   grid-column: 1;
-  margin: 0;
 }
 
 }

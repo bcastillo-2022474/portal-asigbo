@@ -18,3 +18,22 @@
 .pagination{
   margin-top: 20px;
 }
+
+.activityLink{
+  text-decoration: none;
+}
+
+.activityLink:hover{
+  text-decoration: underline;
+}
+
+.areaIcon{
+  width: 32px;
+  height: 32px;
+}
+
+.defaultIcon{
+  width: 32px;
+  height: 32px;
+  color: #4b4b4b;
+} 

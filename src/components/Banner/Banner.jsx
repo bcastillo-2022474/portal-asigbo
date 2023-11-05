@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import PropTypes from 'prop-types';
-import logo from '@assets/logo/logo blanco.png';
+import logo from '@assets/logo/logo_blanco.png';
 import randomString from '../../helpers/randomString';
 import styles from './Banner.module.css';
 

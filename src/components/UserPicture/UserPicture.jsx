@@ -22,7 +22,7 @@ import styles from './UserPicture.module.css';
  */
 
 function UserPicture({
-  idUser, name, className, hasImage,
+  idUser, name, className, hasImage, onClick,
 }) {
   const [imageError, setImageError] = useState(false);
 
@@ -34,6 +34,7 @@ function UserPicture({
       to={user?.id === idUser ? '/perfil' : `/usuario/${idUser}`}
       className={`${styles.userPicture} ${className}`}
       title={name}
+      onClick={onClick}
     >
       {hasImage && !imageError && idUser ? (
         <img
@@ -55,9 +56,11 @@ UserPicture.propTypes = {
   idUser: PropTypes.string,
   name: PropTypes.string.isRequired,
   hasImage: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
 };
 
 UserPicture.defaultProps = {
   className: '',
   idUser: null,
+  onClick: null,
 };

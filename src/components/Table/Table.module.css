@@ -65,7 +65,17 @@
 .noResults {
   font-size: 18px;
   color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
+
+.noResults img{
+  max-width: 200px;
+  width: 70%;
+}
+
 
 .verticalDesign .loadingRow,
 .verticalDesign .noContentRow{

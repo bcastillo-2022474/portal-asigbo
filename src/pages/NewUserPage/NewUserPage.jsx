@@ -42,7 +42,8 @@ function NewUserPage() {
 
   const [isHoveringInfo, setIsHoveringInfo] = useState(false);
 
-  const redirectOnSuccess = () => navigate('/');
+  // eslint-disable-next-line no-underscore-dangle
+  const redirectOnSuccess = () => navigate(`/usuario/${resultPostUser?._id}`);
 
   const handleSubmitUser = async (e) => {
     e.preventDefault();
@@ -60,7 +61,6 @@ function NewUserPage() {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    // console.log(name, value);
     setData(name, value);
     setData('code', Math.floor(Math.random() * (15001 - 0) + 0));
   };
@@ -70,7 +70,8 @@ function NewUserPage() {
   }, [errorPostUser]);
 
   useEffect(() => {
-    if (resultPostUser) openSuccess();
+    if (!resultPostUser) return;
+    openSuccess();
   }, [resultPostUser]);
 
   return (

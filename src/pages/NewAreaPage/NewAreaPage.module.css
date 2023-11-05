@@ -65,4 +65,16 @@
   .pageTitle span{
     display: block !important;
   }
+
+  .formSectionTitle{
+    text-align: center;
+  }
+
+  .formInstructions{
+    text-align: center;
+  }
+
+  .iconPicker{
+    margin: auto;
+  }
 }

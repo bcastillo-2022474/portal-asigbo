@@ -49,4 +49,12 @@
     padding-left: 20px;
     padding-right: 20px;
   }
+  .sectionTitle, 
+  .pageTitle{
+    text-align: center;
+  }
+
+  .inputPhoto{
+    margin: auto;
+  }
 }

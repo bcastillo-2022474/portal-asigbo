@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import asigboLogo from '@assets/asigboazul.png';
+import asigboLogo from '@assets//logo/logo_azul.png';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import UnloggedPageContainer from '../UnloggedPageContainer/UnloggedPageContainer';
 // import PropTypes from 'prop-types';
@@ -18,6 +18,7 @@ import useLogin from '../../hooks/useLogin';
 import usePopUp from '../../hooks/usePopUp';
 import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
 import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp';
+import consts from '../../helpers/consts';
 
 function FinishRegistrationPage() {
   const {
@@ -79,7 +80,15 @@ function FinishRegistrationPage() {
 
   const navigateToHome = () => navigate('/');
 
-  const forceLogin = () => login({ user: userData.email, password: form.password });
+  const forceLogin = () => {
+    login({
+      user: userData.email,
+      password: form.password,
+    });
+
+    // Añadir bandera para mostrar el mensaje de bienvenida
+    sessionStorage.setItem(consts.firstAccessKey, '');
+  };
 
   useEffect(() => {
     if (!validateAccessError) return;
@@ -132,16 +141,13 @@ function FinishRegistrationPage() {
           <img className={styles.logo} src={asigboLogo} alt="Logo de Asigbo" />
 
           <h1 className={styles.title}>
-            ¡Bienvenido
-            {' '}
-            {userData?.name}
-            !
+            {`¡${userData?.sex === consts.sex.masculine ? 'Bienvenido' : 'Bienvenida'} ${userData?.name}!`}
           </h1>
           <p className={styles.instructions}>
             Ayudanos a completar tu perfíl para poder acceder a tu cuenta del portal de Asigbo.
           </p>
 
-          <form onSubmit={handleSubmit}>
+          <form className={styles.formContainer} onSubmit={handleSubmit}>
             <InputPhoto onChange={onPhotoChange} className={styles.inputPhoto} />
             <InputText
               title="Ingresar contraseña."

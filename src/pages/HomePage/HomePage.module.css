@@ -13,6 +13,8 @@
 
 .helloName{
     margin-top: 50px;
+    padding: 0 var(--page-horizontal-padding--);
+    word-wrap: break-word
 }
 
 .mainContent{

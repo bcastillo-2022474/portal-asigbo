@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import useToken from '@hooks/useToken';
-import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letras blancas).png';
+// import LogoLetrasBlancas from '../../assets/General/Copia de Transparente (letras blancas).png';
+import LogoLetrasBlancas from '@assets/logo/logo_blanco.png';
 import TopBar from './TopBar/TopBar';
 import getTokenPayload from '../../helpers/getTokenPayload';
 import styles from './PageContainer.module.css';
@@ -23,6 +24,9 @@ function PageContainer({ children }) {
   const [payload, setPayload] = useState({});
   const token = useToken();
 
+  const menuRef = useRef();
+  const menuButtonRef = useRef();
+
   // Este efecto obtiene la medida de la pantalla para
   // manejar condiciones especiales de Layouts móviles y de escritorio
   useEffect(() => {
@@ -37,11 +41,23 @@ function PageContainer({ children }) {
         setToggle(false);
       }
     }
+
+    const handlePageClick = (e) => {
+      const { target } = e;
+      // Cerrar menu al presionar fuera de este o del botón toogle
+      if (!menuButtonRef?.current?.contains(target)
+      && !menuRef?.current?.contains(target)) {
+        setToggle(false);
+      }
+    };
+
     handleWindow();
     window.addEventListener('resize', handleWindow);
+    window.addEventListener('click', handlePageClick);
 
     return () => {
       window.removeEventListener('resize', handleWindow);
+      window.removeEventListener('click', handlePageClick);
     };
   }, []);
 
@@ -71,6 +87,7 @@ function PageContainer({ children }) {
           showToggler={isMobile}
           idUser={payload.id}
           hasImage={payload.hasImage ?? false}
+          menuButtonRef={menuButtonRef}
         />
       ) : (
         false
@@ -83,6 +100,7 @@ function PageContainer({ children }) {
             toggler={toggleMenu}
             roles={payload.role}
             hasImage={payload.hasImage ?? false}
+            menuRef={menuRef}
           />
         </div>
         <div className={styles.page}>{children}</div>

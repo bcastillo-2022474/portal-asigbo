@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { scrollbarGray } from '@styles/scrollbar.module.css';
+import SearchBanner from '@assets/banner/search-banner.svg';
 import styles from './Table.module.css';
 import Spinner from '../Spinner/Spinner';
 import randomString from '../../helpers/randomString';
@@ -176,10 +177,13 @@ function Table({
           {!loading && !(children?.length > 0) && (
             <tr className={styles.noContentRow}>
               <td
-                className={`${styles.completeRow} ${styles.noResults}`}
+                className={`${styles.completeRow}`}
                 colSpan={(header?.length ?? 0) + 1}
               >
-                No hay resultados.
+                <div className={styles.noResults}>
+                  <img src={SearchBanner} alt="Sin resultados" />
+                  No hay resultados.
+                </div>
               </td>
             </tr>
           )}

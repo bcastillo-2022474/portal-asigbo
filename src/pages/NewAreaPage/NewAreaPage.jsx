@@ -151,6 +151,7 @@ function NewAreaPage() {
             <IconPicker
               onChange={handleIconChange}
               defaultImage={idArea ? `${serverHost}/image/area/${idArea}` : null}
+              className={styles.iconPicker}
             />
             {error?.icon && <p className={styles.errorMessage}>{error.icon}</p>}
 

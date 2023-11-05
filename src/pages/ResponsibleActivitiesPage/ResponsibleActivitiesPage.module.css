@@ -6,9 +6,8 @@
 
 .pageTitle{
     text-align: left;
-    width: 65%;
+    width: 100%;
     align-self: flex-start;
-    margin-bottom: 40px;
 }
 
 @media only screen and (max-width: 765px){

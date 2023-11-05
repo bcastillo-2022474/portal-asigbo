@@ -49,9 +49,6 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
 
   useEffect(() => {
     dayjs.locale('es');
-    if (id) {
-      getAssignment(id, null, null, null, currentPage);
-    } else getAssignment(userInfo.id, null, null, null, currentPage);
 
     const media = matchMedia('(max-width:700px)');
 
@@ -129,11 +126,16 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
 
   // Cuando un parámetro de filtro cambie, filtrar sobre ellos.
   useEffect(() => {
-    if (id) {
-      getAssignment(id, initialDate, finalDate, search, currentPage);
-    } else if (userInfo?.id) {
-      getAssignment(userInfo.id, initialDate, finalDate, search, currentPage);
-    }
+    if (!token || (!id && !userInfo?.id)) return;
+
+    getAssignment({
+      user: id ?? userInfo.id,
+      lowerDate: initialDate,
+      upperDate: finalDate,
+      searchParam: search,
+      page: currentPage,
+      token,
+    });
   }, [search, initialDate, finalDate]);
 
   return (
@@ -173,7 +175,7 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
                     {value.activity.name}
                   </NavLink>
                 </td>
-                <td>{value.activity.serviceHours}</td>
+                <td>{value.activity.serviceHours + (value.aditionalServiceHours ?? 0)}</td>
                 <td>{value.completed ? 'Si' : 'No'}</td>
                 <td>
                   {dayjs(
