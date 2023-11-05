@@ -11,7 +11,7 @@ import LoadingView from '@components/LoadingView';
 import NotFoundPage from '@pages/NotFoundPage';
 import consts from '@helpers/consts';
 import UserTable from '@components/UserTable';
-import ActivityTable from '@components/ActivityTable';
+import ResponsibleActivitiesTable from '@components/ResponsibleActivitiesTable/ResponsibleActivitiesTable';
 import TabMenu from '@components/TabMenu';
 import BackTitle from '@components/BackTitle';
 import {
@@ -231,7 +231,7 @@ function AreaDetailsPage({ adminPrivileges }) {
                       onClick={handleNewActivityClick} type="submit" />
                     </div> */}
                   </div>
-                  <ActivityTable data={content} loading={loadingInfo} listingType="byArea" />
+                  <ResponsibleActivitiesTable data={content} loading={loadingInfo} listingType="byArea" />
                 </>
               )}
             />
