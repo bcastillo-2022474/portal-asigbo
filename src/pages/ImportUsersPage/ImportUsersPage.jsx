@@ -140,7 +140,7 @@ function ImportUsersPage() {
       </Table>
       <div className={styles.actionsContainer}>
         {
-          !loading && (
+          (!loading && !result) && (
             <>
               <Button
                 red
@@ -156,12 +156,12 @@ function ImportUsersPage() {
             </>
           )
         }
-        {loading && <Spinner />}
+        {(loading || result) && <Spinner />}
       </div>
       <SuccessNotificationPopUp
         close={closeSuccess}
         isOpen={isSuccessOpen}
-        callback={() => navigate('/usuario/nuevo', { replace: true })}
+        callback={() => navigate('/usuario', { replace: true })}
         text="La información ha sido ingresada correctamente"
       />
       <ErrorNotificationPopUp
