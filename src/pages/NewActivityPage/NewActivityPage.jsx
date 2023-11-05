@@ -93,8 +93,6 @@ function NewActivityPage() {
     const data = new FormData();
 
     // guardar imagenes
-    selectedImages.forEach((file) => data.append('banner', file, file.name));
-
     // data.append('deletedImages', JSON.stringify(deletedDefaultImages));
 
     let {
@@ -123,10 +121,12 @@ function NewActivityPage() {
     participatingPromotions.forEach((val) => {
       data.append('participatingPromotions[]', val);
     });
+    selectedImages.forEach((file) => data.append('banner', file, file.name));
     console.log(deletedDefaultImages);
-    if (deletedDefaultImages) {
+    console.log(selectedImages.length);
+    if (deletedDefaultImages && selectedImages.length === 0) {
       console.log('deletedDefaultImages');
-      // data.append('removeBanner', 'true');
+      data.append('removeBanner', 'true');
     }
     console.log(data);
     callFetch({
