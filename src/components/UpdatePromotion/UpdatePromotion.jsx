@@ -28,6 +28,7 @@ function UpdatePromotion() {
   const {
     callFetch: getCurrentPromotions,
     result: resultPromotions,
+    error: errorPromotions,
     loading: loadingPromotions,
   } = useFetch();
 
@@ -124,6 +125,8 @@ function UpdatePromotion() {
     openError();
   }, [errorUpdate]);
 
+  const loading = (((!resultPromotions && !errorPromotions) || loadingPromotions) || loadingUpdate);
+
   return (
     <div className={styles.updatePromotionContainer}>
       <p className={styles.info}>Especificar la promoción en primer y útlimo año de estudios</p>
@@ -152,12 +155,12 @@ function UpdatePromotion() {
           max={2100}
         />
         {error?.lastYearGreater && <p className={styles.errorMessage}>{error.lastYearGreater}</p>}
-        {(loadingPromotions || loadingUpdate) && (
+        { loading && (
         <div className={styles.spinnerContainer}>
           <Spinner />
         </div>
         )}
-        {!loadingPromotions && !loadingUpdate && (
+        {!loading && (
         <div className={styles.buttonsContainer}>
           <Button text="Avanzar promoción" onClick={() => handleAction('advance')} emptyBlue />
           <Button text="Actualizar" onClick={() => handleAction('update')} />

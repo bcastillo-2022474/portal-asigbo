@@ -15,7 +15,9 @@ import Table from '../Table/Table';
  * Componente que muestra el listado de ejes de asigbo.
  */
 function AreasList() {
-  const { callFetch: fetchAreas, result: areas, loading } = useFetch();
+  const {
+    callFetch: fetchAreas, result: areas, loading, error,
+  } = useFetch();
   const token = useToken();
 
   const [imageErrors, setImageErrors] = useState({});
@@ -29,7 +31,7 @@ function AreasList() {
 
   return (
     <div className={styles.AreasList}>
-      <Table showCheckbox={false} loading={loading} breakPoint="450px">
+      <Table showCheckbox={false} loading={(!areas && !error) || loading} breakPoint="450px">
         {areas?.map((area) => (
           <TableRow key={area.id} id={area.id} maxCellWidth="180px">
             <td>

@@ -112,18 +112,25 @@ function ResponsibleActivitiesTable({ onError }) {
         finalDateHandler={(date) => handleChange('upperDate', date)}
       />
 
-      <Table header={['Actividad', 'Horas de servicio', 'Fecha', 'Eje']} loading={loadingActivities} breakPoint="1110px" showCheckbox={false}>
+      <Table
+        header={['Actividad', 'Horas de servicio', 'Fecha', 'Eje']}
+        loading={(!resultActivities && !errorActivities) || loadingActivities}
+        breakPoint="1110px"
+        showCheckbox={false}
+      >
         {resultActivities?.result.map((value) => (
-          <TableRow
-            id={value.id}
-            key={value.id}
-          >
-            <td><Link to={`/actividad/${value.id}`} className={styles.activityLink}>{value.name}</Link></td>
+          <TableRow id={value.id} key={value.id}>
+            <td>
+              <Link to={`/actividad/${value.id}`} className={styles.activityLink}>
+                {value.name}
+              </Link>
+            </td>
             <td>{value.serviceHours}</td>
-            <td>{`${value.date.slice(8, 10)}-${value.date.slice(5, 7)}-${value.date.slice(0, 4)}`}</td>
+            <td>
+              {`${value.date.slice(8, 10)}-${value.date.slice(5, 7)}-${value.date.slice(0, 4)}`}
+            </td>
             <td>
               <div className={styles.cellContainer}>
-
                 <Link to={`/area/${value.asigboArea.id}`}>
                   {!imageErrors[value.asigboArea.id] ? (
                     <img
@@ -133,9 +140,10 @@ function ResponsibleActivitiesTable({ onError }) {
                       alt={value.asigboArea.name}
                       onError={() => handleImageError(value.asigboArea.id)}
                     />
-                  ) : <ImageIcon className={styles.defaultIcon} title={value.asigboArea.name} />}
+                  ) : (
+                    <ImageIcon className={styles.defaultIcon} title={value.asigboArea.name} />
+                  )}
                 </Link>
-
               </div>
             </td>
           </TableRow>
