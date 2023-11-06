@@ -139,8 +139,7 @@ function ActivityDetailsPage() {
   };
 
   const handleEditActivity = () => {
-    // eslint-disable-next-line no-console
-    console.log('Edición');
+    navigate('editar');
   };
 
   const handleAction = async (value) => {

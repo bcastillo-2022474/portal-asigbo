@@ -32,10 +32,12 @@ export default yup.object().shape({
     .number()
     .min(0, 'Las horas de servicio deben ser un número positivo o cero.')
     .integer('Las horas de servicio deben ser un número entero.')
+    .typeError('Debes ingresar un valor numérico.')
     .required('La cantidad de horas de servicio es obligatoria.'),
   maxParticipants: yup
     .number()
     .positive('El número de personas debe ser un número positivo.')
+    .typeError('Debes ingresar un valor numérico.')
     .required('La cantidad máxima de participantes es obligatoria.'),
   responsible: yup
     .array()

@@ -122,13 +122,9 @@ function NewActivityPage() {
       data.append('participatingPromotions[]', val);
     });
     selectedImages.forEach((file) => data.append('banner', file, file.name));
-    console.log(deletedDefaultImages);
-    console.log(selectedImages.length);
     if (deletedDefaultImages && selectedImages.length === 0) {
-      console.log('deletedDefaultImages');
       data.append('removeBanner', 'true');
     }
-    console.log(data);
     callFetch({
       uri,
       headers: { authorization: token },
@@ -180,7 +176,7 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!activityData) return;
-    console.log(activityData);
+
     const registrationStartDate = dayjs(activityData.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
     const registrationEndDate = dayjs(activityData.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
     const completionDate = dayjs(activityData.date.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
@@ -194,11 +190,13 @@ function NewActivityPage() {
     setSelectedUsers(activityData.responsible);
     setSelectedPromotions(activityData.participatingPromotions);
     setData('responsible', activityData.responsible);
-    setData('maxParticipants', String(activityData.availableSpaces));
+    setData('maxParticipants', String(activityData.maxParticipants));
     setData('participatingPromotions', activityData.participatingPromotions);
     if (activityData.hasBanner) {
       setDefaultImages([`${serverHost}/image/activity/${idActividad ?? null}`]);
     }
+
+    setParticipantsChecked(activityData.participatingPromotions === null); // Check por default
   }, [activityData]);
 
   if (errorPromotions) {
@@ -214,7 +212,7 @@ function NewActivityPage() {
         <div className={styles.newAreaPage}>
           <BackTitle
             title={idArea ? 'Nueva Actividad' : 'Editar Actividad'}
-            href={idArea ? `/area/${idArea}/actividades` : '/area'}
+            href={idArea ? `/area/${idArea}/actividades` : `/actividad/${idActividad}`}
             className={styles.pageTitle}
           />
 
