@@ -6,6 +6,7 @@ import logo from '@assets//logo/logo_azul.png';
 import { button, blue } from '@styles/buttons.module.css';
 import useLogin from '@hooks/useLogin';
 import { Link } from 'react-router-dom';
+import BackgroundImg from '@assets/fondos/fondo6.webp';
 import BottomWave from '../../components/BottomWave/BottomWave';
 import styles from './LoginPage.module.css';
 
@@ -100,7 +101,7 @@ function LoginPage() {
       <div className={styles.wavesWrapper}>
         <img alt="waves" className={styles.waves} src={waves} />
       </div>
-      <div className={styles.backgroundWrapper}>
+      <div className={styles.backgroundWrapper} style={{ backgroundImage: `url(${BackgroundImg})` }}>
         <div className={styles.backgroundFilter} />
       </div>
     </div>
