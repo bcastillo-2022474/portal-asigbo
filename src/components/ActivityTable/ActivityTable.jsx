@@ -131,7 +131,7 @@ function ActivityTable({ idArea, onError }) {
         siblingCount={paginationItems}
         className={styles.pagination}
         onChange={handlePageChange}
-        page={currentPage - 1}
+        page={currentPage + 1}
       />
     </div>
   );
