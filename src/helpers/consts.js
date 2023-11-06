@@ -7,9 +7,9 @@ export default {
     activityResponsible: 'activityResponsible',
   },
   promotionsGroups: {
-    chick: 'Pollito',
-    student: 'Estudiante',
-    graduate: 'Graduado',
+    chick: 'Pollitos',
+    student: 'Estudiantes',
+    graduate: 'Graduados',
   },
   imageRoute: {
     user: 'image/user',

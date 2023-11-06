@@ -7,6 +7,7 @@ import styles from './ActivityDetails.module.css';
 import DataField from '../DataField';
 import CheckIcon from '../../assets/icons/CheckIcon';
 import EnrolledIcon from '../../assets/icons/EnrolledIcon';
+import consts from '../../helpers/consts';
 
 function ActivityDetails({ className, data }) {
   const [isEnrolled, setIsEnrolled] = useState(false);
@@ -47,6 +48,9 @@ function ActivityDetails({ className, data }) {
         </div>
       </div>
       <div className={styles.data}>
+        <p className={styles.description}>
+          {data.description}
+        </p>
         <DataField label="Nombre de actividad" className={styles.dataField}>
           {data ? data.name : ''}
         </DataField>
@@ -68,33 +72,43 @@ function ActivityDetails({ className, data }) {
             })`
             : ''}
         </DataField>
-        <DataField label="Descripción" className={`${styles.desc} ${styles.dataField}`}>
-          Descripción
-        </DataField>
+
         <DataField label="Pago requerido" className={styles.dataField}>
           N/A
         </DataField>
       </div>
       <h3 className={`${styles.disponibility} ${styles.dataField}`}>Disponibilidad</h3>
       <div className={styles.disponData}>
-        <DataField label="Espacios disponibles" className={`${styles.disponField} ${styles.dataField}`}>
+        <DataField
+          label="Espacios disponibles"
+          className={`${styles.disponField} ${styles.dataField}`}
+        >
           {data ? data.availableSpaces : '0'}
         </DataField>
-        <DataField label="Disponibilidad de inscripción" className={`${styles.disponField} ${styles.dataField}`}>
-          {`De ${data
-            ? dayjs(data.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
-            : '00/00/0000'} hasta ${data
-            ? dayjs(data.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
-            : '00/00/0000'}
+        <DataField
+          label="Disponibilidad de inscripción"
+          className={`${styles.disponField} ${styles.dataField}`}
+        >
+          {`De ${
+            data
+              ? dayjs(data.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+              : '00/00/0000'
+          } hasta ${
+            data
+              ? dayjs(data.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+              : '00/00/0000'
+          }
           `}
         </DataField>
         {data?.participatingPromotions ? (
           <>
-            <b className={styles.promoLabel}>Promociones Participantes</b>
+            <span className={`${styles.promoLabel}`}>Promociones Participantes</span>
             <div className={styles.promosContainer}>
-              {/* Acá deben de ir las promociones provinientes de la data, aún no hay */}
-              <span className={styles.promo}>2019</span>
-              <span className={styles.promo}>2020</span>
+              {data.participatingPromotions.sort((a, b) => b - a).map((promo) => (
+                <span className={styles.promo}>
+                  {consts.promotionsGroups[promo] ? `${consts.promotionsGroups[promo]}` : promo}
+                </span>
+              ))}
             </div>
           </>
         ) : (

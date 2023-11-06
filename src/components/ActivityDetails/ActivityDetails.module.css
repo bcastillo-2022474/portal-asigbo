@@ -17,6 +17,10 @@
   row-gap: 17px;
 }
 
+.description{
+  width: 100%;
+}
+
 .promosContainer {
   display: flex;
   align-items: center;
@@ -55,13 +59,11 @@
 }
 
 .promo {
-  margin-top: -13px;
   background-color: var(--blue-theme-color-hover--);
   color: white;
   border-radius: 7px;
   padding: 5px;
   text-align: center;
-  width: 3.5rem;
 }
 
 .dataField {
@@ -92,6 +94,10 @@
   text-overflow: clip;
 }
 
+.promoLabel{
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 865px) {
   .disponField {
     width: 80% !important;
@@ -117,5 +123,12 @@
   }
   .disponibility{
     text-align: center;
+  }
+  .promoLabel{
+    text-align: center;
+  }
+
+  .promosContainer{
+    justify-content: center;
   }
 }
