@@ -1,7 +1,11 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import fondo1 from '@assets/fondos/fondo-ipala.jpg';
-import fondo2 from '@assets/fondos/fondo-voluntariado.jpg';
+import fondo1 from '@assets/fondos/fondo1.webp';
+import fondo2 from '@assets/fondos/fondo2.webp';
+import fondo3 from '@assets/fondos/fondo3.webp';
+import fondo4 from '@assets/fondos/fondo4.webp';
+import fondo5 from '@assets/fondos/fondo5.webp';
+import fondo6 from '@assets/fondos/fondo6.webp';
 import Banner from '@components/Banner/Banner';
 import styles from './HomePage.module.css';
 import useToken from '../../hooks/useToken';
@@ -15,7 +19,7 @@ function HomePage() {
   return (
     <div className={styles.HomePage}>
       <Banner
-        bannerImages={[fondo1, fondo2]}
+        bannerImages={[fondo1, fondo4, fondo2, fondo3, fondo6, fondo5]}
       />
       <div className={styles.page}>
         <h1 className={styles.helloName}>
