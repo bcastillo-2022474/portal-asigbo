@@ -176,7 +176,6 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!activityData) return;
-
     const registrationStartDate = dayjs(activityData.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
     const registrationEndDate = dayjs(activityData.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
     const completionDate = dayjs(activityData.date.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');

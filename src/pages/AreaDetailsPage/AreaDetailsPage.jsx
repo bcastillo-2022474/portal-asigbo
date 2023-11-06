@@ -11,7 +11,7 @@ import LoadingView from '@components/LoadingView';
 import NotFoundPage from '@pages/NotFoundPage';
 import consts from '@helpers/consts';
 import UserTable from '@components/UserTable';
-import ResponsibleActivitiesTable from '@components/ResponsibleActivitiesTable/ResponsibleActivitiesTable';
+import ActivityTable from '@components/ActivityTable';
 import TabMenu from '@components/TabMenu';
 import BackTitle from '@components/BackTitle';
 import {
@@ -25,7 +25,7 @@ import SuccessNotificationPopUp from '@components/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '@components/ErrorNotificationPopUp';
 import ConfirmationPopUp from '@components/ConfirmationPopUp';
 import usePopUp from '@hooks/usePopUp';
-import useActivitiesByArea from '../../hooks/useActivitiesByArea';
+// import useActivitiesByArea from '../../hooks/useActivitiesByArea';
 import styles from './AreaDetailsPage.module.css';
 import useToogle from '../../hooks/useToogle';
 import useSessionData from '../../hooks/useSessionData';
@@ -40,8 +40,8 @@ function AreaDetailsPage({ adminPrivileges }) {
   const {
     callFetch: fetchAreaData, result: area, loading, error,
   } = useFetch();
-  const [content, setContent] = useState([[]]);
-  const [loadingInfo, setLoadingInfo] = useState(true);
+  // const [content, setContent] = useState([[]]);
+  // const [loadingInfo, setLoadingInfo] = useState(true);
   const sessionUser = useSessionData();
 
   // Fetch utilizado para eliminar, habilitar o deshabilitar eje
@@ -53,19 +53,19 @@ function AreaDetailsPage({ adminPrivileges }) {
   } = useFetch();
   const { idArea } = useParams();
   const token = useParams();
-  const {
-    info: activitiesByArea,
-    loading: loadingActivities,
-    error: errorActivities,
-  } = useActivitiesByArea(idArea);
+  // const {
+  //   info: activitiesByArea,
+  //   loading: loadingActivities,
+  //   error: errorActivities,
+  // } = useActivitiesByArea(idArea);
 
-  useEffect(() => {
-    if ((loadingActivities || !activitiesByArea) && !errorActivities) {
-      setLoadingInfo(true);
-    } else {
-      setLoadingInfo(false);
-    }
-  }, [loadingActivities]);
+  // useEffect(() => {
+  //   if ((loadingActivities || !activitiesByArea) && !errorActivities) {
+  //     setLoadingInfo(true);
+  //   } else {
+  //     setLoadingInfo(false);
+  //   }
+  // }, [loadingActivities]);
 
   const navigate = useNavigate();
 
@@ -103,28 +103,28 @@ function AreaDetailsPage({ adminPrivileges }) {
   }, [alterAreaError]);
 
   // Efecto que maneja las actividades comunes y completadas.
-  useEffect(() => {
-    let newArr = [];
-    const completed = [];
-    if (activitiesByArea) {
-      activitiesByArea.result.forEach((value) => {
-        if (value.completed) {
-          completed.push(value);
-        }
-      });
+  // useEffect(() => {
+  //   let newArr = [];
+  //   const completed = [];
+  //   if (activitiesByArea) {
+  //     activitiesByArea.result.forEach((value) => {
+  //       if (value.completed) {
+  //         completed.push(value);
+  //       }
+  //     });
 
-      newArr = activitiesByArea.result.map((value) => {
-        const temp = value;
+  //     newArr = activitiesByArea.result.map((value) => {
+  //       const temp = value;
 
-        if (value && value.date) {
-          const [dateOnly] = value.registrationEndDate.split('T');
-          temp.registrationEndDate = dateOnly;
-        }
-        return temp;
-      });
-    }
-    setContent(newArr);
-  }, [activitiesByArea]);
+  //       if (value && value.date) {
+  //         const [dateOnly] = value.registrationEndDate.split('T');
+  //         temp.registrationEndDate = dateOnly;
+  //       }
+  //       return temp;
+  //     });
+  //   }
+  //   setContent(newArr);
+  // }, [activitiesByArea]);
   const handleEditOptionClick = () => navigate('editar');
 
   const handleDeleteOptionClick = () => {
@@ -138,6 +138,10 @@ function AreaDetailsPage({ adminPrivileges }) {
     // true: está habilitada y por lo tanto se va a deshabilitar con esta acción y viceversa
     openConfirmaton();
     setIsDeleting(false);
+  };
+
+  const handleError = () => {
+    // setErrorActivities(true);
   };
 
   const redirectOnDeleteSuccess = () => navigate('/area');
@@ -231,7 +235,7 @@ function AreaDetailsPage({ adminPrivileges }) {
                       onClick={handleNewActivityClick} type="submit" />
                     </div> */}
                   </div>
-                  <ResponsibleActivitiesTable data={content} loading={loadingInfo} listingType="byArea" />
+                  <ActivityTable idArea={idArea} onError={handleError} />
                 </>
               )}
             />
