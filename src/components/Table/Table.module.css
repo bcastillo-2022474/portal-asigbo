@@ -51,6 +51,7 @@
   display: block;
   width: 100%;
   box-shadow: none;
+  padding: 3px;
 }
 
 .verticalDesign tbody {
