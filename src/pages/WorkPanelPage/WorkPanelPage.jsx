@@ -1,6 +1,5 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { HiUsers as UsersIcon } from 'react-icons/hi';
 import { HiPuzzlePiece as PuzzleIcon } from 'react-icons/hi2';
 import { FaClipboardList as ListIcon, FaUsers as UsersIcon2 } from 'react-icons/fa';
 import styles from './WorkPanelPage.module.css';
@@ -16,7 +15,6 @@ function WorkPanelPage() {
   const isAdmin = user.role.includes(consts.roles.admin);
   const isAsigboAreaResponsible = user.role.includes(consts.roles.asigboAreaResponsible);
   const isActivityResponsible = user.role.includes(consts.roles.activityResponsible);
-  const isPromotionResponsible = user.role.includes(consts.roles.promotionResponsible);
 
   return (
     <div className={styles.workPanelPage}>
@@ -32,9 +30,6 @@ function WorkPanelPage() {
 
             {isActivityResponsible
             && <PanelItem icon={<ListIcon />} title="Encargado de actividad" href="/actividad/encargadas" />}
-
-            {isPromotionResponsible
-            && <PanelItem icon={<UsersIcon />} title="Encargado de promoción" />}
           </>
         )}
       </div>

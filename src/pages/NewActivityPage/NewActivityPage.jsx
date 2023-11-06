@@ -278,6 +278,7 @@ function NewActivityPage() {
               onBlur={() => validateField('description')}
               onFocus={() => clearFieldError('description')}
               onKeyDown={handleKeyDown}
+              error={error?.description}
             />
 
             <h3 className={styles.formSectionTitle}>Participantes</h3>

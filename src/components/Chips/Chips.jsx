@@ -72,7 +72,7 @@ Chip.propTypes = {
 
 PromotionChips.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   onSelectionChange: PropTypes.func.isRequired,
   defaultSelectedPromotions: PropTypes.arrayOf(PropTypes.string),
 
@@ -80,5 +80,6 @@ PromotionChips.propTypes = {
 
 PromotionChips.defaultProps = {
   defaultSelectedPromotions: [],
+  data: null,
 };
 export default PromotionChips;

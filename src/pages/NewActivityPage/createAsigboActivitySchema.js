@@ -3,6 +3,7 @@ import * as yup from 'yup';
 export default yup.object().shape({
   activityName: yup
     .string()
+    .test('notEmpty-name', 'El nombre del la actividad es obligatoria.', (value) => value?.trim().length > 0)
     .required('El nombre del la actividad es obligatoria.'),
   completionDate: yup
     .date()
@@ -44,4 +45,8 @@ export default yup.object().shape({
     .typeError("El campo 'responsible' debe ser un arreglo.")
     .min(1, 'Debe especificar al menos un responsable de actividad.')
     .required('Debe especificar a los encargados de esta actividad.'),
+  description: yup
+    .string()
+    .test('notEmpty', 'Ingresa una descripción.', (value) => value?.trim().length > 0)
+    .required('Ingresa una descripción.'),
 });

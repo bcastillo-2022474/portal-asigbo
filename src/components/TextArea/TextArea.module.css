@@ -21,11 +21,12 @@
 .inputLabel {
     position: absolute;
     top: 0;
-    bottom: 0;
     left: 16px;
     display: flex;
     align-items: center;
     pointer-events: none;
+    bottom: calc(100% - 75px);
+
 }
 
 .inputAreaContainer textarea:focus {
@@ -60,11 +61,11 @@
 .inputAreaContainer.error label {
     color: var(--error-color--);
     position: absolute;
-    top: 0;
     left: 16px;
     display: flex;
     align-items: center;
     pointer-events: none;
+    bottom: calc(100% - 75px);
 }
 
 .inputAreaContainer .inputError {

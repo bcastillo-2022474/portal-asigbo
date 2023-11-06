@@ -48,9 +48,11 @@ function ActivityDetails({ className, data }) {
         </div>
       </div>
       <div className={styles.data}>
+        {data.description?.trim().length > 0 && (
         <p className={styles.description}>
           {data.description}
         </p>
+        )}
         <DataField label="Nombre de actividad" className={styles.dataField}>
           {data ? data.name : ''}
         </DataField>
