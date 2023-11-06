@@ -28,7 +28,7 @@ import { serverHost } from '../../config';
 
 function ActivityTable({ idArea, onError }) {
   const [filters, setFilters] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [paginationItems, setPaginationItems] = useState();
   const token = useParams();
   const {
@@ -78,7 +78,6 @@ function ActivityTable({ idArea, onError }) {
   }, [errorActivities]);
 
   useEffect(() => {
-    console.log(idArea);
     // cambiar número en la paginación
     const media = matchMedia('(max-width:700px)');
 
@@ -132,7 +131,7 @@ function ActivityTable({ idArea, onError }) {
         siblingCount={paginationItems}
         className={styles.pagination}
         onChange={handlePageChange}
-        page={currentPage}
+        page={currentPage - 1}
       />
     </div>
   );
