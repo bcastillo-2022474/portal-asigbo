@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { useParams, useNavigate } from 'react-router-dom';
 import useToken from 'antd/es/theme/useToken';
-import * as dayjs from 'dayjs';
+import dayjs from 'dayjs';
 import { AiFillCheckCircle as CheckIcon, AiFillCloseCircle as RemoveIcon } from 'react-icons/ai';
 import { FaUserTimes as RemoveUserIcon } from 'react-icons/fa';
 import styles from './ActivityAssignmentDetailsPage.module.css';
