@@ -14,6 +14,7 @@ import SimpleUserProfilePage from '../SimpleUserProfilePage/SimpleUserProfilePag
 import UpdateUserPage from '../UpdateUserPage/UpdateUserPage';
 import UserProfileIndexPage from '../UserProfileIndexPage/UserProfileIndexPage';
 import ResponsibleActivitiesPage from '../ResponsibleActivitiesPage';
+import NewActivityPage from '../NewActivityPage/NewActivityPage';
 
 function UserIndexPage() {
   const token = useToken();
@@ -38,6 +39,7 @@ function UserIndexPage() {
           <>
             <Route path="/area" element={<AreasListPage />} />
             <Route path="/area/:idArea/*" element={<AreaDetailsPage />} />
+            <Route path="/actividad/:idActividad/editar" element={<NewActivityPage />} />
           </>
           )
         }
