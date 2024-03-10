@@ -21,6 +21,7 @@
     background-color: #e5e5e5;
     border-radius: 4px;
     cursor: pointer;
+    flex-shrink: 0;
   }
   
   .inputHidden:checked ~ .customCheckBox {

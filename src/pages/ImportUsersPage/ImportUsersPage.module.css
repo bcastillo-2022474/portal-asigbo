@@ -42,6 +42,11 @@
     column-gap: 15px;
 }
 
+.checkboxContainer{
+    width: 100%;
+    margin-top: 40px;
+}
+
 @media only screen and (max-width: 765px) {
     .pageTitle, .titleText {
         text-align: center;

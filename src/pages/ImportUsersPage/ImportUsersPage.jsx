@@ -15,6 +15,7 @@ import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp/
 import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
 import usePopUp from '../../hooks/usePopUp';
 import UserDataPopUp from '../../components/UserDataPopUp/UserDataPopUp';
+import CheckBox from '../../components/CheckBox/CheckBox';
 
 function ImportUsersPage() {
   const { state } = useLocation();
@@ -38,6 +39,7 @@ function ImportUsersPage() {
 
   const [importedData, setImportedData] = useState(format(data));
   const [selectedUsers, setSelectedUsers] = useState(importedData);
+  const [sendEmail, setSendEmail] = useState(true);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [openForm, setOpenForm] = useState(null);
@@ -59,6 +61,10 @@ function ImportUsersPage() {
     });
   };
 
+  const handleCheckChange = (e) => {
+    setSendEmail(e.target.checked);
+  };
+
   const sendData = () => {
     const uri = `${serverHost}/user/uploadUsers`;
     const method = 'POST';
@@ -68,6 +74,7 @@ function ImportUsersPage() {
         const { id, ...rest } = el;
         return rest;
       }),
+      sendEmail,
     };
 
     callFetch({
@@ -138,6 +145,10 @@ function ImportUsersPage() {
           </TableRow>
         ))}
       </Table>
+      <div className={styles.checkboxContainer}>
+        <CheckBox label="Enviar email de registro a todos los usuarios." onChange={handleCheckChange} checked />
+      </div>
+
       <div className={styles.actionsContainer}>
         {
           (!loading && !result) && (
