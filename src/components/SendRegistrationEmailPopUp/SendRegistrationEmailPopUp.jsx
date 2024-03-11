@@ -21,7 +21,7 @@ function SendRegistrationEmailPopUp({
   close,
 }) {
   // eslint-disable-next-line no-unused-vars
-  const [promotionSelected, setPromotionSelected] = useState();
+  const [promotionSelected, setPromotionSelected] = useState('');
 
   const token = useToken();
 
@@ -57,7 +57,7 @@ function SendRegistrationEmailPopUp({
 
   const handleSubmit = () => {
     const body = {
-      promotion: (promotionSelected !== null && promotionSelected.length > 0)
+      promotion: (promotionSelected?.length > 0)
         ? promotionSelected : undefined,
     };
 
