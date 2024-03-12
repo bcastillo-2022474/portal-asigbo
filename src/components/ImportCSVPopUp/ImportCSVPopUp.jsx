@@ -23,7 +23,7 @@ function ImportCSVPopUp({
 
   const handleChange = async (e) => {
     const file = e.target.files[0];
-    if (file.type !== 'text/csv') {
+    if (file && file.type !== 'text/csv') {
       setError(true);
       setErrorMessage('Tipo de archivo incorrecto, debe adjuntar un archivo de tipo .csv');
       return;
@@ -37,7 +37,7 @@ function ImportCSVPopUp({
     const headers = content[0].trim().split(',');
     if (headers.toString() !== consts.csvHeaders.toString()) {
       setError(true);
-      setErrorMessage('Formato incorrecto. Se espera que los encabezados sean: "Código, Nombres, Apellidos, Correo, Promoción, Carrera, Universidad, Campus y Sexo"');
+      setErrorMessage('Formato incorrecto. Se espera que los encabezados sean: "Código, Nombres, Apellidos, Correo, Promoción, Carrera, Universidad, Campus y Sexo". También, asegúrate que el archivo tenga codificación ANSI.');
       return;
     }
     const rows = content.slice(1).map((row) => row.trim().split(','));

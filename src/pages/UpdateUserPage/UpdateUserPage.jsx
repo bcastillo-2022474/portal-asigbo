@@ -108,7 +108,7 @@ function UpdateUserPage({ userId }) {
     if (err) return;
 
     const data = new FormData();
-    Object.entries(form).forEach((val) => data.append(val[0], val[1]));
+    Object.entries(form).forEach((val) => (typeof (val[1]) === 'string' ? data.append(val[0], val[1].trim()) : data.append(val[0], val[1])));
 
     // Eliminar parámetros según permisos
     if (!isAdmin) data.delete('promotion');

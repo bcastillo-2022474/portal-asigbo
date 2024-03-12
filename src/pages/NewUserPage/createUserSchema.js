@@ -30,6 +30,7 @@ export default yup.object().shape({
   email: yup
     .string()
     .nullable()
+    .trim()
     .email('El correo electrónico no posee el formato de una email válido.')
     .required('Se requiere el correo electrónico del becado.'),
   lastname: yup.string().required('Se requieren los apellidos del becado.'),

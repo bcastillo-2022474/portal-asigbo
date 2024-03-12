@@ -71,8 +71,17 @@ function ImportUsersPage() {
 
     const formatedData = {
       data: selectedUsers.map((el) => {
-        const { id, ...rest } = el;
-        return rest;
+        const { id, ...user } = el;
+        return ({
+          ...user,
+          name: user.name?.trim(),
+          lastname: user.lastname?.trim(),
+          email: user.email?.trim(),
+          sex: user.sex?.trim(),
+          career: user.career?.trim(),
+          university: user.university?.trim(),
+          campus: user.campus?.trim(),
+        });
       }),
       sendEmail,
     };

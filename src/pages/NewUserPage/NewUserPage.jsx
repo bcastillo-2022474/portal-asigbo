@@ -51,11 +51,23 @@ function NewUserPage() {
     const formErrors = await validateForm();
     if (formErrors) return;
 
+    // Hacer un trim de los datos
+    const body = {
+      ...form,
+      name: form.name?.trim(),
+      lastname: form.lastname?.trim(),
+      email: form.email?.trim(),
+      sex: form.sex?.trim(),
+      career: form.career?.trim(),
+      university: form.university?.trim(),
+      campus: form.campus?.trim(),
+    };
+
     postUser({
       uri: `${serverHost}/user/`,
       method: 'POST',
       headers: { authorization: token },
-      body: JSON.stringify(form),
+      body: JSON.stringify(body),
     });
   };
 

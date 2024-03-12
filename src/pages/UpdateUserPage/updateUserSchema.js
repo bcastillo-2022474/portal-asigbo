@@ -28,6 +28,7 @@ const updateUserSchema = yup.object().shape({
   email: yup
     .string()
     .nullable()
+    .trim()
     .email('Ingresar un email válido.')
     .required('Debes ingresar el email del usuario.'),
   lastname: yup.string().min(1, 'Debes ingresar el apellido.').required('Debes ingresar el apellido.'),
