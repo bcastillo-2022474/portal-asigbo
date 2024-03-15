@@ -62,7 +62,8 @@
   top: 0;
   left: 0;
   border-radius: inherit;
-  
+  object-fit: cover;
+  object-position: 50% 50%;
 }
 
 .inputPhoto.imageSelected .userIcon{
