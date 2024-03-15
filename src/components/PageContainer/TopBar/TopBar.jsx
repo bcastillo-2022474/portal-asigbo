@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import MenuIcon from '../../../assets/icons/MenuIcon';
 import styles from './TopBar.module.css';
 import UserInfo from '../UserInfo/UserInfo';
@@ -32,9 +33,9 @@ function TopBar({
         ) : undefined}
 
         {/* Botón de logotipo */}
-        <button type="button" className={styles.logoButton}>
+        <Link to="/" className={styles.logoButton}>
           <img src={logo} alt="Logo de ASIGBO" />
-        </button>
+        </Link>
 
       </div>
 
