@@ -1,31 +1,4 @@
-/*----------------------------------------------------------------------------------------------*/
-
-/**
- * @function aToUTF8: Función que decodifica un ASCII a UTF-8.
- *
- * @param {string} encoded: Obtiene la sección del token que contiene el payload
- * es decir, el substring luego del primer punto y antes del segundo, se espera que
- * esté codificado en ASCII.
- *
- * @returns Un String que contiene la notación proveniente del payload del token, se espera
- * que sea un formato admitible por JSON. **Necesita hacerse un parse a JSON luego de ejecutar
- * la función**
- */
-
-const aToUTF8 = (encoded) => {
-  const decodedToB = window.atob(encoded);
-  const unicodeDecoder = new TextDecoder('utf-8');
-
-  const uArray = new Uint8Array(decodedToB.length);
-  for (let i = 0; i < decodedToB.length; i += 1) {
-    uArray[i] = decodedToB.charCodeAt(i);
-  }
-
-  return unicodeDecoder.decode(uArray);
-};
-
-/*----------------------------------------------------------------------------------------------*/
-
+import { Buffer } from 'buffer';
 /**
  * @function getTokenPayload: Función que devuleve en formato JSON el payload de un token
  *
@@ -56,7 +29,7 @@ export default (token) => {
 
   if (!encodedPayload) throw new Error('Token Invalido.');
 
-  const payload = JSON.parse(aToUTF8(encodedPayload));
+  const payload = JSON.parse(Buffer.from(encodedPayload, 'base64').toString('utf-8'));
 
   return payload;
 };
