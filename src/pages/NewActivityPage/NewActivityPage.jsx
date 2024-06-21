@@ -72,7 +72,7 @@ function NewActivityPage() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData(name, value);
+    setData(name, value !== '' ? value : null);
   };
 
   const handleKeyDown = (e) => {
@@ -357,7 +357,9 @@ function NewActivityPage() {
               />
             </div>
 
-            <h3 className={styles.formSectionTitle}>Imagen representativa de la actividad</h3>
+            <h3 className={styles.formSectionTitle}>
+              Imagen representativa de la actividad (opcional)
+            </h3>
             <ImagePicker
               onChange={(images, deletedDefault) => {
                 setSelectedImages(images);
