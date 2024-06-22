@@ -1,0 +1,9 @@
+.pageContainer { 
+  padding: var(--page-vertical-padding--) var(--page-horizontal-padding--)
+}
+.pageContainer h1 {
+  font-size: var(--h1-title-size--);
+}
+.pageContainer h2 {
+  font-size: var(--h2-title-size--);
+}

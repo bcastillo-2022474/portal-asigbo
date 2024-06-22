@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import AvailableActivitiesPage from '@pages/AvailableActivitiesPage';
 import PageContainer from '../../components/PageContainer/PageContainer';
 import HomePage from '../HomePage/HomePage';
 import NotFoundPage from '../NotFoundPage';
@@ -32,6 +33,7 @@ function UserIndexPage() {
         <Route path="/perfil/editar" element={<UpdateUserPage userId={user.id} />} />
         <Route path="/usuario/:userId" element={<UserProfileIndexPage />} />
         <Route path="actividad/encargadas" element={<ResponsibleActivitiesPage />} />
+        <Route path="/actividad/disponible/*" element={<AvailableActivitiesPage />} />
 
         {
           user?.role.includes(consts.roles.asigboAreaResponsible)

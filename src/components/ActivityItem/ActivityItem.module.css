@@ -1,0 +1,91 @@
+.activityItemContainer{
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--container--box-shadow--);
+  border-radius: 7px;
+  width: 100%;
+  position: relative;
+  max-width: 350px;
+}
+
+.activityItemContainer:not(.visible){
+  opacity: 0;
+}
+
+.activityItemContainer:not(.visible) > *{
+  visibility: hidden;
+}
+
+.linkContainer{
+  text-decoration: none;
+  width: 100%;
+  height: fit-content;
+}
+
+.activityItem {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.imageContainer {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: start;
+  position: relative;
+}
+
+.imageContainer img {
+  width: 100%;
+  height: auto;
+}
+
+.imageContainer::after{
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(22, 52, 127, 0.4);
+}
+
+.infoContainer {
+  height: fit-content;
+  background-color: #F4F6FA;
+  padding: 25px 15px;
+}
+
+.infoContainer .date{
+  color: var(--blue-theme-color-hover--);
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.name {
+  font-size: var(--text-font-size--);
+  -webkit-line-clamp: 2;
+  display: box;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  color: black;
+  font-weight: normal;
+
+}
+
+.defaultImageContainer{
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 50px 0;
+  background-color: var(--blue-theme-color-hover--);
+}
+
+.defaultImageContainer img{
+  max-width: 60px;
+}

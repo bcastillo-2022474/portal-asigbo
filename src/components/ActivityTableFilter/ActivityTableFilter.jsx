@@ -22,7 +22,9 @@ import SearchInput from '../SearchInput/SearchInput';
 
 /*----------------------------------------------------------------------------------------------*/
 
-function ActivityTableFilter({ searchHandler, initialDateHandler, finalDateHandler }) {
+function ActivityTableFilter({
+  searchHandler, initialDateHandler, finalDateHandler, className,
+}) {
   const [initialDate, setInitialDate] = useState();
   const [finalDate, setFinalDate] = useState();
 
@@ -35,7 +37,7 @@ function ActivityTableFilter({ searchHandler, initialDateHandler, finalDateHandl
   }, [finalDate]);
 
   return (
-    <div className={styles.activityFilter}>
+    <div className={`${styles.activityFilter} ${className || ''}`}>
       <div className={styles.selectDate}>
         <span>Desde:</span>
         <InputSearchDate className={styles.dateInput} placeholder="Fecha de inicio" setDate={setInitialDate} disabledAfter={finalDate} />
@@ -57,12 +59,14 @@ ActivityTableFilter.propTypes = {
   searchHandler: PropTypes.func,
   initialDateHandler: PropTypes.func,
   finalDateHandler: PropTypes.func,
+  className: PropTypes.string,
 };
 
 ActivityTableFilter.defaultProps = {
   searchHandler: null,
   initialDateHandler: null,
   finalDateHandler: null,
+  className: null,
 };
 
 /*----------------------------------------------------------------------------------------------*/

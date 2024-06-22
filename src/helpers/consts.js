@@ -14,6 +14,7 @@ export default {
   imageRoute: {
     user: 'image/user',
     area: 'image/area',
+    activity: 'image/activity',
   },
   csvHeaders: ['Código', 'Nombres', 'Apellidos', 'Correo', 'Promoción', 'Carrera', 'Universidad', 'Campus', 'Sexo'],
   sex: {
