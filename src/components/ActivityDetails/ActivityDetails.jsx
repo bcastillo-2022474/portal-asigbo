@@ -60,7 +60,7 @@ function ActivityDetails({ className, data }) {
           {data ? data?.asigboArea.name : ''}
         </DataField>
         <DataField label="Fecha de realización" className={styles.dataField}>
-          {data ? dayjs(data?.date.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY') : ''}
+          {data ? dayjs(data.date).format('DD/MM/YYYY') : ''}
         </DataField>
         <DataField label="Horas de servicio" className={styles.dataField}>
           {data
@@ -93,11 +93,11 @@ function ActivityDetails({ className, data }) {
         >
           {`De ${
             data
-              ? dayjs(data?.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+              ? dayjs(data.registrationStartDate).format('DD/MM/YYYY')
               : '00/00/0000'
           } hasta ${
             data
-              ? dayjs(data?.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+              ? dayjs(data.registrationEndDate).format('DD/MM/YYYY')
               : '00/00/0000'
           }
           `}

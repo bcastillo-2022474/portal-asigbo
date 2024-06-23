@@ -178,12 +178,7 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
                 <td>{value.activity.serviceHours + (value.aditionalServiceHours ?? 0)}</td>
                 <td>{value.completed ? 'Si' : 'No'}</td>
                 <td>
-                  {dayjs(
-                    String(value.activity.date)
-                      .slice(0, 10)
-                      .replaceAll('-', '/'),
-                    'YYYY-MM-DD',
-                  ).format('DD-MM-YYYY')}
+                  {dayjs(value.activity.date).format('DD-MM-YYYY')}
                 </td>
                 <td>
                   <img
