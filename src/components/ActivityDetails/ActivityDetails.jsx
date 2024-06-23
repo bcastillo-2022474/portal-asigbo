@@ -16,9 +16,9 @@ function ActivityDetails({ className, data }) {
 
   useEffect(() => {
     if (data) {
-      if (data.userAssignment) {
+      if (data?.userAssignment) {
         setIsEnrolled(true);
-        setIsCompleted(data.userAssignment.completed);
+        setIsCompleted(data?.userAssignment.completed);
       }
     } else {
       setIsCompleted(false);
@@ -49,25 +49,25 @@ function ActivityDetails({ className, data }) {
         </div>
       </div>
       <div className={styles.data}>
-        {data.description?.trim().length > 0 && (
+        {data?.description?.trim().length > 0 && (
         <p className={styles.description}>
-          {data.description}
+          {data?.description}
         </p>
         )}
         <DataField label="Nombre de actividad" className={styles.dataField}>
-          {data ? data.name : ''}
+          {data ? data?.name : ''}
         </DataField>
         <DataField label="Eje de ASIGBO" className={styles.dataField}>
-          {data ? data.asigboArea.name : ''}
+          {data ? data?.asigboArea.name : ''}
         </DataField>
         <DataField label="Fecha de realización" className={styles.dataField}>
-          {data ? dayjs(data.date.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY') : ''}
+          {data ? dayjs(data?.date.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY') : ''}
         </DataField>
         <DataField label="Horas de servicio" className={styles.dataField}>
           {data
-            ? data.serviceHours !== 1
-              ? `${data.serviceHours} horas`
-              : `${data.serviceHours} hora`
+            ? data?.serviceHours !== 1
+              ? `${data?.serviceHours} horas`
+              : `${data?.serviceHours} hora`
             : ''}
           {data?.userAssignment?.aditionalServiceHours > 0
             ? ` (+ ${data?.userAssignment?.aditionalServiceHours} ${
@@ -86,7 +86,7 @@ function ActivityDetails({ className, data }) {
           label="Espacios disponibles"
           className={`${styles.disponField} ${styles.dataField}`}
         >
-          {data ? data.availableSpaces : '0'}
+          {data ? data?.availableSpaces : '0'}
         </DataField>
         <DataField
           label="Disponibilidad de inscripción"
@@ -94,11 +94,11 @@ function ActivityDetails({ className, data }) {
         >
           {`De ${
             data
-              ? dayjs(data.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+              ? dayjs(data?.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
               : '00/00/0000'
           } hasta ${
             data
-              ? dayjs(data.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
+              ? dayjs(data?.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('DD/MM/YYYY')
               : '00/00/0000'
           }
           `}
@@ -107,7 +107,7 @@ function ActivityDetails({ className, data }) {
           <>
             <span className={`${styles.promoLabel}`}>Promociones Participantes</span>
             <div className={styles.promosContainer}>
-              {data.participatingPromotions.sort((a, b) => b - a).map((promo) => (
+              {data?.participatingPromotions.sort((a, b) => b - a).map((promo) => (
                 <span className={styles.promo} key={randomString()}>
                   {consts.promotionsGroups[promo] ? `${consts.promotionsGroups[promo]}` : promo}
                 </span>

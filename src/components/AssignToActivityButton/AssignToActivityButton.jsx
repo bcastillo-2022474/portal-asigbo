@@ -10,7 +10,17 @@ import ErrorNotificationPopUp from '../ErrorNotificationPopUp/ErrorNotificationP
 import usePopUp from '../../hooks/usePopUp';
 import ConfirmationPopUp from '../ConfirmationPopUp/ConfirmationPopUp';
 
-function AssignToActivityButton({ idActivity, unassignButton, className }) {
+/**
+ * Botón que incluye las peticiones para asignar/desasignar al usuario de una actividad
+ * @param {string} idActivity: Id de la actividad a gestionar.
+ * @param {boolean} unassignButton: True: indica que el botón debe de funcionar para desasignar.
+ * @param {string} Classname: Classname opcional css.
+ * @param {func} successCallbackk: Función opcional que se ejecuta al cerrar pop up de éxito.
+ * @returns
+ */
+function AssignToActivityButton({
+  idActivity, unassignButton, className, successCallback,
+}) {
   const [assignOption, setAssignOption] = useState(); // true: assign, false: unassign
 
   const {
@@ -81,6 +91,7 @@ function AssignToActivityButton({ idActivity, unassignButton, className }) {
         isOpen={isSuccessOpen}
         // Operación contraria pues en este punto ya se cambió el tipo de operación a la opuesta
         text={`Te haz ${!assignOption ? 'inscrito a' : 'retirado de'} esta actividad con éxito.`}
+        callback={successCallback}
       />
 
       <ErrorNotificationPopUp
@@ -98,9 +109,11 @@ AssignToActivityButton.propTypes = {
   idActivity: PropTypes.string.isRequired,
   unassignButton: PropTypes.bool,
   className: PropTypes.string,
+  successCallback: PropTypes.func,
 };
 
 AssignToActivityButton.defaultProps = {
   unassignButton: false,
   className: '',
+  successCallback: null,
 };

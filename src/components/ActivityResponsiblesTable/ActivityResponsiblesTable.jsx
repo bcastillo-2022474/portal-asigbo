@@ -11,7 +11,7 @@ function ActivityResponsiblesTable({ activityData }) {
   useEffect(() => {
     if (activityData) {
       let newArr = [];
-      newArr = activityData.responsible.map((value) => ({
+      newArr = activityData?.responsible.map((value) => ({
         id: value.id,
         name: `${value.name} ${value.lastname}`,
         promotion: value.promotion,

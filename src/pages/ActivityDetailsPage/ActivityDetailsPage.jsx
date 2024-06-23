@@ -28,26 +28,30 @@ import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp/
 import useSessionData from '../../hooks/useSessionData';
 import consts from '../../helpers/consts';
 import AssignToActivityButton from '../../components/AssignToActivityButton/AssignToActivityButton';
+import useCount from '../../hooks/useCount';
 
 function ActivityDetailsPage() {
   const navigate = useNavigate();
   const { idActividad: activityID } = useParams();
+
+  const [activity, setActivity] = useState(null);
   const [action, setAction] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
   const [isActivityOwner, setIsActivityOwner] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isAction, setIsAction] = useState(false);
   const [fetchImage, setFetchImage] = useState(false);
+  const [isDisabled, setDisabled] = useState(false);
+
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isConfirmatonOpen, openConfirmaton, closeConfirmaton] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
-  const [isDisabled, setDisabled] = useState(false);
 
   const sessionUser = useSessionData();
 
+  const { count: updateActivityTrigger, next: fireUpdateActivityTrigger } = useCount();
+
   const {
-    info: activity,
+    info: activityData,
     error: activityError,
     loading: loadingActivity,
     getActivityByID,
@@ -69,7 +73,12 @@ function ActivityDetailsPage() {
 
   useEffect(() => {
     getActivityByID(); // Obtener datos de id
-  }, []);
+  }, [updateActivityTrigger]);
+
+  useEffect(() => {
+    // Al obtener datos de actividad
+    if (activityData) setActivity(activityData);
+  }, [activityData]);
 
   useEffect(() => {
     if (isAction) {
@@ -100,25 +109,11 @@ function ActivityDetailsPage() {
   }, [sessionUser, activity]);
 
   useEffect(() => {
-    if (activityError) {
-      setNotFound(true);
-    }
-  }, [activityError]);
-
-  useEffect(() => {
     if (activity) {
       setFetchImage(activity.hasBanner);
       setDisabled(activity.blocked);
     }
   }, [activity]);
-
-  useEffect(() => {
-    if ((loadingActivity || !activity) && !activityError) {
-      setLoading(true);
-    } else {
-      setLoading(false);
-    }
-  }, [loadingActivity]);
 
   const handleDeleteActivity = () => {
     setAction('DELETE');
@@ -146,27 +141,31 @@ function ActivityDetailsPage() {
     }
   };
 
-  return notFound ? (
-    <NotFound />
-  ) : loading ? (
-    <LoadingView />
-  ) : (
-    <div className={styles.main}>
-      {loadingEnDis || loadingDelete ? <LoadingView /> : undefined}
-      <div className={styles.activityHeader}>
+  return (
+    <>
+      {activityError && <NotFound />}
+      {(loadingActivity || !activity) && <LoadingView />}
 
-        <h1>{activity ? activity.name : 'Actividad'}</h1>
+      {activity && (
+      <div className={styles.main}>
+        {loadingEnDis || loadingDelete ? <LoadingView /> : undefined}
+        <div className={styles.activityHeader}>
 
-        <div className={styles.headerButtonsContainer}>
-          {(activity?.registrationAvailable || activity?.userAssignment)
-        && (
-        <AssignToActivityButton
-          idActivity={activity.id}
-          unassignButton={activity.userAssignment !== undefined && activity.userAssignment !== null}
-        />
-        )}
+          <h1>{activity ? activity.name : 'Actividad'}</h1>
 
-          {isActivityOwner && (
+          <div className={styles.headerButtonsContainer}>
+            {((activity?.registrationAvailable || activity?.userAssignment)
+              && !activity?.userAssignment?.completed)
+              && (
+              <AssignToActivityButton
+                idActivity={activity?.id}
+                unassignButton={activity?.userAssignment !== undefined
+                  && activity?.userAssignment !== null}
+                successCallback={fireUpdateActivityTrigger}
+              />
+              )}
+
+            {isActivityOwner && (
             <OptionsButton
               className={styles.optionsButton}
               label="Acciones"
@@ -188,45 +187,45 @@ function ActivityDetailsPage() {
                 },
               ]}
             />
-          )}
+            )}
+          </div>
         </div>
-      </div>
-      {!imageError && fetchImage ? (
-        <img
-          src={`${serverHost}/image/activity/${activity ? activity.id : null}`}
-          alt="placeholder"
-          className={styles.banner}
-          loading="lazy"
-          onError={() => setImageError(true)}
+        {!imageError && fetchImage ? (
+          <img
+            src={`${serverHost}/image/activity/${activity ? activity.id : null}`}
+            alt="placeholder"
+            className={styles.banner}
+            loading="lazy"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          ''
+        )}
+        <TabMenu
+          className={styles.tabMenu}
+          options={[
+            { text: 'Datos de actividad', href: '' },
+            { text: 'Encargados', href: 'encargados' },
+            { text: 'Participantes', href: 'participantes' },
+          ]}
         />
-      ) : (
-        ''
-      )}
-      <TabMenu
-        className={styles.tabMenu}
-        options={[
-          { text: 'Datos de actividad', href: '' },
-          { text: 'Encargados', href: 'encargados' },
-          { text: 'Participantes', href: 'participantes' },
-        ]}
-      />
-      <Routes>
-        <Route path="/" element={<ActivityDetails data={activity} />} />
-        <Route
-          path="/encargados"
-          element={<ActivityResponsibles activityData={activity} />}
-        />
-        <Route
-          path="/participantes"
-          element={<ActivityParticipantsPage activityData={activity} />}
-        />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<ActivityDetails data={activity} />} />
+          <Route
+            path="/encargados"
+            element={<ActivityResponsibles activityData={activity} />}
+          />
+          <Route
+            path="/participantes"
+            element={<ActivityParticipantsPage activityData={activity} />}
+          />
+        </Routes>
 
-      <ConfirmationPopUp
-        close={closeConfirmaton}
-        isOpen={isConfirmatonOpen}
-        callback={handleAction}
-        body={
+        <ConfirmationPopUp
+          close={closeConfirmaton}
+          isOpen={isConfirmatonOpen}
+          callback={handleAction}
+          body={
           action === 'DELETE' ? (
             <>
               ¿Estás seguro/a de
@@ -247,16 +246,18 @@ function ActivityDetailsPage() {
             </>
           )
         }
-      />
+        />
 
-      <SuccessNotificationPopUp close={closeSuccess} isOpen={isSuccessOpen} text={`La actividad ha sido ${isDisabled ? 'deshabilitada' : 'habilitada'} de forma exitosa`} />
+        <SuccessNotificationPopUp close={closeSuccess} isOpen={isSuccessOpen} text={`La actividad ha sido ${isDisabled ? 'deshabilitada' : 'habilitada'} de forma exitosa`} />
 
-      <ErrorNotificationPopUp
-        close={closeError}
-        isOpen={isErrorOpen}
-        text={enDisError ? enDisError.message : (deleteError ? deleteError.message : '')}
-      />
-    </div>
+        <ErrorNotificationPopUp
+          close={closeError}
+          isOpen={isErrorOpen}
+          text={enDisError ? enDisError.message : (deleteError ? deleteError.message : '')}
+        />
+      </div>
+      )}
+    </>
   );
 }
 
