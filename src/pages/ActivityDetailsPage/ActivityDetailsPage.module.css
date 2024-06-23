@@ -13,12 +13,25 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  column-gap: 15px;
 }
 
 .activityHeader h1{
   max-width: 100%;
   word-wrap: break-word;
   overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: box;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+.headerButtonsContainer{
+  display: flex;
+  gap: 10px;
 }
 
 .banner {
@@ -38,5 +51,11 @@
     text-align: center;
     row-gap: 15px;
     margin-bottom: 15px;
+  }
+  .headerButtonsContainer{
+    flex-direction: column;
+  }
+  .activityHeader h1{
+    -webkit-line-clamp: 5;
   }
 }

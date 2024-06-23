@@ -13,7 +13,6 @@ import {
 } from 'react-icons/ai';
 import styles from './ActivityDetailsPage.module.css';
 import { serverHost } from '../../config';
-import useLoggedInfo from '../../hooks/useLoggedInfo';
 import useActivityByID from '../../hooks/useActivityByID';
 import OptionsButton from '../../components/OptionsButton';
 import TabMenu from '../../components/TabMenu';
@@ -26,6 +25,9 @@ import ConfirmationPopUp from '../../components/ConfirmationPopUp/ConfirmationPo
 import usePopUp from '../../hooks/usePopUp';
 import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
 import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp/SuccessNotificationPopUp';
+import useSessionData from '../../hooks/useSessionData';
+import consts from '../../helpers/consts';
+import AssignToActivityButton from '../../components/AssignToActivityButton/AssignToActivityButton';
 
 function ActivityDetailsPage() {
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ function ActivityDetailsPage() {
   const [action, setAction] = useState('');
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const [isResponsible, setIsResponsible] = useState(false);
+  const [isActivityOwner, setIsActivityOwner] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isAction, setIsAction] = useState(false);
   const [fetchImage, setFetchImage] = useState(false);
@@ -42,16 +44,13 @@ function ActivityDetailsPage() {
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [isDisabled, setDisabled] = useState(false);
 
-  const {
-    info: user,
-    error: userError,
-    loading: loadingUser,
-  } = useLoggedInfo();
+  const sessionUser = useSessionData();
 
   const {
     info: activity,
     error: activityError,
     loading: loadingActivity,
+    getActivityByID,
   } = useActivityByID(activityID);
 
   const {
@@ -67,6 +66,10 @@ function ActivityDetailsPage() {
     deleteActivityByID,
     loading: loadingDelete,
   } = useActivityByID(activityID);
+
+  useEffect(() => {
+    getActivityByID(); // Obtener datos de id
+  }, []);
 
   useEffect(() => {
     if (isAction) {
@@ -90,26 +93,17 @@ function ActivityDetailsPage() {
   }, [enDisError, deleteError]);
 
   useEffect(() => {
-    if (user) {
-      if (user.role) {
-        let roles = [];
-        roles = user.role;
-        const foundActivityRespons = roles.find((value) => String(value).includes('activityResponsible'));
-        const foundAreaRespons = roles.find((value) => String(value).includes('asigboAreaResponsible'));
-        if (foundActivityRespons || foundAreaRespons) {
-          setIsResponsible(true);
-        } else {
-          setIsResponsible(false);
-        }
-      }
-    }
-  }, [user, activity]);
+    if (isActivityOwner) return;
+    const isAdmin = sessionUser?.role?.includes(consts.roles.admin);
+    const isAreaResposible = activity?.asigboArea?.isResponsible;
+    setIsActivityOwner(isAdmin || isAreaResposible);
+  }, [sessionUser, activity]);
 
   useEffect(() => {
-    if (userError || activityError) {
+    if (activityError) {
       setNotFound(true);
     }
-  }, [userError, activityError]);
+  }, [activityError]);
 
   useEffect(() => {
     if (activity) {
@@ -119,14 +113,12 @@ function ActivityDetailsPage() {
   }, [activity]);
 
   useEffect(() => {
-    if ((loadingUser || !user) && !userError) {
-      setLoading(true);
-    } else if ((loadingActivity || !activity) && !activityError) {
+    if ((loadingActivity || !activity) && !activityError) {
       setLoading(true);
     } else {
       setLoading(false);
     }
-  }, [loadingUser, loadingActivity]);
+  }, [loadingActivity]);
 
   const handleDeleteActivity = () => {
     setAction('DELETE');
@@ -162,32 +154,42 @@ function ActivityDetailsPage() {
     <div className={styles.main}>
       {loadingEnDis || loadingDelete ? <LoadingView /> : undefined}
       <div className={styles.activityHeader}>
+
         <h1>{activity ? activity.name : 'Actividad'}</h1>
-        {isResponsible ? (
-          <OptionsButton
-            className={styles.optionsButton}
-            label="Acciones"
-            options={[
-              {
-                icon: <DeleteIcon />,
-                text: 'Eliminar',
-                onClick: handleDeleteActivity,
-              },
-              {
-                icon: isDisabled ? <EnableIcon /> : <DisableIcon />,
-                text: isDisabled ? 'Habilitar' : 'Deshabilitar',
-                onClick: handleDisableActivity,
-              },
-              {
-                icon: <EditIcon />,
-                text: 'Editar',
-                onClick: handleEditActivity,
-              },
-            ]}
-          />
-        ) : (
-          ''
+
+        <div className={styles.headerButtonsContainer}>
+          {(activity?.registrationAvailable || activity?.userAssignment)
+        && (
+        <AssignToActivityButton
+          idActivity={activity.id}
+          unassignButton={activity.userAssignment !== undefined && activity.userAssignment !== null}
+        />
         )}
+
+          {isActivityOwner && (
+            <OptionsButton
+              className={styles.optionsButton}
+              label="Acciones"
+              options={[
+                {
+                  icon: <DeleteIcon />,
+                  text: 'Eliminar',
+                  onClick: handleDeleteActivity,
+                },
+                {
+                  icon: isDisabled ? <EnableIcon /> : <DisableIcon />,
+                  text: isDisabled ? 'Habilitar' : 'Deshabilitar',
+                  onClick: handleDisableActivity,
+                },
+                {
+                  icon: <EditIcon />,
+                  text: 'Editar',
+                  onClick: handleEditActivity,
+                },
+              ]}
+            />
+          )}
+        </div>
       </div>
       {!imageError && fetchImage ? (
         <img
@@ -212,11 +214,11 @@ function ActivityDetailsPage() {
         <Route path="/" element={<ActivityDetails data={activity} />} />
         <Route
           path="/encargados"
-          element={<ActivityResponsibles idActivity={activityID} />}
+          element={<ActivityResponsibles activityData={activity} />}
         />
         <Route
           path="/participantes"
-          element={<ActivityParticipantsPage idActivity={activityID} />}
+          element={<ActivityParticipantsPage activityData={activity} />}
         />
       </Routes>
 

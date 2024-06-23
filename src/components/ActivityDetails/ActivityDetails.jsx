@@ -8,6 +8,7 @@ import DataField from '../DataField';
 import CheckIcon from '../../assets/icons/CheckIcon';
 import EnrolledIcon from '../../assets/icons/EnrolledIcon';
 import consts from '../../helpers/consts';
+import randomString from '../../helpers/randomString';
 
 function ActivityDetails({ className, data }) {
   const [isEnrolled, setIsEnrolled] = useState(false);
@@ -107,7 +108,7 @@ function ActivityDetails({ className, data }) {
             <span className={`${styles.promoLabel}`}>Promociones Participantes</span>
             <div className={styles.promosContainer}>
               {data.participatingPromotions.sort((a, b) => b - a).map((promo) => (
-                <span className={styles.promo}>
+                <span className={styles.promo} key={randomString()}>
                   {consts.promotionsGroups[promo] ? `${consts.promotionsGroups[promo]}` : promo}
                 </span>
               ))}
