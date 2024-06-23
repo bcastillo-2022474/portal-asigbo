@@ -9,11 +9,7 @@
   max-width: 350px;
 }
 
-.activityItemContainer:not(.visible){
-  opacity: 0;
-}
-
-.activityItemContainer:not(.visible) > *{
+.activityItemContainer:not(.visible) img{
   visibility: hidden;
 }
 
