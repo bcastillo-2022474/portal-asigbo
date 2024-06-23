@@ -2,6 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { HiPuzzlePiece as PuzzleIcon } from 'react-icons/hi2';
 import { FaClipboardList as ListIcon, FaUsers as UsersIcon2 } from 'react-icons/fa';
+import { IoMdSettings as ConfigIcon } from 'react-icons/io';
 import styles from './WorkPanelPage.module.css';
 import PanelItem from '../../components/PanelItem/PanelItem';
 import consts from '../../helpers/consts';
@@ -18,12 +19,17 @@ function WorkPanelPage() {
 
   return (
     <div className={styles.workPanelPage}>
-      <h1 className={styles.pageTitle}>Panel de trabajo</h1>
+      <h1 className={styles.pageTitle}>Panel de opciones</h1>
       <div className={styles.optionsContainer}>
         {user && (
           <>
             { isAdmin
-            && <PanelItem icon={<UsersIcon2 />} title="Administración de usuarios" href="/usuario" />}
+            && (
+            <>
+              <PanelItem icon={<UsersIcon2 />} title="Administración de usuarios" href="/usuario" />
+              <PanelItem icon={<ConfigIcon />} title="Configuración" href="/config" />
+            </>
+            )}
 
             { (isAdmin || isAsigboAreaResponsible)
             && <PanelItem icon={<PuzzleIcon />} title="Encargado de área" href="/area" />}

@@ -27,7 +27,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    row-gap: 40px;
+    row-gap: 20px;
     max-height: 80%;
     overflow: auto;
   }
@@ -38,8 +38,8 @@
     cursor: pointer;
   }
   .navButtons .optionIcon svg {
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     fill: var(--blue-theme-color--);
   }
   .sessionButtons {
@@ -57,13 +57,21 @@
     cursor: pointer;
   }
   .sessionButtons .logOut svg {
-    width: 50px;
-    height: 50px;
+    width: 45px;
+    height: 45px;
     position: relative;
     left: 7px;
     fill: var(--blue-theme-color--);
   }
 }
+
+@media only screen and (min-width: 767px) and (max-height: 670px) {
+  /* Alinear items arriba por scroll*/
+  .navButtons {
+    justify-content: start;
+  }
+}
+
 @media only screen and (max-width: 767px), (max-height: 499px) {
   .navMenu {
     display: flex;

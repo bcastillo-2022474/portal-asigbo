@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { IoMdSettings } from 'react-icons/io';
-import { IoLogOut } from 'react-icons/io5';
+import { IoLogOut, IoCalendarNumber as CalendarIcon } from 'react-icons/io5';
 import { HiHome } from 'react-icons/hi';
 import { MdSpaceDashboard as DashboardIcon } from 'react-icons/md';
+// import {MdOutlinePayment as PaymentIcon } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import styles from './NavMenu.module.css';
 import UserPicture from '../../UserPicture';
@@ -64,15 +64,13 @@ function NavMenu({
               />
             </NavLink>
           )}
-          {roles?.includes(consts.roles.admin) && (
-            <NavLink to="/config" onClick={toggler || undefined}>
-              <NavMenuButton
-                icon={<IoMdSettings />}
-                label="Configuración"
-                className={styles.optionIcon}
-              />
-            </NavLink>
-          )}
+          <NavLink to="/actividad/disponible" onClick={toggler || undefined}>
+            <NavMenuButton icon={<CalendarIcon />} label="Actividades" className={styles.optionIcon} />
+          </NavLink>
+          {/* <NavLink to="/pago" onClick={toggler || undefined}>
+            <NavMenuButton icon={<PaymentIcon />} label="Pagos" className={styles.optionIcon} />
+          </NavLink> */}
+
         </div>
         <div className={styles.sessionButtons}>
           <NavMenuButton
