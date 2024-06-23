@@ -15,15 +15,14 @@ function ActivityDetails({ className, data }) {
   const [isCompleted, setIsCompleted] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      if (data?.userAssignment) {
-        setIsEnrolled(true);
-        setIsCompleted(data?.userAssignment.completed);
-      }
-    } else {
-      setIsCompleted(false);
-      setIsEnrolled(false);
+    if (data?.userAssignment) {
+      setIsEnrolled(true);
+      setIsCompleted(data?.userAssignment.completed);
+      return;
     }
+
+    setIsCompleted(false);
+    setIsEnrolled(false);
   }, [data]);
 
   return (
