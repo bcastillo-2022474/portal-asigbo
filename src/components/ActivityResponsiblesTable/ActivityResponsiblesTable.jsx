@@ -3,39 +3,33 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styles from './ActivityResponsiblesTable.module.css';
-import useActivityByID from '../../hooks/useActivityByID';
 import UserTable from '../UserTable';
 
-function ActivityResponsiblesTable({ idActivity }) {
-  const {
-    info: activity,
-    loading: loadingActivity,
-  } = useActivityByID(idActivity);
+function ActivityResponsiblesTable({ activityData }) {
   const [responsibles, setResponsibles] = useState([]);
 
   useEffect(() => {
-    if (activity) {
+    if (activityData) {
       let newArr = [];
-      newArr = activity.responsible.map((value) => ({
+      newArr = activityData.responsible.map((value) => ({
         id: value.id,
         name: `${value.name} ${value.lastname}`,
         promotion: value.promotion,
       }));
       setResponsibles(newArr);
     }
-  }, [activity]);
+  }, [activityData]);
 
   return (
     <UserTable
       users={responsibles}
-      loading={loadingActivity}
       className={styles.table}
     />
   );
 }
 
 ActivityResponsiblesTable.propTypes = {
-  idActivity: PropTypes.string.isRequired,
+  activityData: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default ActivityResponsiblesTable;
