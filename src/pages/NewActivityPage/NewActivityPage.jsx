@@ -38,6 +38,7 @@ function NewActivityPage() {
 
   const token = useToken();
   const [participantsChecked, setParticipantsChecked] = useState(false);
+  const [allowUsersRegistrationChecked, setAllowUsersRegistrationChecked] = useState(true);
   // const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
@@ -107,14 +108,15 @@ function NewActivityPage() {
       participatingPromotions = [];
     }
     data.append('name', activityName);
-    data.append('date', completionDate);
+    data.append('date', dayjs(completionDate).format('YYYY-MM-DD[T00:00:00]'));
     data.append('idAsigboArea', idArea);
     data.append('serviceHours', serviceHours);
     data.append('description', description);
-    data.append('registrationStartDate', registrationStartDate);
-    data.append('registrationEndDate', registrationEndDate);
+    data.append('registrationStartDate', dayjs(registrationStartDate).format('YYYY-MM-DD[T00:00:00]'));
+    data.append('registrationEndDate', dayjs(registrationEndDate).format('YYYY-MM-DD[T23:59:59]'));
     data.append('participantsNumber', maxParticipants);
     data.append('paymentAmount', paymentRequired);
+    data.append('registrationAvailable', allowUsersRegistrationChecked);
     responsible.forEach((val) => {
       data.append('responsible[]', val);
     });
@@ -176,9 +178,11 @@ function NewActivityPage() {
 
   useEffect(() => {
     if (!activityData) return;
-    const registrationStartDate = dayjs(activityData.registrationStartDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
-    const registrationEndDate = dayjs(activityData.registrationEndDate.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
-    const completionDate = dayjs(activityData.date.slice(0, 10), 'YYYY-MM-DD').format('YYYY-MM-DD');
+
+    const registrationStartDate = dayjs(activityData.registrationStartDate).format('YYYY-MM-DD');
+    const registrationEndDate = dayjs(activityData.registrationEndDate).format('YYYY-MM-DD');
+    const completionDate = dayjs(activityData.date).format('YYYY-MM-DD');
+
     setData('activityName', activityData.name);
     setData('name', activityData.asigboArea.name);
     setData('completionDate', completionDate);
@@ -196,6 +200,7 @@ function NewActivityPage() {
     }
 
     setParticipantsChecked(activityData.participatingPromotions === null); // Check por default
+    setAllowUsersRegistrationChecked(activityData.registrationAvailable);
   }, [activityData]);
 
   if (errorPromotions) {
@@ -332,6 +337,7 @@ function NewActivityPage() {
             )} */}
 
             <h3 className={styles.formSectionTitle}>Inscripción</h3>
+
             <div className={styles.inputRow}>
               <InputDate
                 title="Disponible desde"
@@ -356,6 +362,13 @@ function NewActivityPage() {
                 onKeyDown={handleKeyDown}
               />
             </div>
+            <CheckBox
+              label="Permitir que los becados se inscriban"
+              checked={allowUsersRegistrationChecked}
+              onChange={() => {
+                setAllowUsersRegistrationChecked(!allowUsersRegistrationChecked);
+              }}
+            />
 
             <h3 className={styles.formSectionTitle}>
               Imagen representativa de la actividad (opcional)

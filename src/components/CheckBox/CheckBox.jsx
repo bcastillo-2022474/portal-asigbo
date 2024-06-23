@@ -9,7 +9,7 @@ function CheckBox({ label, onChange, checked }) {
       <input
         type="checkbox"
         className={styles.inputHidden}
-        defaultChecked={checked}
+        checked={checked}
         onChange={onChange}
       />
       <span className={styles.customCheckBox} />
