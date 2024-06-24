@@ -48,6 +48,7 @@ function NewActivityPage() {
   const [newActivityId, setNewActivityId] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedPromotions, setSelectedPromotions] = useState(null);
+  const [hasErrors, setHasErrors] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -88,7 +89,11 @@ function NewActivityPage() {
     const uri = idActividad ? `${serverHost}/activity/${idActividad}` : `${serverHost}/activity/`;
 
     const formErrors = await validateForm();
-    if (formErrors) return;
+    if (formErrors) {
+      setHasErrors(true);
+      return;
+    }
+    setHasErrors(false);
 
     // construir form data a enviar
     const data = new FormData();
@@ -389,7 +394,7 @@ function NewActivityPage() {
 
             {error?.responsible && <p className={styles.errorMessage}>{error.responsible}</p>}
 
-            {error && (
+            {hasErrors && (
             <p className={styles.errorMessage}>
               Hay errores en el formulario, por favor corrígelos antes de enviarlo.
             </p>
