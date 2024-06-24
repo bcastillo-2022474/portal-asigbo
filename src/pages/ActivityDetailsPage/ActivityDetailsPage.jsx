@@ -154,7 +154,7 @@ function ActivityDetailsPage() {
           <h1>{activity ? activity.name : 'Actividad'}</h1>
 
           <div className={styles.headerButtonsContainer}>
-            {((activity?.registrationAvailable || activity?.userAssignment)
+            {((activity?.registrationAvailableForUser || activity?.userAssignment)
               && !activity?.userAssignment?.completed)
               && (
               <AssignToActivityButton
