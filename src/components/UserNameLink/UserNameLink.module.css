@@ -1,5 +1,6 @@
 .userLink{
   text-decoration: none;
+  text-wrap: balance;
 }
 
 .userLink:hover{
