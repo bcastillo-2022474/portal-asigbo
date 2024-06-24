@@ -108,12 +108,12 @@ function NewActivityPage() {
       participatingPromotions = [];
     }
     data.append('name', activityName);
-    data.append('date', dayjs(completionDate).format('YYYY-MM-DD[T00:00:00]'));
+    data.append('date', new Date(dayjs(completionDate).format('YYYY-MM-DD[T00:00:00]')));
     data.append('idAsigboArea', idArea);
     data.append('serviceHours', serviceHours);
     data.append('description', description);
-    data.append('registrationStartDate', dayjs(registrationStartDate).format('YYYY-MM-DD[T00:00:00]'));
-    data.append('registrationEndDate', dayjs(registrationEndDate).format('YYYY-MM-DD[T23:59:59]'));
+    data.append('registrationStartDate', new Date(dayjs(registrationStartDate).format('YYYY-MM-DD[T00:00:00]')));
+    data.append('registrationEndDate', new Date(dayjs(registrationEndDate).format('YYYY-MM-DD[T23:59:59]')));
     data.append('participantsNumber', maxParticipants);
     data.append('paymentAmount', paymentRequired);
     data.append('registrationAvailable', allowUsersRegistrationChecked);
