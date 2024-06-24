@@ -16,9 +16,9 @@ import getTokenPayload from '../../helpers/getTokenPayload';
 
 /*----------------------------------------------------------------------------------------------*/
 /**
- * @module ActivityTable: Tabla destinada a mostrar actividades, se espera que se le envíen datos
- * compatibles con su layout, además es capaz de filtrar estas actividades por intervalos de fecha
- * y por valores **exactos** en sus campos.
+ * @module ActivityAssignmentTable: Tabla destinada a mostrar actividades, se espera que se le
+ * envíen datos compatibles con su layout, además es capaz de filtrar estas actividades por
+ * intervalos de fecha y por valores **exactos** en sus campos.
  *
  * @param {boolean} loading: Le indica a la tabla si la información está cargando o no.
  * @param {Object} data: Objeto de datos de tabla, se espera que el esquema utilizado, sea igual
@@ -29,7 +29,7 @@ import getTokenPayload from '../../helpers/getTokenPayload';
 
 /*----------------------------------------------------------------------------------------------*/
 
-function ActivityTable({ /* loading, data, */ listingType, id }) {
+function ActivityAssignmentTable({ /* loading, data, */ listingType, id }) {
   // Estados
   const token = useToken();
   const userInfo = getTokenPayload(token);
@@ -178,7 +178,7 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
                 <td>{value.activity.serviceHours + (value.aditionalServiceHours ?? 0)}</td>
                 <td>{value.completed ? 'Si' : 'No'}</td>
                 <td>
-                  {dayjs(value.activity.date).format('DD-MM-YYYY')}
+                  {dayjs(value.activity.date).format('DD/MM/YYYY')}
                 </td>
                 <td>
                   <img
@@ -208,14 +208,14 @@ function ActivityTable({ /* loading, data, */ listingType, id }) {
 
 /*----------------------------------------------------------------------------------------------*/
 
-ActivityTable.propTypes = {
+ActivityAssignmentTable.propTypes = {
   /*   loading: PropTypes.bool,
   data: PropTypes.instanceOf(Object), */
   id: PropTypes.string,
   listingType: PropTypes.oneOf(['enrolled', 'byArea']),
 };
 
-ActivityTable.defaultProps = {
+ActivityAssignmentTable.defaultProps = {
   /*   loading: false,
   data: undefined, */
   id: '',
@@ -224,4 +224,4 @@ ActivityTable.defaultProps = {
 
 /*----------------------------------------------------------------------------------------------*/
 
-export default ActivityTable;
+export default ActivityAssignmentTable;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import ActivitiesGrid from '../ActivitiesGrid/ActivitiesGrid';
 import useFetch from '../../hooks/useFetch';
 import { serverHost } from '../../config';
@@ -24,7 +25,7 @@ function AvailableActivitiesGrid() {
     const query = {};
     if (search) query.search = search;
     if (initialDate) query.lowerDate = initialDate;
-    if (finalDate) query.upperDate = finalDate;
+    if (finalDate) query.upperDate = new Date(dayjs(finalDate).endOf('day'));
     const searchParams = new URLSearchParams(query);
     fetchActivities({
       uri: `${serverHost}/activity/available?${searchParams.toString()}`,

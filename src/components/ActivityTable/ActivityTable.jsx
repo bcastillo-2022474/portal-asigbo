@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Pagination } from '@mui/material';
+import dayjs from 'dayjs';
 import ActivityTableFilter from '../ActivityTableFilter/ActivityTableFilter';
 import styles from './ActivityTable.module.css';
 import Table from '../Table/Table';
@@ -54,12 +55,10 @@ function ActivityTable({ idArea, onError }) {
     const paramsObj = { page: currentPage };
 
     if (lowerDate !== undefined && lowerDate !== null) {
-      const moment = new Date(lowerDate);
-      paramsObj.lowerDate = moment.toISOString().slice(0, 10);
+      paramsObj.lowerDate = new Date(lowerDate);
     }
     if (upperDate !== undefined && upperDate !== null) {
-      const moment = new Date(upperDate);
-      paramsObj.upperDate = moment.toISOString(upperDate).slice(0, 10);
+      paramsObj.upperDate = new Date(dayjs(upperDate).endOf('day'));
     }
     if (search !== undefined && search !== '') paramsObj.search = search;
     const searchParams = new URLSearchParams(paramsObj);
@@ -105,7 +104,7 @@ function ActivityTable({ idArea, onError }) {
           >
             <td><Link to={`/actividad/${value.id}`} className={styles.activityLink}>{value.name}</Link></td>
             <td>{value.serviceHours}</td>
-            <td>{`${value.date.slice(8, 10)}-${value.date.slice(5, 7)}-${value.date.slice(0, 4)}`}</td>
+            <td>{dayjs(value.date).format('DD/MM/YYYY')}</td>
             {/* <td>
               <div className={styles.cellContainer}>
 
