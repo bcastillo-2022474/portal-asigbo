@@ -14,7 +14,7 @@ function TextArea({
         {...props}
         id={id}
         name={name}
-        value={value}
+        defaultValue={value}
         onChange={onChange}
         onBlur={onBlur}
         onFocus={onFocus}

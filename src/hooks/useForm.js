@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import parseErrorObject from '../helpers/parseErrorObject';
+import safeTrim from '../helpers/safeTrim';
 
 function useForm(schema) {
   const [form, setForm] = useState({});
   const [error, setError] = useState();
 
   const setData = (name, value) => {
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: safeTrim(value) }));
   };
 
   const getFormErrors = async () => {
