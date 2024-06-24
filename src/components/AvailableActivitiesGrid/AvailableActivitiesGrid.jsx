@@ -45,7 +45,7 @@ function AvailableActivitiesGrid() {
         date: activity.date,
       }))}
       loading={activitiesLoading}
-      error={activitiesError}
+      error={activitiesError !== null && activitiesError !== undefined}
     />
   );
 }

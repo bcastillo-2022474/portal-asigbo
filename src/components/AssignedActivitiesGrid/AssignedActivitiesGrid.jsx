@@ -44,7 +44,7 @@ function AssignedActivitiesGrid() {
         date: assignment.activity.date,
       }))}
       loading={assignmentsLoading}
-      error={assignmentsError}
+      error={assignmentsError !== null && assignmentsError !== undefined}
     />
   );
 }
