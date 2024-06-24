@@ -60,4 +60,9 @@ export default yup.object().shape({
     .string()
     .test('notEmpty', 'Ingresa una descripción.', (value) => value?.trim().length > 0)
     .required('Ingresa una descripción.'),
+
+  participatingPromotions: yup.array().nullable().when('allCanParticipate', (allCanParticipate, schema) => (
+    !allCanParticipate[0]
+      ? yup.array().nullable().min(1, 'Debes seleccionar al menos un grupo de becados.')
+      : schema)),
 });

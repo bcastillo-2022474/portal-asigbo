@@ -37,7 +37,7 @@ function NewActivityPage() {
   } = useFetch();
 
   const token = useToken();
-  const [participantsChecked, setParticipantsChecked] = useState(false);
+
   const [allowUsersRegistrationChecked, setAllowUsersRegistrationChecked] = useState(true);
   // const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
@@ -106,6 +106,7 @@ function NewActivityPage() {
       maxParticipants,
       responsible,
       participatingPromotions,
+      allCanParticipate,
     } = form;
 
     data.append('name', activityName);
@@ -122,7 +123,7 @@ function NewActivityPage() {
       data.append('responsible[]', val);
     });
 
-    if (participantsChecked) {
+    if (allCanParticipate) {
       data.append('participatingPromotions', null);
     } else {
       participatingPromotions.forEach((val) => {
@@ -187,6 +188,13 @@ function NewActivityPage() {
   }, []);
 
   useEffect(() => {
+    // Limpiar error de campo de promociones participantes cuando cambie valor de checkbox a true
+    if (form?.allCanParticipate) {
+      clearFieldError('participatingPromotions');
+    }
+  }, [form?.allCanParticipate]);
+
+  useEffect(() => {
     if (!activityData) return;
 
     const registrationStartDate = dayjs(activityData.registrationStartDate).format('YYYY-MM-DD');
@@ -209,7 +217,7 @@ function NewActivityPage() {
       setDefaultImages([`${serverHost}/image/activity/${idActividad ?? null}`]);
     }
 
-    setParticipantsChecked(activityData.participatingPromotions === null); // Check por default
+    setData('allCanParticipate', activityData.participatingPromotions === null); // Check por default
     setAllowUsersRegistrationChecked(activityData.registrationAvailable);
   }, [activityData]);
 
@@ -312,13 +320,19 @@ function NewActivityPage() {
             />
             <CheckBox
               label="Permitir participación de todos los becados"
-              checked={participantsChecked}
-              onChange={() => {
-                setParticipantsChecked(!participantsChecked);
+              checked={form?.allCanParticipate ?? false}
+              onChange={(v) => {
+                setData('allCanParticipate', v.target.checked);
               }}
             />
-            {!participantsChecked && (
+            {!form?.allCanParticipate && (
               <PromotionChips data={promotionsData} onSelectionChange={(value) => setData('participatingPromotions', value)} defaultSelectedPromotions={selectedPromotions} />
+            )}
+
+            {error?.participatingPromotions && (
+            <p className={styles.errorMessage}>
+              {error.participatingPromotions}
+            </p>
             )}
 
             <h3 className={styles.formSectionTitle}>Inscripción</h3>
@@ -372,7 +386,15 @@ function NewActivityPage() {
               onChange={(value) => setData('responsible', value)}
               defaultSelectedUsers={selectedUsers}
             />
+
             {error?.responsible && <p className={styles.errorMessage}>{error.responsible}</p>}
+
+            {error && (
+            <p className={styles.errorMessage}>
+              Hay errores en el formulario, por favor corrígelos antes de enviarlo.
+            </p>
+            )}
+
             <div className={styles.sendContainer}>
               {!result && !loading && (
                 <Button
