@@ -18,6 +18,7 @@ function Chip({ label, selected, onToggle }) {
 
 function PromotionChips({ data, onSelectionChange, defaultSelectedPromotions }) {
   const [selectedPromotions, setSelectedPromotions] = useState([]);
+  const [promotions, setPromotions] = useState(null);
 
   const handleToggle = (promotion) => {
     setSelectedPromotions((prevPromotions) => {
@@ -40,6 +41,18 @@ function PromotionChips({ data, onSelectionChange, defaultSelectedPromotions }) 
     }
   }, [defaultSelectedPromotions]);
 
+  useEffect(() => {
+    if (!data) return;
+    const promotionsSet = new Set(data.students.years);
+    defaultSelectedPromotions?.forEach((prom) => {
+      if (!Number.isNaN(parseInt(prom, 10)) && !data.notStudents.includes(prom)) {
+        promotionsSet.add(parseInt(prom, 10));
+      }
+    });
+
+    setPromotions(Array.from(promotionsSet).sort((a, b) => b - a));
+  }, [data, defaultSelectedPromotions]);
+
   if (!data) return null;
 
   return (
@@ -52,7 +65,7 @@ function PromotionChips({ data, onSelectionChange, defaultSelectedPromotions }) 
           onToggle={() => handleToggle(promotion)}
         />
       ))}
-      {data.students.years.map((year) => (
+      {promotions?.map((year) => (
         <Chip
           key={year}
           label={year.toString()}
@@ -60,6 +73,7 @@ function PromotionChips({ data, onSelectionChange, defaultSelectedPromotions }) 
           onToggle={() => handleToggle(year.toString())}
         />
       ))}
+
     </div>
   );
 }

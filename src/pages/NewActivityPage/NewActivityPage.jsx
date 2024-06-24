@@ -42,8 +42,8 @@ function NewActivityPage() {
   // const [delegateAsParticipant, setDelegateAsParticipant] = useState(false);
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [deletedDefaultImages, setDeletedDefaultImages] = useState(false);
+  const [selectedImage, setSelectedImage] = useState([]);
+  const [deletedDefaultImage, setDeletedDefaultImage] = useState(false);
   const [defaultImages, setDefaultImages] = useState([]);
   const [newActivityId, setNewActivityId] = useState('');
   const [selectedUsers, setSelectedUsers] = useState([]);
@@ -96,17 +96,18 @@ function NewActivityPage() {
     // guardar imagenes
     // data.append('deletedImages', JSON.stringify(deletedDefaultImages));
 
-    let {
-      // eslint-disable-next-line max-len, prefer-const
-      activityName, completionDate, registrationStartDate, registrationEndDate, serviceHours, description, maxParticipants, paymentRequired, responsible, participatingPromotions,
+    const {
+      activityName,
+      completionDate,
+      registrationStartDate,
+      registrationEndDate,
+      serviceHours,
+      description,
+      maxParticipants,
+      responsible,
+      participatingPromotions,
     } = form;
-    // if (!isCheckboxChecked) {
-    //   paymentRequired = 0;
-    // }
-    paymentRequired = 0;
-    if (participantsChecked) {
-      participatingPromotions = [];
-    }
+
     data.append('name', activityName);
     data.append('date', new Date(dayjs(completionDate).format('YYYY-MM-DD[T00:00:00]')));
     data.append('idAsigboArea', idArea);
@@ -115,18 +116,27 @@ function NewActivityPage() {
     data.append('registrationStartDate', new Date(dayjs(registrationStartDate).format('YYYY-MM-DD[T00:00:00]')));
     data.append('registrationEndDate', new Date(dayjs(registrationEndDate).format('YYYY-MM-DD[T23:59:59]')));
     data.append('participantsNumber', maxParticipants);
-    data.append('paymentAmount', paymentRequired);
     data.append('registrationAvailable', allowUsersRegistrationChecked);
+
     responsible.forEach((val) => {
       data.append('responsible[]', val);
     });
-    participatingPromotions.forEach((val) => {
-      data.append('participatingPromotions[]', val);
-    });
-    selectedImages.forEach((file) => data.append('banner', file, file.name));
-    if (deletedDefaultImages && selectedImages.length === 0) {
+
+    if (participantsChecked) {
+      data.append('participatingPromotions', null);
+    } else {
+      participatingPromotions.forEach((val) => {
+        data.append('participatingPromotions[]', val);
+      });
+    }
+
+    if (selectedImage) {
+      data.append('banner', selectedImage, selectedImage.name);
+    }
+    if (deletedDefaultImage) {
       data.append('removeBanner', 'true');
     }
+
     callFetch({
       uri,
       headers: { authorization: token },
@@ -311,31 +321,6 @@ function NewActivityPage() {
               <PromotionChips data={promotionsData} onSelectionChange={(value) => setData('participatingPromotions', value)} defaultSelectedPromotions={selectedPromotions} />
             )}
 
-            {/* Pagos pendientes */}
-
-            {/* <h3 className={styles.formSectionTitle}>Pago requerido</h3>
-            <CheckBox
-              label="La actividad necesita un pago por parte de los becados"
-              checked={isCheckboxChecked}
-              onChange={() => {
-                setCheckboxChecked(!isCheckboxChecked);
-              }}
-            />
-            {isCheckboxChecked && (
-            <InputNumber
-              title="Monto del pago"
-              className={styles.inputText}
-              name="paymentRequired"
-              onChange={handleChange}
-              value={form?.paymentRequired}
-              onBlur={() => validateField('paymentRequired')}
-              onFocus={() => clearFieldError('paymentRequired')}
-              onKeyDown={handleKeyDown}
-              min={0}
-              max={2100}
-            />
-            )} */}
-
             <h3 className={styles.formSectionTitle}>Inscripción</h3>
 
             <div className={styles.inputRow}>
@@ -375,18 +360,14 @@ function NewActivityPage() {
             </h3>
             <ImagePicker
               onChange={(images, deletedDefault) => {
-                setSelectedImages(images);
-                setDeletedDefaultImages(deletedDefault);
+                setSelectedImage(images?.[0]);
+                setDeletedDefaultImage(deletedDefault?.length > 0);
               }}
               maxFiles={1}
               defaultImages={defaultImages}
             />
             <h3 className={styles.formSectionTitle}>Encargados</h3>
-            {/* <CheckBox
-              label="Inscribir a los encargados como participantes de la actividad"
-              checked={delegateAsParticipant}
-              onChange={() => setDelegateAsParticipant(!delegateAsParticipant)}
-            /> */}
+
             <UserSelectTable
               onChange={(value) => setData('responsible', value)}
               defaultSelectedUsers={selectedUsers}
