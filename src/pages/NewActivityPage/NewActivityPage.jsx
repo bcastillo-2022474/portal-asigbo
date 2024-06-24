@@ -305,7 +305,6 @@ function NewActivityPage() {
               onChange={handleChange}
               onBlur={() => validateField('description')}
               onFocus={() => clearFieldError('description')}
-              onKeyDown={handleKeyDown}
               error={error?.description}
             />
 
