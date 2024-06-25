@@ -88,7 +88,7 @@ function ActivityDetailsPage() {
         setDisabled(!isDisabled);
       } else if (action === 'DELETE' && deletedActivity) {
         setIsAction(!isAction);
-        navigate('/');
+        openSuccess();
       }
     }
   }, [enDisActivity, isAction, action, deletedActivity]);
@@ -141,10 +141,19 @@ function ActivityDetailsPage() {
     }
   };
 
+  const getSuccessNotificationText = () => {
+    if (action === 'DISABLE') return `La actividad ha sido ${isDisabled ? 'deshabilitada' : 'habilitada'} de forma exitosa`;
+    return 'La actividad ha sido eliminada de forma exitosa';
+  };
+
+  const successCallback = () => {
+    if (action === 'DELETE') navigate(`/area/${activity.asigboArea.id}`);
+  };
+
   return (
     <>
       {activityError && <NotFound />}
-      {(loadingActivity || !activity) && <LoadingView />}
+      {(loadingActivity) && <LoadingView />}
 
       {activity && (
       <div className={styles.main}>
@@ -248,7 +257,12 @@ function ActivityDetailsPage() {
         }
         />
 
-        <SuccessNotificationPopUp close={closeSuccess} isOpen={isSuccessOpen} text={`La actividad ha sido ${isDisabled ? 'deshabilitada' : 'habilitada'} de forma exitosa`} />
+        <SuccessNotificationPopUp
+          close={closeSuccess}
+          isOpen={isSuccessOpen}
+          text={getSuccessNotificationText()}
+          callback={successCallback}
+        />
 
         <ErrorNotificationPopUp
           close={closeError}
