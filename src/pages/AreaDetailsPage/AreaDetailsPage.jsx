@@ -25,7 +25,6 @@ import SuccessNotificationPopUp from '@components/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '@components/ErrorNotificationPopUp';
 import ConfirmationPopUp from '@components/ConfirmationPopUp';
 import usePopUp from '@hooks/usePopUp';
-// import useActivitiesByArea from '../../hooks/useActivitiesByArea';
 import styles from './AreaDetailsPage.module.css';
 import useToogle from '../../hooks/useToogle';
 import useSessionData from '../../hooks/useSessionData';
@@ -40,8 +39,7 @@ function AreaDetailsPage({ adminPrivileges }) {
   const {
     callFetch: fetchAreaData, result: area, loading, error,
   } = useFetch();
-  // const [content, setContent] = useState([[]]);
-  // const [loadingInfo, setLoadingInfo] = useState(true);
+
   const sessionUser = useSessionData();
 
   // Fetch utilizado para eliminar, habilitar o deshabilitar eje
@@ -53,19 +51,6 @@ function AreaDetailsPage({ adminPrivileges }) {
   } = useFetch();
   const { idArea } = useParams();
   const token = useParams();
-  // const {
-  //   info: activitiesByArea,
-  //   loading: loadingActivities,
-  //   error: errorActivities,
-  // } = useActivitiesByArea(idArea);
-
-  // useEffect(() => {
-  //   if ((loadingActivities || !activitiesByArea) && !errorActivities) {
-  //     setLoadingInfo(true);
-  //   } else {
-  //     setLoadingInfo(false);
-  //   }
-  // }, [loadingActivities]);
 
   const navigate = useNavigate();
 
@@ -78,10 +63,6 @@ function AreaDetailsPage({ adminPrivileges }) {
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [isConfirmatonOpen, openConfirmaton, closeConfirmaton] = usePopUp();
-
-  // const handleNewActivityClick = () => {
-  //   navigate(`/area/${idArea}/newActivity`);
-  // };
 
   useEffect(() => {
     fetchAreaData({ uri: `${serverHost}/area/${idArea}`, headers: { authorization: token } });
@@ -102,29 +83,6 @@ function AreaDetailsPage({ adminPrivileges }) {
     if (alterAreaError) openError();
   }, [alterAreaError]);
 
-  // Efecto que maneja las actividades comunes y completadas.
-  // useEffect(() => {
-  //   let newArr = [];
-  //   const completed = [];
-  //   if (activitiesByArea) {
-  //     activitiesByArea.result.forEach((value) => {
-  //       if (value.completed) {
-  //         completed.push(value);
-  //       }
-  //     });
-
-  //     newArr = activitiesByArea.result.map((value) => {
-  //       const temp = value;
-
-  //       if (value && value.date) {
-  //         const [dateOnly] = value.registrationEndDate.split('T');
-  //         temp.registrationEndDate = dateOnly;
-  //       }
-  //       return temp;
-  //     });
-  //   }
-  //   setContent(newArr);
-  // }, [activitiesByArea]);
   const handleEditOptionClick = () => navigate('editar');
 
   const handleDeleteOptionClick = () => {
@@ -204,14 +162,14 @@ function AreaDetailsPage({ adminPrivileges }) {
           <TabMenu
             className={styles.tabMenu}
             options={[
-              { text: 'Encargados', href: '' },
-              { text: 'Actividades', href: 'actividades' },
+              { text: 'Actividades', href: '' },
+              { text: 'Encargados', href: 'encargados' },
             ]}
           />
 
           <Routes>
             <Route
-              path="/"
+              path="/encargados"
               element={(
                 <>
                   <h3 className={styles.sectionTitle}>Encargados</h3>
@@ -220,7 +178,7 @@ function AreaDetailsPage({ adminPrivileges }) {
               )}
             />
             <Route
-              path="/actividades"
+              path="/"
               element={(
                 <>
                   <div className={styles.headerContainer}>
