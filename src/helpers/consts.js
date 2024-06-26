@@ -5,11 +5,12 @@ export default {
     promotionResponsible: 'promotionResponsible',
     asigboAreaResponsible: 'asigboAreaResponsible',
     activityResponsible: 'activityResponsible',
+    treasurer: 'treasurer',
   },
   promotionsGroups: {
-    chick: 'Pollitos',
-    student: 'Estudiantes',
-    graduate: 'Graduados',
+    chick: 'chick',
+    student: 'student',
+    graduate: 'graduate',
   },
   imageRoute: {
     user: 'image/user',
