@@ -4,10 +4,7 @@ import styles from './UserTableFilter.module.css';
 import InputSearchSelect from '../InputSearchSelect/InputSearchSelect';
 import SearchInput from '../SearchInput/SearchInput';
 import Button from '../Button/Button';
-import useFetch from '../../hooks/useFetch';
-import { serverHost } from '../../config';
-import useToken from '../../hooks/useToken';
-import consts from '../../helpers/consts';
+import PromotionsSearchSelect from '../PromotionsSearchSelect/PromotionsSearchSelect';
 
 function UserTableFilter({
   className,
@@ -19,19 +16,6 @@ function UserTableFilter({
   hideActionButtons,
 }) {
   const [filter, setFilter] = useState({});
-  const token = useToken();
-
-  const {
-    callFetch: getPromotionsFetch,
-    result: promotions,
-    loading: loadingPromotions,
-    error: errorPromotions,
-  } = useFetch();
-
-  useEffect(() => {
-    // obtener promociones
-    getPromotionsFetch({ uri: `${serverHost}/promotion`, headers: { authorization: token } });
-  }, []);
 
   useEffect(() => {
     if (onChange) onChange(filter);
@@ -59,26 +43,10 @@ function UserTableFilter({
             [{ title: 'Agregado', value: '1' }]
           }
         />
-        <InputSearchSelect
+        <PromotionsSearchSelect
           className={styles.selectInput}
-          placeholder="Promoción"
           value={filter.promotion}
-          onChange={(e) => handleChange('promotion', e.target.value)}
-          options={
-            promotions
-              ? [
-                ...promotions.notStudents.map(
-                  (val) => ({ value: val, title: consts.promotionsGroups[val] }),
-                ),
-                {
-                  value: promotions.students.id,
-                  title: consts.promotionsGroups[promotions.students.id],
-                },
-                ...promotions.students.years.map((year) => ({ value: `${year}`, title: `${year}` })),
-              ]
-              : null
-          }
-          disabled={errorPromotions || loadingPromotions}
+          onChange={(value) => handleChange('promotion', value)}
         />
         <SearchInput
           className={styles.searchInput}
