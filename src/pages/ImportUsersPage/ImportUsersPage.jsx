@@ -155,7 +155,7 @@ function ImportUsersPage() {
         ))}
       </Table>
       <div className={styles.checkboxContainer}>
-        <CheckBox label="Enviar email de registro a todos los usuarios." onChange={handleCheckChange} checked />
+        <CheckBox label="Enviar email de registro a todos los usuarios." onChange={handleCheckChange} checked={sendEmail} />
       </div>
 
       <div className={styles.actionsContainer}>
