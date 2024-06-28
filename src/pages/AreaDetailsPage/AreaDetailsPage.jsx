@@ -187,14 +187,10 @@ function AreaDetailsPage({ adminPrivileges }) {
                   <div className={styles.headerContainer}>
                     <h3 className={styles.sectionTitle}>Listado de Actividades</h3>
                     {sessionUser?.role.includes(consts.roles.admin) && (
-                    <NavLink to={`/area/${idArea}/newActivity`} className={styles.newLink}>
-                      <Button text="Nueva actividad" />
+                    <NavLink to={isAreaEnabled ? `/area/${idArea}/newActivity` : '#'} className={styles.newLink}>
+                      <Button text="Nueva actividad" disabled={!isAreaEnabled} title={!isAreaEnabled ? 'El área se encuentra deshabilitada.' : null} />
                     </NavLink>
                     )}
-                    {/* <div className={styles.buttonsContainer}>
-                      <Button text="Nueva actividad" className={styles.sendButton}
-                      onClick={handleNewActivityClick} type="submit" />
-                    </div> */}
                   </div>
                   <ActivityTable idArea={idArea} onError={handleError} />
                 </>
