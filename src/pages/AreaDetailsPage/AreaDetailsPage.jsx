@@ -28,6 +28,7 @@ import usePopUp from '@hooks/usePopUp';
 import styles from './AreaDetailsPage.module.css';
 import useToogle from '../../hooks/useToogle';
 import useSessionData from '../../hooks/useSessionData';
+import useToken from '../../hooks/useToken';
 
 /**
  *
@@ -50,7 +51,7 @@ function AreaDetailsPage({ adminPrivileges }) {
     error: alterAreaError,
   } = useFetch();
   const { idArea } = useParams();
-  const token = useParams();
+  const token = useToken();
 
   const navigate = useNavigate();
 
