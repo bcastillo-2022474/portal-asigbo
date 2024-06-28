@@ -113,7 +113,7 @@ function NewAreaPage() {
   useEffect(() => {
     if (!idArea) return;
     // Si es para editar, obtener datos del area
-    fetchAreaData({ uri: `${serverHost}/area/${idArea}`, authorization: { headers: token } });
+    fetchAreaData({ uri: `${serverHost}/area/${idArea}`, headers: { authorization: token } });
   }, [idArea]);
 
   useEffect(() => {
