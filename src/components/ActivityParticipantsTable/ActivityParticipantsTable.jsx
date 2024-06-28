@@ -41,6 +41,7 @@ function ActivityParticipantsTable({ idActivity }) {
           name: `${user.name} ${user.lastname}`,
           id: `${user.id}`,
           promotion: `${user.promotion}`,
+          hasImage: user.hasImage,
         };
       });
       setMappedItems(newItems);
