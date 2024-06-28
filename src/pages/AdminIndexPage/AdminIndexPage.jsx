@@ -9,6 +9,7 @@ import ImportUsersPage from '@pages/ImportUsersPage';
 import UpdateUserPage from '@pages/UpdateUserPage';
 import ActivityAssignmentDetailsPage from '@pages/ActivityAssignmentDetailsPage';
 import AvailableActivitiesPage from '@pages/AvailableActivitiesPage';
+import UsersReportPage from '@pages/UsersReportPage';
 import AreaDetailsPage from '../AreaDetailsPage/AreaDetailsPage';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import AdminConfiguration from '../AdminConfiguration/AdminConfiguration';
@@ -38,6 +39,7 @@ function AdminIndexPage() {
         <Route path="/area/nuevo" element={<NewAreaPage />} />
         <Route path="/area" element={<AreasListPage />} />
         <Route path="/config/*" element={<AdminConfiguration />} />
+        <Route path="/usuario/reporte" element={<UsersReportPage />} />
         <Route path="/usuario/:userId/editar" element={<UpdateUserInRoutePage />} />
         <Route path="/usuario/:userId/*" element={<UserProfileIndexPage />} />
         <Route path="/usuario" element={<UsersListPage />} />

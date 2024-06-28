@@ -1,6 +1,7 @@
 import React from 'react';
 import { HiUserAdd as NewUserIcon } from 'react-icons/hi';
 import { MdEmail as EmailIcon } from 'react-icons/md';
+import { BiSolidReport as ReportIcon } from 'react-icons/bi';
 import styles from './UsersListPage.module.css';
 import ManageUsersTable from '../../components/ManageUsersTable/ManageUsersTable';
 import OptionsButton from '../../components/OptionsButton/OptionsButton';
@@ -18,6 +19,9 @@ function UsersListPage() {
           options={[
             {
               icon: <NewUserIcon />, text: 'Nuevo usuario', isLink: true, href: '/usuario/nuevo',
+            },
+            {
+              icon: <ReportIcon />, text: 'Reporte de usuarios', isLink: true, href: '/usuario/reporte',
             },
             {
               icon: <EmailIcon />, text: 'Enviar email de registro', onClick: openSendEmailPopUp,
