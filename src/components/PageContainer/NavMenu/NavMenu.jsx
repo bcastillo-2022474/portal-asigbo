@@ -59,7 +59,7 @@ function NavMenu({
             <NavLink to="/panel" onClick={toggler || undefined}>
               <NavMenuButton
                 icon={<DashboardIcon />}
-                label="Panel de trabajo"
+                label="Panel de opciones"
                 className={styles.optionIcon}
               />
             </NavLink>
