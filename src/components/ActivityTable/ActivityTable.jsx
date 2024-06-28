@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-restricted-syntax */
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Pagination } from '@mui/material';
@@ -11,6 +11,7 @@ import Table from '../Table/Table';
 import TableRow from '../TableRow';
 import useFetch from '../../hooks/useFetch';
 import { serverHost } from '../../config';
+import useToken from '../../hooks/useToken';
 
 /*----------------------------------------------------------------------------------------------*/
 /**
@@ -28,10 +29,10 @@ import { serverHost } from '../../config';
 /*----------------------------------------------------------------------------------------------*/
 
 function ActivityTable({ idArea, onError }) {
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [paginationItems, setPaginationItems] = useState();
-  const token = useParams();
+  const token = useToken();
   const {
     callFetch: fetchActivities,
     result: resultActivities,
@@ -41,6 +42,7 @@ function ActivityTable({ idArea, onError }) {
 
   // Manejar filtros
   const handleChange = (name, value) => {
+    if (!name) return;
     setFilters((lastVal) => ({ ...lastVal, [name]: value }));
   };
 
@@ -51,7 +53,7 @@ function ActivityTable({ idArea, onError }) {
 
   // Obtener actividades
   const getActivities = () => {
-    const { search, lowerDate, upperDate } = filters;
+    const { search, lowerDate, upperDate } = filters ?? {};
     const paramsObj = { page: currentPage };
 
     if (lowerDate !== undefined && lowerDate !== null) {
@@ -69,8 +71,14 @@ function ActivityTable({ idArea, onError }) {
   };
 
   useEffect(() => {
+    // También realiza el fetch inicial
     getActivities();
-  }, [filters, currentPage]);
+  }, [currentPage]);
+
+  useEffect(() => {
+    // No realizar fetch si no hay filtros (exluye el fetch inicial)
+    if (filters) getActivities();
+  }, [filters]);
 
   useEffect(() => {
     if (errorActivities) onError();
