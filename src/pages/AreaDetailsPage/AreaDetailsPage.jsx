@@ -76,8 +76,6 @@ function AreaDetailsPage({ adminPrivileges }) {
 
   useEffect(() => {
     if (alterAreaResult) openSuccess();
-
-    if (!isDeleting) toogleAreaEnabled(); // La acción modificó estado de habilitado
   }, [alterAreaResult]);
 
   useEffect(() => {
@@ -226,12 +224,12 @@ function AreaDetailsPage({ adminPrivileges }) {
       <SuccessNotificationPopUp
         close={closeSuccess}
         isOpen={isSuccessOpen}
-        callback={isDeleting ? redirectOnDeleteSuccess : null}
+        callback={isDeleting ? redirectOnDeleteSuccess : toogleAreaEnabled}
         text={
           isDeleting
             ? 'El eje de ASIGBO ha sido eliminado de forma exitosa.'
             : `El eje de ASIGBO ha sido ${
-              isAreaEnabled ? 'habilitado' : 'deshabilitado'
+              !isAreaEnabled ? 'habilitado' : 'deshabilitado'
             } de forma exitosa.`
         }
       />
