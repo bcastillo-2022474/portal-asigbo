@@ -173,7 +173,9 @@ function AreaDetailsPage({ adminPrivileges }) {
               element={(
                 <>
                   <h3 className={styles.sectionTitle}>Encargados</h3>
-                  <UserTable users={area.responsible.sort((a, b) => a.promotion - b.promotion)} />
+                  <UserTable
+                    users={area.responsible.sort((a, b) => a.promotion - b.promotion)}
+                  />
                 </>
               )}
             />

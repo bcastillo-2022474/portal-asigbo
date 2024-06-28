@@ -96,7 +96,13 @@ function ActivityTable({ idArea, onError }) {
         initialDateHandler={(date) => handleChange('lowerDate', date)}
         finalDateHandler={(date) => handleChange('upperDate', date)}
       />
-      <Table header={['Actividad', 'Horas de servicio', 'Fecha']} loading={loadingActivities} breakPoint="1110px" showCheckbox={false}>
+      <Table
+        header={['Actividad', 'Horas de servicio', 'Fecha']}
+        loading={loadingActivities}
+        breakPoint="1110px"
+        showCheckbox={false}
+        showNoResults={errorActivities !== undefined && errorActivities !== null}
+      >
         {resultActivities?.result.map((value) => (
           <TableRow
             id={value.id}

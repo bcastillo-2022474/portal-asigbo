@@ -37,8 +37,6 @@ function ManageUsersTable() {
 
   const [userId, setUserId] = useState('');
 
-  const [initialLoading, setInitialLoading] = useState(true);
-
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
   const [isConfirmatonOpen, openConfirmaton, closeConfirmaton] = usePopUp();
@@ -191,13 +189,8 @@ function ManageUsersTable() {
   useEffect(() => {
     if (resultUsers) {
       setUsers(resultUsers.result);
-      setInitialLoading(false);
     }
   }, [resultUsers]);
-
-  useEffect(() => {
-    if (errorUsers) setInitialLoading(false);
-  }, [errorUsers]);
 
   useEffect(() => {
     if (!resultDisable) return;
@@ -284,7 +277,8 @@ function ManageUsersTable() {
         header={['No.', '', 'Nombre', 'Promoción', '']}
         breakPoint="700px"
         resetTableHeight={resetTableHeightTrigger}
-        loading={loadingUsers || initialLoading}
+        loading={loadingUsers}
+        showNoResults={errorUsers !== undefined && errorUsers !== null}
       >
         {users?.map((user, index) => (
           <TableRow id={user.id} key={user.id} style={{ position: 'absolute' }}>

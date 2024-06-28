@@ -16,6 +16,7 @@ function ActivityParticipantsTable({ idActivity }) {
     callFetch: fetchAssignmets,
     result: assignmentsResult,
     loading: assignmetsLoading,
+    error: assignmentsError,
   } = useFetch();
 
   const [mappedItems, setMappedItems] = useState([]);
@@ -53,6 +54,7 @@ function ActivityParticipantsTable({ idActivity }) {
         loading={assignmetsLoading}
         breakPoint="1100px"
         showCheckbox={false}
+        showNoResults={assignmentsError !== undefined && assignmentsError !== null}
       >
         {mappedItems?.map((user, index) => (
           <TableRow id={user.id} key={user.id}>

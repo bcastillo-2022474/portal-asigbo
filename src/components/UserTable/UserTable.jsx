@@ -7,9 +7,18 @@ import TableRow from '../TableRow/TableRow';
 import UserPicture from '../UserPicture';
 import styles from './UserTable.module.css';
 
-function UserTable({ users, loading, className }) {
+function UserTable({
+  users, loading, noResults, className,
+}) {
   return (
-    <Table showCheckbox={false} header={['No.', '', 'Nombre', 'Promoción']} breakPoint="700px" loading={loading} className={className}>
+    <Table
+      showCheckbox={false}
+      header={['No.', '', 'Nombre', 'Promoción']}
+      breakPoint="700px"
+      loading={loading}
+      className={className}
+      showNoResults={noResults}
+    >
       {users?.map((user, index) => (
         <TableRow id={user.id} key={user.id}>
           <td>{index + 1}</td>
@@ -38,10 +47,12 @@ UserTable.propTypes = {
     promotion: PropTypes.number.isRequired,
     hasImage: PropTypes.bool,
   })),
+  noResults: PropTypes.bool,
 };
 
 UserTable.defaultProps = {
   className: '',
   loading: false,
   users: null,
+  noResults: false,
 };

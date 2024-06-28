@@ -31,7 +31,12 @@ function AreasList() {
 
   return (
     <div className={styles.AreasList}>
-      <Table showCheckbox={false} loading={(!areas && !error) || loading} breakPoint="450px">
+      <Table
+        showCheckbox={false}
+        loading={loading}
+        showNoResults={error !== undefined && error !== null}
+        breakPoint="450px"
+      >
         {areas?.map((area) => (
           <TableRow key={area.id} id={area.id} maxCellWidth="180px">
             <td>

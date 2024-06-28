@@ -21,6 +21,7 @@ function UsersReportTable() {
     callFetch: fetchReport,
     result: reportResult,
     loading: loadingReport,
+    error: errorReport,
   } = useFetch();
 
   const {
@@ -103,7 +104,13 @@ function UsersReportTable() {
           value={promotionFilter}
         />
       </div>
-      <Table header={['No.', '', 'Nombre', 'Promoción', 'Horas', 'Actividades']} loading={loadingReport} breakPoint="900px" showCheckbox={false}>
+      <Table
+        header={['No.', '', 'Nombre', 'Promoción', 'Horas', 'Actividades']}
+        loading={loadingReport}
+        showNoResults={errorReport !== undefined && errorReport !== null}
+        breakPoint="900px"
+        showCheckbox={false}
+      >
         {reportResult?.result.map((user, index) => (
           <TableRow id={user.id} key={user.id}>
             <td>{index + 1}</td>

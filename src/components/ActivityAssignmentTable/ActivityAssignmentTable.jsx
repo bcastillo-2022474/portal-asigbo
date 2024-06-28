@@ -148,6 +148,7 @@ function ActivityAssignmentTable({ /* loading, data, */ listingType, id }) {
       {listingType === 'enrolled' && (
         <Table
           loading={loading}
+          showNoResults={error !== null && error !== undefined}
           header={[
             'Actividad',
             'Horas de servicio',

@@ -31,7 +31,12 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
 
   const token = useToken();
 
-  const { callFetch: getUsersFetch, result: users, loading: loadingUsers } = useFetch();
+  const {
+    callFetch: getUsersFetch,
+    result: users,
+    loading: loadingUsers,
+    error: usersError,
+  } = useFetch();
 
   const handleUserFilterChange = (val) => setUserFilters(val);
   const handlePageChange = (e, page) => {
@@ -159,6 +164,7 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
         header={['No.', '', 'Nombre', '']}
         maxCellWidth="200px"
         loading={loadingUsers}
+        showNoResults={usersError !== undefined && usersError !== null}
         onSelectedRowsChange={handleRowSelect}
         resetRowSelection={triggerResetRowsSelection}
         breakPoint="700px"
