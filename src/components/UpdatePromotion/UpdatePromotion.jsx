@@ -133,7 +133,7 @@ function UpdatePromotion() {
       <form className={styles.form}>
         <InputNumber
           name="firstYearPromotion"
-          value={form?.firstYearPromotion}
+          value={form?.firstYearPromotion?.toString()}
           error={error?.firstYearPromotion}
           onChange={handleFormChange}
           onFocus={() => clearFieldError('firstYearPromotion')}
@@ -145,7 +145,7 @@ function UpdatePromotion() {
 
         <InputNumber
           name="lastYearPromotion"
-          value={form?.lastYearPromotion}
+          value={form?.lastYearPromotion?.toString()}
           error={error?.lastYearPromotion}
           onChange={handleFormChange}
           onFocus={() => clearFieldError('lastYearPromotion')}

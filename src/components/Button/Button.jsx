@@ -16,9 +16,11 @@ function Button({
   children,
   // eslint-disable-next-line react/prop-types
   buttonRef,
+  title,
 }) {
   return (
     <button
+      title={title}
       className={`${styles.button} 
       ${emptyRed ? styles.emptyRed : ''}
       ${red ? styles.red : ''}
@@ -46,6 +48,7 @@ Button.propTypes = {
   green: PropTypes.bool,
   emptyBlue: PropTypes.bool,
   children: PropTypes.node,
+  title: PropTypes.string,
 };
 
 Button.defaultProps = {
@@ -59,5 +62,6 @@ Button.defaultProps = {
   type: 'button',
   disabled: false,
   children: null,
+  title: null,
 };
 export default Button;

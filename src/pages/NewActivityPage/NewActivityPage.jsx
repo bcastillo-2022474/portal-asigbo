@@ -26,6 +26,7 @@ import createAsigboActivitySchema from './createAsigboActivitySchema';
 
 function NewActivityPage() {
   // Si el idActividad no es null, el formulario es para editar
+  // Cuando se crea una actividad, el idArea no es null
   const { idArea, idActividad } = useParams();
 
   const {
@@ -46,7 +47,6 @@ function NewActivityPage() {
   const [deletedDefaultImage, setDeletedDefaultImage] = useState(false);
   const [defaultImages, setDefaultImages] = useState([]);
   const [newActivityId, setNewActivityId] = useState('');
-  const [selectedUsers, setSelectedUsers] = useState([]);
   const [selectedPromotions, setSelectedPromotions] = useState(null);
   const [hasErrors, setHasErrors] = useState(false);
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ function NewActivityPage() {
     callFetch: fetchAreaData,
     result: areaData,
     loading: loadingAreaData,
-    // error: errorAreaData,
+    error: errorAreaData,
   } = useFetch();
 
   const {
@@ -213,7 +213,6 @@ function NewActivityPage() {
     setData('description', activityData.description);
     setData('registrationStartDate', registrationStartDate);
     setData('registrationEndDate', registrationEndDate);
-    setSelectedUsers(activityData.responsible);
     setSelectedPromotions(activityData.participatingPromotions);
     setData('responsible', activityData.responsible);
     setData('maxParticipants', String(activityData.maxParticipants));
@@ -235,7 +234,7 @@ function NewActivityPage() {
   return (
     <>
       {(loadingActivityData || loadingPromotions || loadingAreaData) && <LoadingView />}
-      {(!idArea || areaData) && (
+      {(activityData || areaData) && (
         <div className={styles.newAreaPage}>
           <BackTitle
             title={idArea ? 'Nueva Actividad' : 'Editar Actividad'}
@@ -388,7 +387,7 @@ function NewActivityPage() {
 
             <UserSelectTable
               onChange={(value) => setData('responsible', value)}
-              defaultSelectedUsers={selectedUsers}
+              defaultSelectedUsers={activityData?.responsible}
             />
 
             {error?.responsible && <p className={styles.errorMessage}>{error.responsible}</p>}
@@ -428,7 +427,7 @@ function NewActivityPage() {
           />
         </div>
       )}
-      {idArea && errorActivityData && <NotFoundPage />}
+      {(errorAreaData || errorActivityData) && <NotFoundPage />}
     </>
   );
 }

@@ -17,7 +17,7 @@ function InputColor({
             {value ? value.toUpperCase() : 'Selecciona un color para el eje'}
           </p>
         </div>
-        <input type="color" value={value} onChange={onChange} className={styles.colorPicker} id={id} name={name} {...props} />
+        <input type="color" value={value || '#000000'} onChange={onChange} className={styles.colorPicker} id={id} name={name} {...props} />
       </label>
       {error && <span className={styles.inputError}>{error}</span>}
     </div>

@@ -43,7 +43,7 @@ function ResponsibleActivitiesTable({ onError }) {
   } = useFetch();
 
   // Estados
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState(null);
   const [paginationItems, setPaginationItems] = useState();
   const [currentPage, setCurrentPage] = useState(0);
   const [imageErrors, setImageErrors] = useState({});
@@ -53,6 +53,7 @@ function ResponsibleActivitiesTable({ onError }) {
 
   // Manejar filtros
   const handleChange = (name, value) => {
+    if (!name) return;
     setFilters((lastVal) => ({ ...lastVal, [name]: value }));
   };
 
@@ -63,7 +64,7 @@ function ResponsibleActivitiesTable({ onError }) {
 
   // Obtener actividades
   const getResponsibleActivities = () => {
-    const { search, lowerDate, upperDate } = filters;
+    const { search, lowerDate, upperDate } = filters ?? {};
     const paramsObj = { page: currentPage };
 
     if (lowerDate !== undefined && lowerDate !== null) {
@@ -84,8 +85,14 @@ function ResponsibleActivitiesTable({ onError }) {
   };
 
   useEffect(() => {
+    // También realiza el fetch inicial
     getResponsibleActivities();
-  }, [filters, currentPage]);
+  }, [currentPage]);
+
+  useEffect(() => {
+    // No realizar fetch si no hay filtros (exluye el fetch inicial)
+    if (filters) getResponsibleActivities();
+  }, [filters]);
 
   useEffect(() => {
     if (errorActivities) onError();

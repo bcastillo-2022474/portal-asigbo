@@ -278,7 +278,8 @@ function ManageUsersTable() {
         breakPoint="700px"
         resetTableHeight={resetTableHeightTrigger}
         loading={loadingUsers}
-        showNoResults={errorUsers !== undefined && errorUsers !== null}
+        showNoResults={(errorUsers !== undefined && errorUsers !== null)
+          || (users.length === 0 && action === 'deleting' && !loadingUsers)}
       >
         {users?.map((user, index) => (
           <TableRow id={user.id} key={user.id} style={{ position: 'absolute' }}>
