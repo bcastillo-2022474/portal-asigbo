@@ -1,0 +1,38 @@
+.usersReportPage {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: var(--page-vertical-padding--) var(--page-horizontal-padding--);
+    gap: 40px;
+}
+
+.headerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.pageTitle {
+    text-align: left;
+    width: 100%;
+    align-self: flex-start;
+}
+
+@media only screen and (max-width: 765px) {
+    .usersReportPage {
+        align-items: center;
+        gap: 30px;
+    }
+    .pageTitle {
+        text-align: center;
+        align-self: center;
+    }
+
+    .headerContainer{
+        text-align: center;
+    }
+}

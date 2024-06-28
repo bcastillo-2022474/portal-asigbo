@@ -19,6 +19,8 @@ import randomString from '../../helpers/randomString';
  * @param {string[]} header Arreglo de strings con los encabezados de la tabla.
  * @param {string} breakPoint max-width en el que se aplica el estilo mobile. Se espera que sea
  * un string con medidas válidas.
+ * @param {boolean} showNoResults Indica si se muestra el mensaje de "No hay resultados"
+ * en la tabla.
  * @param {string} maxCellWidth max-width de las celdas de la tabla. Se espera que sea compatible
  * con estilos CSS.
  * @param {string} minCellWidth min-width de las celdas de la tabla. Se espera que sea compatible
@@ -41,6 +43,7 @@ function Table({
   header,
   children,
   breakPoint,
+  showNoResults,
   maxCellWidth,
   minCellWidth,
   showCheckbox,
@@ -174,7 +177,7 @@ function Table({
             </tr>
           )}
 
-          {!loading && !(children?.length > 0) && (
+          {showNoResults && (
             <tr className={styles.noContentRow}>
               <td
                 className={`${styles.completeRow}`}
@@ -224,6 +227,7 @@ Table.propTypes = {
   resetRowSelection: PropTypes.number,
   resetTableHeight: PropTypes.number,
   onTableStyleChange: PropTypes.func,
+  showNoResults: PropTypes.bool,
 };
 
 Table.defaultProps = {
@@ -239,4 +243,5 @@ Table.defaultProps = {
   resetRowSelection: null,
   resetTableHeight: null,
   onTableStyleChange: null,
+  showNoResults: false,
 };

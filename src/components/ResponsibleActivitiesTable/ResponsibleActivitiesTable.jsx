@@ -114,9 +114,10 @@ function ResponsibleActivitiesTable({ onError }) {
 
       <Table
         header={['Actividad', 'Horas de servicio', 'Fecha', 'Eje']}
-        loading={(!resultActivities && !errorActivities) || loadingActivities}
+        loading={loadingActivities}
         breakPoint="1110px"
         showCheckbox={false}
+        showNoResults={errorActivities !== undefined && errorActivities !== null}
       >
         {resultActivities?.result.map((value) => (
           <TableRow id={value.id} key={value.id}>

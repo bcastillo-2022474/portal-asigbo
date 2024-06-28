@@ -14,6 +14,7 @@ function useFetch() {
     headers,
     signal,
     toJson = true,
+    toBlob = false,
     parse = true,
     removeContentType = false,
     autoRefreshAccessToken,
@@ -39,6 +40,7 @@ function useFetch() {
 
       let res;
       if (!parse) res = reply;
+      else if (toBlob) res = await reply.blob();
       else if (toJson) res = await reply.json();
       else res = await reply.text();
 

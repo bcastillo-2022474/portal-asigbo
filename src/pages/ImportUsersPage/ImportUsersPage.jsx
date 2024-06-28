@@ -117,7 +117,13 @@ function ImportUsersPage() {
           guarda los registros en la base de datos.
         </p>
       </div>
-      <Table minCellWidth="50px" breakPoint="700px" showCheckbox={false} header={['Nombres', 'Apellidos', 'Correo', 'Promoción']}>
+      <Table
+        minCellWidth="50px"
+        breakPoint="700px"
+        showCheckbox={false}
+        header={['Nombres', 'Apellidos', 'Correo', 'Promoción']}
+        showNoResults={importedData.length === 0}
+      >
         {importedData.map((user, index) => (
           <TableRow key={user.id} id={user.id}>
             <td
@@ -155,7 +161,7 @@ function ImportUsersPage() {
         ))}
       </Table>
       <div className={styles.checkboxContainer}>
-        <CheckBox label="Enviar email de registro a todos los usuarios." onChange={handleCheckChange} checked />
+        <CheckBox label="Enviar email de registro a todos los usuarios." onChange={handleCheckChange} checked={sendEmail} />
       </div>
 
       <div className={styles.actionsContainer}>

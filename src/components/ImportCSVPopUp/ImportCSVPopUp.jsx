@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PopUp from '@components/PopUp';
-import jschardet from 'jschardet';
 import { BiSolidCloudUpload } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import styles from './ImportCSVPopUp.module.css';
@@ -31,13 +30,12 @@ function ImportCSVPopUp({
     const fileURL = URL.createObjectURL(file);
     const response = await fetch(fileURL);
     const buffer = await response.arrayBuffer();
-    const detectedEncoding = jschardet.detect(new Uint8Array(buffer));
-    const text = new TextDecoder(detectedEncoding.encoding).decode(buffer);
+    const text = new TextDecoder('utf-8').decode(buffer);
     const content = text.trim().split('\n');
     const headers = content[0].trim().split(',');
     if (headers.toString() !== consts.csvHeaders.toString()) {
       setError(true);
-      setErrorMessage('Formato incorrecto. Se espera que los encabezados sean: "Código, Nombres, Apellidos, Correo, Promoción, Carrera, Universidad, Campus y Sexo". También, asegúrate que el archivo tenga codificación ANSI.');
+      setErrorMessage('Formato incorrecto. Se espera que los encabezados sean: "Código, Nombres, Apellidos, Correo, Promoción, Carrera, Universidad, Campus y Sexo". También, asegúrate que el archivo tenga codificación uft-8.');
       return;
     }
     const rows = content.slice(1).map((row) => row.trim().split(','));

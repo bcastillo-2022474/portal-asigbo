@@ -1,0 +1,97 @@
+.pagination{
+  margin-top: 20px;
+}
+
+.usersReportTable{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.filterContainer{
+  display: flex;
+  width: fit-content;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  margin-left: auto;
+}
+
+
+.excelButton {
+  width: 45px;
+  height: 45px;
+  border-radius: 27.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #E3E3E3;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  gap: 15px;
+
+}
+
+.excelIcon{
+  font-size: 35px;
+}
+
+.excelButton span{
+  display: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--blue-theme-color--);
+}
+
+@media only screen and (max-width: 765px) {
+  .filterContainer {
+    margin-left: 0;
+    width: 100%;
+    flex-direction: column-reverse;
+  }
+
+  .excelButton{
+    width: auto;
+    height: fit-content;
+    box-shadow: inset 0 0 0 2px var(--blue-theme-color--);
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: none;
+  }
+
+  .excelButton span{
+    display: block;
+  }
+
+  .excelIcon{
+    font-size: 25px;
+  }
+}
+
+.nameRow{
+  text-align: left;
+  order: 0;
+  border-bottom:0 !important;
+}
+
+.pictureRow{
+  display: flex !important;
+  justify-content: end;
+  order:1;
+}
+
+.promotionRow{
+  order: 2;
+}
+
+/*El breakpoint debe coinicidir con el de la table*/
+@media only screen and (max-width: 900px){
+  .picture{
+    width: 100%;
+  }
+}

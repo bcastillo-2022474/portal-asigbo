@@ -20,8 +20,17 @@ import styles from './SelectAdminTable.module.css';
 import UserNameLink from '../UserNameLink/UserNameLink';
 
 function SelectAdminTable() {
-  const { callFetch: fetchAdminsList, result: adminsList } = useFetch();
-  const { callFetch: fetchUsers, result: users, loading: loadingUsers } = useFetch();
+  const {
+    callFetch: fetchAdminsList,
+    result: adminsList,
+  } = useFetch();
+
+  const {
+    callFetch: fetchUsers,
+    result: users,
+    loading: loadingUsers,
+    error: usersError,
+  } = useFetch();
   const {
     callFetch: fetchAction,
     result: actionResult,
@@ -152,7 +161,8 @@ function SelectAdminTable() {
       <Table
         header={['No.', '', 'Nombre', 'Promoción', '']}
         showCheckbox={false}
-        loading={(initialLoading || loadingUsers) && !users}
+        loading={(initialLoading || loadingUsers)}
+        showNoResults={usersError !== undefined && usersError !== null}
         breakPoint="900px"
       >
         {users?.result.map((user, index) => (

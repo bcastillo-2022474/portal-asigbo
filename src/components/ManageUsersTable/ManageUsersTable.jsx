@@ -21,11 +21,10 @@ import { serverHost } from '../../config';
 import useToken from '../../hooks/useToken';
 import useFetch from '../../hooks/useFetch';
 import usePopUp from '../../hooks/usePopUp';
-import InputSearchSelect from '../InputSearchSelect/InputSearchSelect';
 import SearchInput from '../SearchInput/SearchInput';
-import consts from '../../helpers/consts';
 import UserNameLink from '../UserNameLink/UserNameLink';
 import useCount from '../../hooks/useCount';
+import PromotionsSearchSelect from '../PromotionsSearchSelect/PromotionsSearchSelect';
 
 function ManageUsersTable() {
   const token = useToken();
@@ -37,8 +36,6 @@ function ManageUsersTable() {
   const [users, setUsers] = useState([]);
 
   const [userId, setUserId] = useState('');
-
-  const [initialLoading, setInitialLoading] = useState(true);
 
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
   const [isErrorOpen, openError, closeError] = usePopUp();
@@ -112,13 +109,6 @@ function ManageUsersTable() {
     });
   };
 
-  const {
-    callFetch: getPromotionsFetch,
-    result: promotions,
-    loading: loadingPromotions,
-    error: errorPromotions,
-  } = useFetch();
-
   const handleBlockOptionClick = async (currentUserId) => {
     await disableUser({
       uri: `${serverHost}/user/${currentUserId}/disable`,
@@ -185,7 +175,6 @@ function ManageUsersTable() {
 
     media.onchange = handleMediaChange;
     handleMediaChange(media);
-    getPromotionsFetch({ uri: `${serverHost}/promotion`, headers: { authorization: token } });
   }, []);
 
   useEffect(() => {
@@ -200,13 +189,8 @@ function ManageUsersTable() {
   useEffect(() => {
     if (resultUsers) {
       setUsers(resultUsers.result);
-      setInitialLoading(false);
     }
   }, [resultUsers]);
-
-  useEffect(() => {
-    if (errorUsers) setInitialLoading(false);
-  }, [errorUsers]);
 
   useEffect(() => {
     if (!resultDisable) return;
@@ -277,26 +261,11 @@ function ManageUsersTable() {
   return (
     <div className={styles.manageUsersTable}>
       <div className={styles.filtersContainer}>
-        <InputSearchSelect
+        <PromotionsSearchSelect
           className={styles.selectInput}
-          placeholder="Promoción"
           value={filter.promotion}
-          onChange={(e) => handleChange('promotion', e.target.value)}
-          options={
-            promotions
-              ? [
-                ...promotions.notStudents.map(
-                  (val) => ({ value: val, title: consts.promotionsGroups[val] }),
-                ),
-                {
-                  value: promotions.students.id,
-                  title: consts.promotionsGroups[promotions.students.id],
-                },
-                ...promotions.students.years.map((year) => ({ value: `${year}`, title: `${year}` })),
-              ]
-              : null
-          }
-          disabled={errorPromotions || loadingPromotions}
+          onChange={(value) => handleChange('promotion', value)}
+          disabled={loadingUsers}
         />
         <SearchInput
           className={styles.searchInput}
@@ -308,7 +277,8 @@ function ManageUsersTable() {
         header={['No.', '', 'Nombre', 'Promoción', '']}
         breakPoint="700px"
         resetTableHeight={resetTableHeightTrigger}
-        loading={loadingUsers || initialLoading}
+        loading={loadingUsers}
+        showNoResults={errorUsers !== undefined && errorUsers !== null}
       >
         {users?.map((user, index) => (
           <TableRow id={user.id} key={user.id} style={{ position: 'absolute' }}>
