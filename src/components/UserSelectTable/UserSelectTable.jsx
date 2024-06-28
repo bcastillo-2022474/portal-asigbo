@@ -97,13 +97,7 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
     resetRowsSelection();
   };
 
-  useEffect(() => {
-    if (!defaultSelectedUsers) return;
-    // agregar usuarios seleccionados por defecto
-    setSelectedUsers(defaultSelectedUsers);
-  }, [defaultSelectedUsers]);
-
-  useEffect(() => {
+  const getUsers = () => {
     // si se deben mostrar los usuarios seleccionados, abortar solicitud
     if (userFilters.status === '1') return;
 
@@ -120,7 +114,24 @@ function UserSelectTable({ defaultSelectedUsers, onChange }) {
 
     const uri = `${serverHost}/user?${searchParams.toString()}`;
     getUsersFetch({ uri, headers: { authorization: token } });
-  }, [userFilters, currentPage]);
+  };
+
+  useEffect(() => {
+    if (!defaultSelectedUsers) return;
+    // agregar usuarios seleccionados por defecto
+    setSelectedUsers(defaultSelectedUsers);
+  }, [defaultSelectedUsers]);
+
+  useEffect(() => {
+    // Realiza también el fetch inicial
+    getUsers();
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (Object.keys(userFilters).length === 0) return;
+    // No realizar fetch si no hay filtros (excluye el fetch inicial)
+    getUsers();
+  }, [userFilters]);
 
   useEffect(() => {
     setCurrentPage(0);
