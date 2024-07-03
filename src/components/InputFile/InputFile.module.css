@@ -8,9 +8,20 @@
   position: relative;
 }
 
-.inputFileContainer:not(:disabled):hover {
+.inputFileContainer:hover {
   background-color: #F0F0F0;
+}
 
+.inputFileContainer.disabled:hover{
+  opacity: 0.5;
+}
+
+.inputFileContainer.disabled{
+  opacity: 0.5;
+}
+
+.inputFileContainer.disabled input{
+  cursor: not-allowed;
 }
 
 .uploadButtIcon {

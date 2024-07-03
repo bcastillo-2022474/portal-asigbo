@@ -104,6 +104,7 @@ function ActivityAssignmentDetailsPage() {
     // Actualizar lista de archivos
     const { filesSaved } = assignmentActionResult;
     setFilesToUpload({}); // Limpiar archivos nuevos
+    setFilesToRemove([]); // Limpiar archivos a eliminar
     if (Array.isArray(filesSaved)) {
       setAssignmentFiles((lastVal) => [...lastVal, ...filesSaved]);
     }
@@ -196,7 +197,12 @@ function ActivityAssignmentDetailsPage() {
   };
 
   const handleInputFileChange = (files) => {
-    files?.forEach((file) => {
+    const prevFilesSelectedNum = Object.keys(filesToUpload).length;
+    files?.forEach((file, index) => {
+      // Validar que no se llegue al máximo de 5 archivos
+      if ((prevFilesSelectedNum + assignmentFiles.length + index) >= 5) {
+        return;
+      }
       const id = randomString(10);
       setFilesToUpload((lastVal) => ({ ...lastVal, [id]: file }));
     });
@@ -316,9 +322,13 @@ function ActivityAssignmentDetailsPage() {
               onChange={(e) => setData('notes', e.target.value)}
               value={form?.notes}
             />
+
             <InputFile
               className={styles.inputFile}
               onChange={handleInputFileChange}
+              disabled={
+                (Object.keys(filesToUpload).length + assignmentFiles.length) >= 5
+              }
             />
             <FilesTable
               className={styles.filesTable}
