@@ -30,15 +30,39 @@
   align-items: center;
 }
 
+.formContainer{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 30px;
+  row-gap: 20px;
+  width: 100%;
+
+}
+
 .instructions{
   font-size: var(--text-font-size--);
   color: rgb(81, 81, 81);
   margin: 50px 0 20px 0;
 }
 
+.inputFile{
+  width: fit-content;
+  margin-top: 20px;
+}
+
+.notesTextarea{
+  grid-column: 1/-1;
+}
+
+.filesTable{
+  grid-column: 1/-1;
+}
+
 .updateButton{
   margin-top: 25px;
   width: fit-content;
+  grid-column: 1/-1;
+  justify-self: center;
 }
 
 @media only screen and (max-width: 700px){
@@ -47,5 +71,10 @@
   }
   .activityAssignmentDetailsPage{
     align-items: center;
+  }
+  .inputFile,
+  .aditionalServiceHours{
+    grid-column: 1/-1;
+    justify-self: center;
   }
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
 import { useParams, useNavigate } from 'react-router-dom';
-import useToken from 'antd/es/theme/useToken';
 import dayjs from 'dayjs';
 import { AiFillCheckCircle as CheckIcon, AiFillCloseCircle as RemoveIcon } from 'react-icons/ai';
 import { FaUserTimes as RemoveUserIcon } from 'react-icons/fa';
@@ -23,12 +22,18 @@ import usePopUp from '../../hooks/usePopUp';
 import ConfirmationPopUp from '../../components/ConfirmationPopUp/ConfirmationPopUp';
 import SuccessNotificationPopUp from '../../components/SuccessNotificationPopUp/SuccessNotificationPopUp';
 import ErrorNotificationPopUp from '../../components/ErrorNotificationPopUp/ErrorNotificationPopUp';
+import TextArea from '../../components/TextArea/TextArea';
+import InputFile from '../../components/InputFile/InputFile';
+import FilesTable from '../../components/FilesTable/FilesTable';
+import randomString from '../../helpers/randomString';
+import useToken from '../../hooks/useToken';
+import consts from '../../helpers/consts';
 
 const actions = {
   unassign: 'desasignar',
   complete: 'completar',
   uncomplete: 'no completar',
-  updateAditionalServiceHours: 'actualizar horas adicionales',
+  updateAssignmentData: 'actualizar datos de asignación',
 };
 
 const status = {
@@ -61,6 +66,9 @@ function ActivityAssignmentDetailsPage() {
 
   const [currentAction, setCurrentAction] = useState();
   const [assignmentStatus, setAssignmentStatus] = useState(null);
+  const [assignmentFiles, setAssignmentFiles] = useState([]);
+  const [filesToUpload, setFilesToUpload] = useState({});
+  const [filesToRemove, setFilesToRemove] = useState([]);
 
   const [isConfirmationOpen, openConfirmation, closeConfirmation] = usePopUp();
   const [isSuccessOpen, openSuccess, closeSuccess] = usePopUp();
@@ -77,14 +85,28 @@ function ActivityAssignmentDetailsPage() {
 
   useEffect(() => {
     if (!assignmentData) return;
+
+    // Cargar datos de la asignación
     setData('aditionalServiceHours', assignmentData.aditionalServiceHours);
+    setData('notes', assignmentData.notes);
+    setAssignmentFiles(assignmentData.files ?? []);
+
     setAssignmentStatus(
       assignmentData.completed ? status.completed : status.asigned,
     );
   }, [assignmentData]);
 
   useEffect(() => {
-    if (assignmentActionResult) openSuccess(); // Se culminó exitosamente una acción
+    if (!assignmentActionResult) return;
+    // Se culminó exitosamente una acción
+    openSuccess();
+
+    // Actualizar lista de archivos
+    const { filesSaved } = assignmentActionResult;
+    setFilesToUpload({}); // Limpiar archivos nuevos
+    if (Array.isArray(filesSaved)) {
+      setAssignmentFiles((lastVal) => [...lastVal, ...filesSaved]);
+    }
   }, [assignmentActionResult]);
 
   useEffect(() => {
@@ -118,18 +140,24 @@ function ActivityAssignmentDetailsPage() {
     openConfirmation();
   };
 
-  const updateServiceHoursClickController = async () => {
+  const updateAssignmentDataClickController = async () => {
     const errors = await validateField('aditionalServiceHours');
 
     if (errors?.aditionalServiceHours) return;
 
-    setCurrentAction(actions.updateAditionalServiceHours);
+    const data = new FormData();
+    data.append('aditionalServiceHours', form.aditionalServiceHours);
+    if (form.notes !== undefined && form.notes !== null) data.append('notes', form.notes);
+    Object.values(filesToUpload).forEach((file) => data.append('files', file, file.name));
+    filesToRemove.forEach((file) => data.append('filesToRemove[]', file));
+
+    setCurrentAction(actions.updateAssignmentData);
     fetchAssignmentAction({
       uri: `${serverHost}/activity/${activityId}/assignment/${userId}`,
       method: 'PATCH',
       headers: { authorization: token },
-      parse: false,
-      body: JSON.stringify({ aditionalServiceHours: form.aditionalServiceHours }),
+      removeContentType: true,
+      body: data,
     });
   };
 
@@ -165,6 +193,26 @@ function ActivityAssignmentDetailsPage() {
       // actualizar estado
       setAssignmentStatus(status.asigned);
     }
+  };
+
+  const handleInputFileChange = (files) => {
+    files?.forEach((file) => {
+      const id = randomString(10);
+      setFilesToUpload((lastVal) => ({ ...lastVal, [id]: file }));
+    });
+  };
+
+  const removeNewFile = (id) => {
+    setFilesToUpload((lastVal) => {
+      const value = { ...lastVal };
+      delete value[id];
+      return value;
+    });
+  };
+
+  const addFileToRemove = (id) => {
+    setFilesToRemove((lastVal) => [...lastVal, id]);
+    setAssignmentFiles((lastVal) => lastVal.filter((file) => file !== id));
   };
   return (
     <>
@@ -241,27 +289,62 @@ function ActivityAssignmentDetailsPage() {
           </div>
 
           <p className={styles.instructions}>
-            Para agregar horas de servicio adicionales para esta participación, edita la cantidad y
-            presiona el botón de actualizar.
+            Las horas
+            adicionales se sumarán a las horas de servicio de la actividad únicamente para el
+            usuario en cuestión.
+            <br />
+            <br />
+            Las notas y archivos adjuntos no son campos obligatorios.
           </p>
 
-          <div className={styles.dataContainer}>
+          <div className={styles.formContainer}>
             <InputNumber
+              className={styles.aditionalServiceHours}
               title="Horas de servicio adicionales"
               min={0}
-              value={form?.aditionalServiceHours}
+              max={999}
+              value={form?.aditionalServiceHours?.toString()}
               error={error?.aditionalServiceHours}
               onBlur={() => validateField('aditionalServiceHours')}
               onFocus={() => clearFieldError('aditionalServiceHours')}
               onChange={(e) => setData('aditionalServiceHours', e.target.value)}
             />
-          </div>
 
-          <Button
-            className={styles.updateButton}
-            text="Actualizar horas adicionales"
-            onClick={updateServiceHoursClickController}
-          />
+            <TextArea
+              title="Notas de la asignación"
+              className={styles.notesTextarea}
+              onChange={(e) => setData('notes', e.target.value)}
+              value={form?.notes}
+            />
+            <InputFile
+              className={styles.inputFile}
+              onChange={handleInputFileChange}
+            />
+            <FilesTable
+              className={styles.filesTable}
+              files={[
+                ...assignmentFiles.map((file) => ({
+                  id: file,
+                  name: file,
+                  link: `${serverHost}/${consts.imageRoute.assignment}/${file}`,
+                  onDelete: addFileToRemove,
+                })),
+                ...Object.entries(filesToUpload).map(([id, file]) => ({
+                  id,
+                  name: file.name,
+                  type: file.type,
+                  link: URL.createObjectURL(file),
+                  onDelete: removeNewFile,
+                })),
+              ]}
+            />
+
+            <Button
+              className={styles.updateButton}
+              text="Aplicar cambios"
+              onClick={updateAssignmentDataClickController}
+            />
+          </div>
 
         </div>
       )}
@@ -283,8 +366,8 @@ function ActivityAssignmentDetailsPage() {
         isOpen={isSuccessOpen}
         close={closeSuccess}
         text={(() => {
-          if (currentAction === actions.updateAditionalServiceHours) {
-            return 'Se ha actualizado el número adicional de horas de servicio para esta asignación.';
+          if (currentAction === actions.updateAssignmentData) {
+            return 'Se han aplicado los cambios a la información adicional de esta asignación.';
           }
           if (currentAction === actions.unassign) {
             return 'El usuario ha sido desasignado de forma exitosa.';

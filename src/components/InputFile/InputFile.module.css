@@ -1,0 +1,31 @@
+.inputFileContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F0F0F0;
+  font-weight: bold;
+  color: black;
+  position: relative;
+}
+
+.inputFileContainer:not(:disabled):hover {
+  background-color: #F0F0F0;
+
+}
+
+.uploadButtIcon {
+  height: 100%;
+  min-height: 20px;
+  min-width: 20px;
+  margin-right: 10px;
+}
+
+.inputFile{
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}

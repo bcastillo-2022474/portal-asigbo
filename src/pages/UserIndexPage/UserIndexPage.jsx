@@ -16,11 +16,14 @@ import UpdateUserPage from '../UpdateUserPage/UpdateUserPage';
 import UserProfileIndexPage from '../UserProfileIndexPage/UserProfileIndexPage';
 import ResponsibleActivitiesPage from '../ResponsibleActivitiesPage';
 import NewActivityPage from '../NewActivityPage/NewActivityPage';
+import ActivityAssignmentDetailsPage from '../ActivityAssignmentDetailsPage/ActivityAssignmentDetailsPage';
 
 function UserIndexPage() {
   const token = useToken();
 
   const user = token ? getTokenPayload(token) : null;
+  const isAreaResponsible = user?.role.includes(consts.roles.asigboAreaResponsible);
+  const isActivityResponsible = user?.role.includes(consts.roles.activityResponsible);
 
   return (
     <PageContainer>
@@ -36,7 +39,7 @@ function UserIndexPage() {
         <Route path="/actividad/disponible/*" element={<AvailableActivitiesPage />} />
 
         {
-          user?.role.includes(consts.roles.asigboAreaResponsible)
+          isAreaResponsible
           && (
           <>
             <Route path="/area" element={<AreasListPage />} />
@@ -45,6 +48,11 @@ function UserIndexPage() {
           </>
           )
         }
+
+        {(isAreaResponsible || isActivityResponsible)
+        && (
+          <Route path="/actividad/:activityId/asignacion/:userId" element={<ActivityAssignmentDetailsPage />} />
+        )}
 
       </Routes>
     </PageContainer>

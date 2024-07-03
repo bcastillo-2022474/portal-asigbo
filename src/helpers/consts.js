@@ -16,6 +16,7 @@ export default {
     user: 'image/user',
     area: 'image/area',
     activity: 'image/activity',
+    assignment: 'image/assignment',
   },
   csvHeaders: ['Código', 'Nombres', 'Apellidos', 'Correo', 'Promoción', 'Carrera', 'Universidad', 'Campus', 'Sexo'],
   sex: {
