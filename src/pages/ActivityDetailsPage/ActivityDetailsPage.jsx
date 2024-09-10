@@ -1,7 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from 'react';
-// eslint-disable-next-line no-unused-vars
-import PropTypes from 'prop-types';
 import {
   useParams, Route, Routes, useNavigate,
 } from 'react-router-dom';
@@ -163,8 +161,7 @@ function ActivityDetailsPage() {
           <h1>{activity ? activity.name : 'Actividad'}</h1>
 
           <div className={styles.headerButtonsContainer}>
-            {((activity?.registrationAvailableForUser || activity?.userAssignment)
-              && !activity?.userAssignment?.completed)
+            {activity?.registrationAvailableForUser && !activity?.userAssignment
               && (
               <AssignToActivityButton
                 idActivity={activity?.id}

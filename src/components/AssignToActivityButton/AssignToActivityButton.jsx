@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import useFetch from '../../hooks/useFetch';
@@ -13,16 +13,13 @@ import ConfirmationPopUp from '../ConfirmationPopUp/ConfirmationPopUp';
 /**
  * Botón que incluye las peticiones para asignar/desasignar al usuario de una actividad
  * @param {string} idActivity: Id de la actividad a gestionar.
- * @param {boolean} unassignButton: True: indica que el botón debe de funcionar para desasignar.
  * @param {string} Classname: Classname opcional css.
  * @param {func} successCallbackk: Función opcional que se ejecuta al cerrar pop up de éxito.
  * @returns
  */
 function AssignToActivityButton({
-  idActivity, unassignButton, className, successCallback,
+  idActivity, className, successCallback,
 }) {
-  const [assignOption, setAssignOption] = useState(); // true: assign, false: unassign
-
   const {
     callFetch,
     result,
@@ -37,15 +34,9 @@ function AssignToActivityButton({
   const [isConfirmationOpen, openConfirmation, closeConfirmation] = usePopUp();
 
   useEffect(() => {
-    if (unassignButton === true || unassignButton === false) setAssignOption(!unassignButton);
-  }, [unassignButton]);
-
-  useEffect(() => {
     if (result) {
       // Abrir popup de exito
       openSuccess();
-      // Cambiar propósito de botón a su opuesto
-      setAssignOption(!assignOption);
     }
   }, [result]);
 
@@ -56,10 +47,9 @@ function AssignToActivityButton({
 
   const makePetition = () => {
     const uri = `${serverHost}/activity/${idActivity}/assignment`;
-    const method = assignOption ? 'POST' : 'DELETE';
 
     callFetch({
-      uri, method, parse: false, headers: { authorization: token },
+      uri, method: 'POST', parse: false, headers: { authorization: token },
     });
   };
 
@@ -69,35 +59,35 @@ function AssignToActivityButton({
 
   return (
     <>
+      {!result && (
       <Button
-        green={assignOption}
-        red={!assignOption}
-        onClick={assignOption ? makePetition : openConfirmation}
+        green
+        onClick={openConfirmation}
         disabled={loading}
         className={className}
-        text={assignOption ? 'Inscribirse' : 'Retirarse'}
+        text="Inscribirse"
       />
+      )}
       {loading && <LoadingView />}
 
       <ConfirmationPopUp
         close={closeConfirmation}
         isOpen={isConfirmationOpen}
         callback={handleConfirmation}
-        body="¿Estás seguro de eliminar tu inscripción a esta actividad? Toma en cuenta que tu lugar podría ser ocupado por otro becado."
+        body="¿Estás seguro de inscribirte en esta actividad? Ten en cuenta que, al presionar el botón de confirmación, estarás asegurando tu participación."
       />
 
       <SuccessNotificationPopUp
         close={closeSuccess}
         isOpen={isSuccessOpen}
-        // Operación contraria pues en este punto ya se cambió el tipo de operación a la opuesta
-        text={`Te haz ${!assignOption ? 'inscrito a' : 'retirado de'} esta actividad con éxito.`}
+        text="Te haz inscrito a esta actividad con éxito."
         callback={successCallback}
       />
 
       <ErrorNotificationPopUp
         close={closeError}
         isOpen={isErrorOpen}
-        text={error?.message ?? `Ocurrió un error al ${assignOption ? 'inscribirse' : 'retirarse'} de esta actividad.'`}
+        text={error?.message ?? 'Ocurrió un error al inscribirse en esta actividad.'}
       />
     </>
   );
@@ -107,13 +97,11 @@ export default AssignToActivityButton;
 
 AssignToActivityButton.propTypes = {
   idActivity: PropTypes.string.isRequired,
-  unassignButton: PropTypes.bool,
   className: PropTypes.string,
   successCallback: PropTypes.func,
 };
 
 AssignToActivityButton.defaultProps = {
-  unassignButton: false,
   className: '',
   successCallback: null,
 };
