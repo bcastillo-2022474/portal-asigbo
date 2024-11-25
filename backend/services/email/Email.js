@@ -11,15 +11,14 @@ const port = config.get('smtpPort');
 const sendingRate = config.get('emailSendingRate');
 const isLocalDevelopment = process.NODE_ENV !== 'production';
 
-
 export default class Email {
   constructor() {
     if (isLocalDevelopment) {
-      this._transporter.nodemailer.createTransport({
+      this._transporter = nodemailer.createTransport({
         host,
         port,
-        ignoreTLS: true
-      })
+        ignoreTLS: true,
+      });
 
       moment.locale('es');
       return;
