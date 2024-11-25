@@ -1,0 +1,43 @@
+services:
+  # just to create the DAMN keyfile
+  mongo-setup:
+    image: busybox
+    environment:
+      - MONGO_KEY_FILE=${MONGO_KEY_FILE}
+    command: sh -c 'echo "$$MONGO_KEY_FILE" > /data/configdb/mongo-keyfile && chmod 400 /data/configdb/mongo-keyfile'
+    volumes:
+      - mongo_keyfile:/data/configdb
+
+  mongo:
+    depends_on:
+      mongo-setup:
+        condition: service_completed_successfully
+    image: mongo:latest
+    container_name: mongo_asigbo
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017", "--keyFile", "/data/configdb/mongo-keyfile"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DB_NAME}
+      MONGO_INITDB_REPLICA_SET_NAME: rs0
+    healthcheck:
+      test: >
+        mongosh 
+        --port 27017 ${MONGO_DB_NAME} 
+        -u ${MONGO_DB_USER} 
+        -p ${MONGO_DB_PASSWORD} 
+        --authenticationDatabase admin 
+        --quiet --eval 'rs.initiate({_id:"rs0", members: [{_id:0, host:"mongo:27017"}]});'
+      interval: 5s
+      timeout: 30s
+      retries: 30
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data_asigbo:/data/db
+      - ./asigbo-db:/docker-entrypoint-initdb.d
+      - mongo_keyfile:/data/configdb
+
+volumes:
+    mongo_data_asigbo:
+    mongo_keyfile:
