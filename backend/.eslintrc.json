@@ -1,0 +1,22 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "airbnb-base",
+    "overrides": [],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "import/extensions": "off",
+        "no-underscore-dangle": "off",
+        "linebreak-style": "off",
+        "no-restricted-syntax": ["error", "LabeledStatement", "WithStatement"],
+        "max-len": [
+            "warn",
+            200
+        ]
+    }
+}

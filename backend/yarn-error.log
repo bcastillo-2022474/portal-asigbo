@@ -1,0 +1,76 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\erick\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add path
+
+PATH: 
+  C:\Users\erick\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\erick\bin;C:\app\erick\product\21c\dbhomeXE\bin;C:\oracle\instantclient_21_10;C:\Program Files\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Program Files\PuTTY;C:\Program Files\nodejs;C:\TDM-GCC-64\bin;C:\Program Files\dotnet;C:\Program Files\PostgreSQL\15\bin;C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn;C:\ProgramData\chocolatey\bin;C:\Program Files\CMake\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Users\erick\AppData\Local\Microsoft\WindowsApps;C:\Users\erick\AppData\Roaming\npm;C:\Program Files\heroku\bin;D:\Documentos\Programas\Programación\Cursos\Flutter\flutter\bin;C:\Users\erick\.dotnet\tools;C:\Users\erick\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Azure Data Studio\bin;C:\Develop\x86_64-13.1.0-release-posix-seh-ucrt-rt_v11-rev1\mingw64\bin;C:\Develop\SDL2\x86_64-w64-mingw32\bin;C:\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\7.0.12\ref;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.15.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile 'C:\Users\erick\AppData\Local\Yarn\Cache\v6\npm-ms-2.1.2-d09d1f357b443f493382a8eb3ccd183872ae6009-integrity\node_modules\ms\index.js' -> 'D:\Documentos\Proyectos\portal_asigbo\backend\node_modules\eslint\node_modules\ms\index.js'
+
+npm manifest: 
+  {
+    "name": "portalasigbo",
+    "version": "1.0.0",
+    "description": "proyecto portal asigbo",
+    "main": "./bin/www.js",
+    "type": "module",
+    "scripts": {
+      "test": "cross-env NODE_ENV=testing node ./bin/www.js",
+      "start": "cross-env NODE_ENV= node ./bin/www.js",
+      "inspect": "cross-env NODE_ENV= node --inspect ./bin/www.js",
+      "dev": "cross-env NODE_ENV= nodemon ./bin/www.js",
+      "dev-production": "cross-env NODE_ENV=production nodemon ./bin/www.js",
+      "production": "export NODE_ENV=production && pm2 start ./bin/www.js --name asigboApp --update-env",
+      "qa": "export NODE_ENV=qa && pm2 start ./bin/www.js --name asigboApp --update-env",
+      "lint": "eslint ./**/*.js"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Aq202/portalAsigbo.git"
+    },
+    "author": "Diego Morales, Erick Guerra, Pablo Zamora, Sebastian Silva, Brandon Sicay",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/Aq202/portalAsigbo/issues"
+    },
+    "homepage": "https://github.com/Aq202/portalAsigbo#readme",
+    "dependencies": {
+      "@aws-sdk/client-s3": "^3.388.0",
+      "config": "^3.3.9",
+      "cookie-parser": "^1.4.6",
+      "cors": "^2.8.5",
+      "csvtojson": "^2.0.10",
+      "dotenv": "^16.1.4",
+      "express": "^4.18.2",
+      "js-sha256": "^0.9.0",
+      "jsonwebtoken": "^9.0.0",
+      "moment": "^2.29.4",
+      "mongodb": "^5.6.0",
+      "mongoose": "^7.2.4",
+      "multer": "1.4.5-lts.1",
+      "nodemailer": "^6.9.3",
+      "yup": "^1.2.0"
+    },
+    "devDependencies": {
+      "cross-env": "^7.0.3",
+      "eslint": "^8.42.0",
+      "eslint-config-airbnb-base": "^15.0.0",
+      "eslint-plugin-import": "^2.27.5",
+      "nodemon": "^2.0.22"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
