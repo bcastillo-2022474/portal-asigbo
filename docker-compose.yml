@@ -32,44 +32,13 @@ services:
       timeout: 30s
       retries: 30
     ports:
-      - "27018:27017"
+      - "27017:27017"
     volumes:
       - mongo_data_asigbo:/data/db
       - ./asigbo-db:/docker-entrypoint-initdb.d
       - mongo_keyfile:/data/configdb
 
-  minio:
-    image: minio/minio:latest
-    restart: always
-    ports:
-      - 9000:9000
-      - 9001:9001
-    networks:
-      - minionet
-    environment:
-      - "MINIO_ROOT_USER=${MINIO_ROOT_USER}"
-      - "MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}"
-      - "MINIO_ADDRESS=:9000"
-      - "MINIO_CONSOLE_ADDRESS=:9001"
-    volumes:
-      - minio_asigbo_data:/data
-    command: server /export
-
-  mailhog:
-    image: mailhog/mailhog
-    container_name: mailhog_asigbo
-    ports:
-      - "${SMTP_PORT}:1025"  # SMTP server
-      - "8025:8025"  # Web UI
-
-networks:
-  minionet:
-    driver: bridge
 
 volumes:
     mongo_data_asigbo:
     mongo_keyfile:
-    minio_asigbo_data:
-      driver: local
-
-

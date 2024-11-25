@@ -9,9 +9,22 @@ const secretAccessKey = config.get('awsSesSecret');
 const host = config.get('smtpHost');
 const port = config.get('smtpPort');
 const sendingRate = config.get('emailSendingRate');
+const isLocalDevelopment = process.NODE_ENV !== 'production';
+
 
 export default class Email {
   constructor() {
+    if (isLocalDevelopment) {
+      this._transporter.nodemailer.createTransport({
+        host,
+        port,
+        ignoreTLS: true
+      })
+
+      moment.locale('es');
+      return;
+    }
+
     const ses = new aws.SES({
       region: 'us-west-1',
       credentials: {
